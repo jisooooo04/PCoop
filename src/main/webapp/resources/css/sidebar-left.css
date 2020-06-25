@@ -1,0 +1,57 @@
+@charset "UTF-8";
+@import "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600";
+* {
+		font-size: 100%;
+		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+			box-sizing: border-box;
+		
+	}
+/* 왼쪽 네비바 설정 */
+#leftnav {
+	position: fixed;
+	padding-top: 60px;
+	width: 250px;
+	height: 100%;
+	border-right: 1px solid lightgray;
+	background-color: #fafafa;
+	z-index: 1;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.navhome {
+	padding-left: 20px;
+	height: 50px;
+	line-height: 50px;
+	font-weight: 600;
+	border-bottom: 1px solid lightgray;
+}
+
+.navtitle {
+	padding-left: 20px;
+	height: 40px;
+	line-height: 40px;
+	border-top: 1px solid lightgray;
+	font-weight: 400;
+}
+
+.project_home, .navtitle:hover {
+	cursor: pointer;
+}
+
+.navcontents {
+	padding-left: 50px;
+	border-top: 1px solid lightgray;
+	overflow-x: hidden;
+	overflow-y: auto;
+	word-wrap: break-word;
+}
+
+.navicon {
+	width: 25px;
+	padding-right: 5px;
+}
+
+.logon {
+	color: limegreen;
+} /* 채팅 온라인 초록불 */
