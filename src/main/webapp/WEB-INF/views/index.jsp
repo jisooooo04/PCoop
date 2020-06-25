@@ -71,7 +71,7 @@
 					</div>
 
 					<footer>
-						<a href="#" class="button">Get Started</a>
+						<a href="calendar" class="button">Get Started</a>
 					</footer>
 				</div>
 			</section>
