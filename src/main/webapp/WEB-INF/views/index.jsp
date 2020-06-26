@@ -104,7 +104,7 @@
 							</header>
 							<p>Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis auctor, ultrices ut, elementum vulputate, nunc<br /> blandit ellenste egestagus commodo.</p>
 							<footer>
-								<a href="#" class="button">Learn More</a>
+								<a href="member/email.do" class="button">임시이메일인증</a>
 							</footer>
 						</article>
 					</div>
