@@ -43,7 +43,7 @@
 	<header>
 		<!-- 로고 -->
 		<div class="logo">
-			<b>P</b>COOP!
+			<a href="../"><b>P</b>COOP!</a>
 		</div>
 
 		<!-- 메뉴 -->
