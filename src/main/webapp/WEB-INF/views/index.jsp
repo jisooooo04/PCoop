@@ -33,7 +33,8 @@
 						<a href="elements.html">Elements</a> -->
 						<a href="#">협업 구하기</a>
 						<a href="#">참여 중 프로젝트</a>
-						<a href="fileList">프로젝트 소개</a>
+						<a href="#">프로젝트 소개</a>
+						<a href="fileList">백업</a>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>

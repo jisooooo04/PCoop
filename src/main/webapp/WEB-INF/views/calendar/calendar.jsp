@@ -6,16 +6,12 @@
 <link href='/resources/css/calendar.css'
 	rel='stylesheet' />
 <script src='/resources/js/calendar.js'></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-	crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -31,23 +27,41 @@
       selectable: true,
       selectMirror: true,
       select: function(arg) {
+    	//modal 띄우기 
         $("#myModal").modal();
+        
+    	//일정 끝나는 시간이 시작시간보다 빠르면 바꿔주는 이벤트 - 시작시간 선택 후 끝나는 시간 선택 했을 때
+    	$("#modal_date_end").focusout(function(){
+    		if(($("#modal_date_end").val()).replace(/[^0-9]/g,"")<($("#modal_date_start").val()).replace(/[^0-9]/g,"")){
+    		$("#modal_date_end").val($("#modal_date_start"));
+    	}
+    	})
+    	
+    		//일정 끝나는 시간이 시작시간보다 빠르면 바꿔주는 이벤트 - 끝나는 시간 선택 후 시작 시간 선택 했을 때
+    	$("#modal_date_start").focusout(function(){
+    		if(($("#modal_date_end").val()).replace(/[^0-9]/g,"")<($("#modal_date_start").val()).replace(/[^0-9]/g,"")){
+    		/* $("#modal_date_start").val($("#modal_date_end")); */
+    	}
+    	})
+    	
+        //일정 생성하기 버튼 눌렀을 때
         $("#save").on("click",function(){
             var title = $("#recipient-name").val()
             var start = $('#modal_date_start').val();
             var end = $('#modal_date_end').val();
+            
             $.ajax({
             	url : "addEvent",
             	type:"post",
             	data:{
             		title : title,
             		start_date : start,
-            		end_date : 
-					if(end<start){
+            		/* end_date : */ 
+					/* if(end.replace(/[^0-9]/g,"")<end.replace(/[^0-9]/g,""){
             			return start
             		}else{
             			return end
-            		},
+            		}, */
             		contents : $("#message-text").val(),
             		writer : 'writer',
             		color : $("#modal_select").val()
@@ -157,9 +171,9 @@ body {
 <body>
 
 <!-- Header -->
-	<%--  <jsp:include page="../header/header.jsp"></jsp:include>  --%>
+	  <jsp:include page="../header/header.jsp"></jsp:include> 
 	<!-- 왼쪽 사이드바 -->
-	<%--  <jsp:include page="../header/sidebar-left.jsp"></jsp:include>  --%>
+	  <jsp:include page="../header/sidebar-left.jsp"></jsp:include> 
 	
 	<section>
 
@@ -228,7 +242,7 @@ body {
                                 <path d="M7 1h2v2H7V1z" />
                                 </svg>
                                <!--  ㅡㅡㅡㅡㅡㅡㅡ	/bootstrap -icon ㅡㅡㅡㅡㅡ --> 
-								<input type="datetime-local" id="modal_date_end" id="end_date"> 
+								<input type="datetime-local" id="modal_date_end" id="end_date" > 
 								<!-- <input type="time" name="end_time"> -->
 								 까지
 							</div>
