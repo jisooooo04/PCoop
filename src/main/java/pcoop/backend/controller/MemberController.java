@@ -2,9 +2,12 @@ package pcoop.backend.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.service.MemberService;
 
 @Controller  //컨트롤러 빈 선언
@@ -169,6 +173,37 @@ public class MemberController {
         return mv;
     }
     
+	@RequestMapping("signup") // 회원가입 기능
+	public String signup(HttpServletRequest request) throws Exception{
+
+		String id = request.getParameter("id");
+		String pw = mservice.getSHA512(request.getParameter("pw"));
+		String name = request.getParameter("name");
+		String email = request.getParameter("email"); // 세션에서 이메일 가져오기?
+
+
+		int result = mservice.signup(new MemberDTO(email, pw, name));
+
+		System.out.println("signup 결과 : "+result);
+
+	return "redirect:/";
+
+	}
 	
+	@RequestMapping("login") //로그인
+	public String login(String email, String pw, ServletRequest request) throws Exception{
+		Map<String,String> param =new HashMap<>();
+
+		param.put("loginId", email); // 이메일이 아이디 역할
+		param.put("loginPw", mservice.getSHA512(pw));
+		MemberDTO mdto = mservice.login(param);
+		String ip_address = request.getRemoteAddr();
+
+		if(mdto != null) {
+			this.session.setAttribute("loginInfo", mdto); // 로그인시 세션에 회원정보 저장
+			this.session.setAttribute("ip_address", ip_address);
+		}
+		return "redirect:/";
+	}
 	
 }

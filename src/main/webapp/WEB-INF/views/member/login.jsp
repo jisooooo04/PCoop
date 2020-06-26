@@ -13,15 +13,15 @@
 <body>
 <div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="#">
+			<form action="member/login">
 				<h1>LOGO</h1>
 				<br><br>
 				
-				<input type="email" placeholder="Email"  class="in" />
-				<input type="password" placeholder="Password" class="in" />
+				<input type="email" name="email" placeholder="Email"  class="in" />
+				<input type="password" name="pw" placeholder="Password" class="in" />
 				<br><br>
                 <div class="id"><input type="checkbox" class="checkbox">
-                <span> ID 기억하기</span></div>
+                <span> email 기억하기(미구현)</span></div>
                 <br>
 				<button type="submit">LogIn</button><br>		
 				<button type="button">signUP</button>

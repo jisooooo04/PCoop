@@ -22,7 +22,15 @@ public class MemberDAO {
 	@Inject
 	SqlSession sqlSession;
 	
-	   // 회원가입 관련 메소드
+	// 회원가입 관련 메소드
+	public int signup(MemberDTO dto) throws Exception{
+		return mybatis.insert("Member.insert",dto);
+	}
+	public MemberDTO login(Map<String,String> param) throws Exception{
+		return mybatis.selectOne("Member.login",param);
+	}
+	
+	   // 회원가입 관련 메소드 (일단 유지)
 		public void join(Map<String, Object>map, MemberDTO dto) {
 
 			map.get("user_id");
@@ -31,7 +39,7 @@ public class MemberDAO {
 			sqlSession.insert("member.insertUser",map);        
 		}
 
-	    //로그인관련 메소드
+	    //로그인관련 메소드 (미구현)
 	    public boolean loginCheck(MemberDTO dto) {
 	        String name
 	            =sqlSession.selectOne("member.login_check", dto);
@@ -41,21 +49,21 @@ public class MemberDAO {
 	    }
 
 
-	    //아이디 찾기 관련 메소드
+	    //아이디 찾기 관련 메소드 (미구현)
 	    public String find_idCheck(MemberDTO dto) {
 	        String id = sqlSession.selectOne("member.find_id_check", dto);
 	        return id;
 	        
 	    }
 	 
-	    //비밀번호 찾기 관련 메소드
+	    //비밀번호 찾기 관련 메소드 (미구현)
 	    public String find_passCheck(MemberDTO dto) {
 	        String pass = sqlSession.selectOne("member.find_pass_check", dto);
 	        return pass;
 	    }
 
 
-	    //회원 인증 관련 메소드
+	    //회원 인증 관련 메소드 (미구현)
 	    //버튼을 클릭한 회원의 정보를 회원 테이블에 저장해서 사용할 수 있게 함
 	    public void authentication(MemberDTO dto) {
 	        
