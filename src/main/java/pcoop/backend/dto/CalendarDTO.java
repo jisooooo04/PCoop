@@ -1,35 +1,38 @@
 package pcoop.backend.dto;
 
 public class CalendarDTO {
+	private int seq;
 	private int project_seq;
 	private String title;
 	private String contents;
 	private String writer;
 	private String start_date;
 	private String end_date;
-	private String start_time;
-	private String end_time;
 	private String color;
-
+	
+	
+	
 	public CalendarDTO() {
 		super();
 	}
-	
-	public CalendarDTO(int project_seq, String title, String contents, String writer, String start_date,
-			String end_date, String start_time, String end_time, String color) {
+	public CalendarDTO(int seq, int project_seq, String title, String contents, String writer, String start_date,
+			String end_date, String color) {
 		super();
+		this.seq = seq;
 		this.project_seq = project_seq;
 		this.title = title;
 		this.contents = contents;
 		this.writer = writer;
 		this.start_date = start_date;
 		this.end_date = end_date;
-		this.start_time = start_time;
-		this.end_time = end_time;
 		this.color = color;
 	}
-
-	
+	public int getSeq() {
+		return seq;
+	}
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
 	public int getProject_seq() {
 		return project_seq;
 	}
@@ -66,22 +69,17 @@ public class CalendarDTO {
 	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
-	public String getStart_time() {
-		return start_time;
-	}
-	public void setStart_time(String start_time) {
-		this.start_time = start_time;
-	}
-	public String getEnd_time() {
-		return end_time;
-	}
-	public void setEnd_time(String end_time) {
-		this.end_time = end_time;
-	}
 	public String getColor() {
 		return color;
 	}
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
+	
+	
+	
+	
+	
+	
 }
