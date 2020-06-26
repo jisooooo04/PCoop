@@ -1,5 +1,7 @@
 package pcoop.backend.service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,29 @@ public class MemberService {
 	
     private JavaMailSender mailSender;
     
+    
+	public int signup(MemberDTO dto) throws Exception {
+		int result = mdao.signup(dto);
+		return result;
+	}
+    
+	public static String getSHA512(String input){
+		String toReturn = null;
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-512");
+			digest.reset();
+			digest.update(input.getBytes("utf8"));
+			toReturn = String.format("%0128x", new BigInteger(1, digest.digest()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+
+	public MemberDTO login(Map<String,String> param) throws Exception {
+		MemberDTO mdto = mdao.login(param);
+		return mdto;
+	}
     
     //회원가입 메소드, Map과 dto를 같이 넘김
     public void join(Map<String, Object>map,MemberDTO dto) {

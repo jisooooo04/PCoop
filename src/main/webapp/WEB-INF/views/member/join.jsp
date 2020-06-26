@@ -27,20 +27,21 @@ ${tomail}
 
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="#">
+			<form action="signup">
 			<br><br>
 				<h1>회원가입</h1>
 				<br><br>
 				
-				<input type="email" placeholder="이름"  class="in" />
-				<input type="password" placeholder="비밀번호" class="in" />
-				<input type="password" placeholder="비밀번호 확인" class="in" />
+				<input type="email" name="name" placeholder="이름"  class="in" />
+				<input type="password" name="pw" placeholder="비밀번호" class="in" />
+				<input type="password" placeholder="비밀번호 확인(미구현)" class="in" />
 				<br><br>
-                <button type="submit">회원가입</button><br>
+                <button type="submit" id="signup">회원가입</button><br>
                 <button type="button">돌아가기</button><br>
 			</form>
 		</div>
 		
 	</div>
+				
 </body>
 </html>
