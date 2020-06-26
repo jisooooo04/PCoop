@@ -12,10 +12,8 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-	integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-	crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -38,18 +36,20 @@
             var title = $("#recipient-name").val()
             var start = $('#modal_date_start').val();
             var end = $('#modal_date_end').val();
-            alert($("#start_time").val());
             $.ajax({
             	url : "addEvent",
             	type:"post",
             	data:{
             		title : title,
             		start_date : start,
-            		end_date : end,
+            		end_date : 
+					if(end<start){
+            			return start
+            		}else{
+            			return end
+            		},
             		contents : $("#message-text").val(),
             		writer : 'writer',
-            		start_time : $("#start_time").val(),
-            		end_time : $("#end_time").val(), 
             		color : $("#modal_select").val()
             	}
             }).done(function(resp){
@@ -63,7 +63,9 @@
                     end:end
                 })
             }
+            $("#myModal").modal('hide');
         })
+        
         calendar.unselect();
       },
       eventClick: function(arg) {
@@ -155,9 +157,9 @@ body {
 <body>
 
 <!-- Header -->
-	<jsp:include page="../header/header.jsp"></jsp:include>
+	<%--  <jsp:include page="../header/header.jsp"></jsp:include>  --%>
 	<!-- 왼쪽 사이드바 -->
-	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
+	<%--  <jsp:include page="../header/sidebar-left.jsp"></jsp:include>  --%>
 	
 	<section>
 
