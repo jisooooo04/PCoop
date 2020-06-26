@@ -1,4 +1,4 @@
-package pcoop.backend.mail;
+package pcoop.backend.service;
 
 import java.io.UnsupportedEncodingException;
 
@@ -8,14 +8,17 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
-public class MailHandler {
+@Service
+public class MailService {
 	private JavaMailSender mailSender;
     private MimeMessage message;
     private MimeMessageHelper messageHelper;
- 
- 
-    public MailHandler(JavaMailSender mailSender) throws MessagingException {
+    
+    
+
+    public MailService(JavaMailSender mailSender) throws MessagingException {
         this.mailSender = mailSender;
         message = this.mailSender.createMimeMessage();
         messageHelper = new MimeMessageHelper(message, true, "UTF-8");
