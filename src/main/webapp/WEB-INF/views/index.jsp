@@ -35,6 +35,7 @@
 						<a href="#">참여 중 프로젝트</a>
 						<a href="#">프로젝트 소개</a>
 						<a href="fileList">백업</a>
+						<a href="calendar">캘린더</a>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
@@ -72,7 +73,7 @@
 					</div>
 
 					<footer>
-						<a href="calendar" class="button">Get Started</a>
+						<a href="#" class="button">Get Started</a>
 					</footer>
 				</div>
 			</section>
@@ -84,7 +85,7 @@
 					<div class="flex flex-2">
 						<article>
 							<div class="image round">
-								<img src="resources/images/pic01.jpg" alt="Pic 01" />
+								<img src="resources/images/index/pic01.jpg" alt="Pic 01" />
 							</div>
 							<header>
 								<h3>Lorem ipsum<br /> dolor amet nullam</h3>
