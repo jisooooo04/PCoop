@@ -169,18 +169,6 @@
 <meta charset="UTF-8">
 <title>Calendar</title>
 <style>
-<<<<<<< HEAD
-/* 
-body {
-=======
-
-/* body {
->>>>>>> 1a5564004a0dee9434d1f727a83bac3d88c3b593
-	margin: 40px 10px;
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
-} */
 
 #calendar {
 	max-width: 1100px;
