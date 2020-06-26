@@ -3,23 +3,22 @@ package pcoop.backend.dto;
 public class DirectoryDTO {
 	
 	private int seq;
-	private String project_name;
+	private int project_seq;
 	private String name;
-	private String root_yn;
 	private String path;
-	
+	private String root_yn;
 	
 	public DirectoryDTO() {
 		super();
 	}
 
-	public DirectoryDTO(int seq, String project_name, String name, String root_yn, String path) {
+	public DirectoryDTO(int seq, int project_seq, String name, String path, String root_yn) {
 		super();
 		this.seq = seq;
-		this.project_name = project_name;
+		this.project_seq = project_seq;
 		this.name = name;
-		this.root_yn = root_yn;
 		this.path = path;
+		this.root_yn = root_yn;
 	}
 
 	public int getSeq() {
@@ -30,12 +29,12 @@ public class DirectoryDTO {
 		this.seq = seq;
 	}
 
-	public String getProject_name() {
-		return project_name;
+	public int getProject_seq() {
+		return project_seq;
 	}
 
-	public void setProject_name(String project_name) {
-		this.project_name = project_name;
+	public void setProject_seq(int project_seq) {
+		this.project_seq = project_seq;
 	}
 
 	public String getName() {
@@ -46,6 +45,14 @@ public class DirectoryDTO {
 		this.name = name;
 	}
 
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public String getRoot_yn() {
 		return root_yn;
 	}
@@ -54,13 +61,6 @@ public class DirectoryDTO {
 		this.root_yn = root_yn;
 	}
 
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
 	
 
 }

@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import pcoop.backend.dto.DirectoryDTO;
+import pcoop.backend.dto.FileDTO;
 import pcoop.backend.service.FileService;
 
 @Controller
@@ -52,6 +53,7 @@ public class FileController {
 		
 		// DB에서 목록 가져올 때
 		List<DirectoryDTO> dirList = fservice.getDirList();
+		List<FileDTO> fileList = fservice.getFileList();
 		
 		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
@@ -61,6 +63,13 @@ public class FileController {
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			dirArr.add(json);
+		}
+		
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			fileArr.add(json);
 		}
 		
 		System.out.println(dirArr);
