@@ -7,6 +7,7 @@
 <title>Document</title>
 <link rel="stylesheet" href="resources/css/header.css" />
 <link rel="stylesheet" href="resources/css/sidebar-left.css" />
+
 <script>
             $(function(){
             	
@@ -42,7 +43,7 @@
 	<header>
 		<!-- 로고 -->
 		<div class="logo">
-			<b>P</b>COOP!
+			<a href="../"><b>P</b>COOP!</a>
 		</div>
 
 		<!-- 메뉴 -->
