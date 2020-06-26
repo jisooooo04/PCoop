@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
+
 <script>
 	$(function() {
 		
@@ -15,8 +15,11 @@
 
 		 // 디렉토리 가지고 오기
 			var dirlist = ${dirlist};
+			console.log(dirlist.length);
+
 			for(var i = 0 ; i < dirlist.length ; i++){
 				
+				console.log(dirlist[i].path);
 				var patharr = dirlist[i].path.split('/');
 				var parent = "#root";
 				

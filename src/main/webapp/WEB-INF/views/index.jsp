@@ -50,7 +50,7 @@
 					<div class="flex ">
 
 						<div>
-							<span class="icon  fa-user-plus"></span>
+							<span class="icon fa-user-plus"></span>
 							<h3>계정 만들기</h3>
                           <p>프로젝트를 시작하기 위해<br>
 							PCOOP 계정을 만드세요.</p>

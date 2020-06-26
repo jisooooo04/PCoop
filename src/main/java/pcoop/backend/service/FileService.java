@@ -9,24 +9,43 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pcoop.backend.dao.FileDAO;
+import pcoop.backend.dto.DirectoryDTO;
+import pcoop.backend.dto.FileDTO;
+
 @Service
 public class FileService {
 
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private FileDAO fdao;
+	
+	// DB에서 디렉토리 리스트 가져오기
+	public List<DirectoryDTO> getDirList(){
+		
+		return fdao.getDirList();
+		
+	}
+	
+	// DB에서 파일 리스트 가져오기
+	public List<FileDTO> getFileList(){
+		return fdao.getFileList();
+	}
 
-	// 디렉토리 리스트
-	public List<String> getDirList(String strDirPath){
+	// 드라이브에서 직접 디렉토리 리스트 가져오기
+	public List<String> getDirListFromDrive(String strDirPath){
 
 		List<String> list = new ArrayList<>();
 
-		getDirListRecursive(strDirPath, list);
+		getDirListRecursiveFromDrive(strDirPath, list);
 		return list;
 
 	}
 
-	// 하위 디렉토리까지 회귀하여 디렉토리 리스트 추출
-	public void getDirListRecursive(String strDirPath, List<String> list) {
+	// 하위 디렉토리까지 회귀하여 디렉토리 리스트 추출(from drive)
+	public void getDirListRecursiveFromDrive(String strDirPath, List<String> list) {
 
 		File[] flist = new File(strDirPath).listFiles();
 		String rootDir = session.getServletContext().getRealPath("upload/backup");
@@ -39,7 +58,7 @@ public class FileService {
 					//list.add(f.getPath().substring(rootDir.length()));
 					list.add(f.getPath().substring(rootDir.length()));
 					System.out.println(f.getPath().substring(rootDir.length()));
-					getDirListRecursive(f.getPath(), list);
+					getDirListRecursiveFromDrive(f.getPath(), list);
 				}
 
 			}
@@ -48,18 +67,18 @@ public class FileService {
 
 	}
 
-	// 파일 리스트
-	public List<String> getFileList(String strDirPath){
+	// 드라이브에서 직접 파일 리스트 가져오기
+	public List<String> getFileListFromDrive(String strDirPath){
 
 		List<String> list = new ArrayList<>();
 
-		getFileListRecursive(strDirPath, list);
+		getFileListRecursiveFromDrive(strDirPath, list);
 		return list;
 
 	}
 
-	// 하위 디렉토리까지 회귀하여 파일 리스트 추출
-	public void getFileListRecursive(String strDirPath, List<String> list) {
+	// 하위 디렉토리까지 회귀하여 파일 리스트 추출 from drive
+	public void getFileListRecursiveFromDrive(String strDirPath, List<String> list) {
 
 		File[] flist = new File(strDirPath).listFiles();
 		String rootDir = session.getServletContext().getRealPath("upload/backup");
@@ -73,7 +92,7 @@ public class FileService {
 					System.out.println(f.getPath().substring(rootDir.length()));
 				}
 				else {
-					getFileListRecursive(f.getPath(), list);
+					getFileListRecursiveFromDrive(f.getPath(), list);
 				}
 
 			}
