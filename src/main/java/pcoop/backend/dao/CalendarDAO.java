@@ -8,6 +8,7 @@ import pcoop.backend.dto.CalendarDTO;
 public class CalendarDAO {
 	
 	public int insert(CalendarDTO dto) {
+		
 		return 1;
 	}
 }

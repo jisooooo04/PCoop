@@ -22,15 +22,8 @@ public class CalendarController {
 	
 	@ResponseBody
 	@RequestMapping("addEvent")
-	public String addEvent(CalendarDTO dto) {
-		System.out.println(dto.getTitle());
-		System.out.println(dto.getContents());
-		System.out.println(dto.getStart_date());
-		System.out.println(dto.getEnd_date());
-		System.out.println(dto.getWriter());
-		System.out.println(dto.getStart_time());
-		System.out.println(dto.getEnd_time());
-		System.out.println(dto.getColor());
+	public String addEvent(CalendarDTO dto) throws Exception {
+		int result = Cservice.addEvent(dto);
 		return "success";
 	}
 	

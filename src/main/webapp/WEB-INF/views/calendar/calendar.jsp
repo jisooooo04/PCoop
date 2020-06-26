@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href='/resources/css/calendar.css'
+<link href='/resources/css/calendar/calendar.css'
 	rel='stylesheet' />
 <script src='/resources/js/calendar.js'></script>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
@@ -33,38 +33,38 @@
     	//일정 끝나는 시간이 시작시간보다 빠르면 바꿔주는 이벤트 - 시작시간 선택 후 끝나는 시간 선택 했을 때
     	$("#modal_date_end").focusout(function(){
     		if(($("#modal_date_end").val()).replace(/[^0-9]/g,"")<($("#modal_date_start").val()).replace(/[^0-9]/g,"")){
-    		$("#modal_date_end").val($("#modal_date_start"));
+    		$("#modal_date_end").val($("#modal_date_start").val());
     	}
     	})
     	
     		//일정 끝나는 시간이 시작시간보다 빠르면 바꿔주는 이벤트 - 끝나는 시간 선택 후 시작 시간 선택 했을 때
     	$("#modal_date_start").focusout(function(){
-    		if(($("#modal_date_end").val()).replace(/[^0-9]/g,"")<($("#modal_date_start").val()).replace(/[^0-9]/g,"")){
-    		/* $("#modal_date_start").val($("#modal_date_end")); */
-    	}
+    			if(($("#modal_date_start").val()).replace(/[^0-9]/g,"")>($("#modal_date_end").val()).replace(/[^0-9]/g,"")){
+    	    		if($("#modal_date_end").val()==''){
+    	    			
+    	    		} else{
+    	    			$("#modal_date_start").val($("#modal_date_end").val()); 
+    	    		}	
+    		} 	
     	})
     	
         //일정 생성하기 버튼 눌렀을 때
         $("#save").on("click",function(){
-            var title = $("#recipient-name").val()
+            var title = $("#recipient-name").val();
             var start = $('#modal_date_start').val();
             var end = $('#modal_date_end').val();
-            
+            var color = $('input[type=radio][name=color]:checked').val();
+     
             $.ajax({
             	url : "addEvent",
             	type:"post",
             	data:{
             		title : title,
             		start_date : start,
-            		/* end_date : */ 
-					/* if(end.replace(/[^0-9]/g,"")<end.replace(/[^0-9]/g,""){
-            			return start
-            		}else{
-            			return end
-            		}, */
+            		end : end ,
             		contents : $("#message-text").val(),
             		writer : 'writer',
-            		color : $("#modal_select").val()
+            		color : color
             	}
             }).done(function(resp){
             	console.log(resp)
@@ -74,18 +74,32 @@
                 calendar.addEvent({
                     title:title,
                     start:start,
-                    end:end
+                    end:end,
+                    color:color
                 })
             }
+            
+          /*   modal clean 하기 */
+            $("#recipient-name").val("");
+            $('#modal_date_start').val("");
+            $('#modal_date_end').val("");
+            $("#message-text").val("");
+            $("#modal_select").val('red');
+				
+            
+            /* modal hide  */
             $("#myModal").modal('hide');
         })
         
         calendar.unselect();
       },
       eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
-        }
+       /*   if (confirm('Are you sure you want to delete this event?')) {
+          arg.event.remove() 
+          
+        } */
+       alert(arg.event.contents);
+       
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events
@@ -142,7 +156,8 @@
         {
           title: 'Click for Google',
           url: 'http://google.com/',
-          start: '2020-06-28'
+          start: '2020-06-28',
+          color:"#f5ce42"          
         }
       ]
     });
@@ -154,13 +169,6 @@
 <meta charset="UTF-8">
 <title>Calendar</title>
 <style>
-
-/* body {
-	margin: 40px 10px;
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
-} */
 
 #calendar {
 	max-width: 1100px;
@@ -249,15 +257,47 @@
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="col-form-label">색깔 지정</label> <br>
-							<!-- <input type="color" value="#429ef5">-->
+				
+							<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ color radio -->
+								<div class="custom-radios">
+  <div>
+    <input type="radio" id="color-1" name="color" value="green" checked>
+    <label for="color-1">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+  
+  <div>
+    <input type="radio" id="color-2" name="color" value="blue">
+    <label for="color-2">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+  
+  <div>
+    <input type="radio" id="color-3" name="color" value="#f5ce42">
+    <label for="color-3">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
 
-							<select id="modal_select">
-								<option value="red"></option>
-								<option value="orange"></option>
-								<option value="yellow"></option>
-								<option value="green"></option>
-								<option value="blue"></option>
-							</select>
+  <div>
+    <input type="radio" id="color-4" name="color" value="red">
+    <label for="color-4">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+</div>
+							<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+							
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -269,8 +309,8 @@
 			</div>
 		</div>
 	</div>
-				
-			<!-- 여기까지 각자 영역 설정 -->
+			
+			
 		</div>
 
 	</section>
