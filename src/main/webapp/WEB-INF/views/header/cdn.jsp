@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>PCOOP!</title>
 <meta charset="UTF-8">
 
 <!-- [전체] -->
