@@ -54,6 +54,54 @@ margin: 2px;
 	 opacity: 1;
 }
 
+/* 일정 조회 modal-color 선택 css */
+.selectcustom-radios div {
+      display: flex;
+	 display: inline-block;
+}
+ .selectcustom-radios input[type="radio"] {
+	 display: none;
+}
+ .selectcustom-radios input[type="radio"] + label {
+	 color: #333;
+	 font-family: Arial, sans-serif;
+	 font-size: 14px;
+}
+ .selectcustom-radios input[type="radio"] + label span {
+	 display: inline-block;
+	 width: 40px;
+	 height: 40px;
+	 margin: -1px 4px 0 0;
+	 vertical-align: middle;
+	 cursor: pointer;
+	 border-radius: 50%;
+	 border: 2px solid #fff;
+	 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+	 background-repeat: no-repeat;
+	 background-position: center;
+	 text-align: center;
+	 line-height: 44px;
+}
+ .selectcustom-radios input[type="radio"] + label span img {
+	 opacity: 0;
+	 transition: all 0.3s ease;
+}
+ .selectcustom-radios input[type="radio"]#selectcolor-1 + label span {
+	 background-color: #2ecc71;
+}
+ .selectcustom-radios input[type="radio"]#selectcolor-2 + label span {
+	 background-color: #3498db;
+}
+ .selectcustom-radios input[type="radio"]#selectcolor-3 + label span {
+	 background-color: #f1c40f;
+}
+ .selectcustom-radios input[type="radio"]#selectcolor-4 + label span {
+	 background-color: #e74c3c;
+}
+ .selectcustom-radios input[type="radio"]:checked + label span img {
+	 opacity: 1;
+}
+
          
 /* classes attached to <body> */
 
