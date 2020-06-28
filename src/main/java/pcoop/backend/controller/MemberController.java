@@ -26,55 +26,55 @@ import org.springframework.web.servlet.ModelAndView;
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.service.MemberService;
 
-@Controller  //ÄÁÆ®·Ñ·¯ ºó ¼±¾ğ
+@Controller  //ì»¨íŠ¸ë¡¤ëŸ¬ ë¹ˆ ì„ ì–¸
 @RequestMapping("/member/")
 public class MemberController {
 
-	@Autowired    //¼­ºñ½º¸¦ È£ÃâÇÏ±â À§ÇØ¼­ ÀÇÁ¸¼ºÀ» ÁÖÀÔ
-    JavaMailSender mailSender;     //¸ŞÀÏ ¼­ºñ½º¸¦ »ç¿ëÇÏ±â À§ÇØ ÀÇÁ¸¼ºÀ» ÁÖÀÔÇÔ.
+	@Autowired    //ì„œë¹„ìŠ¤ë¥¼ í˜¸ì¶œí•˜ê¸° ìœ„í•´ì„œ ì˜ì¡´ì„±ì„ ì£¼ì…
+    JavaMailSender mailSender;     //ë©”ì¼ ì„œë¹„ìŠ¤ë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ ì˜ì¡´ì„±ì„ ì£¼ì…í•¨.
 	
 	@Autowired
-	private MemberService mservice; //¼­ºñ½º¸¦ È£ÃâÇÏ±â À§ÇØ ÀÇÁ¸¼ºÀ» ÁÖÀÔ
+	private MemberService mservice; //ì„œë¹„ìŠ¤ë¥¼ í˜¸ì¶œí•˜ê¸° ìœ„í•´ ì˜ì¡´ì„±ì„ ì£¼ì…
 
 	@Autowired
-	private HttpSession session; // ÀÔ·ÂÇÑ ÀÌ¸ŞÀÏÁÖ¼Ò ÀúÀå¿ë 
+	private HttpSession session; // ì…ë ¥í•œ ì´ë©”ì¼ì£¼ì†Œ ì €ì¥ìš© 
 	
-	 //·Î±ëÀ» À§ÇÑ º¯¼ö
+	 //ë¡œê¹…ì„ ìœ„í•œ ë³€ìˆ˜
     private static final Logger logger=
     LoggerFactory.getLogger(MemberController.class);
     private static final String String = null;
 	
 
-    // mailSending ÄÚµå
+    // mailSending ì½”ë“œ
     @RequestMapping( value = "auth" , method=RequestMethod.POST )
     public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws IOException {
 
         Random r = new Random();
-        int dice = r.nextInt(4589362) + 49311; //ÀÌ¸ŞÀÏ·Î ¹Ş´Â ÀÎÁõÄÚµå ºÎºĞ (³­¼ö)
+        int dice = r.nextInt(4589362) + 49311; //ì´ë©”ì¼ë¡œ ë°›ëŠ” ì¸ì¦ì½”ë“œ ë¶€ë¶„ (ë‚œìˆ˜)
         
         String setfrom = "okeydoke2@naver.com";
-        String tomail = request.getParameter("e_mail"); // ¹Ş´Â »ç¶÷ ÀÌ¸ŞÀÏ
-        session.setAttribute("toemail", tomail); // È¸¿ø°¡ÀÔ ÆäÀÌÁö±îÁö °¥ °æ¿ì¸¦ ´ëºñÇØ ¼¼¼Ç ÀúÀå
-        String title = "È¸¿ø°¡ÀÔ ÀÎÁõ ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù."; // Á¦¸ñ
+        String tomail = request.getParameter("e_mail"); // ë°›ëŠ” ì‚¬ëŒ ì´ë©”ì¼
+        session.setAttribute("toemail", tomail); // íšŒì›ê°€ì… í˜ì´ì§€ê¹Œì§€ ê°ˆ ê²½ìš°ë¥¼ ëŒ€ë¹„í•´ ì„¸ì…˜ ì €ì¥
+        String title = "íšŒì›ê°€ì… ì¸ì¦ ì´ë©”ì¼ ì…ë‹ˆë‹¤."; // ì œëª©
         String content =
         
-        System.getProperty("line.separator")+ //ÇÑÁÙ¾¿ ÁÙ°£°İÀ» µÎ±âÀ§ÇØ ÀÛ¼º
+        System.getProperty("line.separator")+ //í•œì¤„ì”© ì¤„ê°„ê²©ì„ ë‘ê¸°ìœ„í•´ ì‘ì„±
    
         System.getProperty("line.separator")+
                 
-        "¾È³çÇÏ¼¼¿ä È¸¿ø´Ô ÀúÈñ P-Coop È¨ÆäÀÌÁö¸¦ Ã£¾ÆÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù"
+        "ì•ˆë…•í•˜ì„¸ìš” íšŒì›ë‹˜ ì €í¬ P-Coop í™ˆí˜ì´ì§€ë¥¼ ì°¾ì•„ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤"
         
         +System.getProperty("line.separator")+
         
         System.getProperty("line.separator")+
 
-        " ÀÎÁõ¹øÈ£´Â " +dice+ " ÀÔ´Ï´Ù. "
+        " ì¸ì¦ë²ˆí˜¸ëŠ” " +dice+ " ì…ë‹ˆë‹¤. "
         
         +System.getProperty("line.separator")+
         
         System.getProperty("line.separator")+
         
-        "¹ŞÀ¸½Å ÀÎÁõ¹øÈ£¸¦ È¨ÆäÀÌÁö¿¡ ÀÔ·ÂÇØ ÁÖ½Ã¸é ´ÙÀ½À¸·Î ³Ñ¾î°©´Ï´Ù."; // ³»¿ë
+        "ë°›ìœ¼ì‹  ì¸ì¦ë²ˆí˜¸ë¥¼ í™ˆí˜ì´ì§€ì— ì…ë ¥í•´ ì£¼ì‹œë©´ ë‹¤ìŒìœ¼ë¡œ ë„˜ì–´ê°‘ë‹ˆë‹¤."; // ë‚´ìš©
         
         
         try {
@@ -82,25 +82,25 @@ public class MemberController {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message,
                     true, "UTF-8");
 
-            messageHelper.setFrom(setfrom); // º¸³»´Â»ç¶÷ »ı·«ÇÏ¸é Á¤»óÀÛµ¿À» ¾ÈÇÔ
-            messageHelper.setTo(tomail); // ¹Ş´Â»ç¶÷ ÀÌ¸ŞÀÏ
-            messageHelper.setSubject(title); // ¸ŞÀÏÁ¦¸ñÀº »ı·«ÀÌ °¡´ÉÇÏ´Ù
-            messageHelper.setText(content); // ¸ŞÀÏ ³»¿ë
+            messageHelper.setFrom(setfrom); // ë³´ë‚´ëŠ”ì‚¬ëŒ ìƒëµí•˜ë©´ ì •ìƒì‘ë™ì„ ì•ˆí•¨
+            messageHelper.setTo(tomail); // ë°›ëŠ”ì‚¬ëŒ ì´ë©”ì¼
+            messageHelper.setSubject(title); // ë©”ì¼ì œëª©ì€ ìƒëµì´ ê°€ëŠ¥í•˜ë‹¤
+            messageHelper.setText(content); // ë©”ì¼ ë‚´ìš©
             
             mailSender.send(message);
         } catch (Exception e) {
             System.out.println(e);
         }
         
-        ModelAndView mv = new ModelAndView();    //ModelAndView·Î º¸³¾ ÆäÀÌÁö¸¦ ÁöÁ¤ÇÏ°í, º¸³¾ °ªÀ» ÁöÁ¤ÇÑ´Ù.
-        mv.setViewName("/member/email_injeung");     //ºäÀÇÀÌ¸§
+        ModelAndView mv = new ModelAndView();    //ModelAndViewë¡œ ë³´ë‚¼ í˜ì´ì§€ë¥¼ ì§€ì •í•˜ê³ , ë³´ë‚¼ ê°’ì„ ì§€ì •í•œë‹¤.
+        mv.setViewName("/member/email_injeung");     //ë·°ì˜ì´ë¦„
         mv.addObject("dice", dice);
         
         System.out.println("mv : "+mv);
 
         response_email.setContentType("text/html; charset=UTF-8");
         PrintWriter out_email = response_email.getWriter();
-        out_email.println("<script>alert('ÀÌ¸ŞÀÏÀÌ ¹ß¼ÛµÇ¾ú½À´Ï´Ù. ÀÎÁõ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.');</script>");
+        out_email.println("<script>alert('ì´ë©”ì¼ì´ ë°œì†¡ë˜ì—ˆìŠµë‹ˆë‹¤. ì¸ì¦ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');</script>");
         out_email.flush();
         
         return mv;
@@ -108,46 +108,46 @@ public class MemberController {
     }
     
     
-    //ÀÌ¸ŞÀÏ ÀÎÁõ ÆäÀÌÁö ¸ÊÇÎ ¸Ş¼Òµå
+    //ì´ë©”ì¼ ì¸ì¦ í˜ì´ì§€ ë§µí•‘ ë©”ì†Œë“œ
     @RequestMapping("email.do")
     public String email() {
-    	System.out.println("ÀÌ¸ŞÀÏ ÀÎÁõ ÆäÀÌÁö ¸ÊÇÎ ¸Ş¼Òµå");
+    	System.out.println("ì´ë©”ì¼ ì¸ì¦ í˜ì´ì§€ ë§µí•‘ ë©”ì†Œë“œ");
     
         return "member/email";
     }
     
     
-    //ÀÌ¸ŞÀÏ·Î ¹ŞÀº ÀÎÁõ¹øÈ£¸¦ ÀÔ·ÂÇÏ°í Àü¼Û ¹öÆ°À» ´©¸£¸é ¸ÊÇÎµÇ´Â ¸Ş¼Òµå.
-    //³»°¡ ÀÔ·ÂÇÑ ÀÎÁõ¹øÈ£¿Í ¸ŞÀÏ·Î ÀÔ·ÂÇÑ ÀÎÁõ¹øÈ£°¡ ¸Â´ÂÁö È®ÀÎÇØ¼­ ¸ÂÀ¸¸é È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ³Ñ¾î°¡°í,
-    //Æ²¸®¸é ´Ù½Ã ¿ø·¡ ÆäÀÌÁö·Î µ¹¾Æ¿À´Â ¸Ş¼Òµå
+    //ì´ë©”ì¼ë¡œ ë°›ì€ ì¸ì¦ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ê³  ì „ì†¡ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ë§µí•‘ë˜ëŠ” ë©”ì†Œë“œ.
+    //ë‚´ê°€ ì…ë ¥í•œ ì¸ì¦ë²ˆí˜¸ì™€ ë©”ì¼ë¡œ ì…ë ¥í•œ ì¸ì¦ë²ˆí˜¸ê°€ ë§ëŠ”ì§€ í™•ì¸í•´ì„œ ë§ìœ¼ë©´ íšŒì›ê°€ì… í˜ì´ì§€ë¡œ ë„˜ì–´ê°€ê³ ,
+    //í‹€ë¦¬ë©´ ë‹¤ì‹œ ì›ë˜ í˜ì´ì§€ë¡œ ëŒì•„ì˜¤ëŠ” ë©”ì†Œë“œ
     @RequestMapping(value = "join_injeung.do{dice}", method = RequestMethod.POST)
     public ModelAndView join_injeung(String email_injeung, @PathVariable String dice, HttpServletResponse response_equals) throws IOException {
               
-        System.out.println("¸¶Áö¸· : email_injeung : "+email_injeung);      
-        System.out.println("¸¶Áö¸· : dice : "+dice);     
+        System.out.println("ë§ˆì§€ë§‰ : email_injeung : "+email_injeung);      
+        System.out.println("ë§ˆì§€ë§‰ : dice : "+dice);     
         
-        //ÆäÀÌÁöÀÌµ¿°ú ÀÚ·á¸¦ µ¿½Ã¿¡ ÇÏ±âÀ§ÇØ ModelAndView¸¦ »ç¿ëÇØ¼­ ÀÌµ¿ÇÒ ÆäÀÌÁö¿Í ÀÚ·á¸¦ ´ãÀ½
+        //í˜ì´ì§€ì´ë™ê³¼ ìë£Œë¥¼ ë™ì‹œì— í•˜ê¸°ìœ„í•´ ModelAndViewë¥¼ ì‚¬ìš©í•´ì„œ ì´ë™í•  í˜ì´ì§€ì™€ ìë£Œë¥¼ ë‹´ìŒ
          
         ModelAndView mv = new ModelAndView();     
         mv.setViewName("/member/join.do");  
         mv.addObject("e_mail",email_injeung);
         
         if (email_injeung.equals(dice)) {
-            //ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÒ °æ¿ì ÀÎÁõ¹øÈ£°¡ ¸Â´Ù´Â Ã¢À» Ãâ·ÂÇÏ°í È¸¿ø°¡ÀÔÃ¢À¸·Î ÀÌµ¿ÇÔ
+            //ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•  ê²½ìš° ì¸ì¦ë²ˆí˜¸ê°€ ë§ë‹¤ëŠ” ì°½ì„ ì¶œë ¥í•˜ê³  íšŒì›ê°€ì…ì°½ìœ¼ë¡œ ì´ë™í•¨
             
             mv.setViewName("member/join");
             mv.addObject("e_mail",email_injeung);
-            //¸¸¾à ÀÎÁõ¹øÈ£°¡ °°´Ù¸é ÀÌ¸ŞÀÏÀ» È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î °°ÀÌ ³Ñ°Ü¼­ ÀÌ¸ŞÀÏÀ»
-            //ÇÑ¹ø´õ ÀÔ·ÂÇÒ ÇÊ¿ä°¡ ¾ø°Ô ÇÑ´Ù.
+            //ë§Œì•½ ì¸ì¦ë²ˆí˜¸ê°€ ê°™ë‹¤ë©´ ì´ë©”ì¼ì„ íšŒì›ê°€ì… í˜ì´ì§€ë¡œ ê°™ì´ ë„˜ê²¨ì„œ ì´ë©”ì¼ì„
+            //í•œë²ˆë” ì…ë ¥í•  í•„ìš”ê°€ ì—†ê²Œ í•œë‹¤.
             
 
-            mv.addObject("tomail",session.getAttribute("tomail"));//¼¼¼Ç¿¡¼­ ÀÎÁõ¿ëÀ¸·Î ÀÔ·ÂÇÑ ¸ŞÀÏÁÖ¼Ò ºÒ·¯¿À±â
+            mv.addObject("tomail",session.getAttribute("tomail"));//ì„¸ì…˜ì—ì„œ ì¸ì¦ìš©ìœ¼ë¡œ ì…ë ¥í•œ ë©”ì¼ì£¼ì†Œ ë¶ˆëŸ¬ì˜¤ê¸°
             System.out.println(session.getAttribute("tomail"));
 
             
             response_equals.setContentType("text/html; charset=UTF-8");
             PrintWriter out_equals = response_equals.getWriter();
-            out_equals.println("<script>alert('ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÏ¿´½À´Ï´Ù. È¸¿ø°¡ÀÔÃ¢À¸·Î ÀÌµ¿ÇÕ´Ï´Ù.');</script>");
+            out_equals.println("<script>alert('ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì˜€ìŠµë‹ˆë‹¤. íšŒì›ê°€ì…ì°½ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.');</script>");
             out_equals.flush();
     
             return mv;
@@ -162,7 +162,7 @@ public class MemberController {
             
             response_equals.setContentType("text/html; charset=UTF-8");
             PrintWriter out_equals = response_equals.getWriter();
-            out_equals.println("<script>alert('ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö¾Ê½À´Ï´Ù. ÀÎÁõ¹øÈ£¸¦ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.'); history.go(-1);</script>");
+            out_equals.println("<script>alert('ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ì•ŠìŠµë‹ˆë‹¤. ì¸ì¦ë²ˆí˜¸ë¥¼ ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.'); history.go(-1);</script>");
             out_equals.flush();
             
     
@@ -173,34 +173,34 @@ public class MemberController {
         return mv;
     }
     
-	@RequestMapping("signup") // È¸¿ø°¡ÀÔ ±â´É
+	@RequestMapping("signup") // íšŒì›ê°€ì… ê¸°ëŠ¥
 	public String signup(HttpServletRequest request) throws Exception{
 
 		String id = request.getParameter("id");
 		String pw = mservice.getSHA512(request.getParameter("pw"));
 		String name = request.getParameter("name");
-		String email = request.getParameter("email"); // ¼¼¼Ç¿¡¼­ ÀÌ¸ŞÀÏ °¡Á®¿À±â?
+		String email = request.getParameter("email"); // ì„¸ì…˜ì—ì„œ ì´ë©”ì¼ ê°€ì ¸ì˜¤ê¸°?
 
 
 		int result = mservice.signup(new MemberDTO(email, pw, name));
 
-		System.out.println("signup °á°ú : "+result);
+		System.out.println("signup ê²°ê³¼ : "+result);
 
 	return "redirect:/";
 
 	}
 	
-	@RequestMapping("login") //·Î±×ÀÎ
+	@RequestMapping("login") //ë¡œê·¸ì¸
 	public String login(String email, String pw, ServletRequest request) throws Exception{
 		Map<String,String> param =new HashMap<>();
 
-		param.put("loginId", email); // ÀÌ¸ŞÀÏÀÌ ¾ÆÀÌµğ ¿ªÇÒ
+		param.put("loginId", email); // ì´ë©”ì¼ì´ ì•„ì´ë”” ì—­í• 
 		param.put("loginPw", mservice.getSHA512(pw));
 		MemberDTO mdto = mservice.login(param);
 		String ip_address = request.getRemoteAddr();
 
 		if(mdto != null) {
-			this.session.setAttribute("loginInfo", mdto); // ·Î±×ÀÎ½Ã ¼¼¼Ç¿¡ È¸¿øÁ¤º¸ ÀúÀå
+			this.session.setAttribute("loginInfo", mdto); // ë¡œê·¸ì¸ì‹œ ì„¸ì…˜ì— íšŒì›ì •ë³´ ì €ì¥
 			this.session.setAttribute("ip_address", ip_address);
 		}
 		return "redirect:/";
