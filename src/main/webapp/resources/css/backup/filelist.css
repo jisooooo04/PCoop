@@ -1,12 +1,12 @@
 @charset "UTF-8";
 
 .dir {
-	color: blue;
-	cursor: default;
+	color: black;
+	cursor: pointer;
 }
 
 .file {
-	color: red;
+	color: black;
 }
 
 /* 우 클릭 시, 메뉴 보이기 */

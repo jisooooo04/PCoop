@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <jsp:include page="../header/cdn.jsp"></jsp:include>
-<link rel="stylesheet" href="resources/css/backup/filelist.css" />
+<link href="${pageContext.request.contextPath}/resources/css/backup/filelist.css?ver" rel="stylesheet" >
 
 <script>
 	$(function() {
