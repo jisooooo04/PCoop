@@ -47,14 +47,27 @@ public class MemberController {
 
 	// mailSending 코드
 	@RequestMapping( value = "auth" , method=RequestMethod.POST )
-	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws IOException {
+	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws Exception {
 
+		//입력 이메일 중복 체크
+		String tomail = request.getParameter("e_mail"); // 받는 사람 이메일
+		session.setAttribute("toemail", tomail); // 회원가입 페이지까지 갈 경우를 대비해 세션 저장
+		
+if(mservice.duplCheck(tomail)) {
+			PrintWriter out_email = response_email.getWriter();
+			out_email.println("<script>alert('이메일이 중복되었습니다.');</script>");
+			out_email.flush();
+			ModelAndView mv2 = new ModelAndView();    //ModelAndView로 보낼 페이지를 지정하고, 보낼 값을 지정한다.
+			mv2.setViewName("member/email");     //뷰의이름
+			
+			return mv2;
+ 
+		}else {
+		
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; //이메일로 받는 인증코드 부분 (난수)
 
 		String setfrom = "okeydoke2@naver.com";
-		String tomail = request.getParameter("e_mail"); // 받는 사람 이메일
-		session.setAttribute("toemail", tomail); // 회원가입 페이지까지 갈 경우를 대비해 세션 저장
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
 
@@ -104,12 +117,12 @@ public class MemberController {
 		out_email.flush();
 
 		return mv;
-
+		}
 	}
 
 
 	//이메일 인증 페이지 맵핑 메소드
-	@RequestMapping("email.do")
+	@RequestMapping("toEmailView")
 	public String email() {
 		System.out.println("이메일 인증 페이지 맵핑 메소드");
 

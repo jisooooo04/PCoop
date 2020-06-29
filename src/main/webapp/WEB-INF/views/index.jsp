@@ -93,7 +93,7 @@
 
 				<c:choose>
 					<c:when test="${empty loginInfo}">
-						<a href="member/email.do" class="button">Get Started</a>
+						<a href="member/toEmailView" class="button">Get Started</a>
 					</c:when>
 
 					<c:when test="${not empty loginInfo}">

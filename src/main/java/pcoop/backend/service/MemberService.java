@@ -43,18 +43,23 @@ public class MemberService {
 		return toReturn;
 	}
 
+	public boolean duplCheck(String email) throws Exception {
+		boolean result = mdao.duplCheck(email);
+		return result;
+	}
+	
 	public MemberDTO login(Map<String,String> param) throws Exception {
 		MemberDTO mdto = mdao.login(param);
 		return mdto;
 	}
     
-    //ȸ������ �޼ҵ�, Map�� dto�� ���� �ѱ�
+
+	
     public void join(Map<String, Object>map,MemberDTO dto) {
     	mdao.join(map,dto);
  
     }
  
-    //�α��� ���� �޼ҵ� (���ǿ� ���̵�� ��й�ȣ�� ����)
     public boolean loginCheck(MemberDTO dto, HttpSession session) {
         
         boolean result = mdao.loginCheck(dto);
@@ -68,14 +73,14 @@ public class MemberService {
         return result;
     }
  
-    //���̵� ã��
+
     public String find_idCheck(MemberDTO dto) {
         String id = mdao.find_idCheck(dto);
         
         return id;
     }
  
-    //��й�ȣ ã��
+
     public String find_passCheck(MemberDTO dto) {
         String pass = mdao.find_passCheck(dto);
         return pass;
@@ -83,7 +88,6 @@ public class MemberService {
  
  
     public void authentication(MemberDTO dto) {
-        
     	mdao.authentication(dto);
     }
  
