@@ -56,37 +56,82 @@
 
 		}
 		
-		$(".dir").on("click", function(e){
-			
+		$(document).on("click", ".dir", function(e){
 			var id = this.id;
+			console.log(id);
 			var left = $("#" + id).offset().left;
 			var top = $("#" + id).offset().top + 30;
-			    
-			    //Display contextmenu:
-			    $(".contextmenu").css({
-			      "left": left,
-			      "top": top
-			    }).show();
+			   
+			//Display contextmenu:
+				$(".add_dir").css({
+				  "left": left,
+				  "top": top
+				});
 			
-				$(".add_dir").attr("id", id);
-			    //Prevent browser default contextmenu.
-			    return false;
-			  
-			  
+			$(".contextmenu").css({
+			  "left": left,
+			  "top": top
+			}).show();
+			
+			$(".menu_dir").attr("id", id);
+
+			//Prevent browser default contextmenu.
+			return false;
 		})
+		
 		
 		//Hide contextmenu:
 		  $(document).click(function(){
 		    $(".contextmenu").hide();
 		  });
 		
-		$(".add_dir").on("click", function(){
-			console.log(this.id);
+		$(".menu_dir").on("click", function(){
+			
+			var id = this.id;
+			var left = $("#" + id).offset().left;
+			var top = $("#" + id).offset().top + 30;
+			
+			$(".add_dir").css({
+				  "left": left,
+				  "top": top
+				}).show();
+			
+			$(".contextmenu").hide();
 		})
 		
+		// 새 디렉토리 추가
+		$("#ok").on("click", function(){
+			
+			var id = $(".menu_dir").attr("id").substring(3);
+			var name = $("#dir_name").val();
+			var data = {
+					parent_seq: id,
+					name: name,
+			};
+			
+			$.ajax({
+				url: "addDirectory",
+				type: "POST",
+				data: data,
+				success: function(data){
+					$("#dir" + id).append(
+							"<ul><li class='dir' id='dir44'>"
+							+ name + "</li></ul>");
+				}
+			});
+			$(".add_dir").hide();
+			$("#dir_name").val("");
+
+		})
+		
+		// 새 디렉토리 추가 취소
+		$("#cancel").on("click", function(){
+			$(".add_dir").hide();
+
+		})
+		
+		
 	})
-	
-	
 	
 </script>
 <link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
@@ -103,9 +148,15 @@
 
 			<!-- 여기부터 각자 영역 설정 -->
 			<ul class="contextmenu">
-				<li class="add_dir"><a href="#">하위 디렉토리 추가</a></li>
-				<li><a href="#">파일 업로드</a></li>
+				<li class="menu_dir"><a href="#">하위 디렉토리 추가</a></li>
+				<li class="menu_file"><a href="#">파일 업로드</a></li>
 			</ul>
+			
+			<div class="add_dir">
+				<input type="text" id="dir_name" placeholder="새 디렉토리 이름">
+				<input type="button" id="ok" value="OK">
+				<input type="button" id="cancel" value="취소">
+			</div>
 
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>

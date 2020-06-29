@@ -22,6 +22,10 @@ public class FileService {
 	@Autowired
 	private FileDAO fdao;
 	
+	public String getDirPath(int seq) {
+		return fdao.getDirPath(seq);
+	}
+	
 	// DB에서 디렉토리 리스트 가져오기
 	public List<DirectoryDTO> getDirList(){
 		

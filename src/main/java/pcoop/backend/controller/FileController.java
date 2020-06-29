@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -78,8 +79,13 @@ public class FileController {
 		return "backup/fileList";
 	}
 	
-	public String addDirectory() {
-		return "";
+	@RequestMapping("addDirectory")
+	@ResponseBody
+	public int addDirectory(int parent_seq, String name) {
+		
+		System.out.println(parent_seq + " " + name);
+		
+		return 44;
 	}
 
 }

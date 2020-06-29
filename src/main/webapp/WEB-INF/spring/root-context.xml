@@ -9,7 +9,7 @@
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:xe" />
+			value="jdbc:oracle:thin:@localhost:49160:xe" />
 			
 		<!--  왜 포트번호가 1521 -->
 		<property name="username" value="colla" />
