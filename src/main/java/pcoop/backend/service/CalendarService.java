@@ -14,8 +14,8 @@ public class CalendarService {
 	@Autowired
 	private CalendarDAO Cdao;
 	
-	public List<CalendarDTO> selectAll () throws Exception{
-		return Cdao.selectAll();
+	public List<CalendarDTO> selectAll (int project_seq) throws Exception{
+		return Cdao.selectAll(project_seq);
 	}
 	
 	public int select_seq()throws Exception{

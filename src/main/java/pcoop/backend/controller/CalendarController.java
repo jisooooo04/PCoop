@@ -22,9 +22,10 @@ public class CalendarController {
 	private CalendarService Cservice;
 	
 	@RequestMapping("calendar")
-	public String Calendar(Model model)throws Exception {
+	public String Calendar(Model model,int project_seq)throws Exception {
+		
 		List<CalendarDTO> list = new ArrayList<>();
-		list = Cservice.selectAll();
+		list = Cservice.selectAll(project_seq);
 		model.addAttribute("list", list);
 		return "calendar/calendar";
 	}
@@ -32,7 +33,7 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping("addEvent")
 	public String addEvent(CalendarDTO dto) throws Exception {
-		int seq = Cservice.select_seq();
+		int seq = Cservice.select_seq();//fullcalendar와 내 db에 동시에 저장하기 위해
 		dto.setSeq(seq);
 		String Sseq = Integer.toString(seq);
 		int result = Cservice.addEvent(dto);
@@ -44,7 +45,7 @@ public class CalendarController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("selectEvent")
+	@RequestMapping(value="selectEvent",produces="application/gson;charset=utf8")
 	public String selectEvent (String seq)throws Exception{
 		CalendarDTO result = Cservice.selectEvent(Integer.parseInt(seq));
 		String resp = new Gson().toJson(result);

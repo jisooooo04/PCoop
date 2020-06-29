@@ -14,8 +14,8 @@ public class CalendarDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public List<CalendarDTO> selectAll() throws Exception{
-		return mybatis.selectList("selectAll");
+	public List<CalendarDTO> selectAll(int project_seq) throws Exception{
+		return mybatis.selectList("calendar.selectAll",project_seq);
 	}
 	
 	public int select_seq() {
@@ -30,5 +30,6 @@ public class CalendarDAO {
 	public CalendarDTO selectEvent (int seq){
 		return mybatis.selectOne("calendar.selectEvent",seq);
 	}
+	
 	
 }

@@ -3,7 +3,7 @@
 <mapper namespace="calendar">
 	 
 	 <insert id ="insert">
-		insert into calendar values(${seq},0,#{title},#{contents},#{writer},#{start_date},#{end_date},#{color})
+		insert into calendar values(${seq},${project_seq},#{title},#{contents},#{writer},#{start_date},#{end_date},#{color})
 	</insert> 
 	
 	<select id="select_seq" resultType="int">
@@ -15,7 +15,8 @@
 	</select>
 	
 	<select id="selectAll" resultType="pcoop.backend.dto.CalendarDTO">
-		select * from calendar
+		select * from calendar where project_seq=${value}
 	</select>
+	
 	
 </mapper>

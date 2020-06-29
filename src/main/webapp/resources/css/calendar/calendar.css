@@ -1,3 +1,6 @@
+
+
+
 /*modal style*/
  #modal_date_end{
 margin: 2px;
@@ -55,53 +58,126 @@ margin: 2px;
 }
 
 /* 일정 조회 modal-color 선택 css */
-.selectcustom-radios div {
-      display: flex;
-	 display: inline-block;
-}
- .selectcustom-radios input[type="radio"] {
-	 display: none;
-}
- .selectcustom-radios input[type="radio"] + label {
-	 color: #333;
-	 font-family: Arial, sans-serif;
-	 font-size: 14px;
-}
- .selectcustom-radios input[type="radio"] + label span {
-	 display: inline-block;
-	 width: 40px;
-	 height: 40px;
-	 margin: -1px 4px 0 0;
-	 vertical-align: middle;
-	 cursor: pointer;
-	 border-radius: 50%;
-	 border: 2px solid #fff;
-	 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-	 background-repeat: no-repeat;
-	 background-position: center;
-	 text-align: center;
-	 line-height: 44px;
-}
- .selectcustom-radios input[type="radio"] + label span img {
-	 opacity: 0;
-	 transition: all 0.3s ease;
-}
- .selectcustom-radios input[type="radio"]#selectcolor-1 + label span {
-	 background-color: #2ecc71;
-}
- .selectcustom-radios input[type="radio"]#selectcolor-2 + label span {
-	 background-color: #3498db;
-}
- .selectcustom-radios input[type="radio"]#selectcolor-3 + label span {
-	 background-color: #f1c40f;
-}
- .selectcustom-radios input[type="radio"]#selectcolor-4 + label span {
-	 background-color: #e74c3c;
-}
- .selectcustom-radios input[type="radio"]:checked + label span img {
-	 opacity: 1;
+h3{
+	 font-size: 18px;
+	 margin-bottom: 15px;
 }
 
+ .button-close {
+ 	 border: none;
+	 background-color: #afb8c9;
+	 padding: 17px 55px 17px 55px;
+	 font-size: 15px;
+	 font-family: 'Nunito', sans-serif;
+	 color: #fff;
+	 box-shadow: 0 10px 25px #3c4a56 45;
+	 outline: none;
+	 padding: 10px;
+	 align-self: flex-end;
+	 background-color: transparent;
+	 box-shadow: none;
+	 color: #838282;
+}
+#selectmodify{
+	 border: none;
+	 background-color: #afb8c9;
+	 padding: 17px 55px 17px 55px;
+	 font-size: 15px;
+	 font-family: 'Nunito', sans-serif;
+	 color: #fff;
+	 box-shadow: 0 10px 25px #3c4a56 45;
+	 outline: none;
+	 padding: 10px;
+	 align-self: flex-end;
+	 background-color: transparent;
+	 box-shadow: none;
+	 color: #838282;
+}
+ dialog {
+     font-family: 'Nunito', sans-serif;
+	 padding: 0;
+	 border: none;
+	 border-radius: 6px;
+	 animation: appear 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+	 box-shadow: 0 25px 40px -20px #3c4a56;
+}
+ .dialog__animate-out {
+	 animation: dissappear 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+ .dialog__inner {
+	 display: flex;
+	 flex-direction: column;
+	 color: #838282;
+}
+.dialog__inner>div:nth-child(1){
+            margin-left: 300px;
+}
+.dialog__inner>div:nth-child(1):hover{
+    cursor: pointer;
+}
+ .dialog__close-btn {
+	 align-self: flex-end;
+}
+ .dialog__content {
+	 padding: 0 55px 55px 55px;
+}
+.dialog__content>div{
+            padding-top: 8px;
+}
+.dialog__content>div:nth-child(2)>div{
+            float:left;
+}      
+ .fa-clock{
+            float: left;
+}
+.fa-bars{
+            float: left;
+}
+.dialog__content>div:nth-child(4){
+            margin-left: 80px;
+}
+
+.dialog__content i{
+padding-right: 10px;
+}
+ .dialog__footer {
+     padding: 20px 55px 0 20px;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+}
+ @keyframes appear {
+	 from {
+		 opacity: 0;
+		 transform: translateY(20px);
+	}
+	 to {
+		 opacity: 1;
+		 transform: translateY(0);
+	}
+}
+ @keyframes dissappear {
+	 from {
+		 opacity: 1;
+		 transform: translateY(0);
+	}
+	 to {
+		 opacity: 0;
+		 transform: translateY(20px);
+	}
+}
+        
+        div>h4{
+            padding-left: 35px;
+        }
+        #title-color{
+            width: 20px;
+            height: 20px;
+            background-color: green;
+            border-radius: 50%;
+            float: left;
+            margin-top: 5px;;
+        }
          
 /* classes attached to <body> */
 
