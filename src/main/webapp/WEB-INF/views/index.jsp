@@ -10,57 +10,25 @@
 -->
 <html>
 
-	<head>
-		<title>PCOOP!</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="resources/css/main.css?after" />
-		<script src="https://kit.fontawesome.com/8f6ea3bf70.js" crossorigin="anonymous"></script>
-	</head>
-	<style>
-      #logo{
-        color: #58C9B9;
-      }
-      #banner{
-      	background-image: url(resources/images/index/banner2.jpg);
-      }
-  </style>
-	<body>
-
-		<!-- Header -->
-			<header id="header">
-				<div class="inner">
-					<a href="index.html" class="logo"><span id="logo">P</span>COOP!</a>
-					<nav id="nav">
-						<!--<a href="generic.html">Generic</a>
-						<a href="elements.html">Elements</a> -->
-						<a href="#">협업 구하기</a>
-						<a href="#">참여 중 프로젝트</a>
-						<a href="#">프로젝트 소개</a>
-						<a href="fileList">백업</a>
-						<a href="calendar">캘린더</a>
-						<a href="chatting">채팅</a>
-					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-				</div>
-
 <head>
 <title>PCOOP!</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="resources/css/main.css" />
+<link rel="stylesheet" href="resources/css/main.css?after" />
 <script src="https://kit.fontawesome.com/8f6ea3bf70.js"
 	crossorigin="anonymous"></script>
 </head>
+
 <style>
 #logo {
 	color: #58C9B9;
 }
-
 #banner {
 	background-image: url(resources/images/index/banner2.jpg);
 }
 </style>
+
+
 <body>
 
 	<!-- Header -->
@@ -69,9 +37,13 @@
 			<a href="index.html" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
 				<!--<a href="generic.html">Generic</a>
-						<a href="elements.html">Elements</a> -->
-				<a href="#">협업 구하기</a> <a href="#">참여 중 프로젝트</a> <a href="#">프로젝트
-					소개</a> <a href="fileList">백업</a> <a href="calendar">캘린더</a>
+				<a href="elements.html">Elements</a> -->
+				<a href="#">협업 구하기</a> 
+				<a href="#">참여 중 프로젝트</a> 
+				<a href="#">프로젝트 소개</a> 
+				<a href="fileList">백업</a> 
+				<a href="calendar">캘린더</a>
+				<a href="chatting">채팅</a>
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
 				class="fa fa-bars"></span></a>
@@ -118,16 +90,16 @@
 
 			<footer>
 
-										<c:choose>
-							<c:when test="${empty loginInfo}">
-								<a href="member/email.do" class="button">Get Started</a>
-							</c:when>
+				<c:choose>
+					<c:when test="${empty loginInfo}">
+						<a href="member/email.do" class="button">Get Started</a>
+					</c:when>
 
-							<c:when test="${not empty loginInfo}">
-								<a href="member/logout" class="button">Logout</a>
+					<c:when test="${not empty loginInfo}">
+						<a href="member/logout" class="button">Logout</a>
 
-							</c:when>
-						</c:choose>
+					</c:when>
+				</c:choose>
 			</footer>
 		</div>
 	</section>
