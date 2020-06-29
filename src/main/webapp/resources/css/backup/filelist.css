@@ -1,11 +1,12 @@
 @charset "UTF-8";
 
 .dir {
-	color: blue;
+	color: black;
+	cursor: pointer;
 }
 
 .file {
-	color: red;
+	color: black;
 }
 
 /* 우 클릭 시, 메뉴 보이기 */
@@ -46,3 +47,4 @@
 .contextmenu li:hover a {
   color: #FFFFFF;
 }
+

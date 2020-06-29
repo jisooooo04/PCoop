@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <jsp:include page="../header/cdn.jsp"></jsp:include>
-<link rel="stylesheet" href="resources/css/backup/filelist.css" />
+<link href="${pageContext.request.contextPath}/resources/css/backup/filelist.css?ver" rel="stylesheet" >
 
 <script>
 	$(function() {
@@ -21,15 +21,15 @@
 
 		for (var i = 0; i < dirlist.length; i++) {
 
-			console.log(dirlist[i].path);
 			var patharr = dirlist[i].path.split('/');
 			var parent = "#root";
-
+			console.log(dirlist[i].seq);
+			
 			for (var j = 2; j < patharr.length; j++) {
 
 				if (j == patharr.length - 1)
 					$(parent).append(
-							"<ul id=" + patharr[j] + "><li class='dir'>"
+							"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'>"
 									+ patharr[j] + "</li></ul>");
 				else
 					parent = "#" + patharr[j];
@@ -43,12 +43,11 @@
 
 		for (var i = 0; i < filelist.length; i++) {
 
-			console.log(filelist[i].path);
 			var patharr = filelist[i].path.split('/');
 			var parent = "#root";
 
 			for (var j = 2; j < patharr.length; j++) {
-				console.log(parent);
+
 				if (j == patharr.length - 1)
 					$(parent)
 							.append(
@@ -60,7 +59,33 @@
 			}
 
 		}
+		
+		$(".dir").on("click", function(e){
+			
+			var id = this.id;
+			var left = $("#" + id).offset().left;
+			var top = $("#" + id).offset().top + 30;
+			console.log(left);
+			    
+			    //Display contextmenu:
+			    $(".contextmenu").css({
+			      "left": left,
+			      "top": top
+			    }).show();
+			    //Prevent browser default contextmenu.
+			    return false;
+			  
+			  
+		})
+		
+		//Hide contextmenu:
+		  $(document).click(function(){
+		    $(".contextmenu").hide();
+		  });
+		
 	})
+	
+	
 </script>
 </head>
 <body>
@@ -71,13 +96,11 @@
 	<section>
 
 		<div id="container">
+		
 			<!-- 여기부터 각자 영역 설정 -->
 			<ul class="contextmenu">
 				<li><a href="#">하위 디렉토리 추가</a></li>
-				<li><a href="#">Link to somewhere</a></li>
-				<li><a href="#">Another link</a></li>
-				<li><a href="#">Link to nowhere</a></li>
-				<li><a href="#">Random link</a></li>
+				<li><a href="#">파일 업로드</a></li>
 			</ul>
 
 			<!-- 여기까지 각자 영역 설정 -->
