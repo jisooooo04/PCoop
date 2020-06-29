@@ -11,7 +11,7 @@
 	<!-- Header -->
 	<jsp:include page="header/header.jsp"></jsp:include>
 	<!-- 왼쪽 사이드바 -->
-	<jsp:include page="header/sidebar-left.jsp"></jsp:include>
+	<jsp:include page="header/left-sidebar.jsp"></jsp:include>
 
 	<section>
 
