@@ -15,7 +15,7 @@
 <title>PCOOP!</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="resources/css/main.css?after" />
+<link rel="stylesheet" href="resources/css/main/main.css?after" />
 <script src="https://kit.fontawesome.com/8f6ea3bf70.js"
 	crossorigin="anonymous"></script>
 </head>
