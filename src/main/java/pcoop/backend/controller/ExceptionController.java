@@ -9,6 +9,7 @@ public class ExceptionController {
 	@ExceptionHandler
 	public String exceptinHandler(Exception e) {
 		System.out.println("Exception handler: 예외 발생 ");
+		e.printStackTrace();
 		return "error";
 	}
 	
