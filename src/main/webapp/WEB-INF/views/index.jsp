@@ -36,6 +36,7 @@
 						<a href="#">프로젝트 소개</a>
 						<a href="fileList">백업</a>
 						<a href="calendar">캘린더</a>
+						<a href="chatting">채팅</a>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
