@@ -1,3 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.calendar-mapper"></mapper>
+<mapper namespace="calendar">
+	 
+	 <insert id ="insert">
+		insert into calendar values(${seq},${project_seq},#{title},#{contents},#{writer},#{start_date},#{end_date},#{color})
+	</insert> 
+	
+	<select id="select_seq" resultType="int">
+		select calendar_seq.nextval from dual
+	</select>
+	
+	<select id="selectEvent" resultType="pcoop.backend.dto.CalendarDTO">
+		select * from calendar where seq=${value}
+	</select>
+	
+	<select id="selectAll" resultType="pcoop.backend.dto.CalendarDTO">
+		select * from calendar where project_seq=${value}
+	</select>
+	
+	
+</mapper>
