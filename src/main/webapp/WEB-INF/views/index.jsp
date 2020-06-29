@@ -81,7 +81,17 @@
 			</div>
 
 			<footer>
-				<a href="#" class="button">Get Started</a>
+
+										<c:choose>
+							<c:when test="${empty loginInfo}">
+								<a href="member/email.do" class="button">Get Started</a>
+							</c:when>
+
+							<c:when test="${not empty loginInfo}">
+								<a href="member/logout" class="button">Logout</a>
+
+							</c:when>
+						</c:choose>
 			</footer>
 		</div>
 	</section>
@@ -124,16 +134,7 @@
 						ellenste egestagus commodo.
 					</p>
 					<footer>
-						<c:choose>
-							<c:when test="${empty loginInfo}">
-								<a href="member/email.do" class="button">임시이메일인증</a>
-							</c:when>
-
-							<c:when test="${not empty loginInfo}">
-								<a href="member/logout" class="button">로그아웃</a>
-
-							</c:when>
-						</c:choose>
+						<a href="#" class="button">Learn More</a>
 					</footer>
 				</article>
 			</div>
