@@ -7,7 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <jsp:include page="../header/cdn.jsp"></jsp:include>
-<link href="${pageContext.request.contextPath}/resources/css/backup/filelist.css?ver" rel="stylesheet" >
+<link
+	href="${pageContext.request.contextPath}/resources/css/backup/filelist.css"
+	rel="stylesheet">
 
 <script>
 	$(function() {
@@ -17,13 +19,10 @@
 		// 디렉토리 가지고 오기
 		var dirlist = ${dirlist};
 		
-		console.log(dirlist.length);
-
 		for (var i = 0; i < dirlist.length; i++) {
 
 			var patharr = dirlist[i].path.split('/');
 			var parent = "#root";
-			console.log(dirlist[i].seq);
 			
 			for (var j = 2; j < patharr.length; j++) {
 
@@ -65,13 +64,14 @@
 			var id = this.id;
 			var left = $("#" + id).offset().left;
 			var top = $("#" + id).offset().top + 30;
-			console.log(left);
 			    
 			    //Display contextmenu:
 			    $(".contextmenu").css({
 			      "left": left,
 			      "top": top
 			    }).show();
+			
+				$(".add_dir").attr("id", id);
 			    //Prevent browser default contextmenu.
 			    return false;
 			  
@@ -83,7 +83,12 @@
 		    $(".contextmenu").hide();
 		  });
 		
+		$(".add_dir").on("click", function(){
+			console.log(this.id);
+		})
+		
 	})
+	
 	
 	
 </script>
@@ -96,10 +101,10 @@
 	<section>
 
 		<div id="container">
-		
+
 			<!-- 여기부터 각자 영역 설정 -->
 			<ul class="contextmenu">
-				<li><a href="#">하위 디렉토리 추가</a></li>
+				<li class="add_dir"><a href="#">하위 디렉토리 추가</a></li>
 				<li><a href="#">파일 업로드</a></li>
 			</ul>
 
