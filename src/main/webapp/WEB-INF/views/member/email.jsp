@@ -17,30 +17,55 @@
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+<link rel="stylesheet" href="../../resources/css/member/login.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 
 
 
 
-	<span style="color: green; font-weight: bold;">입력한 이메일로 받은 인증번호를
-		입력하세요. (인증번호가 맞아야 다음 단계로 넘어가실 수 있습니다.)</span>
-	<br>
-	<br>
-	<br>
-	<br>
 
 
 
-	<form action=auth method="post">
-		<div>
-			이메일 : <input type="email" name="e_mail"
-				placeholder="  이메일주소를 입력하세요. ">
+
+
+	<div class="container" id="container">
+		<div class="form-container log-in-container">
+			<form action="login">
+				<h1>로그인</h1>
+				<br> <br> <input type="email" name="email"
+					placeholder="Email" class="in" /> <input type="password" name="pw"
+					placeholder="Password" class="in" /> <br> <br>
+				<div class="id">
+					<input type="checkbox" class="checkbox"> <span>
+						email 기억하기(미구현)</span>
+				</div>
+				<br>
+				<button type="submit">LogIn</button>
+				<br>
+				<button type="button">signUP</button>
+			</form>
 		</div>
-		<br> <br>
-		<button type="submit" name="submit">이메일 인증받기 (이메일 보내기)</button>
-	</form>
-
+		
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-right">
+					<form action=auth method="post">
+					<h1 style="color:black">가입하기</h1>
+						<br><br><br><br>
+						<input type="email" name="e_mail"
+							placeholder="이메일주소를 입력하세요." class="in">
+						<br><br><br><br><br>
+						<button type="submit" name="submit">이메일 인증받기</button>
+						<br>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 </body>

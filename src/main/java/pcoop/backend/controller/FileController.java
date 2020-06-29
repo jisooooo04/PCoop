@@ -77,5 +77,9 @@ public class FileController {
 		model.addAttribute("filelist", new Gson().toJson(fileArr));
 		return "backup/fileList";
 	}
+	
+	public String addDirectory() {
+		return "";
+	}
 
 }
