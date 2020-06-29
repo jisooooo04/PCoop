@@ -10,6 +10,7 @@
 -->
 <html>
 
+
 <head>
 <title>PCOOP!</title>
 <meta charset="utf-8" />
@@ -42,7 +43,7 @@
 				<a href="#">참여 중 프로젝트</a> 
 				<a href="#">프로젝트 소개</a> 
 				<a href="fileList">백업</a> 
-				<a href="calendar">캘린더</a>
+				<a href="calendar?project_seq=0">캘린더</a>
 				<a href="chatting">채팅</a>
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span

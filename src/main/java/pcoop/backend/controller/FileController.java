@@ -1,5 +1,6 @@
 package pcoop.backend.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -78,8 +80,18 @@ public class FileController {
 		return "backup/fileList";
 	}
 	
-	public String addDirectory() {
-		return "";
+	@RequestMapping("addDirectory")
+	@ResponseBody
+	public int addDirectory(int parent_seq, String name) {
+		
+		// 드라이브에 디렉토리 생성
+		String path = fservice.makeDirToDrive(parent_seq, name);
+		// DB에 디렉토리 insert
+		fservice.insertDirectory(path, name);
+		// 새로 생성된 디렉토리 seq 얻기
+		int seq = fservice.getDirSeqByName(name);
+		
+		return seq;
 	}
 
 }

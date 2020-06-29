@@ -25,6 +25,8 @@
 
 	<dependencies>
 
+
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -45,7 +47,7 @@
 		</dependency>
 
 		<!-- 라이브러리 추가 -->
-		
+
 		<!-- 메일 전송 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>
@@ -146,6 +148,13 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
+		</dependency>
+
+		<!-- 한글 경로 파싱 문제 해결  -->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.9.1</version>
 		</dependency>
 
 		<!-- Logging -->

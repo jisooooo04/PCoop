@@ -17,15 +17,37 @@ public class FileDAO {
 
 	@Autowired
 	private JdbcTemplate jdbc;
+	
+	// 이름으로 디렉토리 seq 검색
+	public int getDirSeqByName(String name) {
+		String sql = "select seq from directory where name = ?";
+		return jdbc.queryForObject(sql, new Object[] {name}, Integer.class);
+	}
+
+	// seq로 디렉토리 경로 검색
+	public String getDirPathBySeq(int seq) {
+
+		String sql = "select path from directory where seq = ?";
+
+		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+	}
+	
+	// 디렉토리 insert
+	public int insertDirectory(String path, String name) {
+		
+		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, 'N')";
+		
+		return jdbc.update(sql, 11, name, path);
+	}
 
 	// 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(){
 
-		String sql = "select * from directory where root_yn = 'N'";
+		String sql = "select * from directory where root_yn = 'N' order by 1";
 		return jdbc.query(sql, new RowMapper<DirectoryDTO>() {
 			@Override
 			public DirectoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				
+
 				DirectoryDTO dto = new DirectoryDTO();
 				dto.setSeq(rs.getInt("seq"));
 				dto.setProject_seq(rs.getInt("project_seq"));
@@ -34,23 +56,23 @@ public class FileDAO {
 				dto.setRoot_yn(rs.getString("root_yn"));
 
 				return dto;
-				
+
 			}
 		});
 
 	}
-	
+
 	// 파일 리스트
 	public List<FileDTO> getFileList(){
-		
+
 		String sql = "select * from files";
-		
+
 		return jdbc.query(sql, new RowMapper<FileDTO>() {
 			@Override
 			public FileDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				
+
 				FileDTO dto = new FileDTO();
-				
+
 				dto.setSeq(rs.getInt("seq"));
 				dto.setProject_seq(rs.getInt("project_seq"));
 				dto.setDirectory_path(rs.getString("directory_path"));
@@ -58,11 +80,13 @@ public class FileDAO {
 				dto.setPath(rs.getString("path"));
 				dto.setUpload_date(rs.getTimestamp("upload_date"));
 				dto.setUploader(rs.getString("uploader"));
-				
+
 				return dto;
 			}
 		});
-		
+
 	}
+
+
 
 }
