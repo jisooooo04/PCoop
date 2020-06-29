@@ -42,8 +42,8 @@
 	<!-- 헤더 -->
 	<header>
 		<!-- 로고 -->
-		<div class="logo">
-			<a href="../"><b>P</b>COOP!</a>
+		<div class="logo" OnClick="location.href ='../'">
+			<b>P</b>COOP!
 		</div>
 
 		<!-- 메뉴 -->
