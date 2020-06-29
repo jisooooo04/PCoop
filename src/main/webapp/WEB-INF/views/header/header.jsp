@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Document</title>
-<link rel="stylesheet" href="resources/css/header.css" />
-<link rel="stylesheet" href="resources/css/sidebar-left.css" />
+<link rel="stylesheet" href="resources/css/header.css?after" />
+<link rel="stylesheet" href="resources/css/sidebar-left.css?after" />
 
 <script>
             $(function(){
@@ -42,8 +42,8 @@
 	<!-- 헤더 -->
 	<header>
 		<!-- 로고 -->
-		<div class="logo">
-			<a href="../"><b>P</b>COOP!</a>
+		<div class="logo" OnClick="location.href ='../'">
+			<b>P</b>COOP!
 		</div>
 
 		<!-- 메뉴 -->
