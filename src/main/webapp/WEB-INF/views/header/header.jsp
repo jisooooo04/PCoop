@@ -5,9 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Document</title>
-<link rel="stylesheet" href="resources/css/header.css?after" />
-<link rel="stylesheet" href="resources/css/sidebar-left.css?after" />
-
+<link rel="stylesheet" href="resources/css/main/header.css?after" />
+<link rel="stylesheet" href="resources/css/main/sidebar-left.css?after" />
 <script>
             $(function(){
             	

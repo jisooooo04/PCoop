@@ -25,8 +25,8 @@
 
 				if (j == patharr.length - 1)
 					$(parent).append(
-							"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'>"
-									+ patharr[j] + "</li></ul>");
+							"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'><b>"
+									+ patharr[j] + "</b></li></ul>");
 				else
 					parent = "#" + patharr[j];
 
