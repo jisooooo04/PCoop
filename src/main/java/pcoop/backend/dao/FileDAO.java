@@ -17,19 +17,33 @@ public class FileDAO {
 
 	@Autowired
 	private JdbcTemplate jdbc;
+	
+	// 이름으로 디렉토리 seq 검색
+	public int getDirSeqByName(String name) {
+		String sql = "select seq from directory where name = ?";
+		return jdbc.queryForObject(sql, new Object[] {name}, Integer.class);
+	}
 
-	// 디렉토리 경로 구하기
-	public String getDirPath(int seq) {
+	// seq로 디렉토리 경로 검색
+	public String getDirPathBySeq(int seq) {
 
 		String sql = "select path from directory where seq = ?";
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
 	}
+	
+	// 디렉토리 insert
+	public int insertDirectory(String path, String name) {
+		
+		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, 'N')";
+		
+		return jdbc.update(sql, 11, name, path);
+	}
 
 	// 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(){
 
-		String sql = "select * from directory where root_yn = 'N'";
+		String sql = "select * from directory where root_yn = 'N' order by 1";
 		return jdbc.query(sql, new RowMapper<DirectoryDTO>() {
 			@Override
 			public DirectoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -102,10 +102,10 @@
 		// 새 디렉토리 추가
 		$("#ok").on("click", function(){
 			
-			var id = $(".menu_dir").attr("id").substring(3);
+			var parent_seq = $(".menu_dir").attr("id").substring(3);
 			var name = $("#dir_name").val();
 			var data = {
-					parent_seq: id,
+					parent_seq: parent_seq,
 					name: name,
 			};
 			
@@ -114,8 +114,8 @@
 				type: "POST",
 				data: data,
 				success: function(data){
-					$("#dir" + id).append(
-							"<ul><li class='dir' id='dir44'>"
+					$("#dir" + parent_seq).append(
+							"<ul><li class='dir' id='dir" + data + "'>"
 							+ name + "</li></ul>");
 				}
 			});

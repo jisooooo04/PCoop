@@ -22,18 +22,41 @@ public class FileService {
 	@Autowired
 	private FileDAO fdao;
 	
-	public String getDirPath(int seq) {
-		return fdao.getDirPath(seq);
+	// 드라이브에 디렉토리 생성 후, path 리턴
+	public String makeDirToDrive(int parent_seq, String name) {
+		
+		String rootDir = session.getServletContext().getRealPath("upload/backup");
+		String path = rootDir + fdao.getDirPathBySeq(parent_seq) + "/" + name;
+		File dir = new File(path);
+		System.out.println(path);
+
+		dir.mkdirs(); //폴더 생성합니다.
+		path = path.substring(rootDir.length());
+		
+		return path;
 	}
 	
-	// DB에서 디렉토리 리스트 가져오기
+	// DB에 디렉토리 insert 후, 디렉토리 seq 리턴
+	public int insertDirectory(String path, String name) {
+		return fdao.insertDirectory(path, name);
+	}
+	
+	// 이름으로 디렉토리 seq 검색
+	public int getDirSeqByName(String name) {
+		return fdao.getDirSeqByName(name);
+	}
+	
+	// seq로 디렉토리 경로 검색
+	public String getDirPathBySeq(int seq) {
+		return fdao.getDirPathBySeq(seq);
+	}
+	
+	// 디렉토리 리스트 가져오기
 	public List<DirectoryDTO> getDirList(){
-		
 		return fdao.getDirList();
-		
 	}
 	
-	// DB에서 파일 리스트 가져오기
+	// 파일 리스트 가져오기
 	public List<FileDTO> getFileList(){
 		return fdao.getFileList();
 	}

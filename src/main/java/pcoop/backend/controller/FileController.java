@@ -1,5 +1,6 @@
 package pcoop.backend.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -83,9 +84,14 @@ public class FileController {
 	@ResponseBody
 	public int addDirectory(int parent_seq, String name) {
 		
-		System.out.println(parent_seq + " " + name);
+		// 드라이브에 디렉토리 생성
+		String path = fservice.makeDirToDrive(parent_seq, name);
+		// DB에 디렉토리 insert
+		fservice.insertDirectory(path, name);
+		// 새로 생성된 디렉토리 seq 얻기
+		int seq = fservice.getDirSeqByName(name);
 		
-		return 44;
+		return seq;
 	}
 
 }
