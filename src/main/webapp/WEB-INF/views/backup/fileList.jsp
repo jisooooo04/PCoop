@@ -7,9 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <jsp:include page="../header/cdn.jsp"></jsp:include>
-<link
-	href="${pageContext.request.contextPath}/resources/css/backup/filelist.css"
-	rel="stylesheet">
 
 <script>
 	$(function() {
@@ -92,6 +89,8 @@
 	
 	
 </script>
+<link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
+
 </head>
 <body>
 	<jsp:include page="../header/header.jsp"></jsp:include>
