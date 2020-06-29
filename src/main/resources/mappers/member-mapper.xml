@@ -3,7 +3,7 @@
 <mapper namespace="Member">
 
 	<insert id="insert">  
-		insert into member values(member_seq.nextval,#{email},#{pw},#{name})
+		insert into member (seq, email, pw, name ) values (member_seq.nextval, #{email}, #{pw}, #{name})
 	</insert>
 
 	

@@ -32,7 +32,7 @@ ${tomail}
 				<h1>회원가입</h1>
 				<br><br>
 				
-				<input type="email" name="name" placeholder="이름"  class="in" />
+				<input type="text" name="name" placeholder="이름"  class="in" />
 				<input type="password" name="pw" placeholder="비밀번호" class="in" />
 				<input type="password" placeholder="비밀번호 확인(미구현)" class="in" />
 				<br><br>
