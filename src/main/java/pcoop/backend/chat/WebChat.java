@@ -1,7 +1,9 @@
 package pcoop.backend.chat;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +13,8 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-import javax.websocket.Session;
 import javax.websocket.RemoteEndpoint.Basic;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import pcoop.backend.statics.HttpSessionConfigurator;
@@ -65,6 +67,10 @@ public class WebChat {
 			         try {
 			            //basic.sendText(id + " : " + message);  //session.getId() 대신 이젠 세션정보로 id 출력
 			        	 basic.sendText(message);
+			        	 
+			        	 String date = this.CurrentTime();
+			        	 //basic.sendText(date);
+			        	 
 			         } catch (IOException e) {
 			        	 //상대방이 연결끊어서 메세지가 전송이 안되는 상황밖에 에러 날 이유가 없음. 따라서 print 굳이 안해줘도 됨.
 			            e.printStackTrace();
@@ -86,6 +92,23 @@ public class WebChat {
 	@OnError  //에러가 발생했을때 처리 (주로 접속이 끊겼을때?)
 	public void onError(Session session, Throwable t) {
 		clients.remove(session);
+	}
+	
+	
+	public String CurrentTime(){
+		
+		Date today = new Date();
+	    System.out.println(today);
+	        
+	    SimpleDateFormat date = new SimpleDateFormat("yyyy년 MM월 dd일");
+	    SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");
+	        
+	    System.out.println("Date: "+date.format(today));
+	    System.out.println("Time: "+time.format(today));
+	    
+	    String currentDate = date.format(today).toString();
+		
+		return currentDate;
 	}
 	
 }

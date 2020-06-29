@@ -89,7 +89,7 @@
 		<div id="container">
 			<!-- 여기부터 각자 영역 설정 -->
 			
-			<!-- 채팅 타이틀 -->
+				<!-- 채팅 타이틀 -->
                 <div class="chat_title_section">
                     <div class=chat_title>KH 파이널 5조</div>
                     <div class=chat_person_num>
@@ -114,19 +114,8 @@
                             <div class=chat>내용</div>
                         </div>
                     </div>
-                    
-                    <div class=chat_box>
-                        <div class=profile>
-                            <img src=resources/images/chatting/profile.png class=profile_img>
-                        </div>
-                        <div class=chat_box_in>
-                            <div class=name>이름</div>
-                            <div class=chat>내용</div>
-                        </div>
-                    </div>
-                    
-                    
                 </div>
+                
                 
                 <!-- 채팅 입력창 -->
                 <div class="chat_input_section">
