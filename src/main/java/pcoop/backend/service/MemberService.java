@@ -2,6 +2,7 @@ package pcoop.backend.service;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,10 @@ public class MemberService {
     private JavaMailSender mailSender;
     
     
-	public int signup(MemberDTO dto) throws Exception {
-		int result = mdao.signup(dto);
+	public int signup(Map<String, Object> map) throws Exception {
+
+		System.out.println("MemberServiceì˜ signup : "+map.get("name"));
+		int result = mdao.signup(map);
 		return result;
 	}
     
@@ -45,17 +48,17 @@ public class MemberService {
 		return mdto;
 	}
     
-    //È¸¿ø°¡ÀÔ ¸Ş¼Òµå, Map°ú dto¸¦ °°ÀÌ ³Ñ±è
+    //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼Òµï¿½, Mapï¿½ï¿½ dtoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½
     public void join(Map<String, Object>map,MemberDTO dto) {
     	mdao.join(map,dto);
  
     }
  
-    //·Î±×ÀÎ °ü·Ã ¸Ş¼Òµå (¼¼¼Ç¿¡ ¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£¸¦ ÀúÀå)
+    //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼Òµï¿½ (ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½Ğ¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     public boolean loginCheck(MemberDTO dto, HttpSession session) {
         
         boolean result = mdao.loginCheck(dto);
-        if(result) {    //·Î±×ÀÎ ¼º°ø
+        if(result) {    //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             session.setAttribute("email", dto.getEmail());
             session.setAttribute("pw", dto.getPw());
             System.out.println(session.getAttribute("email"));
@@ -65,14 +68,14 @@ public class MemberService {
         return result;
     }
  
-    //¾ÆÀÌµğ Ã£±â
+    //ï¿½ï¿½ï¿½Ìµï¿½ Ã£ï¿½ï¿½
     public String find_idCheck(MemberDTO dto) {
         String id = mdao.find_idCheck(dto);
         
         return id;
     }
  
-    //ºñ¹Ğ¹øÈ£ Ã£±â
+    //ï¿½ï¿½Ğ¹ï¿½È£ Ã£ï¿½ï¿½
     public String find_passCheck(MemberDTO dto) {
         String pass = mdao.find_passCheck(dto);
         return pass;
@@ -92,7 +95,7 @@ public class MemberService {
     }
  
  
-    //ÀÌ¸ŞÀÏ Áßº¹ È®ÀÎ
+    //ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½ È®ï¿½ï¿½
     public boolean email_check(String email) throws Exception{
         
         boolean result = mdao.email_check(email);
@@ -101,7 +104,7 @@ public class MemberService {
         
     }
  
-    //ÀÌ¸§ Áßº¹ È®ÀÎ join_id_check ´ë½Å join_name_check
+    //ï¿½Ì¸ï¿½ ï¿½ßºï¿½ È®ï¿½ï¿½ join_id_check ï¿½ï¿½ï¿½ join_name_check
     public boolean join_name_check(String name) throws Exception {
     
         boolean result = mdao.join_name_check(name);
@@ -110,7 +113,7 @@ public class MemberService {
     }
  
  
-    //ÀÚ½ÅÀÇ ÇÁ·ÎÇÊÀ» º¼ ¼ö ÀÖ°Ô ÇÏ´Â ¸Ş¼Òµå
+    //ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ï´ï¿½ ï¿½Ş¼Òµï¿½
     public List<MemberDTO> member_profile(String user_id) throws Exception{
         
         return mdao.member_profile(user_id);

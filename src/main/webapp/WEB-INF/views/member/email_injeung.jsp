@@ -15,37 +15,29 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<link rel="stylesheet" href="../../resources/css/member/sighup.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
-	<table border="1" width="300" height="300" align="center">
-		<center>
-			<span style="color: green; font-weight: bold;">입력한 이메일로 받은
-				인증번호를 입력하세요. (인증번호가 맞아야 다음 단계로 넘어가실 수 있습니다.)</span> <br> <br> <br>
-			<br>
+
+	<div class="container" id="container">
+		<div class="form-container log-in-container">
+			<form action="join_injeung.do${dice}" method="post">
+			<br><br>
+				<h1>입력한 이메일로 전송된 인증번호를 입력하세요</h1>
+				<br><br>
+				
+				<input type="text" name="email_injeung" placeholder="인증번호 입력"  class="in" />
+			<br><br>
+                <button type="submit" id="signup">인증번호 전송</button><br>
+                <button type="button">돌아가기</button><br>
+			</form>
+		</div>
+		
+	</div>
+	
 
 
-			<div style="text-align: center;">
-				<tr>
-					<td>
-						<center>
-							<form action="join_injeung.do${dice}" method="post">
-								//받아온 인증코드를 컨트롤러로 넘겨서 일치하는지 확인
-								<center>
-									<br>
-									<div>
-										인증번호 입력 : <input type="number" name="email_injeung"
-											placeholder="인증번호를 입력하세요. ">
-									</div>
-
-									<br> <br>
-									<button type="submit" name="submit">인증번호 전송</button>
-			</div>
-			</td>
-			</tr>
-		</center>
-	</table>
-	</form>
-	</center>
 </body>
 </html>

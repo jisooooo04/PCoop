@@ -22,49 +22,52 @@ public class MemberDAO {
 	@Inject
 	SqlSession sqlSession;
 	
-	// È¸¿ø°¡ÀÔ °ü·Ã ¸Ş¼Òµå
-	public int signup(MemberDTO dto) throws Exception{
-		return mybatis.insert("Member.insert",dto);
+
+	
+	// íšŒì›ê°€ì… ê´€ë ¨ ë©”ì†Œë“œ
+	public int signup(Map<String, Object> map) throws Exception{
+		System.out.println("MemberDAOì˜ signup : "+map.get("name")+map.get("pw")+map.get("email"));
+
+		return mybatis.insert("Member.insert",map);
 	}
 	public MemberDTO login(Map<String,String> param) throws Exception{
 		return mybatis.selectOne("Member.login",param);
 	}
 	
-	   // È¸¿ø°¡ÀÔ °ü·Ã ¸Ş¼Òµå (ÀÏ´Ü À¯Áö)
+	   // íšŒì›ê°€ì… ê´€ë ¨ ë©”ì†Œë“œ (ì¼ë‹¨ ìœ ì§€)
 		public void join(Map<String, Object>map, MemberDTO dto) {
-
 			map.get("user_id");
 			map.get("member_pass");
 			map.get("e_mail");
 			sqlSession.insert("member.insertUser",map);        
 		}
 
-	    //·Î±×ÀÎ°ü·Ã ¸Ş¼Òµå (¹Ì±¸Çö)
+	    //ë¡œê·¸ì¸ê´€ë ¨ ë©”ì†Œë“œ (ë¯¸êµ¬í˜„)
 	    public boolean loginCheck(MemberDTO dto) {
 	        String name
 	            =sqlSession.selectOne("member.login_check", dto);
 	        
-	        //Á¶°Ç½Ä ? trueÀÏ¶§ÀÇ °ª : falseÀÏ¶§ÀÇ °ª
+	        //ì¡°ê±´ì‹ ? trueì¼ë•Œì˜ ê°’ : falseì¼ë•Œì˜ ê°’
 	        return (name==null) ? false : true;
 	    }
 
 
-	    //¾ÆÀÌµğ Ã£±â °ü·Ã ¸Ş¼Òµå (¹Ì±¸Çö)
+	    //ì•„ì´ë”” ì°¾ê¸° ê´€ë ¨ ë©”ì†Œë“œ (ë¯¸êµ¬í˜„)
 	    public String find_idCheck(MemberDTO dto) {
 	        String id = sqlSession.selectOne("member.find_id_check", dto);
 	        return id;
 	        
 	    }
 	 
-	    //ºñ¹Ğ¹øÈ£ Ã£±â °ü·Ã ¸Ş¼Òµå (¹Ì±¸Çö)
+	    //ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ê´€ë ¨ ë©”ì†Œë“œ (ë¯¸êµ¬í˜„)
 	    public String find_passCheck(MemberDTO dto) {
 	        String pass = sqlSession.selectOne("member.find_pass_check", dto);
 	        return pass;
 	    }
 
 
-	    //È¸¿ø ÀÎÁõ °ü·Ã ¸Ş¼Òµå (¹Ì±¸Çö)
-	    //¹öÆ°À» Å¬¸¯ÇÑ È¸¿øÀÇ Á¤º¸¸¦ È¸¿ø Å×ÀÌºí¿¡ ÀúÀåÇØ¼­ »ç¿ëÇÒ ¼ö ÀÖ°Ô ÇÔ
+	    //íšŒì› ì¸ì¦ ê´€ë ¨ ë©”ì†Œë“œ (ë¯¸êµ¬í˜„)
+	    //ë²„íŠ¼ì„ í´ë¦­í•œ íšŒì›ì˜ ì •ë³´ë¥¼ íšŒì› í…Œì´ë¸”ì— ì €ì¥í•´ì„œ ì‚¬ìš©í•  ìˆ˜ ìˆê²Œ í•¨
 	    public void authentication(MemberDTO dto) {
 	        
 	        sqlSession.insert("member.authentication", dto);
@@ -85,7 +88,7 @@ public class MemberDAO {
 	        String email
 	        =sqlSession.selectOne("member.email_check", e_mail);
 	    
-	        //Á¶°Ç½Ä ? trueÀÏ¶§ÀÇ °ª : falseÀÏ¶§ÀÇ °ª
+	        //ì¡°ê±´ì‹ ? trueì¼ë•Œì˜ ê°’ : falseì¼ë•Œì˜ ê°’
 	        return (email==null) ? true : false;
 	        
 	    }
@@ -95,12 +98,12 @@ public class MemberDAO {
 	        String user_name1
 	        =sqlSession.selectOne("member.join_name_check", name);
 	    
-	        //Á¶°Ç½Ä ? trueÀÏ¶§ÀÇ °ª : falseÀÏ¶§ÀÇ °ª
+	        //ì¡°ê±´ì‹ ? trueì¼ë•Œì˜ ê°’ : falseì¼ë•Œì˜ ê°’
 	        return (user_name1==null) ? true : false;
 	    }
 	 
 	    
-	    //È¸¿øÀÇ ÇÁ·ÎÇÊ Á¤º¸¸¦ ¸®ÅÏÇÑ´Ù.
+	    //íšŒì›ì˜ í”„ë¡œí•„ ì •ë³´ë¥¼ ë¦¬í„´í•œë‹¤.
 	    public List<MemberDTO> member_profile(String user_id) throws Exception {
 	        
 	        return sqlSession.selectList("member.member_profile", user_id);

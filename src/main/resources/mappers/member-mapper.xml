@@ -3,12 +3,12 @@
 <mapper namespace="Member">
 
 	<insert id="insert">  
-		insert into member values(member_seq.nextval,#{email},#{pw},#{name})
+		insert into member (seq, email, pw, name ) values (member_seq.nextval, #{email}, #{pw}, #{name})
 	</insert>
 
 	
 	<select id="login" resultType="pcoop.backend.dto.MemberDTO">
-		select * from member where id= #{loginId} and pw= #{loginPw}
+		select * from member where email= #{loginId} and pw= #{loginPw}
 	</select>
 	
 	<delete id="delete">

@@ -6,16 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<style>
-.dir {
-	color: blue;
-}
-
-.file {
-	color: red;
-}
-</style>
 </head>
 <body>
 	<!-- 왼쪽 사이드바 -->
