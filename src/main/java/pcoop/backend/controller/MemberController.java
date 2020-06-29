@@ -190,6 +190,18 @@ public class MemberController {
 		int result = mservice.signup(map);
 
 		System.out.println("signup 결과 : "+result);
+		
+		// 회원가입후 로그인 되어 있도록 하기
+		Map<String,String> param =new HashMap<>();
+		param.put("loginId", email);
+		param.put("loginPw", pw);
+		MemberDTO mdto = mservice.login(param);
+		String ip_address = request.getRemoteAddr();
+		if(mdto != null) {
+			this.session.setAttribute("loginInfo", mdto); // 로그인시 세션에 회원정보 저장
+			this.session.setAttribute("ip_address", ip_address);
+		}
+		
 
 		return "redirect:/";
 
@@ -210,5 +222,10 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
-
+	
+	@RequestMapping("logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
+	}
 }
