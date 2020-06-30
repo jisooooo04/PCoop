@@ -73,8 +73,8 @@
 			  "top": top
 			}).show();
 			
-			$(".menu_dir").attr("id", id);
-
+			$(".menu_add_dir").attr("id", id);
+			$(".menu_delete_dir").attr("id", id);
 			//Prevent browser default contextmenu.
 			return false;
 		})
@@ -85,7 +85,8 @@
 		    $(".contextmenu").hide();
 		  });
 		
-		$(".menu_dir").on("click", function(){
+		// 디렉토리 추가 버튼 - 드롭다운 메뉴
+		$(".menu_add_dir").on("click", function(){
 			
 			var id = this.id;
 			var left = $("#" + id).offset().left;
@@ -102,11 +103,11 @@
 		// 새 디렉토리 추가
 		$("#ok").on("click", function(){
 			
-			var parent_seq = $(".menu_dir").attr("id").substring(3);
+			var parent_seq = $(".menu_add_dir").attr("id").substring(3);
 			var name = $("#dir_name").val();
 			var data = {
 					parent_seq: parent_seq,
-					name: name,
+					name: name
 			};
 			
 			$.ajax({
@@ -115,8 +116,8 @@
 				data: data,
 				success: function(data){
 					$("#dir" + parent_seq).append(
-							"<ul><li class='dir' id='dir" + data + "'>"
-							+ name + "</li></ul>");
+							"<ul><li class='dir' id='dir" + data + "'><b>"
+							+ name + "</b></li></ul>");
 				}
 			});
 			$(".add_dir").hide();
@@ -127,9 +128,36 @@
 		// 새 디렉토리 추가 취소
 		$("#cancel").on("click", function(){
 			$(".add_dir").hide();
-
+			$("#dir_name").val("");
 		})
 		
+		// 디렉토리 삭제 버튼 - 경고 모달 창
+		$(".menu_delete_dir").on("click", function(){
+			$(".modal").modal();
+		})
+		
+		// 디렉토리 삭제
+		$(".delete_dir").on("click", function(){
+			
+			$(".modal").modal('hide');
+			
+			var seq = $(".menu_add_dir").attr("id").substring(3);
+			
+			var data = {
+					type: 'directory',
+					seq: seq
+			}
+			
+			$.ajax({
+				url: "deleteDirectory",
+				type: "POST",
+				data: data,
+				success: function(){
+					$("#dir" + seq).remove();
+				}
+			});
+			
+		})
 		
 	})
 	
@@ -148,8 +176,10 @@
 
 			<!-- 여기부터 각자 영역 설정 -->
 			<ul class="contextmenu">
-				<li class="menu_dir"><a href="#">하위 디렉토리 추가</a></li>
+				<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
 				<li class="menu_file"><a href="#">파일 업로드</a></li>
+				<li class="menu_delete_dir"><a href="#">디렉토리 삭제</a></li>
+				
 			</ul>
 			
 			<div class="add_dir">
@@ -158,6 +188,27 @@
 				<input type="button" id="cancel" value="취소">
 			</div>
 
+			<!-- 디렉토리 삭제 경고 Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">정말 삭제하시겠습니까?</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			       드라이브에 들어 있던 모든 디렉토리와 파일이 삭제됩니다. 삭제 후, 복구하실 수 없습니다.
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn delete_dir_cancel" data-dismiss="modal">CANCEL</button>
+			        <button type="button" class="btn delete_dir">YES</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
 
