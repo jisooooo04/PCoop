@@ -22,7 +22,7 @@ update member set pw= #{pw}, name=#{name}, phone=#{phone}, email=#{email}, zipco
 	
 	
 	<select id="duplCheck" resultType="int">
-		select * from member where email= #{email}
+		select count(*) from member where email= #{value}
 	</select>
 
 </mapper>

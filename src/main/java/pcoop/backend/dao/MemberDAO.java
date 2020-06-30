@@ -35,10 +35,11 @@ public class MemberDAO {
 	}
 	
 	
-	public boolean duplCheck(String email) throws Exception{
+	public boolean duplCheck(String email){
 		int result = mybatis.selectOne("Member.duplCheck", email);
-		if(result > 0) return true;
-		else return false;
+		System.out.println("DAO duplCheck : "+result);
+		if(result > 0) { return true;}
+		else { return false;}
 	}
 	
 	

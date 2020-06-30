@@ -60,18 +60,7 @@ public class MemberService {
  
     }
  
-    public boolean loginCheck(MemberDTO dto, HttpSession session) {
-        
-        boolean result = mdao.loginCheck(dto);
-        if(result) {    //�α��� ����
-            session.setAttribute("email", dto.getEmail());
-            session.setAttribute("pw", dto.getPw());
-            System.out.println(session.getAttribute("email"));
-            System.out.println(session.getAttribute("pw"));
-        }
-        
-        return result;
-    }
+
  
 
     public String find_idCheck(MemberDTO dto) {
