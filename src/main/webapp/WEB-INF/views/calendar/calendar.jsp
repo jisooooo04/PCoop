@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href='/resources/css/calendar/calendar.css' rel='stylesheet' />
+<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
 <script src='/resources/js/calendar.js'></script>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -134,11 +134,14 @@
   			var end_date=resp.end_date;
   			var color=resp.color;
   			
-  			$('.dialog__content h4').append('<div>'+title+'</div>'); 
-  			$('.dialog__content>div:nth-child(2)').append('<div>'+contents+'</div>');
-  			$('.dialog__content>div:nth-child(3)').append('<div>'+start_date+'</div>');
-  			$('.dialog__content>div:nth-child(5)').append('<div>'+end_date+'</div>');
-  			$('.dialog__content>div:nth-child(6)').append('<div>'+writer+'</div>');
+  			$('.dialog__content h4').append('<div class='+'dynamic'+'>'+title+'</div>'); 
+  			$('.dialog__content>div:nth-child(2)').append('<div class='+'dynamic'+'>'+contents+'</div>');
+  			$('.dialog__content>div:nth-child(4)').append('<div class='+'dynamic'+'>'+start_date+'</div>');
+  			$('.dialog__content>div:nth-child(4)').after('<div class='+'dynamic'+' style="margin-left:80px">'+end_date+'</div>');
+  			$('.dialog__content>div:nth-child(6)').append('<div class='+'dynamic'+'>'+writer+'</div>');
+  			
+  			$('#title-color').css('background-color',color);
+  			
     		const modal = document.querySelector('dialog');
         	const btnClose = document.querySelectorAll('.button-close');
         	modal.showModal();
@@ -157,21 +160,78 @@
         	    modal.removeEventListener('animationend', handleClose, false);
         	    modal.close();
         	    
-        	    $('.dialog__content h4>div').remove(); 
-     			 $('.dialog__content>div:nth-child(2)>div').remove(); 
+     		   $('.dynamic').remove();
         	}
 
         	detectBackdropClick = (event) => {
         	    if(event.target === modal) {
         	        closeModal();
-        	        
-        	     /*    $('.dialog__content h4').append(''); 
-         			$('.dialog__content>div:nth-child(2)>div').append(''); */
+        	       /*  $('.dynamic').remove(); */
         	    }
         	}
+        	
+        	 $('#eventEdit').on('click',function(){    		 
+        		 closeModal();	
+        		 //수정하기 modal에  값 채워넣기 
+        		 $('#Editrecipient-name').val(title);
+        		 $("#Editmessage-text").val(contents)
+        		 $('#Editmodal_date_start').val(start_date);
+        		 $('#Editmodal_date_end').val(end_date);
+        		 /* $('.Editcustom-radios input[type=radio][name=Editcolor][background-color:'+color+']:checked'); */
+        		 //색깔 선택 수정하기 !!!!!!
+            	 $("#EditmyModal").modal();
+            	
+            	
+            }) 
     	})
     	
-    	
+    	$('#Editsave').on("click",function(){
+            		var Edittitle = $('#Editrecipient-name').val();
+            		var Editstart = ($('#Editmodal_date_start').val()).replace(/(.{16})/,'$1:00');
+            		var Editend = ($('#Editmodal_date_end').val()).replace(/(.{16})/,'$1:00');
+            		var Editcolor = $('input[type=radio][name=Editcolor]:checked').val();
+            		
+            		$.ajax({
+            			url:'EditEvent',
+            			type:'post',
+            			data:{
+            				seq:seq, //수정하려면 seq 필요 . 맨 첫번째 줄에서 seq 선언. 
+            				title:Edittitle,
+            				start_date:Editstart,
+                			end_date:Editend,
+                			contents: $("#Editmessage-text").val(),
+                			writer:'writer',
+                			color: Editcolor,
+                			project_seq:0
+            			}		
+            		}).done(function(resp){	
+            			 
+               		  arg.event.remove();  //일단 삭제 하고 
+           			 if(Edittitle){//다시 만든다 똑같은 id(seq) 써주기
+           				calendar.addEvent({
+           					id:seq,
+           					title:Edittitle,
+           					start:Editstart,
+           					end:Editend,
+           					color:Editcolor
+           				})
+           			} 
+           			 /*   modal clean 하기 */
+                       $("#Editrecipient-name").val("");
+                       $('#Editmodal_date_start').val("");
+                       $('#Editmodal_date_end').val("");
+                       $("#Editmessage-text").val("");
+                       $("#Editmodal_select").val('red');
+           				
+                       
+                       /* modal hide  */
+                       $("#EditmyModal").modal('hide'); 
+                       
+            		 })
+            		 
+            	})
+            	
+            	
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events
@@ -184,11 +244,13 @@
          		end:'${i.end_date}',
          		color:'${i.color}'
          	},
-         </c:forEach> 
+         </c:forEach>	
       ]
     });
    
-    calendar.render();
+    calendar.render(); 
+    
+    
   });
 
 </script>
@@ -290,7 +352,7 @@
 									<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ color radio -->
 									<div class="custom-radios">
 										<div>
-											<input type="radio" id="color-1" name="color" value="green"
+											<input type="radio" id="color-1" name="color" value="#2ecc71"
 												checked> <label for="color-1"> <span>
 													<img
 													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
@@ -300,7 +362,7 @@
 										</div>
 
 										<div>
-											<input type="radio" id="color-2" name="color" value="blue">
+											<input type="radio" id="color-2" name="color" value="#3498db">
 											<label for="color-2"> <span> <img
 													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
 													alt="Checked Icon" />
@@ -318,7 +380,7 @@
 										</div>
 
 										<div>
-											<input type="radio" id="color-4" name="color" value="red">
+											<input type="radio" id="color-4" name="color" value="#e74c3c">
 											<label for="color-4"> <span> <img
 													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
 													alt="Checked Icon" />
@@ -345,7 +407,9 @@
 					<dialog>
 					<div class="dialog__inner">
 						<div>
-							<i class="far fa-edit"></i>
+							<i class="far fa-edit" id="eventEdit"></i>
+							
+							<i class="far fa-trash-alt" id="eventDelete"></i>
 							<button class="button button-close">╳</button>
 						</div>
 
@@ -361,7 +425,7 @@
 							<div>
 								<i class="far fa-clock"></i>
 							</div>
-							<div>~ </div>
+							
 							<div>
 								<i class="fas fa-user-edit"></i>
 							</div>
@@ -374,7 +438,135 @@
 				</div>
 			</div>
 			<!-- ㅡㅡㅡㅡㅡㅡㅡ/일정 조회하기ㅡㅡㅡㅡㅡㅡㅡ -->
+			
+			  <!--ㅡㅡㅡㅡㅡ 일정 수정하기 modal ㅡㅡㅡㅡㅡㅡㅡ-->
+			<div class="modal fade" id="EditmyModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="EditexampleModalLabel">일정 수정하기</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form id="Editmodal_form" action="">
+							<div class="modal-body">
 
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">일정
+										제목 </label> <input type="text" class="form-control"
+										id="Editrecipient-name" name="title">
+								</div>
+								<div class="form-group">
+									<label for="message-text" class="col-form-label">일정 내용
+									</label>
+									<textarea class="form-control" id="Editmessage-text"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="message-text" class="col-form-label"> 일정 기간
+									</label> <br>
+									<div>
+
+										<!--  ㅡㅡㅡㅡㅡㅡㅡ	bootstrap -icon ㅡㅡㅡㅡㅡ -->
+										<svg class="bi bi-alarm" width="1.5em" height="1.5em"
+											viewBox="0 0 16 16" fill="currentColor"
+											xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+												d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z" />
+                                    <path fill-rule="evenodd"
+												d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.053.224l-1.5 3a.5.5 0 1 1-.894-.448L7.5 8.882V5a.5.5 0 0 1 .5-.5z" />
+                                    <path
+												d="M.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
+                                    <path fill-rule="evenodd"
+												d="M11.646 14.146a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1-.708.708l-1-1a.5.5 0 0 1 0-.708zm-7.292 0a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 .708.708l1-1a.5.5 0 0 0 0-.708zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
+                                    <path d="M7 1h2v2H7V1z" />
+                                </svg>
+										<!--  ㅡㅡㅡㅡㅡㅡㅡ	/bootstrap -icon ㅡㅡㅡㅡㅡ -->
+										<input type="datetime-local" id="Editmodal_date_start"
+											name="Editstart_date">
+										<!-- 	<input type="time" id="start_time">  -->
+										부터 <br>
+										<!--  ㅡㅡㅡㅡㅡㅡㅡ	bootstrap -icon ㅡㅡㅡㅡㅡ -->
+										<svg class="bi bi-alarm" width="1.5em" height="1.5em"
+											viewBox="0 0 16 16" fill="currentColor"
+											xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+												d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z" />
+                                <path fill-rule="evenodd"
+												d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.053.224l-1.5 3a.5.5 0 1 1-.894-.448L7.5 8.882V5a.5.5 0 0 1 .5-.5z" />
+                                <path
+												d="M.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
+                                <path fill-rule="evenodd"
+												d="M11.646 14.146a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1-.708.708l-1-1a.5.5 0 0 1 0-.708zm-7.292 0a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 .708.708l1-1a.5.5 0 0 0 0-.708zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
+                                <path d="M7 1h2v2H7V1z" />
+                                </svg>
+										<!--  ㅡㅡㅡㅡㅡㅡㅡ	/bootstrap -icon ㅡㅡㅡㅡㅡ -->
+										<input type="datetime-local" id="Editmodal_date_end" id="Editend_date">
+										<!-- <input type="time" name="end_time"> -->
+										까지
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="message-text" class="col-form-label">색깔 지정</label>
+									<br>
+
+									<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ color radio -->
+									<div class="Editcustom-radios">
+										<div>
+											<input type="radio" id="Editcolor-1" name="Editcolor" value="#2ecc71"
+												checked> <label for="Editcolor-1"> <span>
+													<img
+													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
+													alt="Checked Icon" />
+											</span>
+											</label>
+										</div>
+
+										<div>
+											<input type="radio" id="Editcolor-2" name="Editcolor" value="#3498db">
+											<label for="Editcolor-2"> <span> <img
+													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
+													alt="Checked Icon" />
+											</span>
+											</label>
+										</div>
+
+										<div>
+											<input type="radio" id="Editcolor-3" name="Editcolor" value="#f5ce42">
+											<label for="Editcolor-3"> <span> <img
+													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
+													alt="Checked Icon" />
+											</span>
+											</label>
+										</div>
+
+										<div>
+											<input type="radio" id="Editcolor-4" name="Editcolor" value="#e74c3c">
+											<label for="Editcolor-4"> <span> <img
+													src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
+													alt="Checked Icon" />
+											</span>
+											</label>
+										</div>
+									</div>
+									<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-primary" id="Editsave">완료</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<!--ㅡㅡㅡㅡㅡ /일정 수정하기 modal ㅡㅡㅡㅡㅡㅡㅡ-->
+		
 		</div>
 
 	</section>
