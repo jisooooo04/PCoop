@@ -6,7 +6,9 @@ public class FileDTO {
 	
 	private int seq;
 	private int project_seq;
+	private int directory_seq;
 	private String directory_path;
+	private String name;
 	private String extension;
 	private String path;
 	private Timestamp upload_date;
@@ -16,12 +18,14 @@ public class FileDTO {
 		super();
 	}
 
-	public FileDTO(int seq, int project_seq, String directory_path, String extension, String path,
-			Timestamp upload_date, String uploader) {
+	public FileDTO(int seq, int project_seq, int directory_seq, String directory_path, String name, String extension,
+			String path, Timestamp upload_date, String uploader) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
+		this.directory_seq = directory_seq;
 		this.directory_path = directory_path;
+		this.name = name;
 		this.extension = extension;
 		this.path = path;
 		this.upload_date = upload_date;
@@ -44,12 +48,28 @@ public class FileDTO {
 		this.project_seq = project_seq;
 	}
 
+	public int getDirectory_seq() {
+		return directory_seq;
+	}
+
+	public void setDirectory_seq(int directory_seq) {
+		this.directory_seq = directory_seq;
+	}
+
 	public String getDirectory_path() {
 		return directory_path;
 	}
 
 	public void setDirectory_path(String directory_path) {
 		this.directory_path = directory_path;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getExtension() {
@@ -86,4 +106,6 @@ public class FileDTO {
 
 	
 	
+	
+
 }

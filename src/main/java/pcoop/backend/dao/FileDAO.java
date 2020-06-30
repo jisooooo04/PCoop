@@ -39,6 +39,12 @@ public class FileDAO {
 		
 		return jdbc.update(sql, 11, name, path);
 	}
+	
+	// 디렉토리 delete
+	public int deleteDirectory(String path) {
+		String sql = "delete from directory where path like ?";
+		return jdbc.update(sql, path + "%");
+	}
 
 	// 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(){
@@ -61,8 +67,36 @@ public class FileDAO {
 		});
 
 	}
+	
+	public String getFilePathByFileSeq(int file_seq) {
+		return "";
+	}
+	
+	// 특정 디렉토리 내 파일 리스트
+	public List<FileDTO> getFileListByDirSeq(int dir_seq){
 
-	// 파일 리스트
+		String sql = "select * from files where directory_seq = ?";
+		return jdbc.query(sql, new Object[] {dir_seq}, new RowMapper<FileDTO>(){
+			public FileDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				FileDTO dto = new FileDTO();
+				
+				dto.setSeq(rs.getInt("seq"));
+				dto.setProject_seq(rs.getInt("project_seq"));
+				dto.setDirectory_seq(rs.getInt("directory_seq"));
+				dto.setDirectory_path(rs.getString("directory_path"));
+				dto.setName(rs.getString("name"));
+				dto.setExtension(rs.getString("extension"));
+				dto.setPath(rs.getString("path"));
+				dto.setUpload_date(rs.getTimestamp("upload_date"));
+				dto.setUploader(rs.getString("uploader"));
+
+				return dto;
+			};
+		});
+	}
+
+	// 전체 파일 리스트
 	public List<FileDTO> getFileList(){
 
 		String sql = "select * from files";
@@ -75,7 +109,9 @@ public class FileDAO {
 
 				dto.setSeq(rs.getInt("seq"));
 				dto.setProject_seq(rs.getInt("project_seq"));
+				dto.setDirectory_seq(rs.getInt("directory_seq"));
 				dto.setDirectory_path(rs.getString("directory_path"));
+				dto.setName(rs.getString("name"));
 				dto.setExtension(rs.getString("extension"));
 				dto.setPath(rs.getString("path"));
 				dto.setUpload_date(rs.getTimestamp("upload_date"));

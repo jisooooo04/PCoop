@@ -21,23 +21,52 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+<script>
+
+
+            window.onload = function(){
+                document.getElementById("login_form").onsubmit = function(){
+                    var email = document.getElementById("email").value;
+                    
+                    var pw = document.getElementById("pw").value;
+                    
+                    if(email == "" || pw == ""){
+                    	alert("로그인 필수 입력칸이 공백 입니다.")
+                    	return false
+                    }else{
+                    	return true
+                    }
+            }
+
+                document.getElementById("auth_form").onsubmit = function(){
+                    var e_mail = document.getElementById("e_mail").value;
+                    
+                    if(e_mail == ""){
+                    	alert("가입을 위해서는 이메일 주소를 입력해야 합니다.")
+                    	return false
+                    }else{
+                    	return true
+                    }
+            }
+                  
+                
+            }
+        </script>
+
+
+
 </head>
 <body>
 
 
 
-
-
-
-
-
-
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="login">
+			<form id="login_form" action="login">
 				<h1>로그인</h1>
-				<br> <br> <input type="email" name="email"
-					placeholder="Email" class="in" /> <input type="password" name="pw"
+				<br> <br> <input type="email" name="email" id="email"
+					placeholder="Email" class="in" /> <input type="password" name="pw" id="pw"
 					placeholder="Password" class="in" /> <br> <br>
 				<div class="id">
 					<input type="checkbox" class="checkbox"> <span>
@@ -45,22 +74,20 @@
 				</div>
 				<br>
 				<button type="submit">LogIn</button>
-				<br>
-				<button type="button">signUP</button>
 			</form>
 		</div>
 		
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-right">
-					<form action=auth method="post">
+					<form action=auth method="post" id="auth_form">
 					<h1 style="color:black">가입하기</h1>
 						<br><br><br><br>
-						<input type="email" name="e_mail"
+						<input type="email" name="e_mail" id="e_mail"
 							placeholder="이메일주소를 입력하세요." class="in">
 						<br><br><br><br><br>
-						<button type="submit" name="submit">이메일 인증받기</button>
-						<br>
+						<button type="submit" name="submit">SignUp</button>
+						
 					</form>
 				</div>
 			</div>
