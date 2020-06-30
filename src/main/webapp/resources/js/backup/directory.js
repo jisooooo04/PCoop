@@ -29,7 +29,7 @@ function printDirList(dirlist){
 }
 
 
-//파일 리스트 가져오는 함수
+//전체 파일 리스트 가져오는 함수
 function printFileList(filelist){
 	for (var i = 0; i < filelist.length; i++) {
 
@@ -51,10 +51,37 @@ function printFileList(filelist){
 	}
 }
 
-//디렉토리 - 드롭다운 메뉴
-$(document).on("click", ".dir", function(e){
+//디렉토리 - 클릭 - 디렉토리 내 파일 리스트
+$(document).on("click", ".dir", function(){
+
+	var dir_seq = this.id.substring(3);
+
+	var data = {
+			dir_seq: dir_seq
+	};
+
+	$.ajax({
+		url: "getFileList",
+		type: "POST",
+		data: data,
+		success: function(data){
+
+			$(".file").remove();
+			var files = JSON.parse(data);
+
+			for(var i = 0 ; i < files.length ; i++){
+				$(".files").append("<div class=file id=f" + files[i].seq + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+			}
+
+
+		}
+	});
+
+})
+
+//디렉토리 - 우 클릭 - 드롭다운 메뉴
+$(document).on("contextmenu", ".dir", function(e){
 	var id = this.id;
-	console.log(id);
 	var left = $("#" + id).offset().left;
 	var top = $("#" + id).offset().top + 30;
 
@@ -171,3 +198,4 @@ $(".delete_dir").on("click", function(){
 	});
 
 })
+

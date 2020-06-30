@@ -61,6 +61,11 @@ public class FileService {
 		return fdao.getFileList();
 	}
 	
+	// 특정 디렉토리 내 파일 리스트 가져오기 
+	public List<FileDTO> getFileListByDirSeq(int dir_seq){
+		return fdao.getFileListByDirSeq(dir_seq);
+	}
+	
 	// DB에서 디렉토리 삭제
 	public int deleteDirectory(String path) {
 		return fdao.deleteDirectory(path);

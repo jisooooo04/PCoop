@@ -107,6 +107,13 @@ section {
 	padding-right: 7px;
 }
 
+.time {
+	float: left;
+	color: darkgray;
+	font-size: 11px;
+	margin-top: 16px;
+}
+
 /* 채팅 타이틀 */
 .chat_title {
 	float: left;
