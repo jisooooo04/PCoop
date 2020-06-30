@@ -10,51 +10,6 @@
 
 <script>
 	$(function() {
-		
-		// 디렉토리 리스트 출력 함수
-		function printDirList(dirlist){
-			
-			for (var i = 0; i < dirlist.length; i++) {
-
-				var patharr = dirlist[i].path.split('/');
-				var parent = "#root";
-				
-				for (var j = 2; j < patharr.length; j++) {
-
-					if (j == patharr.length - 1)
-						$(parent).append(
-								"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'><b>"
-										+ patharr[j] + "</b></li></ul>");
-					else
-						parent = "#" + patharr[j];
-
-				}
-
-			}
-			
-		}
-		
-		// 파일 리스트 가져오는 함수
-		function printFileList(fileList){
-			for (var i = 0; i < filelist.length; i++) {
-
-				var patharr = filelist[i].path.split('/');
-				var parent = "#root";
-
-				for (var j = 2; j < patharr.length; j++) {
-
-					if (j == patharr.length - 1)
-						$(parent)
-								.append(
-										"<ul><li class='file'>" + patharr[j]
-												+ "</li></ul>");
-					else
-						parent = "#" + patharr[j];
-
-				}
-
-			}
-		}
 
 		$(".backup").append("<ul id=root></ul>");
 
@@ -67,123 +22,6 @@
 		var filelist = ${filelist};
 		printFileList(filelist);
 		
-		$(document).on("click", ".dir", function(e){
-			var id = this.id;
-			console.log(id);
-			var left = $("#" + id).offset().left;
-			var top = $("#" + id).offset().top + 30;
-			   
-			//Display contextmenu:
-				$(".add_dir").css({
-				  "left": left,
-				  "top": top
-				});
-			
-			$(".contextmenu").css({
-			  "left": left,
-			  "top": top
-			}).show();
-			
-			$(".menu_add_dir").attr("id", id);
-			$(".menu_delete_dir").attr("id", id);
-			//Prevent browser default contextmenu.
-			return false;
-		})
-		
-		
-		//Hide contextmenu:
-		  $(document).click(function(){
-		    $(".contextmenu").hide();
-		  });
-		
-		// 디렉토리 추가 버튼 - 드롭다운 메뉴
-		$(".menu_add_dir").on("click", function(){
-			
-			var id = this.id;
-			var left = $("#" + id).offset().left;
-			var top = $("#" + id).offset().top + 30;
-			
-			$(".add_dir").css({
-				  "left": left,
-				  "top": top
-				}).show();
-			
-			$(".contextmenu").hide();
-		})
-		
-		// 새 디렉토리 추가
-		$("#ok").on("click", function(){
-			
-			var parent_seq = $(".menu_add_dir").attr("id").substring(3);
-			var name = $("#dir_name").val();
-			var data = {
-					parent_seq: parent_seq,
-					name: name
-			};
-			
-			$.ajax({
-				url: "addDirectory",
-				type: "POST",
-				data: data,
-				success: function(data){
-					$("#dir" + parent_seq).append(
-							"<ul><li class='dir' id='dir" + data + "'><b>"
-							+ name + "</b></li></ul>");
-				}
-			});
-			$(".add_dir").hide();
-			$("#dir_name").val("");
-
-		})
-		
-		// 새 디렉토리 추가 취소
-		$("#cancel").on("click", function(){
-			$(".add_dir").hide();
-			$("#dir_name").val("");
-		})
-		
-		// 디렉토리 삭제 버튼 - 경고 모달 창
-		$(".menu_delete_dir").on("click", function(){
-			$(".modal").modal();
-		})
-		
-		// 디렉토리 삭제
-		$(".delete_dir").on("click", function(){
-			
-			$(".modal").modal('hide');
-			
-			var seq = $(".menu_add_dir").attr("id").substring(3);
-			
-			var data = {
-					seq: seq
-			}
-			
-			$.ajax({
-				url: "deleteDirectory",
-				type: "POST",
-				data: data,
-				success: function(data){
-					
-					$("#dir" + seq).remove();
-					$("#root").remove();
-					
-					var data = JSON.parse(data);
-					
-					// 리스트 새로 만들기
-					$(".backup").append("<ul id=root></ul>");
-					// 디렉토리 가지고 오기
-					var dirlist = JSON.parse(data.dirlist);
-					printDirList(dirlist);
-					
-					// 파일 가지고 오기
-					var filelist = JSON.parse(data.filelist);
-					printFileList(filelist);
-					
-				}
-			});
-			
-		})
-		
 	})
 	
 </script>
@@ -192,7 +30,6 @@
 </head>
 <body>
 	<jsp:include page="../header/header.jsp"></jsp:include>
-	<!-- 왼쪽 사이드바 -->
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
 	<section>
@@ -201,8 +38,8 @@
 
 			<!-- 여기부터 각자 영역 설정 -->
 			<ul class="contextmenu">
+				<li class="menu_add_file"><a href="#">파일 업로드</a></li>
 				<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
-				<li class="menu_file"><a href="#">파일 업로드</a></li>
 				<li class="menu_delete_dir"><a href="#">디렉토리 삭제</a></li>
 				
 			</ul>
@@ -238,5 +75,8 @@
 		</div>
 
 	</section>
+	<script src="resources/js/backup/directory.js"></script>
+	<script src="resources/js/backup/file.js"></script>
+	
 </body>
 </html>
