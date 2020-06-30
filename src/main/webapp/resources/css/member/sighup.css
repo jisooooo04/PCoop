@@ -5,7 +5,7 @@
 }
 
 body {
-	background: rgba(255, 255, 255, 0.5);
+	background: #7DC8C9;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -41,8 +41,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #7DC8C9;
+	background-color: #7DC8C9;
     width: 250px;
 	color: #FFFFFF;
 	font-size: 12px;
@@ -51,7 +51,7 @@ button {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
-    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    background: linear-gradient(to right, #7DC8C9, #9A9A9A);
 }
 
 form {
@@ -99,8 +99,8 @@ form {
 
 .overlay {
 	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: -webkit-linear-gradient(to right, #7DC8C9, #9A9A9A);
+    background: linear-gradient(to right, #7DC8C9, #9A9A9A);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
