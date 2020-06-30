@@ -31,5 +31,11 @@ public class CalendarDAO {
 		return mybatis.selectOne("calendar.selectEvent",seq);
 	}
 	
+	public int editEvent(CalendarDTO dto) {
+		return mybatis.update("calendar.editEvent",dto);
+	}
 	
+	public int deleteEvent(int seq) {
+		return mybatis.delete("calendar.deleteEvent",seq);
+	}
 }

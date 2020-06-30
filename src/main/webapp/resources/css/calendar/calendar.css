@@ -1,6 +1,6 @@
 
-
-
+/* 
+일정 생성하기 modal */
 /*modal style*/
  #modal_date_end{
 margin: 2px;
@@ -63,7 +63,7 @@ h3{
 	 margin-bottom: 15px;
 }
 
- .button-close {
+.button-close {
  	 border: none;
 	 background-color: #afb8c9;
 	 padding: 17px 55px 17px 55px;
@@ -78,7 +78,7 @@ h3{
 	 box-shadow: none;
 	 color: #838282;
 }
-#selectmodify{
+/* #selectmodify{
 	 border: none;
 	 background-color: #afb8c9;
 	 padding: 17px 55px 17px 55px;
@@ -92,7 +92,7 @@ h3{
 	 background-color: transparent;
 	 box-shadow: none;
 	 color: #838282;
-}
+} */
  dialog {
      font-family: 'Nunito', sans-serif;
 	 padding: 0;
@@ -124,19 +124,12 @@ h3{
 .dialog__content>div{
             padding-top: 8px;
 }
-.dialog__content>div:nth-child(2)>div{
-            float:left;
-}      
- .fa-clock{
-            float: left;
-}
 .fa-bars{
             float: left;
+}    
+.fa-clock{
+            float: left;
 }
-.dialog__content>div:nth-child(4){
-            margin-left: 80px;
-}
-
 .dialog__content i{
 padding-right: 10px;
 }
@@ -167,18 +160,205 @@ padding-right: 10px;
 	}
 }
         
-        div>h4{
+div>h4{
             padding-left: 35px;
-        }
-        #title-color{
+}
+#title-color{
             width: 20px;
             height: 20px;
-            background-color: green;
             border-radius: 50%;
             float: left;
             margin-top: 5px;;
-        }
+}
          
+ /* 일정 수정하기 modal */
+#Editmodal_date_end{
+margin: 2px;
+}
+#Editmodal_date_start{
+margin: 2px;
+}
+
+/* modal-color 선택 css */
+.Editcustom-radios div {
+     display: flex;
+	 display: inline-block;
+}
+ .Editcustom-radios input[type="radio"] {
+	 display: none;
+}
+ .Editcustom-radios input[type="radio"] + label {
+	 color: #333;
+	 font-family: Arial, sans-serif;
+	 font-size: 14px;
+}
+ .Editcustom-radios input[type="radio"] + label span {
+	 display: inline-block;
+	 width: 40px;
+	 height: 40px;
+	 margin: -1px 4px 0 0;
+	 vertical-align: middle;
+	 cursor: pointer;
+	 border-radius: 50%;
+	 border: 2px solid #fff;
+	 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+	 background-repeat: no-repeat;
+	 background-position: center;
+	 text-align: center;
+	 line-height: 44px;
+}
+ .Editcustom-radios input[type="radio"] + label span img {
+	 opacity: 0;
+	 transition: all 0.3s ease;
+}
+ .Editcustom-radios input[type="radio"]#Editcolor-1 + label span {
+	 background-color: #2ecc71;
+}
+ .Editcustom-radios input[type="radio"]#Editcolor-2 + label span {
+	 background-color: #3498db;
+}
+ .Editcustom-radios input[type="radio"]#Editcolor-3 + label span {
+	 background-color: #f1c40f;
+}
+ .Editcustom-radios input[type="radio"]#Editcolor-4 + label span {
+	 background-color: #e74c3c;
+}
+ .Editcustom-radios input[type="radio"]:checked + label span img {
+	 opacity: 1;
+}
+
+
+ /* 일정 삭제하기 modal */
+ .deleteclearfix *:after {
+	 content: '';
+	 clear: both;
+	 display: table;
+}
+* {
+	 box-sizing: border-box;
+}
+ .deletemodal {
+	 position: absolute;
+	 top: 0px;
+	 left: 35%;
+	 width: 40%;
+	 height: 40%;
+	 opacity: 1;
+	 transition: opacity 0.5s;
+	 animation: 1s hide infinite;
+	 animation-delay: 0.5s;
+	 z-index:100;
+}
+ .deletemodal:target, .deletemodal.force {
+	 transform: translateY(100px);
+	 opacity: 1;
+	 animation: none;
+}
+ .deletemodal:target .deleteview, .deletemodal.deleteforce .deleteview {
+	 transition: all 1s eas-in-out;
+	 transform: translateY(0px);
+}
+ .deletemodal .deletebackground {
+	 position: absolute;
+	 width: 100%;
+	 height: 100%;
+	 position: absolute;
+	 left: 0px;
+	 top: 0px;
+	 opacity: 0.5;
+}
+ .deletemodal .deleteview-container {
+	 padding: 20px;
+}
+ .deletemodal .deleteview {
+	 transition: all 1s ease-in-out;
+	 transform: translateY(-100%);
+	 position: relative;
+	 margin: 50px auto;
+	 max-width: 600px;
+	 border: 2px solid #fff;
+	 border-radius: 2px;
+	 background: white;   
+}
+ .deletemodal .deleteview .deletecontent {
+	 position: relative;
+	 padding: 10px;
+}
+.deletecontent>p{
+    font-family: 'Nunito', sans-serif;
+    margin-left: 60px;
+    font-weight: bold;
+    color: dimgray;
+}
+ .deletemodal .deleteview .deleteheader {
+	 padding: 16px 10px;
+	 border-radius: 3px 3px 0px 0px;
+	 border-bottom: 2px solid #fff;
+     background-color: #7dc8c9;
+}
+ .deletemodal .deleteview .deleteheader * {
+	 margin: 0px;
+}
+ .deletemodal .deleteview .deleteheader a.deleteclose {
+	 position: absolute;
+	 right: 10px;
+	 top: -5px;
+	 text-decoration: none;
+	 color: #fff;
+	 transform: rotateZ(45deg);
+	 transform-style: preserve-3d;
+}
+ .deletemodal .deleteview .deleteheader a.deleteclose:before {
+	 content: '+';
+	 font-size: 28px;
+}
+ .deletemodal .deleteview .deleteheader a.deleteclose:hover {
+	 opacity: 0.5;
+}
+.deletefooter{
+    padding-left: 150px;            
+        }
+ .deletefooter>a:nth-child(1){
+    font-family: 'Nunito', sans-serif;
+	 margin: 10px;
+	 padding: 10px 20px;
+	 border: 2px solid #fff;
+	 border-radius: 3px;
+	 background: fff;
+	 color: gray;
+	 font-size: 14px;
+	 font-weight: 600;
+	 text-decoration: none;
+	 display: inline-block;     
+}
+.deletefooter>a:nth-child(2){
+     font-family: 'Nunito', sans-serif;
+     margin: 10px;
+	 padding: 10px 20px;
+	 border: 2px solid #fff;
+	 border-radius: 3px;
+	 background: #7dc8c9;
+	 color: white;
+	 font-size: 14px;
+	 font-weight: 600;
+	 text-decoration: none;
+	 display: inline-block;    
+}
+
+ .deletebutton:hover {
+     opacity: 70%;
+}
+ .deletepull-right {
+	 float: right;
+	 margin-left: 0px;
+}
+ @keyframes hide {
+	 0%, 100% {
+		 transform: translateY(-100%);
+	}
+}
+ 
+ 
 /* classes attached to <body> */
 
 .fc-not-allowed,
