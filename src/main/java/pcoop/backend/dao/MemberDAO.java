@@ -34,6 +34,17 @@ public class MemberDAO {
 		return mybatis.selectOne("Member.login",param);
 	}
 	
+	
+	public boolean duplCheck(String email){
+		int result = mybatis.selectOne("Member.duplCheck", email);
+		System.out.println("DAO duplCheck : "+result);
+		if(result > 0) { return true;}
+		else { return false;}
+	}
+	
+	
+	
+	
 	   // 회원가입 관련 메소드 (일단 유지)
 		public void join(Map<String, Object>map, MemberDTO dto) {
 			map.get("user_id");
@@ -42,6 +53,9 @@ public class MemberDAO {
 			sqlSession.insert("member.insertUser",map);        
 		}
 
+		
+		
+		
 	    //로그인관련 메소드 (미구현)
 	    public boolean loginCheck(MemberDTO dto) {
 	        String name
