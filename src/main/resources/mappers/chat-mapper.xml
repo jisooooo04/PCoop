@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Chat">
+	
+	
+	<insert id="insert">
+		insert into chat values(chat_seq.nextval, #{project_seq}, #{chatting_seq}, #{writer}, #{chat}, #{full_date}, #{form_date}, #{time}, #{file_path})
+	</insert>
+	
+	
+</mapper>

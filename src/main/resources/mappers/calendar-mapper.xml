@@ -18,5 +18,11 @@
 		select * from calendar where project_seq=${value}
 	</select>
 	
+	<update id="editEvent">
+		update calendar set title=#{title},contents=#{contents},writer=#{writer},start_date=#{start_date},end_date=#{end_date},color=#{color} where seq=${seq}
+	</update>
 	
+	<delete id="deleteEvent">
+		delete from calendar where seq=${value}
+	</delete>
 </mapper>

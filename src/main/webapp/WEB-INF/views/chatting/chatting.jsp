@@ -12,11 +12,34 @@
 
 <script>
 	$(function(){
+		//https://developer.mozilla.org/ko/docs/WebSockets/Writing_WebSocket_client_applications
+		
 		var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
+		
+		
+		ws.onopen = function(e){
+			var time = e.data;
+			
+			var chat_section = $("<div class='chat_section' id=chat_section>");
+			var chat_date_box = $("<div class=chat_date_box>");
+			var chat_date_btn = $("<button class=chat_date_btn>");
+			
+			chat_date_btn.append(e.data);
+			chat_date_box.append(chat_date_btn);
+			chat_section.append(chat_date_box);
+			
+		}
+		
 		
 		ws.onmessage = function(e){
 			
-			console.log(e.data);
+			var msg = JSON.parse(e.data);
+						
+			var id = msg.id;
+			var text = msg.text;
+			var date = msg.date;
+			var time = msg.time;
+			
 			
 			var chat_box = $("<div class='chat_box'>");
 			var profile = $("<div class='profile'>");
@@ -25,13 +48,17 @@
 			profile.append(profile_img);
 			
 			var chat_box_in = $("<div class='chat_box_in'>");
-			var name = $("<div class='name'>이름</div>");
-			var chat = $("<div class='chat'>")
+			var name = $("<div class='name'>");
+			var chat = $("<div class='chat'>");
+			var timediv = $("<div class='time'>");
 			
-			chat.append(e.data);
+			name.append(id);
+			chat.append(text);
+			timediv.append(time);
 			
 			chat_box_in.append(name);
 			chat_box_in.append(chat);
+			chat_box_in.append(timediv);
 			
 			chat_box.append(profile);
 			chat_box.append(chat_box_in);
@@ -42,30 +69,53 @@
 			
 		}
 		
-		
+		//엔터 버튼
 		$("#input").keydown(function(e){
 			if(e.keyCode == 13){  //13번 = 엔터키
-				var text = $("#input").html();
+				
+				var d = new Date();
+				
+				var week = ["일","월","화","수","목","금","토"];
+				var day = week[d.getDay()];
+				
+				var fulldate = d.toLocaleString();
+				var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
+				var time = d.toLocaleTimeString();
+				
+				var msg = {
+					type: "message",
+					text: $("#input").html(),
+					id: "jungblyy",
+					fulldate: fulldate,
+					date: date,
+					time: time
+				};
+				
+				ws.send(JSON.stringify(msg));  //json 데이터 string으로 보내기
 				
 				updateScroll();
 				$("#input").html("");
-				
-				ws.send(text)  //웹소켓에 보냄?
 				
 				return false; //엔터쳤을때 커서가 아래로 떨어지지 않게 막아줌
 			}
 		})
 		
 		
+		//전송 버튼
 		$("#send_btn").on("click", function(){
-			var text = $("#input").html();			
+			
+			var msg = {
+				type: "message",
+				text: $("#input").html(),
+				id: "jungblyy"
+			};
+			
+			ws.send(JSON.stringify(msg));
 			
 			updateScroll();
 			$("#input").html("");
 			
-			ws.send(text);
-
-			return false; //엔터쳤을때 커서가 아래로 떨어지지 않게 막아줌
+			return false;
 		})
 		
 		
@@ -73,6 +123,12 @@
 			var element = document.getElementById("chat_section");
 			element.scrollTop = element.scrollHeight;
 		}
+		
+		
+		//스크롤 위로 갈 시 이전 데이터 불러오기
+		$("#chat_section").on("scroll", function(){
+			
+		})
 		
 	})
 </script>
@@ -101,7 +157,7 @@
                 <div class="chat_section" id=chat_section>
                    <!-- 채팅 날짜 -->
                     <div class=chat_date_box>
-                        <button class=chat_date_btn>2020년 06월 25일 목요일</button>
+                        <button class=chat_date_btn>${date}</button>
                     </div>
                     
                     <!-- 대화 내용 -->
@@ -112,6 +168,7 @@
                         <div class=chat_box_in>
                             <div class=name>이름</div>
                             <div class=chat>내용</div>
+                            <div class=time>오전 11:48</div>
                         </div>
                     </div>
                 </div>

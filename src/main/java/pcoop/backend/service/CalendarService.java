@@ -31,4 +31,11 @@ public class CalendarService {
 		return Cdao.selectEvent(seq);
 	}
 	
+	public int editEvent(CalendarDTO dto) throws Exception{
+		return Cdao.editEvent(dto);
+	}
+	
+	public int deleteEvent (int seq) throws Exception{
+		return Cdao.deleteEvent(seq);
+	}
 }
