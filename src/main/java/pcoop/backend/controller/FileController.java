@@ -158,28 +158,9 @@ public class FileController {
 	@RequestMapping("downloadFile")
 	public void download(int seq, HttpServletResponse resp) throws Exception {
 
-		FileDTO dto = fdao.getFileBySeq(seq);
-		String filePath = session.getServletContext().getRealPath("upload");
-
-		File target = new File(dto.getSysFileName());
-		System.out.println(dto.getSysFileName());
-		try(DataInputStream dis = new DataInputStream(new FileInputStream(target));
-				ServletOutputStream sos = resp.getOutputStream();){
-
-			String fileName = new String(dto.getOriFileName().getBytes("utf8"), "iso-8859-1");
-			System.out.println(fileName);
-			byte[] fileContents = new byte[(int)target.length()];
-			dis.readFully(fileContents);
-
-			resp.reset();
-			resp.setContentType("application/octat-stream");
-			resp.setHeader("Content-disposition", "attachment;filename=" + fileName + ";");
-
-			sos.write(fileContents);
-			sos.flush();
-
-		}
-
+		// FileDTO dto = fdao.getFileBySeq(seq);
+		
+		
 	}
 
 }
