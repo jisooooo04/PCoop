@@ -10,51 +10,62 @@
 
 <script>
 	$(function() {
+		
+		// 디렉토리 리스트 출력 함수
+		function printDirList(dirlist){
+			
+			for (var i = 0; i < dirlist.length; i++) {
+
+				var patharr = dirlist[i].path.split('/');
+				var parent = "#root";
+				
+				for (var j = 2; j < patharr.length; j++) {
+
+					if (j == patharr.length - 1)
+						$(parent).append(
+								"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'><b>"
+										+ patharr[j] + "</b></li></ul>");
+					else
+						parent = "#" + patharr[j];
+
+				}
+
+			}
+			
+		}
+		
+		// 파일 리스트 가져오는 함수
+		function printFileList(fileList){
+			for (var i = 0; i < filelist.length; i++) {
+
+				var patharr = filelist[i].path.split('/');
+				var parent = "#root";
+
+				for (var j = 2; j < patharr.length; j++) {
+
+					if (j == patharr.length - 1)
+						$(parent)
+								.append(
+										"<ul><li class='file'>" + patharr[j]
+												+ "</li></ul>");
+					else
+						parent = "#" + patharr[j];
+
+				}
+
+			}
+		}
 
 		$(".backup").append("<ul id=root></ul>");
 
 		// 디렉토리 가지고 오기
 		var dirlist = ${dirlist};
+		printDirList(dirlist);
 		
-		for (var i = 0; i < dirlist.length; i++) {
-
-			var patharr = dirlist[i].path.split('/');
-			var parent = "#root";
-			
-			for (var j = 2; j < patharr.length; j++) {
-
-				if (j == patharr.length - 1)
-					$(parent).append(
-							"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'><b>"
-									+ patharr[j] + "</b></li></ul>");
-				else
-					parent = "#" + patharr[j];
-
-			}
-
-		}
 
 		// 파일 가지고 오기
 		var filelist = ${filelist};
-
-		for (var i = 0; i < filelist.length; i++) {
-
-			var patharr = filelist[i].path.split('/');
-			var parent = "#root";
-
-			for (var j = 2; j < patharr.length; j++) {
-
-				if (j == patharr.length - 1)
-					$(parent)
-							.append(
-									"<ul><li class='file'>" + patharr[j]
-											+ "</li></ul>");
-				else
-					parent = "#" + patharr[j];
-
-			}
-
-		}
+		printFileList(filelist);
 		
 		$(document).on("click", ".dir", function(e){
 			var id = this.id;
@@ -144,7 +155,6 @@
 			var seq = $(".menu_add_dir").attr("id").substring(3);
 			
 			var data = {
-					type: 'directory',
 					seq: seq
 			}
 			
@@ -152,8 +162,23 @@
 				url: "deleteDirectory",
 				type: "POST",
 				data: data,
-				success: function(){
+				success: function(data){
+					
 					$("#dir" + seq).remove();
+					$("#root").remove();
+					
+					var data = JSON.parse(data);
+					
+					// 리스트 새로 만들기
+					$(".backup").append("<ul id=root></ul>");
+					// 디렉토리 가지고 오기
+					var dirlist = JSON.parse(data.dirlist);
+					printDirList(dirlist);
+					
+					// 파일 가지고 오기
+					var filelist = JSON.parse(data.filelist);
+					printFileList(filelist);
+					
 				}
 			});
 			
