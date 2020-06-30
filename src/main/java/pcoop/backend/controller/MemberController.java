@@ -47,14 +47,32 @@ public class MemberController {
 
 	// mailSending 코드
 	@RequestMapping( value = "auth" , method=RequestMethod.POST )
-	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws IOException {
+	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws Exception {
 
+		// (미구현) 정규식으로 공백입력 차단
+		
+		
+		//입력 이메일 중복 체크
+		String tomail = request.getParameter("e_mail"); // 받는 사람 이메일
+		session.setAttribute("toemail", tomail); // 회원가입 페이지까지 갈 경우를 대비해 세션 저장
+		
+		if(mservice.duplCheck(tomail)) {
+			System.out.println("이메일 중복입력");
+			response_email.setContentType("text/html; charset=UTF-8");
+			PrintWriter duplCheck_msg = response_email.getWriter();
+			duplCheck_msg.println("<script>alert('이메일이 중복되었습니다.');</script>");
+			duplCheck_msg.flush();
+			ModelAndView mv2 = new ModelAndView();    //ModelAndView로 보낼 페이지를 지정하고, 보낼 값을 지정한다.
+			mv2.setViewName("member/email");     //뷰의이름
+			
+			return mv2;
+ 
+		}else{
+		
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; //이메일로 받는 인증코드 부분 (난수)
 
 		String setfrom = "okeydoke2@naver.com";
-		String tomail = request.getParameter("e_mail"); // 받는 사람 이메일
-		session.setAttribute("toemail", tomail); // 회원가입 페이지까지 갈 경우를 대비해 세션 저장
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
 
@@ -104,18 +122,24 @@ public class MemberController {
 		out_email.flush();
 
 		return mv;
-
+		}
 	}
 
 
 	//이메일 인증 페이지 맵핑 메소드
-	@RequestMapping("email.do")
+	@RequestMapping("toEmailView")
 	public String email() {
 		System.out.println("이메일 인증 페이지 맵핑 메소드");
 
 		return "member/email";
 	}
+	//이메일 인증 페이지 맵핑 메소드
+	@RequestMapping("toSignup")
+	public String toSignup() {
+		System.out.println("회원가입 페이지 맵핑 메소드");
 
+		return "member/signupView";
+	}
 
 	//이메일로 받은 인증번호를 입력하고 전송 버튼을 누르면 맵핑되는 메소드.
 	//내가 입력한 인증번호와 메일로 입력한 인증번호가 맞는지 확인해서 맞으면 회원가입 페이지로 넘어가고,
@@ -208,7 +232,7 @@ public class MemberController {
 	}
 
 	@RequestMapping("login") //로그인
-	public String login(String email, String pw, ServletRequest request) throws Exception{
+	public String login(String email, String pw, ServletRequest request, HttpServletResponse response) throws Exception{
 		Map<String,String> param =new HashMap<>();
 
 		param.put("loginId", email); // 이메일이 아이디 역할
@@ -219,8 +243,15 @@ public class MemberController {
 		if(mdto != null) {
 			this.session.setAttribute("loginInfo", mdto); // 로그인시 세션에 회원정보 저장
 			this.session.setAttribute("ip_address", ip_address);
+			return "redirect:/";
+		}else {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter login_fail = response.getWriter();
+			login_fail.println("<script>alert('회원정보가 일치하지않습니다. 이메일과 비밀번호를 다시 확인해주세요.'); history.go(-1);</script>");
+			login_fail.flush();
+			return "member/email";
 		}
-		return "redirect:/";
+	
 	}
 	
 	@RequestMapping("logout")
