@@ -124,7 +124,7 @@
 					id="pw" placeholder="Password" class="in" /> <br> <br>
 				<div class="id">
 					<input type="checkbox" class="checkbox" id="idSaveCheck"> <span>
-						email 기억하기(미구현)</span>
+						email 기억하기</span>
 				</div>
 				<br>
 				<button type="submit">LogIn</button>
