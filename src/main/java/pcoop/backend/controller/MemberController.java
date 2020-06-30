@@ -49,7 +49,7 @@ public class MemberController {
 	@RequestMapping( value = "auth" , method=RequestMethod.POST )
 	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws Exception {
 
-		// (미구현) 정규식으로 공백입력 차단
+		
 		
 		
 		//입력 이메일 중복 체크
