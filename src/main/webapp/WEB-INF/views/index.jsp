@@ -35,7 +35,7 @@
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
-			<a href="index.html" class="logo"><span id="logo">P</span>COOP!</a>
+			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
 				<!--<a href="generic.html">Generic</a>
 				<a href="elements.html">Elements</a> -->
