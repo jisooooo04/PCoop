@@ -93,5 +93,44 @@ public class FileController {
 		
 		return seq;
 	}
+	
+	@RequestMapping("deleteDirectory")
+	@ResponseBody
+	public String deleteDirectory(int seq) {
+		
+		String path = fservice.getDirPathBySeq(seq);
+		System.out.println(path);
+		
+		// 드라이브에서 디렉토리 삭제
+		fservice.deleteDirFromDrive(path);
+		// DB에서 디렉토리 delete
+		fservice.deleteDirectory(path);
+		
+		// 업데이트된 리스트 보내기
+		List<DirectoryDTO> dirList = fservice.getDirList();
+		List<FileDTO> fileList = fservice.getFileList();
+		
+		JsonArray dirArr = new JsonArray();
+		JsonArray fileArr = new JsonArray();
+		
+		for(DirectoryDTO dto : dirList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			dirArr.add(json);
+		}
+		
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			fileArr.add(json);
+		}
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("dirlist", new Gson().toJson(dirArr));
+		json.addProperty("filelist", new Gson().toJson(fileArr));
+		return new Gson().toJson(json);
+	}
 
 }

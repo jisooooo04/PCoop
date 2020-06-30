@@ -47,8 +47,8 @@ ul{
 }
 
 .contextmenu li:hover {
-	background: #CE93D8;
-	border-left: 3px solid #9C27B0;
+	background: #7dc8c9;
+	border-left: 3px solid #519D9E;
 }
 
 .contextmenu li:hover a {
@@ -57,4 +57,14 @@ ul{
 
 .add_dir>input{
 	border: none;
+}
+
+.delete_dir{
+	background-color: #7dc8c9;
+	color: white;
+}
+
+.delete_dir_cancel{
+	background-color: lightgray;
+	color: white;
 }

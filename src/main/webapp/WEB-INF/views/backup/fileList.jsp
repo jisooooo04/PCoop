@@ -15,121 +15,12 @@
 
 		// 디렉토리 가지고 오기
 		var dirlist = ${dirlist};
+		printDirList(dirlist);
 		
-		for (var i = 0; i < dirlist.length; i++) {
-
-			var patharr = dirlist[i].path.split('/');
-			var parent = "#root";
-			
-			for (var j = 2; j < patharr.length; j++) {
-
-				if (j == patharr.length - 1)
-					$(parent).append(
-							"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'><b>"
-									+ patharr[j] + "</b></li></ul>");
-				else
-					parent = "#" + patharr[j];
-
-			}
-
-		}
 
 		// 파일 가지고 오기
 		var filelist = ${filelist};
-
-		for (var i = 0; i < filelist.length; i++) {
-
-			var patharr = filelist[i].path.split('/');
-			var parent = "#root";
-
-			for (var j = 2; j < patharr.length; j++) {
-
-				if (j == patharr.length - 1)
-					$(parent)
-							.append(
-									"<ul><li class='file'>" + patharr[j]
-											+ "</li></ul>");
-				else
-					parent = "#" + patharr[j];
-
-			}
-
-		}
-		
-		$(document).on("click", ".dir", function(e){
-			var id = this.id;
-			console.log(id);
-			var left = $("#" + id).offset().left;
-			var top = $("#" + id).offset().top + 30;
-			   
-			//Display contextmenu:
-				$(".add_dir").css({
-				  "left": left,
-				  "top": top
-				});
-			
-			$(".contextmenu").css({
-			  "left": left,
-			  "top": top
-			}).show();
-			
-			$(".menu_dir").attr("id", id);
-
-			//Prevent browser default contextmenu.
-			return false;
-		})
-		
-		
-		//Hide contextmenu:
-		  $(document).click(function(){
-		    $(".contextmenu").hide();
-		  });
-		
-		$(".menu_dir").on("click", function(){
-			
-			var id = this.id;
-			var left = $("#" + id).offset().left;
-			var top = $("#" + id).offset().top + 30;
-			
-			$(".add_dir").css({
-				  "left": left,
-				  "top": top
-				}).show();
-			
-			$(".contextmenu").hide();
-		})
-		
-		// 새 디렉토리 추가
-		$("#ok").on("click", function(){
-			
-			var parent_seq = $(".menu_dir").attr("id").substring(3);
-			var name = $("#dir_name").val();
-			var data = {
-					parent_seq: parent_seq,
-					name: name,
-			};
-			
-			$.ajax({
-				url: "addDirectory",
-				type: "POST",
-				data: data,
-				success: function(data){
-					$("#dir" + parent_seq).append(
-							"<ul><li class='dir' id='dir" + data + "'>"
-							+ name + "</li></ul>");
-				}
-			});
-			$(".add_dir").hide();
-			$("#dir_name").val("");
-
-		})
-		
-		// 새 디렉토리 추가 취소
-		$("#cancel").on("click", function(){
-			$(".add_dir").hide();
-
-		})
-		
+		printFileList(filelist);
 		
 	})
 	
@@ -139,7 +30,6 @@
 </head>
 <body>
 	<jsp:include page="../header/header.jsp"></jsp:include>
-	<!-- 왼쪽 사이드바 -->
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
 	<section>
@@ -148,8 +38,10 @@
 
 			<!-- 여기부터 각자 영역 설정 -->
 			<ul class="contextmenu">
-				<li class="menu_dir"><a href="#">하위 디렉토리 추가</a></li>
-				<li class="menu_file"><a href="#">파일 업로드</a></li>
+				<li class="menu_add_file"><a href="#">파일 업로드</a></li>
+				<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
+				<li class="menu_delete_dir"><a href="#">디렉토리 삭제</a></li>
+				
 			</ul>
 			
 			<div class="add_dir">
@@ -158,9 +50,33 @@
 				<input type="button" id="cancel" value="취소">
 			</div>
 
+			<!-- 디렉토리 삭제 경고 Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">정말 삭제하시겠습니까?</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			       드라이브에 들어 있던 모든 디렉토리와 파일이 삭제됩니다. 삭제 후, 복구하실 수 없습니다.
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn delete_dir_cancel" data-dismiss="modal">CANCEL</button>
+			        <button type="button" class="btn delete_dir">YES</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
 
 	</section>
+	<script src="resources/js/backup/directory.js"></script>
+	<script src="resources/js/backup/file.js"></script>
+	
 </body>
 </html>

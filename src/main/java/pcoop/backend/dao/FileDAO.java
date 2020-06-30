@@ -39,6 +39,12 @@ public class FileDAO {
 		
 		return jdbc.update(sql, 11, name, path);
 	}
+	
+	// 디렉토리 delete
+	public int deleteDirectory(String path) {
+		String sql = "delete from directory where path like ?";
+		return jdbc.update(sql, path + "%");
+	}
 
 	// 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(){
