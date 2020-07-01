@@ -68,8 +68,18 @@ public class FileDAO {
 
 	}
 	
-	public String getFilePathByFileSeq(int file_seq) {
-		return "";
+	// 같은 디렉토리 내 파일명 중복 확인
+	public int checkDuplFileName(int directory_seq, String name) {
+		
+		String sql = "select count(*) from files where directory_seq = ? and name = ?";
+		return jdbc.queryForObject(sql, new Object[] {directory_seq, name}, Integer.class);
+	}
+	
+	public String getFilePathBySeq(int seq) {
+		
+		String sql = "select path from files where seq = ?";
+		
+		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
 	}
 	
 	// 특정 디렉토리 내 파일 리스트
@@ -121,6 +131,14 @@ public class FileDAO {
 			}
 		});
 
+	}
+	
+	// 파일 삭제
+	public int insertFile(int project_seq, int directory_seq, String directory_path,
+			String name, String extension, String path, String uploader){
+		
+		String sql = "insert into files values(files_seq.nextval, ?, ?, ?, ?, ?, ?, sysdate, ?)";
+		return jdbc.update(sql, project_seq, directory_seq, directory_path, name, extension, path, uploader);
 	}
 
 

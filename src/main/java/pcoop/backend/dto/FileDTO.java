@@ -103,9 +103,5 @@ public class FileDTO {
 	public void setUploader(String uploader) {
 		this.uploader = uploader;
 	}
-
 	
-	
-	
-
 }

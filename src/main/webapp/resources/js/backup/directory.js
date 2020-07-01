@@ -11,7 +11,7 @@ function printDirList(dirlist){
 	for (var i = 0; i < dirlist.length; i++) {
 
 		var patharr = dirlist[i].path.split('/');
-		var parent = "#root";
+		var parent = ".root";
 
 		for (var j = 2; j < patharr.length; j++) {
 
@@ -34,7 +34,7 @@ function printFileList(filelist){
 	for (var i = 0; i < filelist.length; i++) {
 
 		var patharr = filelist[i].path.split('/');
-		var parent = "#root";
+		var parent = ".root";
 
 		for (var j = 2; j < patharr.length; j++) {
 
@@ -52,9 +52,13 @@ function printFileList(filelist){
 }
 
 //디렉토리 - 클릭 - 디렉토리 내 파일 리스트
-$(document).on("click", ".dir", function(){
-
+$(document).on("click", ".dir", function(event){
+	
+	// 이벤트 버블링 방지
+	event.stopImmediatePropagation();
+	
 	var dir_seq = this.id.substring(3);
+	$(".menu_upload_file").attr("id", dir_seq);
 
 	var data = {
 			dir_seq: dir_seq
@@ -70,7 +74,11 @@ $(document).on("click", ".dir", function(){
 			var files = JSON.parse(data);
 
 			for(var i = 0 ; i < files.length ; i++){
-				$(".files").append("<div class=file id=f" + files[i].seq + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				
+				var id = "f" + files[i].seq;
+				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
+				
 			}
 
 
@@ -96,7 +104,6 @@ $(document).on("contextmenu", ".dir", function(e){
 		"top": top
 	}).show();
 
-	$(".menu_add_file").attr("id", id);
 	$(".menu_add_dir").attr("id", id);
 	$(".menu_delete_dir").attr("id", id);
 	//Prevent browser default contextmenu.
@@ -107,6 +114,8 @@ $(document).on("contextmenu", ".dir", function(e){
 //Hide contextmenu:
 $(document).click(function(){
 	$(".contextmenu").hide();
+	$(".contextmenu_container").hide();
+
 });
 
 //디렉토리 추가 버튼 - 드롭다운 메뉴
@@ -157,13 +166,13 @@ $("#cancel").on("click", function(){
 
 //디렉토리 삭제 버튼 - 경고 모달 창
 $(".menu_delete_dir").on("click", function(){
-	$(".modal").modal();
+	$(".modal_alert").modal();
 })
 
 //디렉토리 삭제
 $(".delete_dir").on("click", function(){
 
-	$(".modal").modal('hide');
+	$(".modal_alert").modal('hide');
 
 	var seq = $(".menu_add_dir").attr("id").substring(3);
 

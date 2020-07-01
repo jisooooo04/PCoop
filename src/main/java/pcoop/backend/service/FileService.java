@@ -1,6 +1,7 @@
 package pcoop.backend.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import pcoop.backend.dao.FileDAO;
 import pcoop.backend.dto.DirectoryDTO;
@@ -60,12 +62,12 @@ public class FileService {
 	public List<FileDTO> getFileList(){
 		return fdao.getFileList();
 	}
-	
+
 	// 특정 디렉토리 내 파일 리스트 가져오기 
 	public List<FileDTO> getFileListByDirSeq(int dir_seq){
 		return fdao.getFileListByDirSeq(dir_seq);
 	}
-	
+
 	// DB에서 디렉토리 삭제
 	public int deleteDirectory(String path) {
 		return fdao.deleteDirectory(path);
@@ -81,23 +83,23 @@ public class FileService {
 
 	// 하위 디렉토리까지 회귀하여 디렉토리 삭제(from drive)
 	public void deleteDirRecursiveFromDrive(String path) {
-		
+
 		File dir = new File(path);
 		File[] flist = new File(path).listFiles();
 
 		for (int i = 0; i < flist.length; i++) {
-			
+
 			if(flist[i].isFile()) {
 				flist[i].delete();
 			}else {
 				deleteDirRecursiveFromDrive(flist[i].getPath()); //재귀 함수 호출
 			}
-			
+
 			flist[i].delete();
 		}
-		
+
 		dir.delete(); //폴더 삭제
-		
+
 	}
 	// 드라이브에서 직접 디렉토리 리스트 가져오기
 	public List<String> getDirListFromDrive(String strDirPath){
@@ -136,7 +138,6 @@ public class FileService {
 	public List<String> getFileListFromDrive(String strDirPath){
 
 		List<String> list = new ArrayList<>();
-
 		getFileListRecursiveFromDrive(strDirPath, list);
 		return list;
 
@@ -164,6 +165,65 @@ public class FileService {
 
 		}
 
+	}
+	
+	// DB에 새로운 파일 추가하고 seq 넘기기
+	public void uploadFile(int dir_seq, MultipartFile file) throws Exception {
+
+		int project_seq = 11;
+		String dir_path = fdao.getDirPathBySeq(dir_seq);
+		String name = file.getOriginalFilename().split(dir_path)[0];
+		String extension = name.substring(name.indexOf('.'));
+		String path = dir_path + "/" + name;
+		String uploader = "temp";
+		
+		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader);
+		
+	}
+	
+	// 파일명 중복 확인 후, rename
+	public MultipartFile renameFile(int dir_seq, MultipartFile file) {
+		
+		String name = file.getName();
+		int checkDupl = fdao.checkDuplFileName(dir_seq, name);
+		
+		if(checkDupl > 0) {
+			
+			
+		}
+		
+		return file;
+	}
+
+	// 드라이브에 파일 업로드
+	public String uploadFileToDrive(int dir_seq, MultipartFile file) throws Exception {
+
+		String dirPath = fdao.getDirPathBySeq(dir_seq);
+		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
+
+		if(!file.isEmpty()) {
+
+			//file.transferTo(new File());
+			String systemFileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+			File targetLoc = new File(path + "/" + systemFileName);
+			file.transferTo(targetLoc);
+
+		}
+
+		return file.getName();
+	}
+
+	// 드라이브에서 파일 지우기
+	public void deleteFileFromDrive(int seq) {
+		String path = fdao.getFilePathBySeq(seq);
+		File file = new File(path);
+		System.out.println(file.isFile());
+		// file.delete();
+	}
+	
+	// DB 목록에서 파일 지우기
+	public void deleteFile(int seq) {
+		
 	}
 
 

@@ -1,11 +1,8 @@
 package pcoop.backend.controller;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -60,7 +58,6 @@ public class FileController {
 		// DB에서 목록 가져올 때
 		List<DirectoryDTO> dirList = fservice.getDirList();
 		List<FileDTO> fileList = fservice.getFileList();
-
 		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
 
@@ -99,7 +96,6 @@ public class FileController {
 			fileArr.add(json);
 		}
 
-		System.out.println(fileArr);
 		return new Gson().toJson(fileArr);
 	}
 
@@ -154,6 +150,35 @@ public class FileController {
 		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
 	}
+	
+	@RequestMapping("uploadFile")
+	@ResponseBody
+	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
+		
+		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
+		
+		// 파일 중복명 확인
+		file = fservice.renameFile(dir_seq, file);
+		// 드라이브에 파일 생성
+		fservice.uploadFileToDrive(dir_seq, file);
+		// DB에 파일 업데이트
+		fservice.uploadFile(dir_seq, file);
+		
+		// 디렉토리의 파일 목록 다시 가져오기
+		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray fileArr = new JsonArray();
+
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("name", dto.getName());
+			fileArr.add(json);
+		}
+
+		return new Gson().toJson(fileArr);
+				
+	}
 
 	@RequestMapping("downloadFile")
 	public void download(int seq, HttpServletResponse resp) throws Exception {
@@ -161,6 +186,28 @@ public class FileController {
 		// FileDTO dto = fdao.getFileBySeq(seq);
 		
 		
+	}
+	
+	@RequestMapping("deleteFile")
+	@ResponseBody
+	public String delete(int dir_seq, int seq) {
+		
+		fservice.deleteFileFromDrive(seq);
+		
+		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray fileArr = new JsonArray();
+
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("name", dto.getName());
+			System.out.println("name : " + dto.getName());
+			fileArr.add(json);
+		}
+
+		return new Gson().toJson(fileArr);
+
 	}
 
 }
