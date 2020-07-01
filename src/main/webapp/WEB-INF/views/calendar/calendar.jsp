@@ -4,14 +4,13 @@
 <html>
 <head>
 <link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
-<script src='/resources/js/calendar.js'></script>
+<script src='/resources/js/calendar/calendar.js'></script>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<script
+<!-- <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
 	integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous"></script> -->
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -26,13 +25,13 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      initialDate: '2020-06-12',
+     /*  initialDate: '2020-06-12', */
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
       select: function(arg) {
           function date_to_str(format)
-          {
+          {//날짜형식 내가 원하는 대로 바꾸는 함수 
               var year = format.getFullYear();
               var month = format.getMonth() + 1;
               if(month<10) month = '0' + month;
@@ -67,22 +66,120 @@
     		} 	
     	})
     	
-        //일정 생성하기 버튼 눌렀을 때
-        $("#save").on("click",function(){
-            var title = $("#recipient-name").val();
-            var start = ($('#modal_date_start').val()).replace(/(.{16})/,'$1:00');
-            var end = ($('#modal_date_end').val()).replace(/(.{16})/,'$1:00');
-            var color = $('input[type=radio][name=color]:checked').val();
-     	
-            $.ajax({
+       
+        
+        calendar.unselect();
+      },
+      eventClick: function(arg) {
+    	var seq = arg.event.id;
+	
+    	$.ajax({
+    		url : "selectEvent",
+    		type: "post",
+    		data:{seq:seq}
+    	}).done(function(resp){
+    		resp=JSON.parse(resp);
+    		var seq=resp.seq;
+  			var projcet_seq=resp.project_seq;
+  			var title = resp.title;
+  			var contents = resp.contents;
+  			var writer = resp.writer;
+  			var start_date=resp.start_date;
+  			var end_date=resp.end_date;
+  			var color=resp.color;
+  			
+  			$('.dialog__content h4').append('<div class='+'dynamic'+'>'+title+'</div>'); 
+  			$('.dialog__content>div:nth-child(2)').append('<div class="dynamic" style="width:270px;">'+contents+'</div>');
+  			$('.dialog__content>div:nth-child(4)').append('<div class='+'dynamic'+'>'+start_date+'</div>');
+  			$('.dialog__content>div:nth-child(4)').after('<div class='+'dynamic'+' style="margin-left:80px">'+end_date+'</div>');
+  			$('.dialog__content>div:nth-child(6)').append('<div class="dynamic" style="float:left">'+writer+'</div>');
+  			
+  			$('#title-color').css('background-color',color);
+  			
+    		const modal = document.querySelector('dialog');
+        	const btnClose = document.querySelectorAll('.button-close');
+        	modal.showModal();
+        	btnClose.forEach((elm) => elm.addEventListener('click', () => closeModal()));
+        	modal.addEventListener('click', (e) => detectBackdropClick(e));
+      
+        	closeModal = () => {
+        	    modal.classList.add("dialog__animate-out");
+        	    modal.addEventListener('animationend', handleClose, false);
+        	   
+        	}
+
+        	handleClose = () => {
+        	    modal.classList.remove("dialog__animate-out");
+        	    modal.removeEventListener('animationend', handleClose, false);
+        	    modal.close();
+        	    $('.dynamic').remove(); 
+        	}
+
+        	detectBackdropClick = (event) => {
+        	    if(event.target === modal) {
+        	        closeModal();
+        	    }
+        	}
+        	
+        	 $('#eventEdit').on('click',function(){    		 
+        		 closeModal();	
+        		 //수정하기 modal에  값 채워넣기 
+        		 $('#Editrecipient-name').val(title);
+        		 $("#Editmessage-text").val(contents)
+        		 $('#Editmodal_date_start').val(start_date);
+        		 $('#Editmodal_date_end').val(end_date);
+        		 /* $('.Editcustom-radios input[type=radio][name=Editcolor][background-color:'+color+']:checked'); */
+        		 //색깔 선택 수정하기 !!!!!!
+        		 sessionStorage.setItem("seq",seq);
+            	 $("#EditmyModal").modal();
+        		 
+            }) 
+            
+            $('#eventDelete').on("click",function(){//일정 삭제하기
+            	sessionStorage.setItem("seq",seq);
+            	closeModal();
+            	$('#deleteModal').modal();
+            })
+            
+            
+    	})	
+    
+      },
+     /*  editable: true, */
+      dayMaxEvents: true, // allow "more" link when too many events
+      events: [
+    	   <c:forEach var="i" items="${list}">
+         	{
+         		id:'${i.seq}',
+         		title:'${i.title}',
+         		start:'${i.start_date}',
+         		end:'${i.end_date}',
+         		color:'${i.color}'
+         	},
+         </c:forEach>	 
+      ]
+    });
+   
+    //일정 생성하기 버튼 눌렀을 때 : 이벤트 안에 이벤트를 넣으면 버그가 일어난다!  
+	   $("#save").on("click",function(){
+        var title = $("#recipient-name").val();
+        var start = $('#modal_date_start').val();
+        var end =$('#modal_date_end').val(); 
+        var color = $('input[type=radio][name=color]:checked').val();
+ 		
+        if(title==''){
+        	alert("제목은 필수 입력값 입니다!");
+        	
+        }else{
+        	$.ajax({
             	url:"addEvent",
             	type:"post",
             	data:{
             		title : title,
             		start_date : start,
-            		end_date: end ,
+            		end_date: end,
             		contents : $("#message-text").val(),
-            		writer : 'writer',
+            		writer : '${loginInfo.name}',
             		color : color,
             		poject_seq:0
             	}
@@ -100,157 +197,103 @@
                 }
            		
             })
-            
-            
-            
-          /*   modal clean 하기 */
+            /*   modal clean 하기 */
             $("#recipient-name").val("");
             $('#modal_date_start').val("");
             $('#modal_date_end').val("");
             $("#message-text").val("");
             $("#modal_select").val('red');
-				
+    			
             
             /* modal hide  */
             $("#myModal").modal('hide');
-        })
+        }
         
-        calendar.unselect();
-      },
-      eventClick: function(arg) {
-    	var seq = arg.event.id;
-    	$.ajax({
-    		url : "selectEvent",
-    		type: "post",
-    		data:{seq:seq}
-    	}).done(function(resp){
-    		resp=JSON.parse(resp);
-    		var seq=resp.seq;
-  			var projcet_seq=resp.project_seq;
-  			var title = resp.title;
-  			var contents = resp.contents;
-  			var writer = resp.writer;
-  			var start_date=resp.start_date;
-  			var end_date=resp.end_date;
-  			var color=resp.color;
-  			
-  			$('.dialog__content h4').append('<div class='+'dynamic'+'>'+title+'</div>'); 
-  			$('.dialog__content>div:nth-child(2)').append('<div class='+'dynamic'+'>'+contents+'</div>');
-  			$('.dialog__content>div:nth-child(4)').append('<div class='+'dynamic'+'>'+start_date+'</div>');
-  			$('.dialog__content>div:nth-child(4)').after('<div class='+'dynamic'+' style="margin-left:80px">'+end_date+'</div>');
-  			$('.dialog__content>div:nth-child(6)').append('<div class='+'dynamic'+'>'+writer+'</div>');
-  			
-  			$('#title-color').css('background-color',color);
-  			
-    		const modal = document.querySelector('dialog');
-        	const btnClose = document.querySelectorAll('.button-close');
-        	modal.showModal();
-        	btnClose.forEach((elm) => elm.addEventListener('click', () => closeModal()));
-        	modal.addEventListener('click', (e) => detectBackdropClick(e));
-      
-        	closeModal = () => {
-
-        	    modal.classList.add("dialog__animate-out");
-        	    modal.addEventListener('animationend', handleClose, false);
-        	   
-        	}
-
-        	handleClose = () => {
-        	    modal.classList.remove("dialog__animate-out");
-        	    modal.removeEventListener('animationend', handleClose, false);
-        	    modal.close();
-        	    
-     		   $('.dynamic').remove();
-        	}
-
-        	detectBackdropClick = (event) => {
-        	    if(event.target === modal) {
-        	        closeModal();
-        	       /*  $('.dynamic').remove(); */
-        	    }
-        	}
-        	
-        	 $('#eventEdit').on('click',function(){    		 
-        		 closeModal();	
-        		 //수정하기 modal에  값 채워넣기 
-        		 $('#Editrecipient-name').val(title);
-        		 $("#Editmessage-text").val(contents)
-        		 $('#Editmodal_date_start').val(start_date);
-        		 $('#Editmodal_date_end').val(end_date);
-        		 /* $('.Editcustom-radios input[type=radio][name=Editcolor][background-color:'+color+']:checked'); */
-        		 //색깔 선택 수정하기 !!!!!!
-            	 $("#EditmyModal").modal();
-            	
-            	
-            }) 
-    	})
-    	
-    	$('#Editsave').on("click",function(){
-            		var Edittitle = $('#Editrecipient-name').val();
-            		var Editstart = ($('#Editmodal_date_start').val()).replace(/(.{16})/,'$1:00');
-            		var Editend = ($('#Editmodal_date_end').val()).replace(/(.{16})/,'$1:00');
-            		var Editcolor = $('input[type=radio][name=Editcolor]:checked').val();
-            		
-            		$.ajax({
-            			url:'EditEvent',
-            			type:'post',
-            			data:{
-            				seq:seq, //수정하려면 seq 필요 . 맨 첫번째 줄에서 seq 선언. 
-            				title:Edittitle,
-            				start_date:Editstart,
-                			end_date:Editend,
-                			contents: $("#Editmessage-text").val(),
-                			writer:'writer',
-                			color: Editcolor,
-                			project_seq:0
-            			}		
-            		}).done(function(resp){	
-            			 
-               		  arg.event.remove();  //일단 삭제 하고 
-           			 if(Edittitle){//다시 만든다 똑같은 id(seq) 써주기
-           				calendar.addEvent({
-           					id:seq,
-           					title:Edittitle,
-           					start:Editstart,
-           					end:Editend,
-           					color:Editcolor
-           				})
-           			} 
-           			 /*   modal clean 하기 */
-                       $("#Editrecipient-name").val("");
-                       $('#Editmodal_date_start').val("");
-                       $('#Editmodal_date_end').val("");
-                       $("#Editmessage-text").val("");
-                       $("#Editmodal_select").val('red');
-           				
-                       
-                       /* modal hide  */
-                       $("#EditmyModal").modal('hide'); 
-                       
-            		 })
-            		 
-            	})
-            	
-            	
-      },
-      editable: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-    	  <c:forEach var="i" items="${list}">
-         	{
-         		id:'${i.seq}',
-         		title:'${i.title}',
-         		start:'${i.start_date}',
-         		end:'${i.end_date}',
-         		color:'${i.color}'
-         	},
-         </c:forEach>	
-      ]
-    });
-   
-    calendar.render(); 
+        
+        
+        
     
+    })
     
+ //ㅡㅡㅡㅡㅡㅡㅡㅡ일정 수정하기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+  $('#Editsave').on("click",function(){//수정완료 버튼 
+	       			
+        	var seq = sessionStorage.getItem("seq");          
+       		var Edittitle = $('#Editrecipient-name').val();
+       		var Editstart = $('#Editmodal_date_start').val();
+       		var Editend = $('#Editmodal_date_end').val();
+       		var Editcolor = $('input[type=radio][name=Editcolor]:checked').val();
+       		
+       	 if(Edittitle==''){
+         	alert("제목은 필수 입력값 입니다!");
+         	
+         }else{
+        	 $.ajax({
+        			url:'EditEvent',
+        			type:'post',
+        			data:{ 
+        			seq:seq, //수정하려면 seq 필요 . 맨 첫번째 줄에서 seq 선언. 
+        			title:Edittitle,
+        			start_date:Editstart,
+          			end_date:Editend,
+          			contents: $("#Editmessage-text").val(),
+          			writer:'${loginInfo.name}',
+          			color: Editcolor,
+          			project_seq:0
+        			}		
+        		}).done(function(resp){	
+        	       
+        		   //일단 삭제 하고 
+        		   var eventObj = calendar.getEventById(seq);
+        			eventObj.remove(); 
+ 	
+        		  if(Edittitle){//다시 만든다 똑같은 id(seq) 써주기
+        			 	 calendar.addEvent({
+        					id:seq,
+        					title:Edittitle,
+        					start:Editstart,
+        					end:Editend,
+        					color:Editcolor
+        				})
+        			}    
+        			
+        		
+        			
+        			    //modal clean 하기 
+                 $("#Editrecipient-name").val("");
+                 $('#Editmodal_date_start').val("");
+                 $('#Editmodal_date_end').val("");
+                 $("#Editmessage-text").val("");
+                 $("#Editmodal_select").val('red');
+        				
+                  
+                 /* modal hide  */
+                   $("#EditmyModal").modal('hide'); 
+                   sessionStorage.removeItem('seq');
+                 
+        		 })
+         }
+       		
+       		
+       		  
+       	}) 
+             //ㅡㅡㅡㅡㅡㅡㅡㅡ일정 삭제하기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ	         
+                   $("#deletebtn").on("click",function(){                  
+                	   var seq = sessionStorage.getItem("seq"); 
+                      $.ajax({
+                         url:'DeleteEvent',
+                         type:'post',
+                         data:{seq:seq}
+                      }).done(function(resp){
+                    	  sessionStorage.removeItem('seq');
+                      })
+                  	var eventObj = calendar.getEventById(seq);
+             			eventObj.remove();
+                   }) 
+                  
+               
+             	
+   calendar.render(); 
   });
 
 </script>
@@ -393,9 +436,9 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
+								<button type="button" class="btn btn-light"
 									data-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary" id="save">완료</button>
+								<button type="button" class="btn btn-info" id="save">완료</button>
 							</div>
 						</form>
 					</div>
@@ -556,9 +599,9 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
+								<button type="button" class="btn btn-light"
 									data-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary" id="Editsave">완료</button>
+								<button type="button" class="btn btn-info" id="Editsave">완료</button>
 							</div>
 						</form>
 					</div>
@@ -566,13 +609,45 @@
 			</div>
 			
 			<!--ㅡㅡㅡㅡㅡ /일정 수정하기 modal ㅡㅡㅡㅡㅡㅡㅡ-->
-		
+			
+				<!--ㅡㅡㅡㅡㅡ 삭제 확인 modal ㅡㅡㅡㅡㅡㅡㅡ-->
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">일정 삭제</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        일정을 삭제하시겠습니까?
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-info" id="deletebtn" data-dismiss="modal">삭제</button>
+      </div>
+    </div>
+  </div>
+</div>
+     								
+<!--ㅡㅡㅡㅡㅡ /삭제 확인 modal ㅡㅡㅡㅡㅡㅡㅡ-->
 		</div>
 
 	</section>
 
 
-
+<script>
+$('#myModal').on('hidden.bs.modal', function (e) {
+	 $("#recipient-name").val("");
+     $('#modal_date_start').val("");
+     $('#modal_date_end').val("");
+     $("#message-text").val("");
+     $("#modal_select").val('red');
+})
+</script>
 
 </body>
 </html>
