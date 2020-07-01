@@ -60,7 +60,6 @@ public class FileController {
 		// DB에서 목록 가져올 때
 		List<DirectoryDTO> dirList = fservice.getDirList();
 		List<FileDTO> fileList = fservice.getFileList();
-
 		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
 
@@ -78,6 +77,7 @@ public class FileController {
 			fileArr.add(json);
 		}
 
+		System.out.println(dirArr);
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		model.addAttribute("filelist", new Gson().toJson(fileArr));
 		return "backup/fileList";
