@@ -49,9 +49,6 @@ public class MemberController {
 	@RequestMapping( value = "auth" , method=RequestMethod.POST )
 	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws Exception {
 
-		
-		
-		
 		//입력 이메일 중복 체크
 		String tomail = request.getParameter("e_mail"); // 받는 사람 이메일
 		session.setAttribute("toemail", tomail); // 회원가입 페이지까지 갈 경우를 대비해 세션 저장
@@ -129,14 +126,13 @@ public class MemberController {
 	//이메일 인증 페이지 맵핑 메소드
 	@RequestMapping("toEmailView")
 	public String email() {
-		System.out.println("이메일 인증 페이지 맵핑 메소드");
-
+		System.out.println("이메일 인증 페이지로 이동");
 		return "member/email";
 	}
-	//이메일 인증 페이지 맵핑 메소드
+	//회원가입 페이지 맵핑 메소드
 	@RequestMapping("toSignup")
 	public String toSignup() {
-		System.out.println("회원가입 페이지 맵핑 메소드");
+		System.out.println("회원가입 페이지로 이동");
 
 		return "member/signupView";
 	}
@@ -241,6 +237,8 @@ public class MemberController {
 		String ip_address = request.getRemoteAddr();
 
 		if(mdto != null) {
+			System.out.println(mdto.getName() +" : "+ mdto.getEmail());
+
 			this.session.setAttribute("loginInfo", mdto); // 로그인시 세션에 회원정보 저장
 			this.session.setAttribute("ip_address", ip_address);
 			return "redirect:/";
