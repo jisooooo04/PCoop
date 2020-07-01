@@ -156,6 +156,9 @@ public class FileController {
 	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
 		
 		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
+		
+		// 파일 중복명 확인
+		file = fservice.renameFile(dir_seq, file);
 		// 드라이브에 파일 생성
 		fservice.uploadFileToDrive(dir_seq, file);
 		// DB에 파일 업데이트
@@ -170,7 +173,6 @@ public class FileController {
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			json.addProperty("name", dto.getName());
-			System.out.println("name : " + dto.getName());
 			fileArr.add(json);
 		}
 
@@ -184,6 +186,28 @@ public class FileController {
 		// FileDTO dto = fdao.getFileBySeq(seq);
 		
 		
+	}
+	
+	@RequestMapping("deleteFile")
+	@ResponseBody
+	public String delete(int dir_seq, int seq) {
+		
+		fservice.deleteFileFromDrive(seq);
+		
+		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray fileArr = new JsonArray();
+
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("name", dto.getName());
+			System.out.println("name : " + dto.getName());
+			fileArr.add(json);
+		}
+
+		return new Gson().toJson(fileArr);
+
 	}
 
 }

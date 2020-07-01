@@ -74,9 +74,11 @@ $(document).on("click", ".dir", function(event){
 			var files = JSON.parse(data);
 
 			for(var i = 0 ; i < files.length ; i++){
+				
 				var id = "f" + files[i].seq;
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				$("#" + id).append("<button id=btn_" + id + " type=button>삭제</button>");
+				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
+				
 			}
 
 

@@ -180,16 +180,29 @@ public class FileService {
 		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader);
 		
 	}
+	
+	// 파일명 중복 확인 후, rename
+	public MultipartFile renameFile(int dir_seq, MultipartFile file) {
+		
+		String name = file.getName();
+		int checkDupl = fdao.checkDuplFileName(dir_seq, name);
+		
+		if(checkDupl > 0) {
+			
+			
+		}
+		
+		return file;
+	}
 
 	// 드라이브에 파일 업로드
-	public void uploadFileToDrive(int dir_seq, MultipartFile file) throws Exception {
+	public String uploadFileToDrive(int dir_seq, MultipartFile file) throws Exception {
 
 		String dirPath = fdao.getDirPathBySeq(dir_seq);
 		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
 
 		if(!file.isEmpty()) {
 
-			System.out.println("filesUpload : " + file.getOriginalFilename());
 			//file.transferTo(new File());
 			String systemFileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 			File targetLoc = new File(path + "/" + systemFileName);
@@ -197,9 +210,21 @@ public class FileService {
 
 		}
 
+		return file.getName();
 	}
 
+	// 드라이브에서 파일 지우기
+	public void deleteFileFromDrive(int seq) {
+		String path = fdao.getFilePathBySeq(seq);
+		File file = new File(path);
+		System.out.println(file.isFile());
+		// file.delete();
+	}
 	
+	// DB 목록에서 파일 지우기
+	public void deleteFile(int seq) {
+		
+	}
 
 
 }

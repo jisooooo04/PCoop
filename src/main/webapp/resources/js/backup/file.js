@@ -51,7 +51,7 @@ $("#uploadSubmit").on("click", function(event){
 			for(var i = 0 ; i < files.length ; i++){
 				var id = "f" + files[i].seq;
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				$("#" + id).append("<button id=btn_" + id + " type=button>삭제</button>");
+				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
 			}
         },
         error: function (e) {
@@ -59,11 +59,35 @@ $("#uploadSubmit").on("click", function(event){
             alert("fail");
         }
     });
-
-    
     
 })
 
-// 파일 다운로드
+$(document).on("click", ".deleteFile", function(){
 
+	var seq = this.id.substring(5);
+	var dir_seq = $(".menu_upload_file").attr("id");
 
+	console.log(dir_seq);
+	
+	var data = { dir_seq: dir_seq,
+			seq : seq };
+	
+	$.ajax({
+		url: "deleteFile",
+		type: "POST",
+		data: data,
+		success: function(data){
+			$(".modal_upload").modal('hide');
+        	$(".file").remove();
+			var files = JSON.parse(data);
+
+			for(var i = 0 ; i < files.length ; i++){
+				var id = "f" + files[i].seq;
+				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
+			}
+
+		}
+	});
+
+})
