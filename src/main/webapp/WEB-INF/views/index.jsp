@@ -97,7 +97,7 @@
 					</c:when>
 
 					<c:when test="${not empty loginInfo}">
-						<a href="member/logout" class="button">Logout</a>
+						<a href="member/logout" class="button">${loginInfo.name} Logout</a>
 
 					</c:when>
 				</c:choose>
