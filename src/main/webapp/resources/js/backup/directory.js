@@ -34,7 +34,7 @@ function printFileList(filelist){
 	for (var i = 0; i < filelist.length; i++) {
 
 		var patharr = filelist[i].path.split('/');
-		var parent = "#root";
+		var parent = ".root";
 
 		for (var j = 2; j < patharr.length; j++) {
 
@@ -52,7 +52,10 @@ function printFileList(filelist){
 }
 
 //디렉토리 - 클릭 - 디렉토리 내 파일 리스트
-$(document).on("click", ".dir", function(){
+$(document).on("click", ".dir", function(event){
+	
+	// 이벤트 버블링 방지
+	event.stopImmediatePropagation();
 	
 	var dir_seq = this.id.substring(3);
 	$(".menu_upload_file").attr("id", dir_seq);

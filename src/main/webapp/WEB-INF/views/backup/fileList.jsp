@@ -36,6 +36,7 @@
 		<div id="container">
 
 			<div class="files"></div>
+
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
 
@@ -49,7 +50,7 @@
 
 	<ul class="contextmenu_container">
 		<li class="menu_upload_file"><a href="#">파일 업로드</a></li>
-		<li class="menu_delete_file"><a href="#">파일 삭제</a></li>
+		<li class="menu_delete_file"><a href="#">디렉토리 삭제</a></li>
 		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
 	</ul>
 
@@ -95,11 +96,11 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">파일 선택</label>
-							<input type="file" class="form-control" id="selectedFile">
-						</div>
+					<form action="uploadFile" name="uploadForm" method="POST" enctype="multipart/form-data">
+						<label for="recipient-name" class="col-form-label">파일 선택</label>
+						<input type="file" name="file" class="form-control" id="selectedFile">
+						<input type="hidden" name="dir_seq">
+						<input type="button" onclick="uploadSubmit()">
 					</form>
 				</div>
 				<div class="modal-footer">

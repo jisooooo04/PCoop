@@ -1,6 +1,7 @@
 package pcoop.backend.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import pcoop.backend.dao.FileDAO;
 import pcoop.backend.dto.DirectoryDTO;
@@ -164,6 +166,24 @@ public class FileService {
 
 		}
 
+	}
+	
+	public void uploadFiletoDrive(int dir_seq, MultipartFile file) throws Exception {
+		
+		String dirPath = fdao.getDirPathBySeq(dir_seq);
+		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
+		
+		System.out.println(dir_seq + " : " + path);
+		if(!file.isEmpty()) {
+			
+			System.out.println("filesUpload : " + file.getOriginalFilename());
+			//file.transferTo(new File());
+			String systemFileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+			File targetLoc = new File(path+"/"+systemFileName);
+			file.transferTo(targetLoc);
+			
+		}
+		
 	}
 
 

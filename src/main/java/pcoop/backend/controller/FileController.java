@@ -1,11 +1,8 @@
 package pcoop.backend.controller;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -99,7 +97,6 @@ public class FileController {
 			fileArr.add(json);
 		}
 
-		System.out.println(fileArr);
 		return new Gson().toJson(fileArr);
 	}
 
@@ -153,6 +150,17 @@ public class FileController {
 		json.addProperty("dirlist", new Gson().toJson(dirArr));
 		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
+	}
+	
+	@RequestMapping("uploadFile")
+	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
+		
+		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
+		fservice.uploadFiletoDrive(dir_seq, file);
+		
+		System.out.println(file.getOriginalFilename());
+		
+		return "redirect:/";
 	}
 
 	@RequestMapping("downloadFile")
