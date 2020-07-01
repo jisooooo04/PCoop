@@ -62,12 +62,12 @@ public class FileService {
 	public List<FileDTO> getFileList(){
 		return fdao.getFileList();
 	}
-	
+
 	// 특정 디렉토리 내 파일 리스트 가져오기 
 	public List<FileDTO> getFileListByDirSeq(int dir_seq){
 		return fdao.getFileListByDirSeq(dir_seq);
 	}
-	
+
 	// DB에서 디렉토리 삭제
 	public int deleteDirectory(String path) {
 		return fdao.deleteDirectory(path);
@@ -83,23 +83,23 @@ public class FileService {
 
 	// 하위 디렉토리까지 회귀하여 디렉토리 삭제(from drive)
 	public void deleteDirRecursiveFromDrive(String path) {
-		
+
 		File dir = new File(path);
 		File[] flist = new File(path).listFiles();
 
 		for (int i = 0; i < flist.length; i++) {
-			
+
 			if(flist[i].isFile()) {
 				flist[i].delete();
 			}else {
 				deleteDirRecursiveFromDrive(flist[i].getPath()); //재귀 함수 호출
 			}
-			
+
 			flist[i].delete();
 		}
-		
+
 		dir.delete(); //폴더 삭제
-		
+
 	}
 	// 드라이브에서 직접 디렉토리 리스트 가져오기
 	public List<String> getDirListFromDrive(String strDirPath){
@@ -138,7 +138,6 @@ public class FileService {
 	public List<String> getFileListFromDrive(String strDirPath){
 
 		List<String> list = new ArrayList<>();
-
 		getFileListRecursiveFromDrive(strDirPath, list);
 		return list;
 
@@ -168,23 +167,39 @@ public class FileService {
 
 	}
 	
-	public void uploadFiletoDrive(int dir_seq, MultipartFile file) throws Exception {
+	// DB에 새로운 파일 추가하고 seq 넘기기
+	public void uploadFile(int dir_seq, MultipartFile file) throws Exception {
+
+		int project_seq = 11;
+		String dir_path = fdao.getDirPathBySeq(dir_seq);
+		String name = file.getOriginalFilename().split(dir_path)[0];
+		String extension = name.substring(name.indexOf('.'));
+		String path = dir_path + "/" + name;
+		String uploader = "temp";
 		
+		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader);
+		
+	}
+
+	// 드라이브에 파일 업로드
+	public void uploadFileToDrive(int dir_seq, MultipartFile file) throws Exception {
+
 		String dirPath = fdao.getDirPathBySeq(dir_seq);
 		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
-		
-		System.out.println(dir_seq + " : " + path);
+
 		if(!file.isEmpty()) {
-			
+
 			System.out.println("filesUpload : " + file.getOriginalFilename());
 			//file.transferTo(new File());
 			String systemFileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
-			File targetLoc = new File(path+"/"+systemFileName);
+			File targetLoc = new File(path + "/" + systemFileName);
 			file.transferTo(targetLoc);
-			
+
 		}
-		
+
 	}
+
+	
 
 
 }

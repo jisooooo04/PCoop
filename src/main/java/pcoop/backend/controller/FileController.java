@@ -75,7 +75,6 @@ public class FileController {
 			fileArr.add(json);
 		}
 
-		System.out.println(dirArr);
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		model.addAttribute("filelist", new Gson().toJson(fileArr));
 		return "backup/fileList";
@@ -153,14 +152,30 @@ public class FileController {
 	}
 	
 	@RequestMapping("uploadFile")
+	@ResponseBody
 	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
 		
 		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
-		fservice.uploadFiletoDrive(dir_seq, file);
+		// 드라이브에 파일 생성
+		fservice.uploadFileToDrive(dir_seq, file);
+		// DB에 파일 업데이트
+		fservice.uploadFile(dir_seq, file);
 		
-		System.out.println(file.getOriginalFilename());
-		
-		return "redirect:/";
+		// 디렉토리의 파일 목록 다시 가져오기
+		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray fileArr = new JsonArray();
+
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("name", dto.getName());
+			System.out.println("name : " + dto.getName());
+			fileArr.add(json);
+		}
+
+		return new Gson().toJson(fileArr);
+				
 	}
 
 	@RequestMapping("downloadFile")

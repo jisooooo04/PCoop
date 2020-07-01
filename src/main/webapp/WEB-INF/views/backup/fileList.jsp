@@ -100,7 +100,7 @@
 						<label for="recipient-name" class="col-form-label">파일 선택</label>
 						<input type="file" name="file" class="form-control" id="selectedFile">
 						<input type="hidden" name="dir_seq">
-						<input type="button" onclick="uploadSubmit()">
+						<input type="submit" id="uploadSubmit">
 					</form>
 				</div>
 				<div class="modal-footer">

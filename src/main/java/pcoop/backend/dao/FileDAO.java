@@ -123,6 +123,13 @@ public class FileDAO {
 		});
 
 	}
+	
+	public int insertFile(int project_seq, int directory_seq, String directory_path,
+			String name, String extension, String path, String uploader){
+		
+		String sql = "insert into files values(files_seq.nextval, ?, ?, ?, ?, ?, ?, sysdate, ?)";
+		return jdbc.update(sql, project_seq, directory_seq, directory_path, name, extension, path, uploader);
+	}
 
 
 
