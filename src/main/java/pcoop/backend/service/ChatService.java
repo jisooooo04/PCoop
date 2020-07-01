@@ -1,5 +1,7 @@
 package pcoop.backend.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,18 @@ public class ChatService {
 	private ChatDAO cdao;
 	
 	public int insertChat(ChatDTO cdto) {
-		System.out.println("ChatService : " + cdto.getWriter());
+		
 		return cdao.insertChat(cdto);
+	}
+	
+	public List<ChatDTO> selectChatList(String today){
+		
+		return cdao.selectChatList(today);
+	}
+	
+	public List<ChatDTO> selectLastChat(String date){
+		
+		return cdao.selectLastChat(date);
 	}
 	
 }
