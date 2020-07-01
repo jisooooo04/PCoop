@@ -71,7 +71,7 @@
 					</p>
 				</div>
 
-				<div>
+				<div id="project_create">
 					<span class="icon fa-briefcase"></span>
 					<h3>프로젝트 생성</h3>
 					<p>
@@ -164,6 +164,11 @@
 	<script src="resources/js/skel.min.js"></script>
 	<script src="resources/js/util.js"></script>
 	<script src="resources/js/main.js"></script>
-
+	
+	<script>
+		$("#project_create").on("click",function(){
+			location.href="project/project_create";
+		})
+	</script>
 </body>
 </html>
