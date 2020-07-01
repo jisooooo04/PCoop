@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="selectAll" resultType="pcoop.backend.dto.CalendarDTO">
-		select * from calendar where project_seq=${value}
+		select * from calendar where project_seq=${value} order by seq
 	</select>
 	
 	<update id="editEvent">
