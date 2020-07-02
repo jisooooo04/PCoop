@@ -63,7 +63,7 @@
 
 			<div class="flex ">
 
-				<div>
+				<div id="signUp">
 					<span class="icon fa-user-plus"></span>
 					<h3>계정 만들기</h3>
 					<p>
@@ -91,16 +91,9 @@
 
 			<footer>
 
-				<c:choose>
-					<c:when test="${empty loginInfo}">
-						<a href="member/toEmailView" class="button">Get Started</a>
-					</c:when>
 
-					<c:when test="${not empty loginInfo}">
-						<a href="member/logout" class="button">${loginInfo.name} Logout</a>
+						<a class="button">Get Started</a>
 
-					</c:when>
-				</c:choose>
 			</footer>
 		</div>
 	</section>
@@ -169,6 +162,11 @@
 		$("#project_create").on("click",function(){
 			location.href="project/project_create";
 		})
+		
+		$("#signUp").on("click",function(){
+			location.href="member/toEmailView";
+		})
+		
 	</script>
 </body>
 </html>
