@@ -37,8 +37,8 @@
 		<div class="inner">
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
-				<!--<a href="generic.html">Generic</a>
-				<a href="elements.html">Elements</a> -->
+				<a href="">mypage</a>
+				<!-- <a href="elements.html">Elements</a> --> -->
 				<a href="#">협업 구하기</a> 
 				<a href="#">참여 중 프로젝트</a> 
 				<a href="#">프로젝트 소개</a> 
