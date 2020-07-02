@@ -187,21 +187,15 @@ $(".delete_dir").on("click", function(){
 		success: function(data){
 
 			$("#dir" + seq).remove();
-			$("#root").remove();
+			$(".root").remove();
 
 			var data = JSON.parse(data);
 
 			// 리스트 새로 만들기
-			$(".backup").append("<ul id=root></ul>");
+			$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
 			// 디렉토리 가지고 오기
 			var dirlist = JSON.parse(data.dirlist);
 			printDirList(dirlist);
-
-			console.log(dirlist);
-			// 파일 가지고 오기
-			var filelist = JSON.parse(data.filelist);
-			console.log(filelist);
-			printFileList(filelist);
 
 		}
 	});

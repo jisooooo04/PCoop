@@ -1,10 +1,12 @@
 package pcoop.backend.service;
 
+import java.io.DataInputStream;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,16 @@ public class FileService {
 	// 파일 리스트 가져오기
 	public List<FileDTO> getFileList(){
 		return fdao.getFileList();
+	}
+	
+	// 파일 이름 가져오기
+	public String getFileNameBySeq(int seq) {
+		return fdao.getFileNameBySeq(seq);
+	}
+	
+	// 파일 경로 가져오기
+	public String getFilePathBySeq(int seq) {
+		return fdao.getFilePathBySeq(seq);
 	}
 
 	// 특정 디렉토리 내 파일 리스트 가져오기 
@@ -233,6 +245,7 @@ public class FileService {
 	public void deleteFile(int seq) {
 
 	}
+
 
 
 }
