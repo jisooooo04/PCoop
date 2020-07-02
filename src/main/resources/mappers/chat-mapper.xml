@@ -15,5 +15,8 @@
 		select * from chat where full_date like ${value} order by time desc
 	</select>
 	
+	<delete id="delete">
+		delete from chat where seq=#{value}
+	</delete>
 	
 </mapper>

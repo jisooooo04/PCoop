@@ -54,18 +54,25 @@ public class ChattingController {
 	}
 	
 	
-	
 	@ResponseBody
 	@RequestMapping("lastChat")
-	public List<ChatDTO> lastChat(Model model, int num) {
+	public List<ChatDTO> lastChat(int num) {
 		
 		String date = "sysdate-" + num;
-		
 		List<ChatDTO> lastList = cservice.selectLastChat(date);
 		
 		return lastList;
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping("deleteChat")
+	public int deleteChat(int seq) {
+		
+		int result = cservice.deleteChat(seq);
+		
+		return result;
+	}
 	
 	
 }
