@@ -65,6 +65,17 @@ public class ListService {
 	public int deleteListById (Map<String, Object> param) {
 		return ldao.deleteListById(param);
 	}
-
-
+	public int updatelistStyle (Map<String, Object> param) {
+		return ldao.updatelistStyle(param);
+	}
+	
+	public int checkboxChange (Map<String, Object> param) {
+		return ldao.checkboxChange(param);
+	}
+	
+	public int cardListIdUpdate (Map<String, Object> param) {
+		return ldao.cardListIdUpdate(param);
+	}
+	
+	
 }

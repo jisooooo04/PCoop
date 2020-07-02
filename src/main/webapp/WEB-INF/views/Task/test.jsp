@@ -11,16 +11,16 @@
 
 <!-- Lobi List Default installation-->
 <link rel="stylesheet"
-   href="resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
+   href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
 <link rel="stylesheet"
-   href="resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
+   href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet"
-   href="resources/lobilist-master/dist/lobilist.min.css">
+   href="/resources/lobilist-master/dist/lobilist.min.css">
 
 <link rel="stylesheet"
-   href="resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
+   href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
 <link rel="stylesheet"
-   href="resources/lobilist-master/lib/highlight/github.css">
+   href="/resources/lobilist-master/lib/highlight/github.css">
 <!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
 
 
@@ -28,36 +28,30 @@
 </head>
 <body>
 
-   <div class="lobilist-demo" id='todo-lists-basic-demo'></div>
+
 
             
             
    <!--Actions by ajax-->
-   <div>
-      <div class="bs-example">
+
          <h4>Actions by ajax</h4>
          <div id="actions-by-ajax"></div>
-      </div>
-   </div>
-
-
-
 
 
 
 
 
    <!-- Lobi List Default installation-->
-   <script src="resources/lobilist-master/lib/jquery/jquery.min.js"></script>
-   <script src="resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
+   <script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
+   <script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
    <script
-      src="resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
+      src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
    <script
-      src="resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>
-   <script src="resources/lobilist-master/dist/lobilist.js"></script>
+      src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>
+   <script src="/resources/lobilist-master/dist/lobilist.js"></script>
 
-   <script src="resources/lobilist-master/lib/lobibox/js/lobibox.min.js"></script>
-   <script src="resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
+   <script src="/resources/lobilist-master/lib/lobibox/js/lobibox.min.js"></script>
+   <script src="/resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
 <!-- <script src="resources/lobilist-master/demo/demo.js"></script>-->
 
    <script>

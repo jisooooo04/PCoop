@@ -1,11 +1,17 @@
 package pcoop.backend.controller;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -118,11 +124,7 @@ public class FileController {
 	public String deleteDirectory(int seq) {
 
 		String path = fservice.getDirPathBySeq(seq);
-
-		// 드라이브에서 디렉토리 삭제
-		fservice.deleteDirFromDrive(path);
-		// DB에서 디렉토리 delete
-		fservice.deleteDirectory(path);
+		fservice.deleteDirectory(seq, path);
 
 		// 업데이트된 리스트 보내기
 		List<DirectoryDTO> dirList = fservice.getDirList();
@@ -150,20 +152,18 @@ public class FileController {
 		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
 	}
-	
+
 	@RequestMapping("uploadFile")
 	@ResponseBody
 	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
-		
+
 		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
-		
-		// 파일 중복명 확인
-		file = fservice.renameFile(dir_seq, file);
+
 		// 드라이브에 파일 생성
-		fservice.uploadFileToDrive(dir_seq, file);
+		String name = fservice.uploadFileToDrive(dir_seq, file);
 		// DB에 파일 업데이트
-		fservice.uploadFile(dir_seq, file);
-		
+		fservice.uploadFile(dir_seq, file, name);
+
 		// 디렉토리의 파일 목록 다시 가져오기
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray fileArr = new JsonArray();
@@ -177,23 +177,43 @@ public class FileController {
 		}
 
 		return new Gson().toJson(fileArr);
-				
+
 	}
 
 	@RequestMapping("downloadFile")
-	public void download(int seq, HttpServletResponse resp) throws Exception {
+	public void download(int seq, HttpServletResponse resp) throws Exception{
 
-		// FileDTO dto = fdao.getFileBySeq(seq);
+		String name = fservice.getFileNameBySeq(seq);
+		String rootPath = session.getServletContext().getRealPath("upload/backup");
+		String filePath = fservice.getFilePathBySeq(seq);
+		String path = rootPath + filePath;
 		
-		
+		File target = new File(path);
+
+		DataInputStream dis = new DataInputStream(new FileInputStream(target));
+		ServletOutputStream sos = resp.getOutputStream();
+
+		String fileName = new String(name.getBytes("utf8"),"iso-8859-1"); //크롬은 iso-8859-1 인코딩을 사용해서 그걸로 변환해준 것.
+
+		byte[] fileContents = new byte[(int)target.length()];
+		dis.readFully(fileContents);
+
+		//response의 디폴트 액션은 SourceCode이다. 그래서 그것을 리셋하여서, response로 지금 보내는 것이 머냐면~ 파일내용을 보내는 String값(application/octet-stream)을 보내고 있다고 알려주는 것. => 소스코드처럼 렌더링하면 안된다고 알려주는 것.
+		resp.reset();
+		resp.setContentType("application/octet-stream");
+		resp.setHeader("Content-disposition", "attachment;filename="+fileName+";");
+
+		sos.write(fileContents);
+		sos.flush();
+
 	}
-	
+
 	@RequestMapping("deleteFile")
 	@ResponseBody
 	public String delete(int dir_seq, int seq) {
-		
-		fservice.deleteFileFromDrive(seq);
-		
+
+		fservice.deleteFile(seq);
+
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray fileArr = new JsonArray();
 
@@ -208,6 +228,25 @@ public class FileController {
 
 		return new Gson().toJson(fileArr);
 
+	}
+	
+	@RequestMapping(value = "readFile", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String read(int seq) throws Exception {
+		
+		String rootPath = session.getServletContext().getRealPath("upload/backup");
+		String filePath = fservice.getFilePathBySeq(seq);
+		String path = rootPath + filePath;
+		String extension = fservice.getFileExtensionBySeq(seq).substring(1);
+
+	    String fileContents = fservice.getFileText(path);
+	    
+		JsonObject json = new JsonObject();
+	    json.addProperty("text", fileContents);
+		json.addProperty("extension", extension);
+		
+		System.out.println(json);
+	    return new Gson().toJson(json);
 	}
 
 }

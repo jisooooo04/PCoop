@@ -69,6 +69,15 @@ public class ListDAO {
 	   public int deleteListById(Map<String, Object> param) {
 		      return mybatis.delete("List.deleteListById", param);
 	}
+	   public int updatelistStyle(Map<String, Object> param) {
+		      return mybatis.update("List.updatelistStyle", param);
+	}
+	   public int checkboxChange(Map<String, Object> param) {
+		      return mybatis.update("List.checkboxChange", param);
+	}
+	   public int cardListIdUpdate(Map<String, Object> param) {
+		      return mybatis.update("List.cardListIdUpdate", param);
+	}
 	   
 	   
 }
