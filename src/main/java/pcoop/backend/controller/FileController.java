@@ -3,6 +3,7 @@ package pcoop.backend.controller;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -226,6 +228,20 @@ public class FileController {
 
 		return new Gson().toJson(fileArr);
 
+	}
+	
+	@RequestMapping(value = "readFile", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String read(int seq) throws Exception {
+		
+		String rootPath = session.getServletContext().getRealPath("upload/backup");
+		String filePath = fservice.getFilePathBySeq(seq);
+		String path = rootPath + filePath;
+		
+		File file = new File(path);
+	    String fileContents = FileUtils.readFileToString(file, "UTF-8");
+	    // fileContents = fileContents.replace("\n", "<br>");
+	    return fileContents;
 	}
 
 }

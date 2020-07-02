@@ -27,6 +27,7 @@ public class FileDAO {
 	// seq로 디렉토리 경로 검색
 	public String getDirPathBySeq(int seq) {
 
+		System.out.println(seq);
 		String sql = "select path from directory where seq = ?";
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);

@@ -25,7 +25,9 @@
 	
 </script>
 <link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 	<jsp:include page="../header/header.jsp"></jsp:include>
@@ -36,6 +38,12 @@
 		<div id="container">
 
 			<div class="files"></div>
+			<!-- HTML코드를 강조하여 보여줄때.. -->
+		<pre><code class="file-contents html">
+
+
+ 
+		</code></pre>
 
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
@@ -114,6 +122,5 @@
 
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
-
 </body>
 </html>
