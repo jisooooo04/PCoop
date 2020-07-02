@@ -166,51 +166,59 @@ public class FileService {
 		}
 
 	}
-	
+
 	// DB에 새로운 파일 추가하고 seq 넘기기
-	public void uploadFile(int dir_seq, MultipartFile file) throws Exception {
+	public void uploadFile(int dir_seq, MultipartFile file, String rename) throws Exception {
 
 		int project_seq = 11;
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
-		String name = file.getOriginalFilename().split(dir_path)[0];
+		String name = rename;
 		String extension = name.substring(name.indexOf('.'));
 		String path = dir_path + "/" + name;
 		String uploader = "temp";
-		
+
 		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader);
-		
+
 	}
-	
+
 	// 파일명 중복 확인 후, rename
-	public MultipartFile renameFile(int dir_seq, MultipartFile file) {
-		
-		String name = file.getName();
+	public String renameFile(int dir_seq, MultipartFile file) {
+
+		String name = file.getOriginalFilename();
 		int checkDupl = fdao.checkDuplFileName(dir_seq, name);
-		
-		if(checkDupl > 0) {
-			
-			
+		String extension = name.substring(name.indexOf('.'));
+		String checkName = name;
+		name = name.substring(0, name.indexOf('.'));
+
+		int i = 2;
+
+		while(checkDupl > 0) {
+
+			checkName = name + " (" + i + ")" + extension;
+			i = i + 1;
+
+			checkDupl = fdao.checkDuplFileName(dir_seq, checkName);
+
 		}
-		
-		return file;
+
+		return checkName;
 	}
 
 	// 드라이브에 파일 업로드
 	public String uploadFileToDrive(int dir_seq, MultipartFile file) throws Exception {
 
+		// 파일 중복명 확인 후, 수정된 이름 가져오기
+		String rename = this.renameFile(dir_seq, file);
 		String dirPath = fdao.getDirPathBySeq(dir_seq);
 		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
+		File targetLoc = new File(path + "/" + rename);
 
+		System.out.println(rename);
 		if(!file.isEmpty()) {
-
-			//file.transferTo(new File());
-			String systemFileName = System.currentTimeMillis()+"_"+file.getOriginalFilename();
-			File targetLoc = new File(path + "/" + systemFileName);
 			file.transferTo(targetLoc);
-
 		}
 
-		return file.getName();
+		return targetLoc.getName();
 	}
 
 	// 드라이브에서 파일 지우기
@@ -220,10 +228,10 @@ public class FileService {
 		System.out.println(file.isFile());
 		// file.delete();
 	}
-	
+
 	// DB 목록에서 파일 지우기
 	public void deleteFile(int seq) {
-		
+
 	}
 
 

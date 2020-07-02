@@ -157,12 +157,10 @@ public class FileController {
 		
 		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
 		
-		// 파일 중복명 확인
-		file = fservice.renameFile(dir_seq, file);
 		// 드라이브에 파일 생성
-		fservice.uploadFileToDrive(dir_seq, file);
+		String name = fservice.uploadFileToDrive(dir_seq, file);
 		// DB에 파일 업데이트
-		fservice.uploadFile(dir_seq, file);
+		fservice.uploadFile(dir_seq, file, name);
 		
 		// 디렉토리의 파일 목록 다시 가져오기
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
