@@ -214,7 +214,7 @@ public class FileController {
 	@ResponseBody
 	public String delete(int dir_seq, int seq) {
 
-		fservice.deleteFileFromDrive(seq);
+		fservice.deleteFile(seq);
 
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray fileArr = new JsonArray();

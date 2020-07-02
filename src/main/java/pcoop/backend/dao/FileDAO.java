@@ -89,7 +89,6 @@ public class FileDAO {
 		return jdbc.queryForObject(sql, new Object[] {directory_seq, name}, Integer.class);
 	}
 
-
 	// 특정 디렉토리 내 파일 리스트
 	public List<FileDTO> getFileListByDirSeq(int dir_seq){
 
@@ -141,12 +140,18 @@ public class FileDAO {
 
 	}
 
-	// 파일 삭제
+	// 파일 생성
 	public int insertFile(int project_seq, int directory_seq, String directory_path,
 			String name, String extension, String path, String uploader){
 
 		String sql = "insert into files values(files_seq.nextval, ?, ?, ?, ?, ?, ?, sysdate, ?)";
 		return jdbc.update(sql, project_seq, directory_seq, directory_path, name, extension, path, uploader);
+	}
+	
+	// 파일 삭제
+	public int deleteFile(int seq) {
+		String sql = "delete from files where seq = ?";
+		return jdbc.update(sql, seq);
 	}
 
 

@@ -231,19 +231,26 @@ public class FileService {
 		}
 
 		return targetLoc.getName();
+		
+	}
+	
+	// 파일 지우기
+	public void deleteFile(int seq) {
+		deleteFileFromDrive(seq);
+		deleteFileFromDB(seq);
 	}
 
 	// 드라이브에서 파일 지우기
 	public void deleteFileFromDrive(int seq) {
-		String path = fdao.getFilePathBySeq(seq);
+		String path = session.getServletContext().getRealPath("upload/backup") + fdao.getFilePathBySeq(seq);
+		System.out.println(path);
 		File file = new File(path);
-		System.out.println(file.isFile());
-		// file.delete();
+		file.delete();
 	}
 
 	// DB 목록에서 파일 지우기
-	public void deleteFile(int seq) {
-
+	public void deleteFileFromDB(int seq) {
+		fdao.deleteFile(seq);
 	}
 
 

@@ -67,8 +67,6 @@ $(document).on("click", ".deleteFile", function(){
 	var seq = this.id.substring(5);
 	var dir_seq = $(".menu_upload_file").attr("id");
 
-	console.log(dir_seq);
-	
 	var data = { dir_seq: dir_seq,
 			seq : seq };
 	
