@@ -104,7 +104,7 @@ $(function () {
 	 */
 	var List = function ($lobiList, options) {
 //		console.log('List 불러오기 : '+ JSON.stringify($lobiList)); // 추가 코드
-		console.log('List 불러오기'); // 추가 코드
+//		console.log('List 불러오기'); // 추가 코드
 		this.$lobiList = $lobiList;
 		this.$options = options;
 		this.$globalOptions = $lobiList.$options;
@@ -131,6 +131,9 @@ $(function () {
 			eventsSuppressed: false,
 
 			isStateful: function () {
+//				console.log("isStateful List.prototype"); // 추가코드, isStateful 함수가 2개 있음!
+//				console.log("변경 리스트 id: "+this.$el.attr('id')); // 변경하는 리스트 id값
+//				console.log("변경전 스타일: "+this.$globalOptions.listStyles[this.$el.attr('id')]); //변경하기 이전 값
 				return !!this.$el.attr('id') && this.$lobiList.storageObject;
 			},
 
@@ -139,7 +142,7 @@ $(function () {
 			 * @private
 			 */
 			_init: function () {
-				console.log('_init 함수 동작'); // 추가 코드
+//				console.log('_init 함수 동작'); // 추가 코드
 				var me = this;
 				me.suppressEvents();
 				if (!me.$options.id) {
@@ -179,6 +182,8 @@ $(function () {
 			getSavedProperty: function (property) {
 				var me = this;
 				if (!me.isStateful()){
+					console.error("getSavedProperty 에러?");
+
 					console.error("object is not stateful");
 					return false;
 				}
@@ -188,6 +193,8 @@ $(function () {
 			saveProperty: function (property, value) {
 				var me = this;
 				if (!me.isStateful()){
+					console.error("saveProperty 에러?");
+
 					console.error("object is not stateful");
 					return false;
 				}
@@ -690,24 +697,24 @@ $(function () {
 //				console.log('_submitForm 동작'); // 추가 코드
 				//due date 정규식
 				var me = this;
-				
+
 				var dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
 				var due = me.$form[0].dueDate.value
 				var testdue = dayRegExp.test(due);
 				console.log(testdue)	
 
-	
+
 
 				if (!me.$form[0].title.value) {
 					me._showFormError('title', 'Title can not be empty');
 
 				}
-
-				if (!testdue){
-					me._showFormError('dueDate', '형식에 맞게 넣어주세요'); // 정규식 에러 알림
-					return
+				if(due != ""){
+					if (!testdue){
+						me._showFormError('dueDate', '형식에 맞게 넣어주세요'); // 정규식 에러 알림
+						return
+					}
 				}
-
 
 				var formData = {},
 				$inputs = me.$form.find('[name]');
@@ -779,6 +786,8 @@ $(function () {
 				});
 
 				$item.change(function () {
+					console.log("_createCheckbox");
+					
 					me._onCheckboxChange(this);
 				});
 				return $('<label>', {
@@ -792,8 +801,25 @@ $(function () {
 				$todo = $this.closest('.lobilist-item'),
 				item = $todo.data('lobiListItem');
 				item.done = $this.prop('checked');
+				
+
+				console.log("item.id: "+item.id); // 대상 아이템 아이디
+				console.log("item.done: "+item.done); // 체크유무
+				
+				//ajax 코드 추가 checkboxChangeAjax
+				$.ajax({
+					url:"/Task/checkboxChangeAjax",
+					type:"get",
+					data:{
+						id : item.id,
+						done : item.done
+					}
+				})
+				
+				
 				if (item.done) {
 					me._triggerEvent('afterMarkAsDone', [me, item])
+
 				} else {
 					me._triggerEvent('afterMarkAsUndone', [me, item])
 				}
@@ -829,6 +855,7 @@ $(function () {
 
 				for (var i = 0; i < me.$globalOptions.listStyles.length; i++) {
 					var st = me.$globalOptions.listStyles[i];
+//					console.log(i+' 번 스타일 st: '+st); // 스타일 출력
 					$('<div class="' + st + '"></div>')
 					.on('mousedown', function (ev) {
 						ev.stopPropagation()
@@ -845,9 +872,36 @@ $(function () {
 						.addClass(this.className);
 
 						me.saveProperty('style', this.className);
+						console.log("styleChange 동작");
+						console.log(oldClass +" 에서");
+						console.log(this.className +" 로 변경");
+						console.log(me); // 아이디
 
+						var obj1 = me.$el.find('.lobilist-wrapper lobilist');
+						console.log(obj1);
+						var obj2 = obj1[Object.keys(obj1)[1]];
+						console.log(obj2);
+						var obj3 = obj2[Object.keys(obj2)[0]];
+						console.log(obj3);
+						console.log(obj3.id);
+						
+						
+						
 						me._triggerEvent('styleChange', [me, oldClass, this.className]);
 
+						// ajax 코드 추가 styleChange
+						$.ajax({
+							url:"/Task/styleChangeAjax",
+							type:"get",
+							data:{
+								id : obj3.id,
+								defaultStyle : this.className
+							}
+						})
+						
+						
+						
+						
 					})
 					.appendTo($menu);
 				}
@@ -905,23 +959,23 @@ $(function () {
 
 
 					console.log('_onRemoveListClick 리스트 지우기');
-					
+
 					console.log('me');
 					console.log(me); // 존재하는 모든 리스트 출력						
-					
+
 					var obj1 = me.$el.find('.lobilist-wrapper lobilist');
 					console.log(obj1);
-					
-					
+
+
 					var obj2 = obj1[Object.keys(obj1)[1]];
 					console.log(obj2);
-					
+
 					var obj3 = obj2[Object.keys(obj2)[0]];
 					console.log(obj3);
 					console.log(obj3.id);
-					
-					
-					
+
+
+
 					//ajax 리스트 삭제
 					$.ajax({
 						url:"/Task/RemoveList_Ajax",
@@ -930,10 +984,10 @@ $(function () {
 							id : obj3.id
 						}
 					})
-					
-					
-					
-					
+
+
+
+
 					me.remove();
 					me._triggerEvent('afterListRemove', [me]);
 
@@ -1066,7 +1120,11 @@ $(function () {
 					}));
 				}
 				$li = me._addItemControls($li);
+				
+				
 				if (item.done) {
+//					console.log("item.done이 true면 체크되어 추가되도록 하기"); //
+//					console.log(item.done); //
 					$li.find('input[type=checkbox]').prop('checked', true);
 					$li.addClass('item-done');
 				}
@@ -1212,7 +1270,7 @@ $(function () {
 				me._handleSortable();
 				me.resumeEvents();
 				me._triggerEvent('init', [me]);
-				console.log('init 완료');
+//				console.log('init 완료');
 
 			},
 
@@ -1251,12 +1309,14 @@ $(function () {
 
 				if (this.isStateful() && !options.storageObject) {
 					this.storageObject = new StorageLocal();
+//					console.log(this.storageObject);
 				}
-
+//				console.log(options);
 				return options;
 			},
 
 			isStateful: function () {
+//				console.log("isStateful LobiList.prototype"); // 추가 코드
 				return !!this.getId();
 			},
 
@@ -1383,7 +1443,7 @@ $(function () {
 
 			//lobilist-list- 가 아닌 숫자로 id 넣도록 변경
 			getNextListId: function () {
-				console.log('getNextListId 동작')
+//				console.log('getNextListId 동작')
 
 				var $lists = this.$el.find('.lobilist');
 				var maxId = 0;
@@ -1403,7 +1463,7 @@ $(function () {
 					maxId = $list.getId();
 				});
 //				return 'lobilist-list-' + (maxId + 1);
-				console.log('(maxId + 1) : '+ (parseInt(maxId) + parseInt(1)))
+//				console.log('(maxId + 1) : '+ (parseInt(maxId) + parseInt(1)))
 				return parseInt(maxId) + parseInt(1);
 			},
 
@@ -1507,10 +1567,10 @@ $(function () {
 			lists: [],
 			// Urls to communicate to backend for todos
 			actions: {
-				load: 'Task/TaskAjax',
-				insert: 'Task/insert',
-				delete: 'Task/delete',
-				update: 'Task/update'
+				load: 'TaskAjax',
+				insert: 'insert',
+				delete: 'delete',
+				update: 'update'
 			},
 
 			storage: null,
