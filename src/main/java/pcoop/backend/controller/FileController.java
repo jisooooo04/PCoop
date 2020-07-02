@@ -237,11 +237,16 @@ public class FileController {
 		String rootPath = session.getServletContext().getRealPath("upload/backup");
 		String filePath = fservice.getFilePathBySeq(seq);
 		String path = rootPath + filePath;
+		String extension = fservice.getFileExtensionBySeq(seq).substring(1);
+
+	    String fileContents = fservice.getFileText(path);
+	    
+		JsonObject json = new JsonObject();
+	    json.addProperty("text", fileContents);
+		json.addProperty("extension", extension);
 		
-		File file = new File(path);
-	    String fileContents = FileUtils.readFileToString(file, "UTF-8");
-	    // fileContents = fileContents.replace("\n", "<br>");
-	    return fileContents;
+		System.out.println(json);
+	    return new Gson().toJson(json);
 	}
 
 }

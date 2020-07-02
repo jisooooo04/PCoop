@@ -39,10 +39,8 @@
 
 			<div class="files"></div>
 			<!-- HTML코드를 강조하여 보여줄때.. -->
-		<pre><code class="file-contents html">
-
-
- 
+		<pre><code class="file-contents">
+			
 		</code></pre>
 
 			<!-- 여기까지 각자 영역 설정 -->

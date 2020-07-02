@@ -68,7 +68,8 @@ $("#uploadSubmit").on("click", function(event){
 $(document).on("click", ".readFile", function(){
 	
 	var seq = this.id.substring(6);
-	
+	var pre_extension = $(".file-contents").attr("class").substring("file-contents hljs ".length);
+
 	var data = {
 			seq : seq
 	};
@@ -79,8 +80,14 @@ $(document).on("click", ".readFile", function(){
 		data: data,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function(data){
-
-			$(".file-contents").text(data);
+			
+			var data = JSON.parse(data);
+			var text = data.text;
+			var extension = data.extension;
+			
+			$(".file-contents").removeClass(pre_extension);
+			$(".file-contents").addClass(extension);
+			$(".file-contents").text(data.text);
 			hljs.initHighlighting.called = false;
 			hljs.initHighlighting();
 		}

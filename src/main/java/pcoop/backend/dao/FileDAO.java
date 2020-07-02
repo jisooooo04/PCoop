@@ -82,6 +82,11 @@ public class FileDAO {
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
 	}
+	
+	public String getFileExtensionBySeq(int seq) {
+		String sql = "select extension from files where seq = ?";
+		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+	}
 
 	// 같은 디렉토리 내 파일명 중복 확인
 	public int checkDuplFileName(int directory_seq, String name) {

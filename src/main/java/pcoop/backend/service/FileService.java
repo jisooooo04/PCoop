@@ -1,14 +1,13 @@
 package pcoop.backend.service;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,6 +72,11 @@ public class FileService {
 	// 파일 경로 가져오기
 	public String getFilePathBySeq(int seq) {
 		return fdao.getFilePathBySeq(seq);
+	}
+	
+	// 파일 확장자 가져오기
+	public String getFileExtensionBySeq(int seq) {
+		return fdao.getFileExtensionBySeq(seq);
 	}
 
 	// 특정 디렉토리 내 파일 리스트 가져오기 
@@ -259,6 +263,14 @@ public class FileService {
 		fdao.deleteFile(seq);
 	}
 
-
+	// 파일 텍스트 읽어 오기
+	public String getFileText(String path) throws Exception {
+		
+		File file = new File(path);
+	    String fileContents = FileUtils.readFileToString(file, "UTF-8");
+	    // fileContents = fileContents.replace("\n", "<br>");
+	    return fileContents;
+	    
+	}
 
 }
