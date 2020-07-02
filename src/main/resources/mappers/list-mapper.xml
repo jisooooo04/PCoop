@@ -79,4 +79,18 @@
 	</insert>
 
 
+	<insert id="updatelistStyle">
+		update lobiList
+		set defaultStyle= #{defaultStyle}
+		where id=#{id}
+	</insert>
+
+	<insert id="checkboxChange">
+		update lobicard
+		set done= #{done}
+		where id=#{id}
+	</insert>
+
+
+
 </mapper>

@@ -30,9 +30,82 @@ public class TaskController {
 	@Autowired
 	private ListService lservice;
 
+	
+	@RequestMapping("/task")
+	public String Task() {
+		return "Task/test";
+	}
+
+	
+	
+	@ResponseBody
+	@RequestMapping("checkboxChangeAjax")
+	public void checkboxChangeAjax(HttpServletRequest request) {
+		System.out.println("checkboxChangeAjax 시작");
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
 
 
 
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", request.getParameter("id")); 
+		param.put("done", request.getParameter("done"));
+
+
+		int result = lservice.checkboxChange(param);
+		System.out.println("checkboxChange 결과 : "+result);
+
+
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("styleChangeAjax")
+	public void styleChangeAjax(HttpServletRequest request) {
+		System.out.println("styleChangeAjax 시작");
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", request.getParameter("id")); 
+		param.put("defaultStyle", request.getParameter("defaultStyle"));
+
+
+		// id 존재 여부 확인
+		int dupleList = lservice.selectListId(param);
+		System.out.println("styleChange 존재하는 리스트 : "+dupleList);
+
+
+		if(dupleList>0) {
+			// id가 이미 존재하면 update
+			System.out.println("리스트 스타일 수정");
+
+			int result = lservice.updatelistStyle(param);
+			System.out.println("updatelistStyle 결과 : "+result);
+
+		}
+
+
+	}
+	
+	
+	
+	
 	@ResponseBody
 	@RequestMapping("RemoveList_Ajax")
 	public void RemoveList_Ajax(HttpServletRequest request) {
@@ -298,15 +371,21 @@ public class TaskController {
 					String trim_dueDate = dueDate.substring(1, dueDate.length()-10); //쌍따옴표 제거	
 					item.addProperty("dueDate", trim_dueDate );  //시간 없이 날짜만 출력?
 				}
+				
 				String card_id = CardObject.get("id").getAsString();
 				item.addProperty("id", card_id ); 
 
 
 				String listId = CardObject.get("listId").getAsString();
 				item.addProperty("listId", listId ); 
-				System.out.println("item에 listId : "+ listId);
+//				System.out.println("item에 listId : "+ listId);
 
-
+				boolean done = false;
+				if(CardObject.get("done").getAsString().equals("true")){
+					done = true;
+				}
+				item.addProperty("done", done ); 
+				System.out.println("item에 done : "+ done);
 
 
 				items.add(item); // 각 아이템들을 items배열에 담기
@@ -315,19 +394,19 @@ public class TaskController {
 			}
 
 			list.addProperty("id", list_Id);
-			System.out.println("list에 id : "+ list_Id);
+//			System.out.println("list에 id : "+ list_Id);
 
 			list.addProperty("title", listTitle);
-			System.out.println("list에 title : "+ listTitle);
+//			System.out.println("list에 title : "+ listTitle);
 
 			list.addProperty("defaultStyle", defaultStyle); //리스트 색상 일단 고정
-			System.out.println("list에 defaultStyle : " + defaultStyle);
+//			System.out.println("list에 defaultStyle : " + defaultStyle);
 
 			list.add("items", items);
-			System.out.println("list에 items : "+ items);
+//			System.out.println("list에 items : "+ items);
 
 			lists.add(list);
-			System.out.println("lists에 list : "+ list);
+//			System.out.println("lists에 list : "+ list);
 
 		}
 
