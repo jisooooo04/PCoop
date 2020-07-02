@@ -1,7 +1,7 @@
 package pcoop.backend.dto;
 
 public class ChatDTO {
-	private int chat_seq;
+	private int seq;
 	private int project_seq;
 	private int chatting_seq;
 	private String writer;
@@ -15,10 +15,10 @@ public class ChatDTO {
 		super();
 	}
 
-	public ChatDTO(int chat_seq, int project_seq, int chatting_seq, String writer, String chat, String full_date,
+	public ChatDTO(int seq, int project_seq, int chatting_seq, String writer, String chat, String full_date,
 			String form_date, String time, String file_path) {
 		super();
-		this.chat_seq = chat_seq;
+		this.seq = seq;
 		this.project_seq = project_seq;
 		this.chatting_seq = chatting_seq;
 		this.writer = writer;
@@ -29,12 +29,12 @@ public class ChatDTO {
 		this.file_path = file_path;
 	}
 
-	public int getChat_seq() {
-		return chat_seq;
+	public int getSeq() {
+		return seq;
 	}
 
-	public void setChat_seq(int chat_seq) {
-		this.chat_seq = chat_seq;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 
 	public int getProject_seq() {
