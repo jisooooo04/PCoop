@@ -122,11 +122,7 @@ public class FileController {
 	public String deleteDirectory(int seq) {
 
 		String path = fservice.getDirPathBySeq(seq);
-
-		// 드라이브에서 디렉토리 삭제
-		fservice.deleteDirFromDrive(path);
-		// DB에서 디렉토리 delete
-		fservice.deleteDirectory(path);
+		fservice.deleteDirectory(seq, path);
 
 		// 업데이트된 리스트 보내기
 		List<DirectoryDTO> dirList = fservice.getDirList();

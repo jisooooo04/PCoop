@@ -79,9 +79,16 @@ public class FileService {
 	public List<FileDTO> getFileListByDirSeq(int dir_seq){
 		return fdao.getFileListByDirSeq(dir_seq);
 	}
+	
+	// 디렉토리 삭제
+	public void deleteDirectory(int seq, String path) {
+		this.deleteDirFromDrive(path);
+		this.deleteDirectoryFromDB(path);
+		fdao.deleteFileByDir(seq);
+	}
 
 	// DB에서 디렉토리 삭제
-	public int deleteDirectory(String path) {
+	public int deleteDirectoryFromDB(String path) {
 		return fdao.deleteDirectory(path);
 	}
 
@@ -243,7 +250,6 @@ public class FileService {
 	// 드라이브에서 파일 지우기
 	public void deleteFileFromDrive(int seq) {
 		String path = session.getServletContext().getRealPath("upload/backup") + fdao.getFilePathBySeq(seq);
-		System.out.println(path);
 		File file = new File(path);
 		file.delete();
 	}

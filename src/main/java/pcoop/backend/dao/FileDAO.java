@@ -113,6 +113,12 @@ public class FileDAO {
 		});
 	}
 
+	// 특정 디렉토리 내 모든 파일 지우기
+	public int deleteFileByDir(int dir_seq) {
+		String sql = "delete from files where directory_seq = ?";
+		return jdbc.update(sql, dir_seq);
+	}
+	
 	// 전체 파일 리스트
 	public List<FileDTO> getFileList(){
 
