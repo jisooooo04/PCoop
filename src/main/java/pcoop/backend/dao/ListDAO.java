@@ -75,5 +75,9 @@ public class ListDAO {
 	   public int checkboxChange(Map<String, Object> param) {
 		      return mybatis.update("List.checkboxChange", param);
 	}
+	   public int cardListIdUpdate(Map<String, Object> param) {
+		      return mybatis.update("List.cardListIdUpdate", param);
+	}
+	   
 	   
 }

@@ -17,7 +17,7 @@
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="../../resources/css/member/sighup.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/resources/js/member/join.js">
+
 
 </head>
 <body>
@@ -25,14 +25,14 @@
 
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="signup">
+			<form action="signup" id="signup">
 			<br><br>
 				<h1>회원가입</h1>
 				<br><br>
 				
 				<input type="text" name="name" id="name" placeholder="이름"  class="in" />
 				<input type="password" name="pw" id="password_1"  placeholder="비밀번호" class="in pw" />
-				<input type="password" id="password_2"  placeholder="비밀번호 확인(미구현)" class="in pw" />
+				<input type="password" id="password_2"  placeholder="비밀번호 확인" class="in pw" />
 				<br>
 	<span id="alert-success" style="display: none;">
 	비밀번호가 일치합니다.
@@ -42,14 +42,14 @@
     </span>
 				
 				<br>
-                <button type="submit" id="signup">회원가입</button><br>
-                <button type="button">돌아가기</button><br>
+                <button type="submit">회원가입</button><br>
+                <button type="button" id="back">돌아가기</button><br>
 			</form>
 		</div>
 		
 	</div>
 			
+<script src="/resources/js/member/join.js"></script>
 
-				
 </body>
 </html>

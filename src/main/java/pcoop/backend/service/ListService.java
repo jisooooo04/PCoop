@@ -73,7 +73,9 @@ public class ListService {
 		return ldao.checkboxChange(param);
 	}
 	
-	
+	public int cardListIdUpdate (Map<String, Object> param) {
+		return ldao.cardListIdUpdate(param);
+	}
 	
 	
 }

@@ -91,6 +91,9 @@
 		where id=#{id}
 	</insert>
 
-
-
+	<insert id="cardListIdUpdate">
+		update lobicard
+		set listId= #{listId}
+		where id=#{id}
+	</insert>
 </mapper>

@@ -38,6 +38,35 @@ public class TaskController {
 
 	
 	
+
+	@ResponseBody
+	@RequestMapping("cardListIdUpdateAjax")
+	public void cardListIdUpdate(HttpServletRequest request) {
+		System.out.println("cardListIdUpdate 시작");
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", request.getParameter("id")); 
+		param.put("listId", request.getParameter("listId"));
+
+		int result = lservice.cardListIdUpdate(param);
+		
+		System.out.println("cardListIdUpdate 결과 : "+result);
+
+
+	}
+	
+	
+	
 	@ResponseBody
 	@RequestMapping("checkboxChangeAjax")
 	public void checkboxChangeAjax(HttpServletRequest request) {

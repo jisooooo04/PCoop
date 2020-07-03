@@ -1073,13 +1073,42 @@ $(function () {
 						$todo.data('oldList', $list.data('lobiList'));
 					},
 					update: function (event, ui) {
+						console.log("_enableSorting update 아이템 이동"); //
 						var $todo = ui.item,
 						item = $todo.data('lobiListItem'),
 						oldList = $todo.data('oldList'),
 						oldIndex = $todo.data('oldIndex'),
 						currentIndex = $todo.index(),
 						$itemWrapper = me.$el.find('.lobilist-items');
+						$list = $todo.closest('.lobilist'); // 추가 코드
 
+						console.log("item.id: "+item.id); // 카드 고유 id
+						console.log("item.listId: "+item.listId); // 카드 이전 listId
+						console.log("변경후 listId ? "); // 
+						var obj1 =$list.data('lobiList').$el;
+						var obj2 = obj1[Object.keys(obj1)[0]];
+						console.log(obj2.id); // 
+
+						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
+						
+						//	ajax 코드 추가 enableSortingAjax
+						$.ajax({
+							url:"/Task/cardListIdUpdateAjax",
+							type:"get",
+							data:{
+								id : item.id,
+								listId : obj2.id
+							}
+						})
+						
+						
+						// 2. 리스트 내에서 순서 변경
+						//    현재는 해당 리스트내의 id 순으로 정렬
+						console.log("oldIndex: "+oldIndex); // 이전 순서
+						console.log("currentIndex: "+currentIndex); //
+
+						
+						
 						var $children = $itemWrapper.children().filter(function () {
 							return this == $todo[0];
 						});

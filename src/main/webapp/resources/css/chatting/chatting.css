@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-
 /* 채팅jsp에만 적용되는 섹션,컨테이너 스타일*/
 section {
 	overflow-x: hidden;
@@ -156,12 +155,102 @@ section {
 }
 
 #input {
-	height: 107px;
-	
+	height: 80px;
 	padding: 5px;
 	padding-right: 3px;
 	margin-right: 85px;
-	
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+/* 우클릭시 메뉴 */
+#contextmenu {
+	border: 1px solid lightgray;
+	border-bottom: 0px;
+	background-color: #fffdfa;
+	width: 80px;
+	text-align: center;
+	line-height: 22px;
+	display: none;
+	position: fixed;
+	z-index: 10;
+}
+
+.c_menu {
+	border-bottom: 1px solid lightgray;
+	font-size: 13px;
+}
+
+.c_menu:hover {
+	background-color: #f0f0f0;
+	cursor: default;
+}
+
+/* 채팅창 아이콘 */
+.icon_box {
+	margin-left: 5px;
+}
+
+.input_icon {
+	width: 20px;
+	margin: 3px;
+	margin-top: 0px;
+}
+
+.input_icon:hover {
+	cursor: pointer;
+}
+
+/* 이모티콘 */
+.emoticon_section {
+	width: 350px;
+	height: 300px;
+	background-color: white;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	position: fixed;
+	bottom: 40px;
+	text-align: center;
+	display: none;
+}
+
+.emoticon_title {
+	border-bottom: 1px solid lightgray;
+	height: 50px;
+	line-height: 50px;
+}
+
+.emoticon_box {
+	height: 235px;
+	overflow-y: auto;
+}
+
+.emoticon {
+	width: 75px;
+}
+
+.emoticon_box>.emoticon:hover {
+	cursor: pointer;
+}
+
+/* 코드 편집기 */
+.pre {
+	height: 100%;
+	width: 100%;
+	border: 1px solid red; /*빨강*/
+	margin: 0px;
+	padding: 0px;
+	z-index: 10;
+	display: none;
+}
+
+.code_editor {
+	height: 100%;
+	width: 100%;
+	background-color: white;
+	border: 1px solid blue; /*파랑*/
+	padding: 0px;
+	z-index: 10;
+	display: none;
+}
+

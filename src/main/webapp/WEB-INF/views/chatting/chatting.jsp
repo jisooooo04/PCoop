@@ -10,6 +10,11 @@
 
 <link rel="stylesheet" href="resources/css/chatting/chatting.css?after" />
 
+<!-- 코드 편집기 CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
+
 <script>
 	$(function(){
 		updateScroll();
@@ -194,14 +199,98 @@
 			}
 		})
 		
+		//마우스 우클릭 브라우저 기본이벤트 변경
+		var chat_id = "";
+		$(".chat").on('contextmenu', function() {
+			
+			chat_id = $(this).attr("id");
+			
+			$(".chat_section").css("overflow-y", "hidden");  //스크롤 방지
+
+			event.stopPropagation();
+			event.preventDefault();
+
+			x = event.pageX;
+			y = event.pageY;
+
+			$("#contextmenu").css("margin-top", y + 1 + "px");
+			$("#contextmenu").css("margin-left", x + 1 + "px");
+			$("#contextmenu").css("display", "block");
+			
+		});
 		
 		
+		//챗 우클릭 후 이외 공간 클릭시
+		$(document).on("click", function(){
+			$("#contextmenu").css("display", "none");
+			$(".chat_section").css("overflow-y", "auto");
+        })
+		
+        
+        //대화 삭제
+        $(".delete_chat").on("click", function(){
+        	// chat_id = 지금 클릭한 챗
+        	//먼저 팝업창 띄우고, 예 누르면 ajax로 삭제 실행
+        	
+        	$.ajax({
+        		url: "deleteChat",
+        		type: "post",
+        		data: {seq: chat_id}
+        		
+        	}).done(function(response){
+        		
+        		if(response==1){
+        			//id가 chat_id인 애를 화면에서 삭제!
+            		$("#"+chat_id).parent().parent().remove();
+            		alert("삭제되었습니다.");
+        		}
+        	})
+        })
+        
+        
+        //이모티콘 박스 보이기
+        $(".emoticon_icon").on("click", function(){
+        	$(".emoticon_section").toggle();
+        })
+        
+        
+        //이모티콘 선택하면 div에 넣기
+        $(".emoticon_box>.emoticon").on("click", function(){
+        	$(".emoticon_section").hide();
+        	
+        	var emoticon_id = $(this).attr("id");
+        	$("#input").append("<img src=resources/images/chatting/"+emoticon_id+" class=emoticon id="+emoticon_id+"><br>");
+        })
+        
+        
+        //코드 편집기 열기
+        $(".code_icon").on("click",function(){
+        	$(".pre").css("display","block");
+        	$(".code_editor").css("display","block");
+        })
+        
+        
+        
+        
+        
+        //이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!
+        
+        
 	})
 </script>
 
 </head>
 
 <body>
+
+	<div id=contextmenu>
+		<div class="c_menu delete_chat">삭제</div>
+		<div class="c_menu reply_chat">답장</div>
+		<div class="c_menu copy_chat">복사</div>
+		<div class="c_menu deliver_chat">전달</div>
+		<div class="c_menu post_chat">공지</div>
+	</div>
+
 	<!-- Header -->
 	<jsp:include page="../header/header.jsp"></jsp:include>
 	<!-- 왼쪽 사이드바 -->
@@ -234,7 +323,7 @@
                         	</div>
                         	<div class=chat_box_in>
                             	<div class=name>${i.writer}</div>
-                            	<div class=chat>${i.chat}</div>
+                            	<div class=chat id="${i.seq}">${i.chat}</div>
                             	<div class=time>${i.time}</div>
                         	</div>
                     	</div>
@@ -249,8 +338,48 @@
                     <div class=chat_input_box>
                     	<!-- <input type=file name=file> -->
                         <button id=send_btn>전송</button>
-                        <div id=input contenteditable=true></div>
+                        <div id=input contenteditable=true>  <!-- 입력창 -->
+                        	
+                        	<pre class=pre><code class="code_editor"></code></pre>  <!-- 코드 편집기 -->
+                        	
+                        </div>
+                        
+                        <div class=icon_box>
+                            <img src=resources/images/chatting/smile.png class="input_icon emoticon_icon">
+                            <img src=resources/images/chatting/file.png class="input_icon file_icon">
+                            <img src=resources/images/chatting/code.png class="input_icon code_icon" style="width: 22px; margin-top: 4px">
+                        </div>
                     </div>
+                    
+                    <!-- 이모티콘 섹션 -->
+                    <div class=emoticon_section>
+                        <div class=emoticon_title>
+                        	이모티콘
+                        </div>
+                        <div class=emoticon_box>
+                            <img src="resources/images/chatting/1-1.gif" class=emoticon id=1-1.gif>
+                            <img src="resources/images/chatting/1-2.gif" class=emoticon id=1-2.gif>
+                            <img src="resources/images/chatting/1-3.gif" class=emoticon id=1-3.gif>
+                            <img src="resources/images/chatting/1-4.gif" class=emoticon id=1-4.gif>
+                            <img src="resources/images/chatting/1-5.gif" class=emoticon id=1-5.gif>
+                            <img src="resources/images/chatting/1-6.gif" class=emoticon id=1-6.gif>
+                            <img src="resources/images/chatting/1-7.gif" class=emoticon id=1-7.gif>
+                            <img src="resources/images/chatting/1-8.gif" class=emoticon id=1-8.gif>
+                            <img src="resources/images/chatting/1-9.gif" class=emoticon id=1-9.gif>
+                            <img src="resources/images/chatting/1-10.gif" class=emoticon id=1-10.gif>
+                            <img src="resources/images/chatting/1-11.gif" class=emoticon id=1-11.gif>
+                            <img src="resources/images/chatting/1-12.gif" class=emoticon id=1-12.gif>
+                            <img src="resources/images/chatting/1-13.gif" class=emoticon id=1-13.gif>
+                            <img src="resources/images/chatting/1-14.gif" class=emoticon id=1-14.gif>
+                            <img src="resources/images/chatting/1-15.gif" class=emoticon id=1-15.gif>
+                            <img src="resources/images/chatting/1-16.gif" class=emoticon id=1-16.gif>
+                            <img src="resources/images/chatting/1-17.gif" class=emoticon id=1-17.gif>
+                            <img src="resources/images/chatting/1-18.gif" class=emoticon id=1-18.gif>
+                            <img src="resources/images/chatting/1-19.gif" class=emoticon id=1-19.gif>
+                            <img src="resources/images/chatting/1-20.gif" class=emoticon id=1-20.gif>
+                        </div>
+                    </div>
+                    
                 </div>
 				<!-- </form> -->
 			
