@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -28,23 +27,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
 <script>hljs.initHighlightingOnLoad();</script>
+<script>
+ $(function(){
+	 $("#jsp").load("temp");
+ })
+</script>
 </head>
 <body>
 	<jsp:include page="../header/header.jsp"></jsp:include>
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
 	<section>
+	
 
 		<div id="container">
 
-			<div class="files"></div>
-			<!-- HTML코드를 강조하여 보여줄때.. -->
-		<pre><code class="file-contents">
+			<div class="files">
+			<a href="insertExtensions">클릭</a></div>
 			
-		</code></pre>
+			<!-- HTML코드를 강조하여 보여줄때.. -->
+			<pre><code class="file-contents">
+					
+			</code></pre>
 
+
+			</div>
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
+		
 
 	</section>
 
