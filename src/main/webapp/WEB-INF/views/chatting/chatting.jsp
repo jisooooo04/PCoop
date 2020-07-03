@@ -17,6 +17,7 @@
 
 <script>
    $(function(){
+	   
       updateScroll();
       
       var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
