@@ -111,7 +111,35 @@
 				time: time
 			};
 			
-			ws.send(JSON.stringify(msg));
+			
+			/*
+			var fileCheck = $("#file_select").val();
+			if(fileCheck){
+				
+				//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
+				//에이작스 실행
+				
+				var form = $('#fileForm')[0];
+				var formData = new FormData(form);
+				
+				$.ajax({
+					url : "fileUpload",
+					type : "post",
+					data : formData,
+					processData: false,
+					contentType: false,
+
+				}).done(function(response) {
+					
+					//파일명 + 경로 정보 받기!
+					//밑에 웹소켓으로 정보 보내면 거기서 db 거쳐서 저장해야 함
+					
+				})
+				
+			}
+			*/
+			
+			
 			
 			
 			
@@ -121,6 +149,7 @@
 			//ws.send(form);
 			
 			
+			ws.send(JSON.stringify(msg));
 			
 			updateScroll();
 			$("#input").html("");
@@ -290,11 +319,30 @@
         })
         
         
+        //파일첨부 아이콘 누르면 파일첨부 버튼 눌러지게
+        $(".file_icon").on("click", function(){
+        	$("#file_select").trigger("click");
+        	
+        })
+        
+        
+        //파일 첨부되면 이벤트 발생
+        $("#file_select").change(function(e){
+        	
+        	var fileCheck = $("#file_select").val();  //경로+이름
+        	
+        	if(fileCheck){  //파일이 첨부됬으면
+        		$(".file_box").append(fileCheck);  //글자 못쓰게하기!!
+        		$("#input").focus();  //추가하고 커서 div로 옮기기
+        		
+        	}else{  //파일 첨부 안됬으면
+        		$(".file_box").empty();
+        	}
+        })
         
         
         
         //이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!
-        
         
 	})
 </script>
@@ -383,6 +431,7 @@
                         <button id=send_btn>전송</button>
                         <div id=input contenteditable=true>  <!-- 입력창 -->
                         	
+                        	<br><div class=file_box></div>
                         	<pre class=pre><code class="code_editor hljs" style="overflow-x: hidden"></code></pre>  <!-- 코드 편집기 -->
                         	
                         </div>
@@ -392,6 +441,8 @@
                             <img src=resources/images/chatting/file.png class="input_icon file_icon">
                             <img src=resources/images/chatting/code.png class="input_icon code_icon" style="width: 22px; margin-top: 4px">
                         </div>
+                        
+                        <input type=file id=file_select name=file>
                     </div>
                     
                     <!-- 이모티콘 섹션 -->

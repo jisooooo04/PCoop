@@ -5,17 +5,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import pcoop.backend.dto.ChatDTO;
 import pcoop.backend.service.ChatService;
 
 @Controller
 public class ChattingController {
+	
+	@Autowired
+	private HttpSession session;
+	
 	
 	@Autowired
 	private ChatService cservice;
@@ -90,6 +97,19 @@ public class ChattingController {
 		int result = cservice.deleteChat(seq);
 		
 		return result;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("fileUpload")
+	public String fileUpload(MultipartFile file) {
+		
+		System.out.println(file.getOriginalFilename());
+		
+		String filePath = session.getServletContext().getRealPath("upload");
+		System.out.println(filePath);
+		
+		return "";
 	}
 	
 	

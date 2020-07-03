@@ -254,10 +254,15 @@ section {
 	display: none;
 	overflow-x: hidden;
     overflow-y: auto;
+    background-color: #333;
 }
 
 .hljs{
 	overflow-x: hidden;
 	overflow-y: auto;
 	word-wrap: break-word;
+}
+
+#file_select{
+	display: none;
 }
