@@ -155,6 +155,13 @@ public class FileController {
 		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
 	}
+	
+	@RequestMapping("temp")
+	public String temp() {
+		
+		
+		return "backup/temp";
+	}
 
 	@RequestMapping("uploadFile")
 	@ResponseBody
