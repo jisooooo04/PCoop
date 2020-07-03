@@ -23,7 +23,11 @@
 <link rel="stylesheet"
 	href="/resources/lobilist-master/lib/highlight/github.css">
 <!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
-
+<style>
+#box{ 
+margin: 10px 0px 0px 10px;
+  }
+</style>
 
 
 </head>
@@ -36,7 +40,7 @@
 	<!-- 왼쪽 사이드바 -->
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
-	<section>
+	<section id="box">
 		<!--Actions by ajax-->
 	
 			<div id="actions-by-ajax"></div>
