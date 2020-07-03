@@ -28,4 +28,10 @@ public class ChatDAO {
 		
 		return mybatis.selectList("Chat.selectLastChat", date);
 	}
+	
+	
+	public int deleteChat(int seq){
+		
+		return mybatis.delete("Chat.delete", seq);
+	}
 }

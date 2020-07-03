@@ -29,4 +29,9 @@ public class ChatService {
 		return cdao.selectLastChat(date);
 	}
 	
+	public int deleteChat(int seq){
+		
+		return cdao.deleteChat(seq);
+	}
+	
 }

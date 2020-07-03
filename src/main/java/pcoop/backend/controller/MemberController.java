@@ -265,4 +265,12 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
+	public String gomypage ()throws Exception{
+		return "member/mypage";
+	}
+	
+	
+	
 }

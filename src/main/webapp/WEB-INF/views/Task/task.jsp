@@ -65,7 +65,6 @@
 
               
        $('#actions-by-ajax').lobiList({
-
            
        });
     

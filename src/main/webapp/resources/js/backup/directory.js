@@ -77,6 +77,13 @@ $(document).on("click", ".dir", function(event){
 				
 				var id = "f" + files[i].seq;
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				
+				console.log(files[i].text_yn);
+				
+				if(files[i].text_yn == "Y"){
+					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+				}
+				
 				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
 				
 			}
@@ -88,11 +95,23 @@ $(document).on("click", ".dir", function(event){
 })
 
 //디렉토리 - 우 클릭 - 드롭다운 메뉴
-$(document).on("contextmenu", ".dir", function(e){
+$(document).on("contextmenu", ".dir", function(event){
+	
+	// 이벤트 버블링 방지
+	event.stopImmediatePropagation();
+
 	var id = this.id;
 	var left = $("#" + id).offset().left;
 	var top = $("#" + id).offset().top + 30;
 
+	// 루트 디렉토리는 삭제 메뉴가 안 보이게 처리함 
+	var root_id = $(".root").attr("id");
+	
+	if(id == 'dir4')
+		$(".menu_delete_dir").css("display", "none");
+	
+	else $(".menu_delete_dir").css("display", "block");
+	
 	//Display contextmenu:
 	$(".add_dir").css({
 		"left": left,
@@ -175,7 +194,7 @@ $(".delete_dir").on("click", function(){
 	$(".modal_alert").modal('hide');
 
 	var seq = $(".menu_add_dir").attr("id").substring(3);
-
+	console.log(seq);
 	var data = {
 			seq: seq
 	}

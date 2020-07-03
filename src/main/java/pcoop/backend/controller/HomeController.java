@@ -19,7 +19,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home() {
 		System.out.println(session.getServletContext().getRealPath("upload"));
-
+		
 		return "index";
 	}
 	
