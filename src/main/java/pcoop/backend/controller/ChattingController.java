@@ -31,24 +31,42 @@ public class ChattingController {
 		
 		//현재 날짜 보내기
 		Date dateobj = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일 ");
-		String yymmdd = format.format(dateobj); 
+		SimpleDateFormat form = new SimpleDateFormat("yyyy년 MM월 dd일 ");
+		String yymmdd = form.format(dateobj); 
 		
+		//요일 구하기
 		Calendar cal = Calendar.getInstance();
 		int num = cal.get(Calendar.DAY_OF_WEEK)-1;
+		int numminus = cal.get(Calendar.DAY_OF_WEEK)-2;
 		
 		String[] weekDay = {"일요일","월요일","화요일","수요일","목요일","금요일","토요일"};
 		String day = weekDay[num];
+		String dayminus = weekDay[numminus];
 		
-		String date = yymmdd+day;
+		//어제 날짜 구하기
+		cal.add(Calendar.DATE, -1);
+		String yymmddminus = form.format(cal.getTime());
 		
-		model.addAttribute("date", date);
+		
+		//오늘 날짜 + 요일
+		String today = yymmdd+day;
+		model.addAttribute("today", today);
+		//어제 날짜 + 요일
+		String yesterday = yymmddminus+dayminus;
+		model.addAttribute("yesterday", yesterday);
 		
 		
-		//오늘 날짜 대화목록
-		String today = "sysdate";
-		List<ChatDTO> chatList = cservice.selectChatList(today);
-		model.addAttribute("chatList", chatList);
+		
+		//오늘 날짜 대화목록 불러오기
+		String sysdate = "sysdate";
+		List<ChatDTO> todayChat = cservice.selectChatList(sysdate);
+		model.addAttribute("todayChat", todayChat);
+		
+		//어제 날짜 대화목록 불러오기
+		String sysdateminus = "sysdate-1";
+		List<ChatDTO> yesterdayChat = cservice.selectChatList(sysdateminus);
+		model.addAttribute("yesterdayChat", yesterdayChat);
+		
 		
 		return "chatting/chatting";
 	}

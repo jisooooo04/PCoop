@@ -77,7 +77,7 @@ public class WebChat {
 			        	 
 			        	 
 			        	 String id = mdto.getName();
-			        	 jsonObj.put("id", id);
+			        	 jsonObj.put("id", id);  System.out.println(id);
 			        	 String text = (String)jsonObj.get("text");
 			        	 String fullDate = (String)jsonObj.get("fulldate");
 			        	 String date = (String)jsonObj.get("date");  //날짜
@@ -88,6 +88,7 @@ public class WebChat {
 			        	 ChatDTO cdto = new ChatDTO(0,0,0,id,text,fullDate,date,time,"");
 			        	 
 			        	 int result = cservice.insertChat(cdto);
+			        	 System.out.println(result);
 			        	 
 			        	 basic.sendText(jsonObj.toJSONString());  //jsp로 보내기
 			        	 

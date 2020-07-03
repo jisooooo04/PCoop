@@ -26,7 +26,7 @@ public class ChatDAO {
 	
 	public List<ChatDTO> selectLastChat(String date){
 		
-		return mybatis.selectList("Chat.selectLastChat", date);
+		return mybatis.selectList("Chat.selectChatChat", date);
 	}
 	
 	
