@@ -3,6 +3,7 @@ package pcoop.backend.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,12 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import pcoop.backend.dto.MemberDTO;
+import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.MemberService;
 
 @Controller  //컨트롤러 빈 선언
@@ -258,11 +262,30 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
-	public String gomypage ()throws Exception{
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
+	@RequestMapping("gomypage")
+	public String gomypage (Model model)throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		int seq = mdto.getSeq();
+		List<ProjectDTO> projectlist = mservice.getProjectList(seq);
+		model.addAttribute("list", projectlist);
+		model.addAttribute("list_size", projectlist.size());
 		return "member/mypage";
 	}
 	
+	@ResponseBody
+	@RequestMapping("modify")
+	public String modify (String name ,String pw)throws Exception{
+		int seq = ((MemberDTO)session.getAttribute("loginInfo")).getSeq();
+		Map <String,Object> param = new HashMap<>();
+		pw=mservice.getSHA512(pw);
+    	param.put("name", name);
+    	param.put("pw", pw);
+    	param.put("seq", seq);
+		int result = mservice.modify(param);
+		
+		return result+"";
+	}
 	
 	
 }
