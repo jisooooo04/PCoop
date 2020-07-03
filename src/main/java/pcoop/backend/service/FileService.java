@@ -196,7 +196,7 @@ public class FileService {
 		int project_seq = 11;
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
 		String name = rename;
-		String extension = name.substring(name.indexOf('.'));
+		String extension = name.substring(name.indexOf('.') + 1);
 		String path = dir_path + "/" + name;
 		String uploader = "temp";
 		String text_yn = "N";

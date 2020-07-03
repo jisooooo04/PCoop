@@ -120,6 +120,7 @@ public class FileDAO {
 				dto.setPath(rs.getString("path"));
 				dto.setUpload_date(rs.getTimestamp("upload_date"));
 				dto.setUploader(rs.getString("uploader"));
+				dto.setText_yn((rs.getString("text_yn")));
 
 				return dto;
 			};
@@ -152,6 +153,7 @@ public class FileDAO {
 				dto.setPath(rs.getString("path"));
 				dto.setUpload_date(rs.getTimestamp("upload_date"));
 				dto.setUploader(rs.getString("uploader"));
+				dto.setText_yn((rs.getString("text_yn")));
 
 				return dto;
 			}

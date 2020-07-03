@@ -100,6 +100,8 @@ public class FileController {
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			json.addProperty("name", dto.getName());
+			System.out.println(dto.getText_yn());
+			json.addProperty("text_yn", dto.getText_yn());
 			fileArr.add(json);
 		}
 
@@ -174,6 +176,8 @@ public class FileController {
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			json.addProperty("name", dto.getName());
+			System.out.println(dto.getText_yn());
+			json.addProperty("text_yn", dto.getText_yn());
 			fileArr.add(json);
 		}
 
