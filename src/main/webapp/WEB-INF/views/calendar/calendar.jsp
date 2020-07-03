@@ -17,6 +17,19 @@
 	
     var calendarEl = document.getElementById('calendar');
 
+
+	var json;
+	
+	$.ajax({
+		url : "tempcalendar",
+		type: "post",
+		success: function(data){
+			json = JSON.parse(data);
+			console.log(json);
+		}		
+	});
+	
+	
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	displayEventTime:false,//제목에 시간 같이 display 안되게 설정하는
     	locale: "ko", // 한국어로 설정 
