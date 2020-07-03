@@ -33,7 +33,6 @@ public class WebChat {
 	//의존성을 검색해서 집어넣어줌
 	private ChatService cservice = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
 	
-	
 	//set : 중복을 방지하고 key가 존재
 	//static을 해놓지 않으면 새로 접속할때마다 set이 매번 새로 만들어지는 것이므로 static으로 설정
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());  //싱크로나이즈드 해줌(동시성을 해결하기 위해 업그레이드?)
@@ -49,6 +48,7 @@ public class WebChat {
 		//System.out.println(client.getId() + "클라이언트가 접속했습니다.");  //지금은 client id 없으므로 주석처리
 		//페이지가 다시 로딩될 때마다 새로운 웹소켓이 새로 생김
 		
+		System.out.println("test");
 		clients.add(client);
 		
 		//HttpSession에서 가져온 세션정보를 가져올 수 있는 것
@@ -63,7 +63,7 @@ public class WebChat {
 		//누가보냈는지 = 세션 / 내용=메세지
 		//System.out.println(session.getId() + " : " + message);  //지금은 client id 없으므로 주석처리
 		
-		
+		System.out.println(message);
 		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 		
 		synchronized(clients) {
