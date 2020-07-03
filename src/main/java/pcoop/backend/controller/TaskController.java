@@ -328,8 +328,16 @@ public class TaskController {
 		}
 		System.out.println("----------------------------");
 
-
-		List<ListDTO> TaskList = lservice.selectList();
+		// 넘겨받은 project_seq에 해당하는 listgroup 조회
+		// listgroup이름과 seq를 사이드바에 출력
+		// 사이드바에서 listgroup 이름을 클릭 할 경우
+		// 넘겨받은 seq를 list테이블의 listgroup_seq과 같은지 조회
+		// 조회된 List<ListDTO>로 검색
+		// request.getParameter("seq") 가 null 이면 모두 조회
+		Map<String, Object> param = new HashMap<>();
+		param.put("listgroup_seq", request.getParameter("seq")); 
+		
+		List<ListDTO> TaskList = lservice.selectList(param);
 		String TaskListArr = new Gson().toJson(TaskList);
 		System.out.println("TaskListArr : "+ TaskListArr);
 
@@ -359,15 +367,6 @@ public class TaskController {
 
 			// 문자열 쪼개기! 파싱!
 			JsonArray jsonCardArray = (JsonArray)jParser.parse(CardArr);
-
-
-
-			// 1. Oracle 12c 이후 버전으로 업그레이드-----------
-			// For json path 기능 사용 : join을 json 안에 json 형식으로
-
-			// 2. 작업카드가 한 덩어리 -----------------------
-
-			// 3. 이중for문으로 Json 안에 Json 형태로 새롭게 만들기
 
 
 			JsonObject list = new JsonObject();	

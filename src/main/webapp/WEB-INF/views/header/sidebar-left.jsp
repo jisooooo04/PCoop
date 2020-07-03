@@ -16,7 +16,7 @@
 		<div class="navtitle">
 			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List
 		</div>
-		<div class="navcontents">
+		<div class="navcontents task">
 			<div>프론트엔드</div>
 			<div>백엔드</div>
 			<div>아두이노</div>

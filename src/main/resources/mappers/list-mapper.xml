@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="List">
-
+<!--
 	<select id="selectAll" resultType="pcoop.backend.dto.ListDTO">
 		select lobilist.id, lobilist.title, lobicard.title title_card,
 		lobicard.description, lobicard.duedate
@@ -10,6 +10,7 @@
 		on lobilist.id = lobicard.listId
 		order by lobilist.id
 	</select>
+-->
 
 	<select id="selectCard" resultType="pcoop.backend.dto.CardDTO">
 		select *
@@ -20,6 +21,9 @@
 	<select id="selectList" resultType="pcoop.backend.dto.ListDTO">
 		select *
 		from lobiList
+		<if test="listgroup_seq != null">
+			where listgroup_seq = #{listgroup_seq}
+		</if>
 	</select>
 
 
@@ -28,11 +32,9 @@
 		values( lobicard_seq.nextval, #{title}, #{description}, #{dueDate},'false',
 		#{listId})
 	</insert>
-	<!-- 세미콜론 안붙임 #{value} resultType 이 숫자일경우 int타입 -->
-	<!-- #{name} : dto.getName()과 동일 (dao에서 dto가 전달되었으므로) -->
-	<!-- ${name}으로 해도 되는데 varchar인 경우 ''가 자동으로 안붙음 -->
-	<!-- select 사용할때는 result타입을 작성해야함 -->
-	<!--update 는 $가나와야함 -->
+	
+	<!-- 컬럼명에서는 따옴표 쓰면 안된다.
+따라서 #{컬럼명}이 아닌 ${컬럼명}로 -->
 
 	<insert id="update">
 		update lobicard
@@ -48,9 +50,10 @@
 		select count(*) from
 		lobiList where id= #{id}
 	</select>
+	
 	<insert id="insertlist">
 		insert into lobiList(id, title, defaultStyle, items)
-		values( #{id}, #{title}, 'lobilist-info','')
+		values( #{id}, #{title}, 'lobilist-default','')
 	</insert>
 
 	<insert id="updatelist">
