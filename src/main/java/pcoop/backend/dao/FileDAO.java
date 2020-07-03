@@ -68,7 +68,7 @@ public class FileDAO {
 		});
 
 	}
-	
+
 	// 파일 이름 가져오기
 	public String getFileNameBySeq(int seq) {
 		String sql = "select name from files where seq = ?";
@@ -82,7 +82,14 @@ public class FileDAO {
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
 	}
-	
+
+	// 파일의 확장자가 텍스트인지 체크
+	public int isTextFile(String extension) {
+		String sql = "select count(*) from extension where extension = ?";
+		return jdbc.queryForObject(sql, new Object[] {extension}, Integer.class);
+	}
+
+	// 파일 확장자 가져오기
 	public String getFileExtensionBySeq(int seq) {
 		String sql = "select extension from files where seq = ?";
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
@@ -124,7 +131,7 @@ public class FileDAO {
 		String sql = "delete from files where directory_seq = ?";
 		return jdbc.update(sql, dir_seq);
 	}
-	
+
 	// 전체 파일 리스트
 	public List<FileDTO> getFileList(){
 
@@ -154,18 +161,22 @@ public class FileDAO {
 
 	// 파일 생성
 	public int insertFile(int project_seq, int directory_seq, String directory_path,
-			String name, String extension, String path, String uploader){
+			String name, String extension, String path, String uploader, String text_yn){
 
-		String sql = "insert into files values(files_seq.nextval, ?, ?, ?, ?, ?, ?, sysdate, ?)";
-		return jdbc.update(sql, project_seq, directory_seq, directory_path, name, extension, path, uploader);
+		String sql = "insert into files values(files_seq.nextval, ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
+		return jdbc.update(sql, project_seq, directory_seq, directory_path, name, extension, path, uploader, text_yn);
 	}
-	
+
 	// 파일 삭제
 	public int deleteFile(int seq) {
 		String sql = "delete from files where seq = ?";
 		return jdbc.update(sql, seq);
 	}
 
-
+	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
+	//	public int insertExtensions(String extension) {
+	//		String sql = "insert into extension values(extension_seq.nextval, ?)";
+	//		return jdbc.update(sql, extension);
+	//	}
 
 }

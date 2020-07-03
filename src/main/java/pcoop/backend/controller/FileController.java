@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,7 +100,6 @@ public class FileController {
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			json.addProperty("name", dto.getName());
-			System.out.println("name : " + dto.getName());
 			fileArr.add(json);
 		}
 
@@ -250,13 +250,19 @@ public class FileController {
 	    return new Gson().toJson(json);
 	}
 	
-	@RequestMapping("insertExtensions")
-	public void insertExtensions() throws Exception {
-		
-		String url = "https://highlightjs.org/static/demo/";
-		Document doc = Jsoup.connect(url).get();
-		Elements codes = doc.select("code");
-		System.out.println(codes);
-	}
+	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
+//	@RequestMapping("insertExtensions")
+//	public void insertExtensions() throws Exception {
+//		
+//		String url = "https://highlightjs.org/static/demo/";
+//		Document doc = Jsoup.connect(url).get();
+//		Elements codes = doc.select("pre>code");
+//		
+//		for(Element e : codes) {
+//			String extension = e.attr("class");
+//			fservice.insertExtensions(extension);
+//			Thread.sleep(2000);
+//		}
+//	}
 
 }

@@ -199,8 +199,13 @@ public class FileService {
 		String extension = name.substring(name.indexOf('.'));
 		String path = dir_path + "/" + name;
 		String uploader = "temp";
-
-		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader);
+		String text_yn = "N";
+		
+		if(fdao.isTextFile(extension) > 0) {
+			text_yn = "Y";
+		}
+		
+		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader, text_yn);
 
 	}
 
@@ -272,5 +277,10 @@ public class FileService {
 	    return fileContents;
 	    
 	}
+	
+	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
+//	public int insertExtensions(String extension) {
+//		return fdao.insertExtensions(extension);
+//	}
 
 }
