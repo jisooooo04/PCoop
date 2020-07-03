@@ -37,7 +37,7 @@
 
 		<div id="container">
 
-			<div class="files"></div>
+			<div class="files"><a href="insertExtensions">클릭</a></div>
 			<!-- HTML코드를 강조하여 보여줄때.. -->
 		<pre><code class="file-contents">
 			
@@ -45,6 +45,7 @@
 
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
+		
 
 	</section>
 

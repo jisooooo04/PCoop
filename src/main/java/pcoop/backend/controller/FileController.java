@@ -3,7 +3,6 @@ package pcoop.backend.controller;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -11,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -247,6 +248,15 @@ public class FileController {
 		
 		System.out.println(json);
 	    return new Gson().toJson(json);
+	}
+	
+	@RequestMapping("insertExtensions")
+	public void insertExtensions() throws Exception {
+		
+		String url = "https://highlightjs.org/static/demo/";
+		Document doc = Jsoup.connect(url).get();
+		Elements codes = doc.select("code");
+		System.out.println(codes);
 	}
 
 }
