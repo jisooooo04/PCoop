@@ -155,11 +155,11 @@ public class FileController {
 		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
 	}
-	
+
 	@RequestMapping("temp")
 	public String temp() {
-		
-		
+
+
 		return "backup/temp";
 	}
 
@@ -199,7 +199,7 @@ public class FileController {
 		String rootPath = session.getServletContext().getRealPath("upload/backup");
 		String filePath = fservice.getFilePathBySeq(seq);
 		String path = rootPath + filePath;
-		
+
 		File target = new File(path);
 
 		DataInputStream dis = new DataInputStream(new FileInputStream(target));
@@ -241,39 +241,66 @@ public class FileController {
 		return new Gson().toJson(fileArr);
 
 	}
-	
+
 	@RequestMapping(value = "readFile", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String read(int seq) throws Exception {
-		
+
 		String rootPath = session.getServletContext().getRealPath("upload/backup");
 		String filePath = fservice.getFilePathBySeq(seq);
 		String path = rootPath + filePath;
 		String extension = fservice.getFileExtensionBySeq(seq).substring(1);
 
-	    String fileContents = fservice.getFileText(path);
-	    
+		String fileContents = fservice.getFileText(path);
+
 		JsonObject json = new JsonObject();
-	    json.addProperty("text", fileContents);
+		json.addProperty("text", fileContents);
 		json.addProperty("extension", extension);
-		
+
 		System.out.println(json);
-	    return new Gson().toJson(json);
+		return new Gson().toJson(json);
 	}
-	
+
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
-//	@RequestMapping("insertExtensions")
-//	public void insertExtensions() throws Exception {
-//		
-//		String url = "https://highlightjs.org/static/demo/";
-//		Document doc = Jsoup.connect(url).get();
-//		Elements codes = doc.select("pre>code");
-//		
-//		for(Element e : codes) {
-//			String extension = e.attr("class");
-//			fservice.insertExtensions(extension);
-//			Thread.sleep(2000);
-//		}
-//	}
+	//	@RequestMapping("insertExtensions")
+	//	public void insertExtensions() throws Exception {
+	//		
+	//		String url = "https://highlightjs.org/static/demo/";
+	//		Document doc = Jsoup.connect(url).get();
+	//		Elements codes = doc.select("pre>code");
+	//		
+	//		for(Element e : codes) {
+	//			String extension = e.attr("class");
+	//			fservice.insertExtensions(extension);
+	//			Thread.sleep(2000);
+	//		}
+	//	}
+
+	@RequestMapping("project-main")
+	public String projectMain(Model model) {
+		// DB에서 목록 가져올 때
+		List<DirectoryDTO> dirList = fservice.getDirList();
+		List<FileDTO> fileList = fservice.getFileList();
+		JsonArray dirArr = new JsonArray();
+		JsonArray fileArr = new JsonArray();
+
+		for(DirectoryDTO dto : dirList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			dirArr.add(json);
+		}
+
+		for(FileDTO dto : fileList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			json.addProperty("path", dto.getPath());
+			fileArr.add(json);
+		}
+
+		model.addAttribute("dirlist", new Gson().toJson(dirArr));
+		model.addAttribute("filelist", new Gson().toJson(fileArr));
+		return "project-main";
+	}
 
 }

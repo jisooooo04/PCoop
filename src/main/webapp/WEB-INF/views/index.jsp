@@ -38,18 +38,19 @@
 		<div class="inner">
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
-
-				<!-- <a href="elements.html">Elements</a> --> -->
+				<a href="member/gomypage">mypage</a>
 				<a href="#">협업 구하기</a> 
 				<a href="#">참여 중 프로젝트</a> 
-				<a href="Task/task">할일목록</a>
-				<a href="fileList">백업</a> 
+				<a href="#">프로젝트 소개</a> 
+				<a href="Task/task">할 일 목록</a>
+				<a href="project-main">백업</a> 
 				<a href="calendar?project_seq=0">캘린더</a>
 				<a href="chatting">채팅</a>
 
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
 				class="fa fa-bars"></span></a>
+				
 		</div>
 	</header>
 

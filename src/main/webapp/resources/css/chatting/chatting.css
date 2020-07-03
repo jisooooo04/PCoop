@@ -104,6 +104,7 @@ section {
 	padding: 2px;
 	padding-left: 7px;
 	padding-right: 7px;
+	max-width: 99%;
 }
 
 .time {
@@ -237,7 +238,8 @@ section {
 .pre {
 	height: 100%;
 	width: 100%;
-	border: 1px solid red; /*빨강*/
+	border: 1px solid lightgray;
+	border-radius: 3px;
 	margin: 0px;
 	padding: 0px;
 	z-index: 10;
@@ -247,10 +249,15 @@ section {
 .code_editor {
 	height: 100%;
 	width: 100%;
-	background-color: white;
-	border: 1px solid blue; /*파랑*/
 	padding: 0px;
 	z-index: 10;
 	display: none;
+	overflow-x: hidden;
+    overflow-y: auto;
 }
 
+.hljs{
+	overflow-x: hidden;
+	overflow-y: auto;
+	word-wrap: break-word;
+}

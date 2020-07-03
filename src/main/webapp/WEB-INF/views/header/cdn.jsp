@@ -24,6 +24,8 @@
 <script src="https://kit.fontawesome.com/8f6ea3bf70.js"
 	crossorigin="anonymous"></script>
 	
+ <!-- 구글 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">	
 
 </head>
 </html>
