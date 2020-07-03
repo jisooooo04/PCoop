@@ -136,7 +136,15 @@ public class MemberController {
 
 		return "member/signupView";
 	}
-
+	
+	@RequestMapping("toLoginView")
+	public String toLogin() {
+		System.out.println("로그인 페이지로 이동");
+		return "member/login";
+	}
+	
+	
+	
 	//이메일로 받은 인증번호를 입력하고 전송 버튼을 누르면 맵핑되는 메소드.
 	//내가 입력한 인증번호와 메일로 입력한 인증번호가 맞는지 확인해서 맞으면 회원가입 페이지로 넘어가고,
 	//틀리면 다시 원래 페이지로 돌아오는 메소드
