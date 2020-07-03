@@ -48,7 +48,6 @@ public class WebChat {
 		//System.out.println(client.getId() + "클라이언트가 접속했습니다.");  //지금은 client id 없으므로 주석처리
 		//페이지가 다시 로딩될 때마다 새로운 웹소켓이 새로 생김
 		
-		System.out.println("test");
 		clients.add(client);
 		
 		//HttpSession에서 가져온 세션정보를 가져올 수 있는 것

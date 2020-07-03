@@ -18,6 +18,7 @@
 <script>
 	hljs.initHighlightingOnLoad();
 </script>
+
 <script>
 $(function() {
 
@@ -31,13 +32,10 @@ $(function() {
 	var filelist = ${filelist};
 	// printFileList(filelist);
 	
-	
-
 })
 </script>
 <script>
 	$(function() {
-		var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
 
 		$(".menu-chat").on("click", function(){
 			$("#container").load("chat");

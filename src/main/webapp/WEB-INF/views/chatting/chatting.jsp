@@ -16,10 +16,8 @@
 <script>hljs.initHighlightingOnLoad();</script>
 
 <script>
-<<<<<<< HEAD
    $(function(){
-
-	   updateScroll();
+      updateScroll();
       
       var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
       
@@ -53,6 +51,8 @@
          
          chat_box.append(profile);
          chat_box.append(chat_box_in);
+         
+         console.log(text);
          
          $(".chat_section").append(chat_box);
          
@@ -135,7 +135,7 @@
       }
       
       
-      var num = 1;
+      var num = 2;
       //스크롤 위로 갈 시 이전 데이터 불러오기
       $("#chat_section").on("scroll", function(){
          
@@ -148,140 +148,6 @@
                   num : num
                },
                dataType : "json"
-=======
-	$(function(){
-		updateScroll();
-		
-		var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
-		
-		ws.onmessage = function(e){
-			
-			var msg = JSON.parse(e.data);
-						
-			var id = msg.id;
-			var text = msg.text;
-			var date = msg.date;
-			var time = msg.time;
-			
-			var chat_box = $("<div class='chat_box'>");
-			var profile = $("<div class='profile'>");
-			var profile_img = $("<img src='resources/images/chatting/profile.png' class='profile_img'>");
-			
-			profile.append(profile_img);
-			
-			var chat_box_in = $("<div class='chat_box_in'>");
-			var name = $("<div class='name'>");
-			var chat = $("<div class='chat'>");
-			var timediv = $("<div class='time'>");
-			
-			name.append(id);
-			chat.append(text);
-			timediv.append(time);
-			
-			chat_box_in.append(name);
-			chat_box_in.append(chat);
-			chat_box_in.append(timediv);
-			
-			chat_box.append(profile);
-			chat_box.append(chat_box_in);
-			
-			console.log(text);
-			
-			$(".chat_section").append(chat_box);
-			
-			updateScroll();
-			
-		}
-		
-		//엔터 버튼
-		$("#input").keydown(function(e){
-			if(e.keyCode == 13){  //13번 = 엔터키
-				
-				var d = new Date();
-				
-				var week = ["일","월","화","수","목","금","토"];
-				var day = week[d.getDay()];
-				
-				var fulldate = d.toLocaleString();
-				var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
-				var time = d.toLocaleTimeString();
-				
-				var msg = {
-					type: "message",
-					text: $("#input").html(),
-					fulldate: fulldate,
-					date: date,
-					time: time
-				};
-				
-				ws.send(JSON.stringify(msg));  //json 데이터 string으로 보내기
-				
-				updateScroll();
-				$("#input").html("");
-				
-				return false; //엔터쳤을때 커서가 아래로 떨어지지 않게 막아줌
-			}
-		})
-		
-		
-		//전송 버튼
-		$("#send_btn").on("click", function(){
-
-			var d = new Date();
-			
-			var week = ["일","월","화","수","목","금","토"];
-			var day = week[d.getDay()];
-			
-			var fulldate = d.toLocaleString();
-			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
-			var time = d.toLocaleTimeString();
-			
-			var msg = {
-				type: "message",
-				text: $("#input").html(),
-				fulldate: fulldate,
-				date: date,
-				time: time
-			};
-			
-			ws.send(JSON.stringify(msg));
-			
-			
-			
-			//formdata로 보내기
-			//var form = new FormData(document.getElementById('fileForm'));
-			
-			//ws.send(form);
-			
-			
-			
-			updateScroll();
-			$("#input").html("");
-			
-			return false;
-		})
-		
-		
-		function updateScroll(){
-			var element = document.getElementById("chat_section");
-			element.scrollTop = element.scrollHeight;
-		}
-		
-		
-		var num = 2;
-		//스크롤 위로 갈 시 이전 데이터 불러오기
-		$("#chat_section").on("scroll", function(){
-			
-			if($("#chat_section").scrollTop() == 0){
-				
-				$.ajax({
-					url : "lastChat",
-					type : "post",
-					data : {
-						num : num
-					},
-					dataType : "json"
->>>>>>> deb8f2091f82511ee2ba957db0bc707c5d65f7da
 
             }).done(function(response) {
                
@@ -392,22 +258,20 @@
         
         //이모티콘 선택하면 div에 넣기
         $(".emoticon_box>.emoticon").on("click", function(){
-
-        	$(".emoticon_section").hide();
-        	
-        	var emoticon_id = $(this).attr("id");
-        	$("#input").append("<img src=resources/images/chatting/"+emoticon_id+" class=emoticon id="+emoticon_id+"><br>");
-        	
-        	//자동줄바꿈 추가하기!
-        	
+           $(".emoticon_section").hide();
+           
+           var emoticon_id = $(this).attr("id");
+           $("#input").append("<img src=resources/images/chatting/"+emoticon_id+" class=emoticon id="+emoticon_id+"><br>");
+           
+           //자동줄바꿈 추가하기!
+           
         })
         
         
         //코드 편집기 열기
         var code_index = 1;
         $(".code_icon").on("click",function(){
-
-        	if($("#input").html().indexOf("</code></pre>") == -1){  //이 코드가 없다면
+           if($("#input").html().indexOf("</code></pre>") == -1){  //이 코드가 없다면
                 $("#input").append("<pre class=pre><code class=code_editor></code></pre>");
                 
                 $("#input>.pre").css("display","block");
@@ -423,10 +287,14 @@
                 $("#input>.pre>.code_editor").html("");
                 code_index = code_index*-1;
             }
-
         })
         
+        
+        
+        
+        
         //이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!
+        
         
    })
 </script>
@@ -470,16 +338,16 @@
                     
                     <!-- 대화 내용 (어제) -->
                     <c:forEach var="i" items="${yesterdayChat}">
-                    	<div class=chat_box>
-                        	<div class=profile>
-                            	<img src=resources/images/chatting/profile.png class=profile_img>
-                        	</div>
-                        	<div class=chat_box_in>
-                            	<div class=name>${i.writer}</div>
-                            	<div class=chat id="${i.seq}">${i.chat}</div>
-                            	<div class=time>${i.time}</div>
-                        	</div>
-                    	</div>
+                       <div class=chat_box>
+                           <div class=profile>
+                               <img src=resources/images/chatting/profile.png class=profile_img>
+                           </div>
+                           <div class=chat_box_in>
+                               <div class=name>${i.writer}</div>
+                               <div class=chat id="${i.seq}">${i.chat}</div>
+                               <div class=time>${i.time}</div>
+                           </div>
+                       </div>
                     </c:forEach>
                     
                     
@@ -487,19 +355,19 @@
                     <div class=chat_date_box>
                         <button class=chat_date_btn>${today}</button>
                     </div>
-
+                    
                     <!-- 대화 내용 (오늘) -->
                     <c:forEach var="i" items="${todayChat}">
-                    	<div class=chat_box>
-                        	<div class=profile>
-                            	<img src=resources/images/chatting/profile.png class=profile_img>
-                        	</div>
-                        	<div class=chat_box_in>
-                            	<div class=name>${i.writer}</div>
-                            	<div class=chat id="${i.seq}">${i.chat}</div>
-                            	<div class=time>${i.time}</div>
-                        	</div>
-                    	</div>
+                       <div class=chat_box>
+                           <div class=profile>
+                               <img src=resources/images/chatting/profile.png class=profile_img>
+                           </div>
+                           <div class=chat_box_in>
+                               <div class=name>${i.writer}</div>
+                               <div class=chat id="${i.seq}">${i.chat}</div>
+                               <div class=time>${i.time}</div>
+                           </div>
+                       </div>
                     </c:forEach>
                     
                     
@@ -514,10 +382,9 @@
                        <!-- <input type=file name=file> -->
                         <button id=send_btn>전송</button>
                         <div id=input contenteditable=true>  <!-- 입력창 -->
-
-                        	
-                        	<pre class=pre><code class="code_editor hljs" style="overflow-x: hidden"></code></pre>  <!-- 코드 편집기 -->
-                        	
+                           
+                           <pre class=pre><code class="code_editor hljs" style="overflow-x: hidden"></code></pre>  <!-- 코드 편집기 -->
+                           
                         </div>
                         
                         <div class=icon_box>
@@ -533,9 +400,9 @@
                            이모티콘
                         </div>
                         <div class=emoticon_box>
-                        	<c:forEach var="i" begin="1" step="1" end="20">
-                        		<img src="resources/images/chatting/1-${i}.gif" class=emoticon id="1-${i}.gif">
-                        	</c:forEach>
+                           <c:forEach var="i" begin="1" step="1" end="20">
+                              <img src="resources/images/chatting/1-${i}.gif" class=emoticon id="1-${i}.gif">
+                           </c:forEach>
                             
                         </div>
                     </div>
