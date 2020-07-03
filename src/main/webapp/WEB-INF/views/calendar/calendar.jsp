@@ -23,7 +23,7 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'dayGridMonth,dayGridWeek,dayGridDay'
       },
      /*  initialDate: '2020-06-12', */
       navLinks: true, // can click day/week names to navigate views

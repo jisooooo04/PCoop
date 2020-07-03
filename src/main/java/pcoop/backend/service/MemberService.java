@@ -2,11 +2,8 @@ package pcoop.backend.service;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import pcoop.backend.dao.MemberDAO;
 import pcoop.backend.dto.MemberDTO;
+import pcoop.backend.dto.ProjectDTO;
 
 @Service
 public class MemberService {
@@ -111,6 +109,14 @@ public class MemberService {
         
         return mdao.member_profile(user_id);
     }
+    
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
+    public List<ProjectDTO> getProjectList (int seq)throws Exception{
+    	return mdao.getProjectList(seq);
+    }
 	
+    public int modify (Map<String,Object> param)throws Exception{
+    	return mdao.modify(param);
+    }
 	
 }
