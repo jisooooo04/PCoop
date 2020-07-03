@@ -14,13 +14,13 @@
 
 	<select id="selectCard" resultType="pcoop.backend.dto.CardDTO">
 		select *
-		from lobicard
+		from task_card
 		where listId = #{listId}
 	</select>
 
 	<select id="selectList" resultType="pcoop.backend.dto.ListDTO">
 		select *
-		from lobiList
+		from task_list
 		<if test="listgroup_seq != null">
 			where listgroup_seq = #{listgroup_seq}
 		</if>
@@ -28,8 +28,8 @@
 
 
 	<insert id="insert">
-		insert into lobicard(id, title, description, dueDate, done, listId)
-		values( lobicard_seq.nextval, #{title}, #{description}, #{dueDate},'false',
+		insert into task_card(id, title, description, dueDate, done, listId)
+		values( task_card_seq.nextval, #{title}, #{description}, #{dueDate},'false',
 		#{listId})
 	</insert>
 	
@@ -37,27 +37,27 @@
 따라서 #{컬럼명}이 아닌 ${컬럼명}로 -->
 
 	<insert id="update">
-		update lobicard
+		update task_card
 		set title= #{title}, description=#{description}, dueDate=#{dueDate}
 		where id=#{id}
 	</insert>
 
 	<insert id="delete">
-		delete from lobicard where id = #{id}
+		delete from task_card where id = #{id}
 	</insert>
 
 	<select id="selectListId" resultType="int">
 		select count(*) from
-		lobiList where id= #{id}
+		task_list where id= #{id}
 	</select>
 	
 	<insert id="insertlist">
-		insert into lobiList(id, title, defaultStyle, items)
+		insert into task_list(id, title, defaultStyle, items)
 		values( #{id}, #{title}, 'lobilist-default','')
 	</insert>
 
 	<insert id="updatelist">
-		update lobiList
+		update task_list
 		set title= #{title}
 		where id=#{id}
 	</insert>
@@ -69,33 +69,33 @@
 		FROM(
 		SELECT
 		*
-		FROM lobicard
+		FROM task_card
 		ORDER BY ROWNUM DESC)
 		WHERE ROWNUM = 1
 	</select>
 
 	<insert id="deleteCardByListId">
-		delete from lobicard where listId = #{listId}
+		delete from task_card where listId = #{listId}
 	</insert>
 	<insert id="deleteListById">
-		delete from lobilist where id = #{listId}
+		delete from task_list where id = #{listId}
 	</insert>
 
 
 	<insert id="updatelistStyle">
-		update lobiList
+		update task_list
 		set defaultStyle= #{defaultStyle}
 		where id=#{id}
 	</insert>
 
 	<insert id="checkboxChange">
-		update lobicard
+		update task_card
 		set done= #{done}
 		where id=#{id}
 	</insert>
 
 	<insert id="cardListIdUpdate">
-		update lobicard
+		update task_card
 		set listId= #{listId}
 		where id=#{id}
 	</insert>

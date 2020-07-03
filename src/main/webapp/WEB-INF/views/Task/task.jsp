@@ -38,9 +38,9 @@
 
 	<section>
 		<!--Actions by ajax-->
-		<div class="container">
+	
 			<div id="actions-by-ajax"></div>
-		</div>
+	
 	</section>
 
 

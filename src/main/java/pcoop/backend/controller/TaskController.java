@@ -264,11 +264,8 @@ public class TaskController {
 		}
 		System.out.println("----------------------------");
 
-
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("id")); 
-
-
 
 		int result = lservice.delete(param);
 		System.out.println("delete 결과 : "+result);
@@ -314,6 +311,28 @@ public class TaskController {
 		return param;
 	}
 
+	
+	@ResponseBody
+	@RequestMapping(value="selectListgroup",produces="application/json;charset=utf8")
+	public void selectListgroup(HttpServletRequest request)  throws Exception {
+		System.out.println("selectListgroup 시작");
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+		// 프로젝트에 포함된 listgroup 조회
+		// 프로젝트_seq로 listgroup의 이름과 클릭시 seq를 포함해서 넘겨주기
+		// 사이드바에 ajax로 출력
+		// 사이드 바에서  listgroup 추가 제거 삭제 가능 하도록 하기
+		
+	}
+	
+	
 
 	@RequestMapping(value="TaskAjax",produces="application/json;charset=utf8")
 	@ResponseBody
@@ -328,12 +347,11 @@ public class TaskController {
 		}
 		System.out.println("----------------------------");
 
-		// 넘겨받은 project_seq에 해당하는 listgroup 조회
-		// listgroup이름과 seq를 사이드바에 출력
-		// 사이드바에서 listgroup 이름을 클릭 할 경우
+		
+		// listgroup에 포함된 list 조회
 		// 넘겨받은 seq를 list테이블의 listgroup_seq과 같은지 조회
-		// 조회된 List<ListDTO>로 검색
-		// request.getParameter("seq") 가 null 이면 모두 조회
+		// request.getParameter("seq") 가 null이면 모든 리스트 조회
+		
 		Map<String, Object> param = new HashMap<>();
 		param.put("listgroup_seq", request.getParameter("seq")); 
 		
@@ -357,28 +375,19 @@ public class TaskController {
 			//System.out.print(j+" 번째 Listobject : "+ListObject);	
 
 			String list_Id = ListObject.get("id").getAsString();
-
 			String listTitle = ListObject.get("title").getAsString();
-
 			String defaultStyle = ListObject.get("defaultStyle").getAsString();
-
 			List<CardDTO> selectlist = lservice.selectCard(list_Id);
 			String CardArr = new Gson().toJson(selectlist);
 
 			// 문자열 쪼개기! 파싱!
 			JsonArray jsonCardArray = (JsonArray)jParser.parse(CardArr);
-
-
 			JsonObject list = new JsonObject();	
 			JsonArray items = new JsonArray(); //리스트안의 작업들(아이템들)이 들어갈돗
-
 			for(int i = 0;i<jsonCardArray.size();i++) {
 				JsonObject item = new JsonObject(); //개별 작업(아이템): 배열로 넣어야 하기 때문에 반복문 안에서 생성
-
 				JsonObject CardObject = (JsonObject) jsonCardArray.get(i); //jsonArray의 첫번째 값 꺼내기
-
 				String id = String.valueOf(CardObject.get("id"));
-
 				String title = String.valueOf(CardObject.get("title"));
 
 				if(!title.contentEquals("null")) {
@@ -439,6 +448,8 @@ public class TaskController {
 		}
 
 		returnjson.add("lists", lists);
+		
+		
 		System.out.println("returnjson : "+returnjson);
 
 		return returnjson;
