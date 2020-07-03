@@ -33,7 +33,7 @@ public class TaskController {
 	
 	@RequestMapping("/task")
 	public String Task() {
-		return "Task/test";
+		return "Task/task";
 	}
 
 	
@@ -346,7 +346,7 @@ public class TaskController {
 		for(int j = 0;j<jsonListArray.size();j++) {
 			JsonObject ListObject = (JsonObject) jsonListArray.get(j); //jsonArray의 첫번째 값 꺼내기
 
-			System.out.print(j+" 번째 Listobject : "+ListObject);	
+			//System.out.print(j+" 번째 Listobject : "+ListObject);	
 
 			String list_Id = ListObject.get("id").getAsString();
 
@@ -414,11 +414,11 @@ public class TaskController {
 					done = true;
 				}
 				item.addProperty("done", done ); 
-				System.out.println("item에 done : "+ done);
+				//System.out.println("item에 done : "+ done);
 
 
 				items.add(item); // 각 아이템들을 items배열에 담기
-				System.out.println("items에 item : "+ item);
+				//System.out.println("items에 item : "+ item);
 
 			}
 

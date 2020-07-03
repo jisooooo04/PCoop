@@ -434,7 +434,7 @@
 }
 .lobilists.single-line {
   overflow-x: auto;
-  overflow-y: hidden; /*hidden 을 auto로 */
+  overflow-y: auto; /*overflow-y hidden 스크롤 삭제*/
   white-space: nowrap;
   height: 400px; /* 기본 높이 400px */
 }

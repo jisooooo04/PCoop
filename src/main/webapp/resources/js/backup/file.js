@@ -5,7 +5,8 @@
 
 
 // 디렉토리 - 우 클릭 - 드롭다운 메뉴
-$("#container").on("contextmenu", function(e){
+
+$(document).on("contextmenu", "#container", function(e){
 	
 	var x = e.pageX;
 	var y = e.pageY;
@@ -19,12 +20,12 @@ $("#container").on("contextmenu", function(e){
 })
 
 // 파일 선택 Modal
-$(".menu_upload_file").on("click", function(){
+$(document).on("click", ".menu_upload_file", function(){
 	$(".modal_upload").modal();
 })
 
 // 파일 upload - 폼 데이터 ajax 전송
-$("#uploadSubmit").on("click", function(event){
+$(document).on("click", "#uploadSubmit", function(event){
 	
 	// 기본으로 정의된 이벤트를 작동하지 못하게 막음
 	// submit을 막음
@@ -53,7 +54,13 @@ $("#uploadSubmit").on("click", function(event){
 			for(var i = 0 ; i < files.length ; i++){
 				var id = "f" + files[i].seq;
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+				
+				console.log(files[i].text_yn);
+				
+				if(files[i].text_yn == "Y"){
+					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+				}
+				
 				$("#" + id).append("<button class=deleteFile id=del_" + id + " type=button>삭제</button>");
 			}
         },

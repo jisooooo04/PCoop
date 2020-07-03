@@ -13,13 +13,14 @@ public class FileDTO {
 	private String path;
 	private Timestamp upload_date;
 	private String uploader;
+	private String text_yn;
 	
 	public FileDTO() {
 		super();
 	}
 
 	public FileDTO(int seq, int project_seq, int directory_seq, String directory_path, String name, String extension,
-			String path, Timestamp upload_date, String uploader) {
+			String path, Timestamp upload_date, String uploader, String text_yn) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
@@ -30,6 +31,7 @@ public class FileDTO {
 		this.path = path;
 		this.upload_date = upload_date;
 		this.uploader = uploader;
+		this.text_yn = text_yn;
 	}
 
 	public int getSeq() {
@@ -103,5 +105,15 @@ public class FileDTO {
 	public void setUploader(String uploader) {
 		this.uploader = uploader;
 	}
+
+	public String getText_yn() {
+		return text_yn;
+	}
+
+	public void setText_yn(String text_yn) {
+		this.text_yn = text_yn;
+	}
+
+	
 	
 }
