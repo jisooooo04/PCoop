@@ -158,6 +158,7 @@ public class FileController {
 	@RequestMapping("downloadFile")
 	public void download(int seq, HttpServletResponse resp) throws Exception {
 
+		System.out.println(seq);
 		// FileDTO dto = fdao.getFileBySeq(seq);
 		
 		

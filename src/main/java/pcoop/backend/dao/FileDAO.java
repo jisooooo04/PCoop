@@ -123,7 +123,15 @@ public class FileDAO {
 		});
 
 	}
-
+	
+	// 특정 파일 dto 가져오기
+	public FileDTO getFileBySeq(int seq) {
+				
+		String sql = "select * from files where seq = ?";
+	
+		// return jdbc.queryForObject(sql, seq, new FileDTO());
+		
+	}
 
 
 }
