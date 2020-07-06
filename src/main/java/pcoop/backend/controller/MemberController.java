@@ -2,6 +2,7 @@ package pcoop.backend.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -275,9 +276,27 @@ public class MemberController {
 	public String gomypage (Model model)throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		int seq = mdto.getSeq();
-		List<ProjectDTO> projectlist = mservice.getProjectList(seq);
-		model.addAttribute("list", projectlist);
-		model.addAttribute("list_size", projectlist.size());
+		List<ProjectDTO> project_list = mservice.getProjectList(seq); //내가 속한 프로젝트들 
+		model.addAttribute("list", project_list);
+		model.addAttribute("list_size", project_list.size());
+		//----------내가 속한 모든 프로젝트 뽑기
+		
+		int peopleNum = 0;
+		//----------내가 리더인 프로젝트들의 다음 조원들 뽑기
+		for(ProjectDTO dto : project_list) {
+			int count = dto.getPeople_num();
+			if(count==1) {//프로젝트 팀원이 나 혼자인 경우
+				
+			}else {
+				List<Integer> SelectMyProjectSeq =mservice.SelectMyPojectSeq(seq);
+				for(int i : SelectMyProjectSeq) {
+					System.out.println("나의 project 멤버 시퀀스는 "+i);
+					
+				}
+			}
+		}
+		
+		
 		return "member/mypage";
 	}
 	
@@ -295,5 +314,26 @@ public class MemberController {
 		return result+"";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value ="delmem",produces="application/gson;charset=utf8")
+	public String delmem(int seq,String pw)throws Exception{
+		Map<String , Object> map = new HashMap<>();
+		map.put("seq", seq);
+		map.put("pw", mservice.getSHA512(pw));
+		int check = mservice.checkmem(map);//비밀번호가 일치하는지 확인
+		String result = null;
+		if(check==0) {//일치하는 정보가 없음.
+			result = "fail";
+		}else if(check==1) {//로그인 정보 일치
+			int delresult = mservice.delmem(seq);
+			
+			if(delresult==1) {
+				result = "success";
+			}else {
+				result = "fail";
+			}
+		}
+		return result;
+	}
 	
 }
