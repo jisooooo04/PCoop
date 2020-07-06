@@ -19,4 +19,8 @@
 		delete from chat where seq=#{value}
 	</delete>
 	
+	<select id="selectChatSeq" resultType="int">
+		select seq from (select * from chat where full_date like sysdate order by time desc) where ROWNUM = 1
+	</select>
+	
 </mapper>
