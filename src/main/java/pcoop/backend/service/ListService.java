@@ -78,4 +78,11 @@ public class ListService {
 	}
 	
 	
+	public int selectCount(){
+		return ldao.selectCount();
+	}
+	public int trueCount(){
+		return ldao.trueCount();
+	}
+	
 }
