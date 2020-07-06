@@ -18,19 +18,27 @@
 	<!-- 디렉토리 우 클릭 시, 나타나는 드롭 다운 메뉴 -->
 	<ul class="contextmenu">
 		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
+		<li class="menu_rename_dir"><a href="#">디렉토리 이름 변경</a></li>
 		<li class="menu_delete_dir"><a href="#">디렉토리 삭제</a></li>
 	</ul>
 
 	<ul class="contextmenu_container">
 		<li class="menu_upload_file"><a href="#">파일 업로드</a></li>
-		<li class="menu_delete_file"><a href="#">디렉토리 삭제</a></li>
 		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
+		<li class="menu_delete_file"><a href="#">디렉토리 삭제</a></li>
+		<li class="menu_rename_dir"><a href="#">디렉토리 이름 변경</a></li>
 	</ul>
 
 	<div class="add_dir">
 		<input type="text" id="dir_name" placeholder="새 디렉토리 이름"> <input
 			type="button" id="ok" value="OK"> <input type="button"
 			id="cancel" value="취소">
+	</div>
+	
+	<div class="rename_dir">
+		<input type="text" id="dir_rename" placeholder="변경할 디렉토리 이름"> <input
+			type="button" id="ok_rename" value="OK"> <input type="button"
+			id="cancel_rename" value="취소">
 	</div>
 
 	<!-- 디렉토리 삭제 경고 Modal -->

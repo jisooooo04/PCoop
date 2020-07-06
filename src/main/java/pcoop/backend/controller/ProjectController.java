@@ -49,6 +49,7 @@ public class ProjectController {
 		//project_member table insert
 		ProjectMemberDTO pmdto =new ProjectMemberDTO();
 		pmdto.setProject_seq(seq);
+		pmdto.setProject_name(name);
 		pmdto.setMember_seq(leader_seq);
 		pmdto.setMember_email(mdto.getEmail());
 		pmdto.setMember_name(mdto.getName());

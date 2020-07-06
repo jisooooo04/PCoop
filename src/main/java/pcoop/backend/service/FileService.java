@@ -58,6 +58,31 @@ public class FileService {
 	public List<DirectoryDTO> getDirList(){
 		return fdao.getDirList();
 	}
+	
+	// 디렉토리 이름 변경 
+	public void renameDirectory(int seq, String rename) {
+		String path = fdao.getDirPathBySeq(seq);
+		String repath = path.substring(0, path.lastIndexOf('/') + 1);
+		repath = repath + rename;
+		this.renameDirectoryFromDrive(seq, rename, repath);
+		this.renameDirectoryFromDB(seq, rename, repath);
+	}
+	
+	public void renameDirectoryFromDrive(int seq, String rename, String repath) {
+		
+		String root_path = session.getServletContext().getRealPath("upload/backup");
+		String real_path = root_path + fdao.getDirPathBySeq(seq);
+		
+		File ori_dir = new File(real_path);
+		File new_dir = new File(root_path + repath);
+		ori_dir.renameTo(new_dir);
+		
+	}
+	
+	// 디렉토리 이름 변경 from DB
+	public int renameDirectoryFromDB(int seq, String rename, String repath) {
+		return fdao.renameDirectory(seq, rename, repath);
+	}
 
 	// 파일 리스트 가져오기
 	public List<FileDTO> getFileList(){

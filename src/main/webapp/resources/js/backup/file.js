@@ -30,10 +30,11 @@ $(document).on("click", "#uploadSubmit", function(event){
 	// 기본으로 정의된 이벤트를 작동하지 못하게 막음
 	// submit을 막음
 	event.preventDefault();
-	var dir_seq = $(".menu_upload_file").attr("id");
+	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
 	var form = document.uploadForm;
 	form.dir_seq.value = dir_seq;
 	
+	console.log(dir_seq);
 	var data = new FormData(form);
 
     $.ajax({

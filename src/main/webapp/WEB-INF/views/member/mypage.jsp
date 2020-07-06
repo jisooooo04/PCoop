@@ -26,9 +26,21 @@
 	margin:0;
 	font-family: 'Noto Sans KR', sans-serif;
 }
+.deletemodal{
+	top:100%;
+	position:fixed;
+	background: #fff;
+	border:1px solid red;
+	width:100%;
+	height:100%;
+	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
+	margin:0;
+	font-family: 'Noto Sans KR', sans-serif;
+}
 .modal-open{
 	top:0;
 }
+
 </style>
 </head>
 <body>
@@ -91,7 +103,7 @@
 					<div class="col-3"></div>
 					<div class="col-5">
 						<button id="modifybtn">수정</button>
-						<button>탈퇴</button>
+						<button id="deletebtn">탈퇴</button>
 					</div>
 					<div class="col-2"></div>
 				</div>
@@ -138,7 +150,7 @@
 		</div>
 
 <!-- 수정하기  -->
-<div class="row modifymodal">
+		<div class="row modifymodal">
 			<div class="col-sm-2">
 				
 			</div>
@@ -165,7 +177,7 @@
 					<div class="col-2"></div>
 					<div class="col-3"></div>
 					<div class="col-5">
-						<button id="cancle">취소</button>
+						<button id="modifycancel">취소</button>
 						<button id="save">저장</button>
 					</div>
 			</div>
@@ -178,7 +190,51 @@
 			</div>
 		</div>
 		
-		<!-- 탈퇴 : 프로젝트 나가기   -->
+		<!-- 탈퇴 + 프로젝트 나가기   -->
+		<div class="row deletemodal">
+			<div class="col-sm-2">
+				
+			</div>
+			<div class="col-sm-8">
+				
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-10"><i class="fas fa-exclamation-triangle"></i>회원을 탈퇴하시면 참여한 프로젝트에서 자동으로 나가게 됩니다.</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-10"><i class="fas fa-exclamation-triangle"></i>프로젝트의 리더(생성자)인 경우 리더를 다른 팀원에게 넘겨주어야 합니다.</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-10">본인확인을 위해 비밀번호를 입력해주세요.</div>
+				</div>
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-2">password</div>	
+					<div class="col-5">
+						<input type="password" id="deletepw">
+					</div>
+					<div class="col-3"></div>
+				</div>
+				<div class="row">
+					<div class="col-4"></div>
+					<div class="col-4">
+						<button id="deletecancel">취소</button>
+						<button id="deletesave">확인</button>
+					</div>
+					<div class="col-4"></div>
+			</div>
+				
+				
+			
+			</div>
+			<div class="col-sm-2">
+				
+			</div>
+		</div>
 		
 
 		<script>
@@ -187,7 +243,7 @@
 				$("#modifyname").val('${loginInfo.name}');
 				$("#modifypw").val(""); 
 			})
-			$("#cancle").on("click",function(){
+			$("#modifycancel").on("click",function(){
 				$(".modifymodal").removeClass('modal-open');
 			})
 			$("#save").on("click",function(){
@@ -212,6 +268,37 @@
 				} 
 				
 			})
+			
+			$("#deletebtn").on("click",function(){
+				$(".deletemodal").addClass('modal-open');
+			})
+			$("#deletecancel").on("click",function(){
+				$(".deletemodal").removeClass('modal-open');
+			})
+			$("#deletesave").on("click",function(){
+				var pw = $("#deletepw").val();
+				console.log("click");
+				if(pw==''){
+					alert("비밀번호를 입력해주세요 !")
+				}else{
+					$.ajax({
+						url:"delmem",
+						type:"post",
+						data:{
+							seq:${loginInfo.seq},
+							pw:pw
+						}
+					}).done(function(resp){
+						if(resp=="fail"){
+							alert("비밀번호가 일치하지 않습니다.")
+						}else if(resp=="success"){
+							alert("탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.");
+							location.href="/";
+						}
+					})
+				}
+			})
+			
 		</script>
 	
 	
