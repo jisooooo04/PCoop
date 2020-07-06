@@ -80,4 +80,17 @@ public class ListDAO {
 	}
 	   
 	   
+	   public int selectCount() {
+		   System.out.println("갯수확인");
+			return mybatis.selectOne("List.selectCount");
+			
+		}
+	   public int trueCount() {
+		   System.out.println("투루갯수확인");
+			return mybatis.selectOne("List.trueCount");
+			
+		}
+	
+	   
 }
+

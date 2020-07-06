@@ -99,4 +99,16 @@
 		set listId= #{listId}
 		where id=#{id}
 	</insert>
+	
+	<select id="selectCount" resultType="int">
+		select count(done)
+		from
+		task_card
+	</select>
+
+	<select id="trueCount" resultType="int">
+		select count(done)
+		from task_card where done='true'
+	</select>
+	
 </mapper>
