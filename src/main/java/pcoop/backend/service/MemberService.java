@@ -118,5 +118,17 @@ public class MemberService {
     public int modify (Map<String,Object> param)throws Exception{
     	return mdao.modify(param);
     }
+    
+    public int checkmem (Map<String,Object> param)throws Exception{
+    	return mdao.checkmem(param); 
+    }
+    
+    public int delmem (int seq)throws Exception{
+    	return mdao.delmem(seq); 
+    }
 	
+    public List<Integer> SelectMyPojectSeq (int seq)throws Exception{
+    	return mdao.SelectMyProjectSeq(seq);
+    }
+   
 }

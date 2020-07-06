@@ -14,19 +14,19 @@ public class ProjectDAO {
 	private SqlSessionTemplate mybatis;
 	
 	public int getproject_seq() throws Exception{//project_seq 가져오기
-		return mybatis.selectOne("getproject_seq");
+		return mybatis.selectOne("project.getproject_seq");
 	}
 
 	public int checkCode(String code)throws Exception{
-		return mybatis.selectOne("checkCode",code);
+		return mybatis.selectOne("project.checkCode",code);
 	}
 	
 	public int create_project(ProjectDTO dto)throws Exception{
-		return mybatis.insert("createProject",dto);
+		return mybatis.insert("project.createProject",dto);
 	}
 	
 	public int insertp_m(ProjectMemberDTO dto)throws Exception{
-		return mybatis.insert("insertProjectMember",dto);
+		return mybatis.insert("project.insertProjectMember",dto);
 	}
 	
 }

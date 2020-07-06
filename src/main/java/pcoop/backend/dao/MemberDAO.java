@@ -128,13 +128,13 @@ public class MemberDAO {
 	    
 	  //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
 	    public List<ProjectDTO> getProjectList(int seq)throws Exception{
-	    	List<Integer> project_seq = mybatis.selectList("get_project_seq",seq);
+	    	List<Integer> project_seq = mybatis.selectList("project.get_project_seq",seq);
 	    	if(project_seq.size()==0) {//속한 프로젝트가 없을 때 
 	    		List<Integer> templist = new ArrayList<>();
 	    		templist.add(0);
-	    		return mybatis.selectList("Member.get_projectList",templist);
+	    		return mybatis.selectList("project.get_projectList",templist);
 	    	}else {
-	    		return mybatis.selectList("Member.get_projectList",project_seq);
+	    		return mybatis.selectList("project.get_projectList",project_seq);
 	    	}
 	    	
 	    }
@@ -142,4 +142,17 @@ public class MemberDAO {
 	    public int modify(Map<String,Object>param)throws Exception{
 	    	return mybatis.update("Member.modify",param);
 	    }
+	    
+	    public int checkmem(Map<String,Object> param)throws Exception{
+	    	return mybatis.selectOne("Member.checkmem",param);
+	    }
+	    
+	    public int delmem(int seq)throws Exception{
+	    	return mybatis.delete("Member.delmem", seq);
+	    }
+	    
+	    public List<Integer> SelectMyProjectSeq(int seq)throws Exception{
+	    	return mybatis.selectList("project.SelectMyProjectSeq", seq);
+	    }
+	    
 }
