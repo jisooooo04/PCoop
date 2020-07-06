@@ -10,6 +10,7 @@
 
 
 /* 헤더 설정 */
+
 header {
 	position: fixed;
 	z-index: 2;
@@ -47,6 +48,7 @@ header {
 }
 
 /* 오른쪽 사이드바 */
+
 #rightnav {
 	position: fixed;
 	z-index: 3;
