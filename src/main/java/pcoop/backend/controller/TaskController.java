@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -455,4 +456,29 @@ public class TaskController {
 		return returnjson;
 	}
 
+	
+	@ResponseBody
+	@RequestMapping("selectCount")
+	public JsonObject countdone(Model model) {
+		JsonObject json = new JsonObject();	
+		int allcount =  lservice.selectCount();
+		int truecount =  lservice.trueCount();
+		
+		System.out.println("전체 갯수"+allcount);
+		System.out.println("2체크된 갯수"+truecount);
+		System.out.println("총"+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
+		int count = (int) Math.round(((double) truecount / (double) allcount) * 100);
+		System.out.println(count);
+		String to = Integer.toString(count);
+
+		
+		model.addAttribute("to",to);
+		json.addProperty("to", to );
+		
+		return json;
+		
+		
+	
+	}
+	
 }

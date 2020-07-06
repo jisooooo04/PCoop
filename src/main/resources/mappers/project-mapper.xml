@@ -15,7 +15,26 @@
 	</insert>
 	
 	<insert id="insertProjectMember">
-		insert into project_member values(project_member_seq.nextval,${project_seq},${member_seq},#{member_email},#{member_name},#{leader_yn})
+		insert into project_member values(project_member_seq.nextval,${project_seq},#{project_name},${member_seq},#{member_email},#{member_name},#{leader_yn})
 	</insert>
 	
+	<select id="get_project_seq" resultType="int">
+		select project_seq from project_member where member_seq=${value}
+	</select>
+	
+	<select id="get_projectList" resultType="pcoop.backend.dto.ProjectDTO">
+		select * from project where seq in
+		<foreach collection="list" item="i" open="(" close=")" separator=",">
+			${i}
+		</foreach>
+		order by seq
+	</select>
+	
+	<select id="SelectMyProjectSeq" resultType="int">
+		select seq from project_member where member_seq =${value} and leader_yn ='y'
+	</select>
+	
+	<select id="SelectProjectMember" resultType="pcoop.backend.dto.ProjectMemberDTO">
+		select * from project_member where seq=${value}
+	</select>
 </mapper>

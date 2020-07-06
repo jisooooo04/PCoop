@@ -367,6 +367,8 @@ $(function () {
 			 * @returns {List}
 			 */
 			startTitleEditing: function () {
+
+				console.log('startTitleEditing')    
 				var me = this;
 				var input = me._createInput();
 				me.$title.attr('data-old-title', me.$title.html());
@@ -376,8 +378,7 @@ $(function () {
 				me.$header.addClass('title-editing');
 				input[0].focus();
 				input[0].select();
-
-				console.log('startTitleEditing')          
+      
 
 
 				return me;
@@ -1029,6 +1030,7 @@ $(function () {
 
 			//리스트 이름 생성
 			_createInput: function () {
+				console.log("_createInput");
 				var me = this;
 				var input = $('<input type="text" class="form-control">');  
 				input.on('keyup', function (ev) {

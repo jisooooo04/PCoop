@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import pcoop.backend.dto.CalendarDTO;
@@ -25,8 +26,44 @@ public class CalendarController {
 	public String Calendar(Model model,int project_seq)throws Exception {//list출력
 		List<CalendarDTO> list = new ArrayList<>();
 		list = Cservice.selectAll(project_seq);
+		
+		JsonArray carr = new JsonArray();
+		
+		for(CalendarDTO c : list) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", c.getSeq());
+			json.addProperty("title", c.getTitle());
+			json.addProperty("start_date", c.getStart_date());
+			json.addProperty("end_date", c.getEnd_date());
+			json.addProperty("color", c.getColor());
+			carr.add(json);
+		}
+		
 		model.addAttribute("list", list);
 		return "calendar/calendar";
+	}
+	
+	@RequestMapping("tempcalendar")
+	@ResponseBody
+	public String tempCalendar(Model model)throws Exception {//list출력
+		List<CalendarDTO> list = new ArrayList<>();
+		list = Cservice.selectAll(0);
+		
+		JsonArray carr = new JsonArray();
+		
+		for(CalendarDTO c : list) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", c.getSeq());
+			json.addProperty("title", c.getTitle());
+			json.addProperty("start_date", c.getStart_date());
+			json.addProperty("end_date", c.getEnd_date());
+			json.addProperty("color", c.getColor());
+			carr.add(json);
+		}
+		
+		System.out.println(carr);
+		model.addAttribute("list", list);
+		return new Gson().toJson(carr);
 	}
 	
 	@ResponseBody

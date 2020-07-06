@@ -46,6 +46,12 @@ public class FileDAO {
 		String sql = "delete from directory where path like ?";
 		return jdbc.update(sql, path + "%");
 	}
+	
+	// 디렉토리 이름 및 path 변경
+	public int renameDirectory(int seq, String rename, String repath) {
+		String sql = "update directory set name = ?, path = ? where seq = ?";
+		return jdbc.update(sql, rename, repath, seq);
+	}
 
 	// 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(){

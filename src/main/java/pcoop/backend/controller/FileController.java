@@ -40,8 +40,6 @@ public class FileController {
 	@RequestMapping("fileList")
 	public String fileList(Model model) {
 
-		String project_name = "temp";
-
 		// 드라이브에서 직접 목록 가져올 때
 		// String rootDir = session.getServletContext().getRealPath("upload/backup/" + project_name);
 		// List<String> dirList = fservice.getDirListFromDrive(rootDir);
@@ -65,9 +63,7 @@ public class FileController {
 
 		// DB에서 목록 가져올 때
 		List<DirectoryDTO> dirList = fservice.getDirList();
-		List<FileDTO> fileList = fservice.getFileList();
 		JsonArray dirArr = new JsonArray();
-		JsonArray fileArr = new JsonArray();
 
 		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
@@ -76,19 +72,11 @@ public class FileController {
 			dirArr.add(json);
 		}
 
-		for(FileDTO dto : fileList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			fileArr.add(json);
-		}
-
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		model.addAttribute("filelist", new Gson().toJson(fileArr));
 		return "backup/fileList";
 	}
 
-	@RequestMapping("getFileList")
+	@RequestMapping(value = "getFileList", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String getFileList(int dir_seq) {
 
@@ -131,10 +119,8 @@ public class FileController {
 
 		// 업데이트된 리스트 보내기
 		List<DirectoryDTO> dirList = fservice.getDirList();
-		List<FileDTO> fileList = fservice.getFileList();
 
 		JsonArray dirArr = new JsonArray();
-		JsonArray fileArr = new JsonArray();
 
 		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
@@ -143,27 +129,35 @@ public class FileController {
 			dirArr.add(json);
 		}
 
-		for(FileDTO dto : fileList) {
+		JsonObject json = new JsonObject();
+		json.addProperty("dirlist", new Gson().toJson(dirArr));
+		return new Gson().toJson(json);
+	}
+
+	@RequestMapping("renameDirectory")
+	@ResponseBody
+	public String renameDir(int seq, String rename) {
+
+		fservice.renameDirectory(seq, rename);
+		
+		// 업데이트된 리스트 보내기
+		List<DirectoryDTO> dirList = fservice.getDirList();
+
+		JsonArray dirArr = new JsonArray();
+
+		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
-			fileArr.add(json);
+			dirArr.add(json);
 		}
 
 		JsonObject json = new JsonObject();
 		json.addProperty("dirlist", new Gson().toJson(dirArr));
-		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
 	}
 
-	@RequestMapping("temp")
-	public String temp() {
-
-
-		return "backup/temp";
-	}
-
-	@RequestMapping("uploadFile")
+	@RequestMapping(value = "uploadFile", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
 
@@ -220,7 +214,7 @@ public class FileController {
 
 	}
 
-	@RequestMapping("deleteFile")
+	@RequestMapping(value = "deleteFile", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String delete(int dir_seq, int seq) {
 

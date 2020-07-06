@@ -58,8 +58,13 @@ $(document).on("click", ".dir", function(event){
 	// 이벤트 버블링 방지
 	event.stopImmediatePropagation();
 	
-	var dir_seq = this.id.substring(3);
-	$(".menu_upload_file").attr("id", dir_seq);
+	var id = this.id;
+	var dir_seq = id.substring(3);
+	
+	$(".menu_upload_file").attr("id", id);
+	$(".menu_add_dir").attr("id", id);
+	$(".menu_delete_dir").attr("id", id);
+	$(".menu_rename_dir").attr("id", id);
 
 	var data = {
 			dir_seq: dir_seq
@@ -73,16 +78,16 @@ $(document).on("click", ".dir", function(event){
 
 			$(".file").remove();
 			var files = JSON.parse(data);
-
+			
 			for(var i = 0 ; i < files.length ; i++){
 				
 				var id = "f" + files[i].seq;
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				
-				console.log(files[i].text_yn);
-				
+								
 				if(files[i].text_yn == "Y"){
 					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
+
 				}
 				
 				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
@@ -126,6 +131,7 @@ $(document).on("contextmenu", ".dir", function(event){
 
 	$(".menu_add_dir").attr("id", id);
 	$(".menu_delete_dir").attr("id", id);
+	$(".menu_rename_dir").attr("id", id);
 	//Prevent browser default contextmenu.
 	return false;
 })
@@ -138,10 +144,9 @@ $(document).click(function(){
 
 });
 
-//디렉토리 추가 버튼 - 드롭다운 메뉴
+//디렉토리 추가 버튼 - 입력 창
 $(document).on("click", ".menu_add_dir", function(){
 
-	console.log(this.id);
 	var id = this.id;
 	var left = $("#" + id).offset().left;
 	var top = $("#" + id).offset().top + 30;
@@ -179,7 +184,7 @@ $(document).on("click", "#ok", function(){
 
 })
 
-//새 디렉토리 추가 취소
+//새 디렉토리 추가  취소
 $(document).on("click", "#cancel", function(){
 	$(".add_dir").hide();
 	$("#dir_name").val("");
@@ -221,5 +226,58 @@ $(document).on("click", ".delete_dir", function(){
 		}
 	});
 
+})
+
+// 디렉토리 이름 변경 버튼 - 입력 창
+$(document).on("click", ".menu_rename_dir", function(){
+	
+	var id = this.id;
+	var left = $("#" + id).offset().left;
+	var top = $("#" + id).offset().top + 30;
+	var dir_name = $("#" + id).text();
+	
+	$("#dir_rename").val(dir_name);
+	$(".rename_dir").css({
+		"left": left,
+		"top": top
+	}).show();
+
+	$(".contextmenu").hide();
+
+})
+
+// 디렉토리 이름 변경
+$(document).on("click", "#ok_rename", function(){
+	
+	var id = $(".menu_rename_dir").attr("id");
+	var rename = $("#dir_rename").val();
+	var seq = $(".menu_rename_dir").attr("id").substring(3);
+	
+	var data = {
+			seq: seq,
+			rename: rename
+	};
+	
+	$.ajax({
+		url: "renameDirectory",
+		type: "POST",
+		data: data,
+		success: function(){
+
+			$("#" + id).html("<b>" + rename + "</b>");
+
+		}
+	});
+	
+	$(".rename_dir").hide();
+	
+})
+
+// 디렉토리 이름 변경 취소
+$(document).on("click", "#cancel_rename", function(){
+	var id = $(".menu_rename_dir").attr("id");
+	$(".rename_dir").hide();
+	var dir_name = $("#" + id).text();
+	$("#dir_rename").val(dir_name);
 })
 
