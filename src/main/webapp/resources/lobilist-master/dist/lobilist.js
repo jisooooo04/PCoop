@@ -967,11 +967,11 @@ $(function () {
 				
 				// 다른 버튼도 추가
 	
-				$('#create_btn').click(function() {
-					console.log('create_btn 버튼 클릭');
-				var list = me.$lobiList.addList();
-				list.startTitleEditing();
-		    	});
+//				$('#create_btn').click(function() {
+//					console.log('create_btn 버튼 클릭(js)');
+//				var list = me.$lobiList.addList();
+//				list.startTitleEditing();
+//		    	});
 				
 				
 				

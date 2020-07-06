@@ -55,14 +55,16 @@
 
 		<div id="actions-by-ajax">
 
-		<!--불러올 데이터 없을 때 생성 버튼	-->
-		<div id="create_list" style="display: none;">
-			<button id="create_btn" type="button" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-plus"></i>리스트 생성</button>
-		</div>
+			<!--불러올 데이터 없을 때 생성 버튼	-->
+			<div id="create_list" style="display: none;">
+				<button id="create_btn" type="button" class="btn btn-default btn-xs">
+					<i class="glyphicon glyphicon-plus"></i>
+				</button>
+			</div>
 
 
 			<!--진행률 바-->
-			<div class="progress" id="progress">
+			<div class="progress" id="progress" style="display: inline-block;">
 				<div id="selector" class="progress-bar progress-bar-striped active"
 					role="progressbar" aria-valuenow="60" aria-valuemin="0"
 					aria-valuemax="100" style="width:${bar}%">
@@ -97,176 +99,93 @@
 
 	<script>
 		$(function() {
+			var list;
 			
-			 
-			$('#actions-by-ajax').lobiList({
-
-			});
 			
-			 var list;
-			$('#create_btn').click(function () {
-				
-			    list = $('#actions-by-ajax').lobiList({
-			        init: function () {
-			            Lobibox.notify('default', {
-			                msg: 'init'
-			            });
-			        },
-			        beforeDestroy: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeDestroy'
-			            });
-			        },
-			        afterDestroy: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterDestroy'
-			            });
-			        },
-			        beforeListAdd: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeListAdd'
-			            });
-			        },
-			        afterListAdd: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterListAdd'
-			            });
-			        },
-			        beforeListRemove: function (list) {
-			            Lobibox.notify('default', {
-			                msg: 'beforeListRemove'
-			            });
-			        },
-			        afterListRemove: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterListRemove'
-			            });
-			        },
-			        beforeItemAdd: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeItemAdd'
-			            });
-			        },
-			        afterItemAdd: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterItemAdd'
-			            });
-			        },
-			        beforeItemUpdate: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeItemUpdate'
-			            });
-			        },
-			        afterItemUpdate: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterItemUpdate'
-			            });
-			        },
-			        beforeItemDelete: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeItemDelete'
-			            });
-			        },
-			        afterItemDelete: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterItemDelete'
-			            });
-			        },
-			        beforeListDrop: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeListDrop'
-			            });
-			        },
-			        afterListReorder: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterListReorder'
-			            });
-			        },
-			        beforeItemDrop: function () {
-			            Lobibox.notify('default', {
-			                msg: 'beforeItemDrop'
-			            });
-			        },
-			        afterItemReorder: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterItemReorder'
-			            });
-			        },
-			        afterMarkAsDone: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterMarkAsDone'
-			            });
-			        },
-			        afterMarkAsUndone: function () {
-			            Lobibox.notify('default', {
-			                msg: 'afterMarkAsUndone'
-			            });
-			        },
-			    	 lists: [
-			             {
-			                 title: 'TODO',
-			                 defaultStyle: 'lobilist-info',
-			                 items: [
-			                     {
-			                         title: 'Floor cool cinders',
-			                         description: 'Thunder fulfilled travellers folly, wading, lake.',
-			                         dueDate: '2015-01-31'
-			                     },
-			                     {
-			                         title: 'Periods pride',
-			                         description: 'Accepted was mollis',
-			                         done: true
-			                     },
-			                     {
-			                         title: 'Flags better burns pigeon',
-			                         description: 'Rowed cloven frolic thereby, vivamus pining gown intruding strangers prank ' +
-			                         'treacherously darkling.'
-			                     },
-			                     {
-			                         title: 'Accepted was mollis',
-			                         description: 'Rowed cloven frolic thereby, vivamus pining gown intruding strangers prank ' +
-			                         'treacherously darkling.',
-			                         dueDate: '2015-02-02'
-			                     }
-			                 ]
-			             }
-			         ]
-			    })
-			    .data('lobiList');
-				});
-			
+		
+				 $('#actions-by-ajax').lobiList({
+					 
+				    });
+	
 			
 			
 
-			//ajax 코드 추가 작업진행바
-			$.ajax({
-				type : 'get',
-				url : '/Task/selectCount',
-				datatype : 'json',
-				success : function(data) {
-					console.log(data.to);
-					$('#selector').css('width', data.to + '%');
-
-				},
-				error : function(error) {
-					alert('data error');
-				}
-			});
-
-			
+			// 값이 없을 때 리스트 버튼 보이게
 			if ($("#actions-by-ajax").find('.lobilist').text() == "") {
 				console.log("남은 리스트가 없음");
 				$("#create_list").css('display', 'inline-block');
 				$("#progress").css('display', 'none');
-				
+
 			} else {
-				console.log("남은 리스트가 있음3");
+				console.log("남은 리스트가 있음");
 				$("#create_list").css('display', 'none');
+				$("#progress").css('display', 'inline-block');
+				
+				//ajax 코드 추가 작업진행바
+				$.ajax({
+					type : 'get',
+					url : '/Task/selectCount',
+					datatype : 'json',
+					success : function(data) {
+						console.log(data.to);
+						$('#selector').css('width', data.to + '%');
+
+					},
+					error : function(error) {
+						alert('data error');
+					}
+				});
+				
 			}
+			
+			
+	
+			$('#create_btn').click(function (){
+				console.log("버튼 클릭!");
+	            
+				
+				//$('#actions-by-ajax').val('');
+			 //$('#actions-by-ajax').removeClass();
+			 
+			          $('#actions-by-ajax').lobiList({
+			                actions: {
+			                    load: '/resources/lobilist-master/demo/example1/load.json',
+			                    insert: '',
+			                    delete: '',
+			                    update: ''
+			                },
+			                afterItemAdd: function(){
+			                    console.log(arguments);
+			                }
+			            });
+			
+	  
+		
+					console.log("데모 추가 후 남은 리스트가 있음");
+					//$("#create_list").css('display', 'none');
+					//$("#progress").css('display', 'inline-block');
+					
+					//ajax 코드 추가 작업진행바
+					$.ajax({
+						type : 'get',
+						url : '/Task/selectCount',
+						datatype : 'json',
+						success : function(data) {
+							console.log(data.to);
+							$('#selector').css('width', data.to + '%');
+
+						},
+						error : function(error) {
+							alert('data error');
+						}
+					});
+					
+				});
+	            
+	            
+			});
 
 
-
-		});
 	</script>
 </body>
 </html>
