@@ -436,7 +436,8 @@
   overflow-x: auto;
   overflow-y: auto; /*overflow-y hidden 스크롤 삭제*/
   white-space: nowrap;
-  height: 400px; /* 기본 높이 400px */
+/*  height: 400px;  기본 높이 400px */
+ width: 100%;/*넓이 브라우저 크기*/
 }
 .lobilists.single-line .lobilist-wrapper,
 .lobilists.single-line .lobilist-placeholder {

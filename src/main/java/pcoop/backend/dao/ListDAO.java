@@ -34,9 +34,9 @@ public class ListDAO {
 	}
 	
 	
-	public List<ListDTO> selectList() throws Exception{
-		System.out.println("ListDAO의  selectList");
-		return mybatis.selectList("List.selectList");
+	public List<ListDTO> selectList(Map<String, Object> param) throws Exception{
+		System.out.println("ListDAO의  selectList : "+param);
+		return mybatis.selectList("List.selectList",param);
 	}
 	
 	   public int insert(Map<String, Object> param) {

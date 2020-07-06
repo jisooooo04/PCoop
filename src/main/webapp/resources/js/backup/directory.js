@@ -6,6 +6,7 @@
 
 
 //디렉토리 리스트 출력 함수
+
 function printDirList(dirlist){
 
 	for (var i = 0; i < dirlist.length; i++) {
@@ -138,8 +139,9 @@ $(document).click(function(){
 });
 
 //디렉토리 추가 버튼 - 드롭다운 메뉴
-$(".menu_add_dir").on("click", function(){
+$(document).on("click", ".menu_add_dir", function(){
 
+	console.log(this.id);
 	var id = this.id;
 	var left = $("#" + id).offset().left;
 	var top = $("#" + id).offset().top + 30;
@@ -153,7 +155,7 @@ $(".menu_add_dir").on("click", function(){
 })
 
 //새 디렉토리 추가
-$("#ok").on("click", function(){
+$(document).on("click", "#ok", function(){
 
 	var parent_seq = $(".menu_add_dir").attr("id").substring(3);
 	var name = $("#dir_name").val();
@@ -178,18 +180,18 @@ $("#ok").on("click", function(){
 })
 
 //새 디렉토리 추가 취소
-$("#cancel").on("click", function(){
+$(document).on("click", "#cancel", function(){
 	$(".add_dir").hide();
 	$("#dir_name").val("");
 })
 
 //디렉토리 삭제 버튼 - 경고 모달 창
-$(".menu_delete_dir").on("click", function(){
+$(document).on("click", ".menu_delete_dir", function(){
 	$(".modal_alert").modal();
 })
 
 //디렉토리 삭제
-$(".delete_dir").on("click", function(){
+$(document).on("click", ".delete_dir", function(){
 
 	$(".modal_alert").modal('hide');
 

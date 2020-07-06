@@ -16,7 +16,7 @@
 		<div class="navtitle">
 			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List
 		</div>
-		<div class="navcontents">
+		<div class="navcontents task">
 			<div>프론트엔드</div>
 			<div>백엔드</div>
 			<div>아두이노</div>
@@ -28,7 +28,7 @@
 			<div>세미 프로젝트</div>
 			<div>파이널 프로젝트</div>
 		</div>
-		<div class="navtitle">
+		<div class="navtitle menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon> 채팅
 		</div>
 		<div class="navcontents">
@@ -42,7 +42,7 @@
 				<span class=logon>● </span>김현동
 			</div>
 		</div>
-		<div class="navtitle">
+		<div class="navtitle menu-backup">
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon> 백업
 		</div>
 		<div class="navcontents backup">

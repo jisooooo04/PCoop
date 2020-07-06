@@ -33,7 +33,6 @@ public class WebChat {
 	//의존성을 검색해서 집어넣어줌
 	private ChatService cservice = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
 	
-	
 	//set : 중복을 방지하고 key가 존재
 	//static을 해놓지 않으면 새로 접속할때마다 set이 매번 새로 만들어지는 것이므로 static으로 설정
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());  //싱크로나이즈드 해줌(동시성을 해결하기 위해 업그레이드?)
@@ -63,7 +62,7 @@ public class WebChat {
 		//누가보냈는지 = 세션 / 내용=메세지
 		//System.out.println(session.getId() + " : " + message);  //지금은 client id 없으므로 주석처리
 		
-		
+		System.out.println(message);
 		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 		
 		synchronized(clients) {
@@ -89,6 +88,11 @@ public class WebChat {
 			        	 
 			        	 int result = cservice.insertChat(cdto);
 			        	 System.out.println(result);
+			        	 
+			        	 //DB에 가장 최근에 입력된 챗의 seq값 불러오기
+			        	 int seq = cservice.selectChatSeq();
+			        	 jsonObj.put("seq", seq);
+			        	 System.out.println("seq : "+seq);
 			        	 
 			        	 basic.sendText(jsonObj.toJSONString());  //jsp로 보내기
 			        	 

@@ -29,9 +29,9 @@ public class ListService {
 		return ldtoList;
 	}
 
-	public List<ListDTO> selectList() throws Exception{
+	public List<ListDTO> selectList(Map<String, Object> param) throws Exception{
 		System.out.println("ListService의  selectListId");
-		List<ListDTO> TaskList = ldao.selectList();
+		List<ListDTO> TaskList = ldao.selectList(param);
 		return TaskList;
 	}
 
