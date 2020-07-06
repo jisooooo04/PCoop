@@ -83,6 +83,8 @@ $(document).on("click", ".dir", function(event){
 				
 				if(files[i].text_yn == "Y"){
 					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
+
 				}
 				
 				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
