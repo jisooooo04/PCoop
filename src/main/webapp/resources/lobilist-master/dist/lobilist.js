@@ -109,6 +109,7 @@ $(function () {
 		this.$options = options;
 		this.$globalOptions = $lobiList.$options;
 		this.$items = {};
+		console.log('this._init();');
 		this._init();
 	};
 
@@ -142,7 +143,7 @@ $(function () {
 			 * @private
 			 */
 			_init: function () {
-//				console.log('_init 함수 동작'); // 추가 코드
+				console.log('_init 함수 동작'); // 추가 코드
 				var me = this;
 				me.suppressEvents();
 				if (!me.$options.id) {
@@ -163,6 +164,8 @@ $(function () {
 				if (me.$options.defaultStyle) {
 					me.$el.addClass(me.$options.defaultStyle);
 				}
+			
+				console.log('me._createHeader();');
 				me.$header = me._createHeader();
 				me.$title = me._createTitle();
 				me.$body = me._createBody();
@@ -330,6 +333,10 @@ $(function () {
 								errorCallback(res)
 							}
 						}
+						
+						//아이템 삭제시 작업진행도도 반영
+
+						
 					});
 				} else {
 					me._removeItemFromList(item);
@@ -581,6 +588,7 @@ $(function () {
 			},
 
 			_createHeader: function () {
+				console.log('_createHeader');
 				var me = this;
 				var $header = $('<div>', {
 					'class': 'lobilist-header'
@@ -589,7 +597,9 @@ $(function () {
 					'class': 'lobilist-actions'
 				}).appendTo($header);
 				if (me.$options.controls && me.$options.controls.length > 0) {
+			
 					if (me.$options.controls.indexOf('styleChange') > -1) {
+
 						$actions.append(me._createDropdownForStyleChange());
 					}
 
@@ -617,6 +627,8 @@ $(function () {
 				}).appendTo(me.$header);
 				if (me.$options.controls && me.$options.controls.indexOf('edit') > -1) {
 					$title.on('dblclick', function () {
+						
+						console.log('_createTitle >');
 						me.startTitleEditing();
 					});
 				}
@@ -818,9 +830,24 @@ $(function () {
 				})
 				
 				
+				//ajax 코드 추가 작업진행바
+				$.ajax({
+				type : 'get',
+				url : '/Task/selectCount',
+				datatype : 'json',
+				success : function(data) {
+					console.log(data.to);
+					$('#selector').css('width', data.to + '%');
+
+				},
+				error : function(error) {
+					alert('data error');
+				}
+			});
+				
+				
 				if (item.done) {
 					me._triggerEvent('afterMarkAsDone', [me, item])
-
 				} else {
 					me._triggerEvent('afterMarkAsUndone', [me, item])
 				}
@@ -916,6 +943,7 @@ $(function () {
 					html: '<i class="glyphicon glyphicon-edit"></i>'
 				});
 				$btn.click(function () {
+					console.log('_createEditTitleButton >');
 					me.startTitleEditing();
 				});
 
@@ -923,15 +951,32 @@ $(function () {
 			},
 
 			_createAddNewButton: function () {
+
 				var me = this;
 				var $btn = $('<button>', {
 					'class': 'btn btn-default btn-xs',
 					html: '<i class="glyphicon glyphicon-plus"></i>'
 				});
 				$btn.click(function () {
+					console.log('리스트 추가 버튼 클릭 2');
 					var list = me.$lobiList.addList();
+					
+					console.log('_createAddNewButton >');
 					list.startTitleEditing();
 				});
+				
+				// 다른 버튼도 추가
+	
+				$('#create_btn').click(function() {
+					console.log('create_btn 버튼 클릭');
+				var list = me.$lobiList.addList();
+				list.startTitleEditing();
+		    	});
+				
+				
+				
+				console.log('리스트 추가 리턴? ');
+
 				return $btn;
 			},
 
@@ -990,6 +1035,10 @@ $(function () {
 
 
 					me.remove();
+					
+
+console.log("지우고 나서");
+					
 					me._triggerEvent('afterListRemove', [me]);
 
 
