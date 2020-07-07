@@ -89,6 +89,11 @@ public class WebChat {
 			        	 int result = cservice.insertChat(cdto);
 			        	 System.out.println(result);
 			        	 
+			        	 //DB에 가장 최근에 입력된 챗의 seq값 불러오기
+			        	 int seq = cservice.selectChatSeq();
+			        	 jsonObj.put("seq", seq);
+			        	 System.out.println("seq : "+seq);
+			        	 
 			        	 basic.sendText(jsonObj.toJSONString());  //jsp로 보내기
 			        	 
 			         } catch (Exception e) {

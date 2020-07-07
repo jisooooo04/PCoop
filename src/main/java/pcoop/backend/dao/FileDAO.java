@@ -18,27 +18,49 @@ public class FileDAO {
 	@Autowired
 	private JdbcTemplate jdbc;
 
+	public int insertRootDirectory(int seq, String name, String path) {
+		String sql = "insert into directory values(directory_seq.nextval, ?, null, ?, ?, 'Y')";
+		return jdbc.update(sql, seq, name, path);
+	}
+	
 	// 이름으로 디렉토리 seq 검색
-	public int getDirSeqByName(String name) {
-		String sql = "select seq from directory where name = ?";
-		return jdbc.queryForObject(sql, new Object[] {name}, Integer.class);
+	public int getDirSeqByName(String name, int parent_seq) {
+		String sql = "select seq from directory where name = ? and parent_seq = ?";
+		return jdbc.queryForObject(sql, new Object[] {name, parent_seq}, Integer.class);
 	}
 
 	// seq로 디렉토리 경로 검색
 	public String getDirPathBySeq(int seq) {
 
-		System.out.println(seq);
 		String sql = "select path from directory where seq = ?";
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
 	}
+	
+	// seq로 디렉토리의 parent_seq 검색
+	public int getParentSeqBySeq(int seq) {
+		String sql = "select parent_seq from directory where seq = ?";
+		return jdbc.queryForObject(sql, new Object[] {seq}, Integer.class);
+	}
+	
+	// path로 디렉토리의 seq 검색
+	public int getDirSeqByPath(String path) {
+		String sql = "select seq from directory where path = ?";
+		return jdbc.queryForObject(sql, new Object[] {path}, Integer.class);
+	}
+	
+	// 디렉토리 중복 확인
+	public int checkDuplDirName(int parent_seq, String name) {
+		String sql = "select count(*) from directory where parent_seq = ? and name = ?";
+		return jdbc.queryForObject(sql, new Object[] {parent_seq, name}, Integer.class);
+	}
 
 	// 디렉토리 insert
-	public int insertDirectory(String path, String name) {
+	public int insertDirectory(String path, String name, int parent_seq) {
 
-		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, 'N')";
+		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, ?, 'N')";
 
-		return jdbc.update(sql, 11, name, path);
+		return jdbc.update(sql, 11, parent_seq, name, path);
 	}
 
 	// 디렉토리 delete
@@ -51,6 +73,11 @@ public class FileDAO {
 	public int renameDirectory(int seq, String rename, String repath) {
 		String sql = "update directory set name = ?, path = ? where seq = ?";
 		return jdbc.update(sql, rename, repath, seq);
+	}
+	
+	public int repathFileByDirSeq(int seq, String repath, String frepath) {
+		String sql = "update files set directory_path = ?, path = ? where seq = ?";
+		return jdbc.update(sql, repath, frepath, seq);
 	}
 
 	// 디렉토리 리스트
@@ -179,6 +206,11 @@ public class FileDAO {
 	public int deleteFile(int seq) {
 		String sql = "delete from files where seq = ?";
 		return jdbc.update(sql, seq);
+	}
+	
+	public int renameFile(int seq, String rename, String repath) {
+		String sql = "update files set name = ?, path = ? where seq = ?";
+		return jdbc.update(sql, rename, repath, seq);
 	}
 
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수

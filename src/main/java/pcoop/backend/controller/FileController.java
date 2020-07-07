@@ -100,17 +100,28 @@ public class FileController {
 	@ResponseBody
 	public int addDirectory(int parent_seq, String name) {
 
-		// 드라이브에 디렉토리 생성
-		String path = fservice.makeDirToDrive(parent_seq, name);
-		// DB에 디렉토리 insert
-		fservice.insertDirectory(path, name);
-		// 새로 생성된 디렉토리 seq 얻기
-		int seq = fservice.getDirSeqByName(name);
+		int result = -1;
 
-		return seq;
+		// 디렉토리 이름 중복 확인
+		int checkDupl = fservice.checkDuplDirName(parent_seq, name);
+
+		// 중복이 아니라면
+		if(checkDupl == 0) {
+			
+			// 드라이브에 디렉토리 생성
+			String path = fservice.makeDirToDrive(parent_seq, name);
+			// DB에 디렉토리 insert
+			fservice.insertDirectory(path, name, parent_seq);
+			// 새로 생성된 디렉토리 seq 얻기
+			int seq = fservice.getDirSeqByName(name, parent_seq);
+			result = seq;
+		}
+		
+		return result;
+		
 	}
 
-	@RequestMapping("deleteDirectory")
+	@RequestMapping(value = "deleteDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String deleteDirectory(int seq) {
 
@@ -136,32 +147,26 @@ public class FileController {
 
 	@RequestMapping("renameDirectory")
 	@ResponseBody
-	public String renameDir(int seq, String rename) {
+	public int renameDir(int seq, String rename) {
 
-		fservice.renameDirectory(seq, rename);
+		int result = -1;
 		
-		// 업데이트된 리스트 보내기
-		List<DirectoryDTO> dirList = fservice.getDirList();
-
-		JsonArray dirArr = new JsonArray();
-
-		for(DirectoryDTO dto : dirList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			dirArr.add(json);
+		int parent_seq = fservice.getParentSeqBySeq(seq);
+		int duplCheck = fservice.checkDuplDirName(parent_seq, rename);
+		
+		if(duplCheck == 0) {
+			result = fservice.renameDirectory(seq, rename);
+			
 		}
-
-		JsonObject json = new JsonObject();
-		json.addProperty("dirlist", new Gson().toJson(dirArr));
-		return new Gson().toJson(json);
+		
+		return result;
 	}
 
 	@RequestMapping(value = "uploadFile", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
+	public String upload(int dir_seq, MultipartFile file) throws Exception {
 
-		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
+		// int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
 
 		// 드라이브에 파일 생성
 		String name = fservice.uploadFileToDrive(dir_seq, file);
@@ -184,6 +189,27 @@ public class FileController {
 
 		return new Gson().toJson(fileArr);
 
+	}
+	
+	@RequestMapping("uploadZip")
+	@ResponseBody
+	public String uploadZip(int dir_seq, String zip_dir, MultipartFile zip) throws Exception {
+		
+		String result = "";
+		
+		// 압축 해제할 디렉토리 이름 중복 체크
+		int checkDupl = fservice.checkDuplDirName(dir_seq, zip_dir);
+		
+		// 이름 중복일 경우
+		if(checkDupl != 0) {
+			result = "dupl";
+		}
+
+		else {
+			fservice.unzip(dir_seq, zip, zip_dir);
+		}
+		
+		return result;
 	}
 
 	@RequestMapping("downloadFile")
@@ -253,6 +279,17 @@ public class FileController {
 
 		System.out.println(json);
 		return new Gson().toJson(json);
+	}
+	
+	@RequestMapping("renameFile")
+	@ResponseBody
+	public int renameFile(int seq, String rename) throws Exception {
+		
+		int result = -1;
+		
+		result = fservice.renameFile(seq, rename);
+		
+		return result;
 	}
 
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수

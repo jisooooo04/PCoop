@@ -18,7 +18,7 @@ ul{
 	padding-left: 10px;
 }
 
-.contextmenu, .add_dir, .rename_dir, .contextmenu_container {
+.contextmenu, .add_dir, .rename_dir, .rename_file, .contextmenu_container {
 	display: none;
 	position: absolute;
 	width: 200px;
@@ -33,7 +33,7 @@ ul{
 	z-index: 999999;
 }
 
-.contextmenu li, .add_dir li, .rename_dir li, .contextmenu_container li{
+.contextmenu li, .add_dir li, .rename_dir li, .rename_file li, .contextmenu_container li{
 	border-left: 3px solid transparent;
 	transition: ease .2s;
 }
@@ -55,17 +55,17 @@ ul{
 	color: #FFFFFF;
 }
 
-.add_dir>input, .rename_dir>input{
+.add_dir>input, .rename_dir>input, .rename_file>input{
 	border: none;
 }
 
-.delete_dir, .upload_file{
+.delete_dir, .upload_file, .upload_zip{
 	background-color: #7dc8c9;
 	color: white;
 	border: none;
 }
 
-.delete_dir_cancel, .upload_file_cancel{
+.delete_dir_cancel, .upload_file_cancel, .upload_zip_cancel{
 	background-color: lightgray;
 	color: white;
 	border: none;

@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.dto.ProjectMemberDTO;
+import pcoop.backend.service.FileService;
 import pcoop.backend.service.ProjectService;
 
 @Controller
@@ -25,6 +26,8 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService service;
+	
+
 	@Autowired
 	HttpSession session;
 	
@@ -63,6 +66,10 @@ public class ProjectController {
 		pmdto.setLeader_yn("y");
 		pmdto.setJoin_ynd("y");
 		service.insertp_m(pmdto);
+		
+		// project back root directory insert
+		result = service.create_backup(dto);
+		
 		return "project/project_code";
 	}
 	
