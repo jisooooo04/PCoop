@@ -18,6 +18,7 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService service;
+
 	@Autowired
 	HttpSession session;
 	
@@ -55,6 +56,10 @@ public class ProjectController {
 		pmdto.setMember_name(mdto.getName());
 		pmdto.setLeader_yn("y");
 		service.insertp_m(pmdto);
+		
+		// project back root directory insert
+		result = service.create_backup(dto);
+		
 		return "project/project_code";
 	}
 	

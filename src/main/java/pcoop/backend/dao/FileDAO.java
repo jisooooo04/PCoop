@@ -19,18 +19,23 @@ public class FileDAO {
 	private JdbcTemplate jdbc;
 
 	// 이름으로 디렉토리 seq 검색
-	public int getDirSeqByName(String name) {
-		String sql = "select seq from directory where name = ?";
-		return jdbc.queryForObject(sql, new Object[] {name}, Integer.class);
+	public int getDirSeqByName(String name, int parent_seq) {
+		String sql = "select seq from directory where name = ? and parent_seq = ?";
+		return jdbc.queryForObject(sql, new Object[] {name, parent_seq}, Integer.class);
 	}
 
 	// seq로 디렉토리 경로 검색
 	public String getDirPathBySeq(int seq) {
 
-		System.out.println(seq);
 		String sql = "select path from directory where seq = ?";
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+	}
+	
+	// seq로 디렉토리의 parent_seq 검색
+	public int getParentSeqBySeq(int seq) {
+		String sql = "select parent_seq from directory where seq = ?";
+		return jdbc.queryForObject(sql, new Object[] {seq}, Integer.class);
 	}
 	
 	// 디렉토리 중복 확인
@@ -190,6 +195,11 @@ public class FileDAO {
 	public int deleteFile(int seq) {
 		String sql = "delete from files where seq = ?";
 		return jdbc.update(sql, seq);
+	}
+	
+	public int renameFile(int seq, String rename, String repath) {
+		String sql = "update files set name = ?, path = ? where seq = ?";
+		return jdbc.update(sql, rename, repath, seq);
 	}
 
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수

@@ -52,16 +52,16 @@ $(document).on("click", "#uploadSubmit", function(event){
 			var files = JSON.parse(data);
 
 			for(var i = 0 ; i < files.length ; i++){
+				
 				var id = "f" + files[i].seq;
+				
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				
-				console.log(files[i].text_yn);
-				
+								
 				if(files[i].text_yn == "Y"){
 					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
 					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
 				}
-				
+				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
 				$("#" + id).append("<button class=deleteFile id=del_" + id + " type=button>삭제</button>");
 			}
         },
@@ -136,11 +136,67 @@ $(document).on("click", ".deleteFile", function(){
 			for(var i = 0 ; i < files.length ; i++){
 				var id = "f" + files[i].seq;
 				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+				
+				if(files[i].text_yn == "Y"){
+					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
+				}
+				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
 				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
+				
 			}
 
 		}
 	});
 
+})
+
+// 파일 이름 변경 클릭 - 입력 창
+$(document).on("click", ".renameFile", function(){
+	
+	var fid = this.id.substring(12);
+	$(".ok_rename_file").attr("id", fid);
+	var left = $("#" + fid).offset().left;
+	var top = $("#" + fid).offset().top + 30;
+	
+	$(".rename_file").css({
+		"left" : left,
+		"top" : top
+	}).show();
+	
+})
+
+
+// 파일 이름 변경
+$(document).on("click", ".ok_rename_file", function(){
+	
+	var id = this.id;
+	var rename = $("#file_rename").val();
+	var seq = id.substring(1);
+	
+	console.log(id + " : " + seq);
+	var data = {
+			seq: seq,
+			rename: rename
+	};
+	
+	$.ajax({
+		url: "renameFile",
+		type: "POST",
+		data: data,
+		success: function(data){
+
+			if(data != -1)
+				$("#" + id).html("<b>" + rename + "</b>");
+			else alert("디렉토리 이름 중복");
+		}
+	});
+	
+	$(".rename_dir").hide();
+	
+})
+
+// 파일 이름 변경 취소
+$(document).on("click", ".cancel_rename_file", function(){
+	$(".rename_file").hide();
 })

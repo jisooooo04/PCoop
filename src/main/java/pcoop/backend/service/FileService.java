@@ -49,13 +49,18 @@ public class FileService {
 	}
 
 	// 이름으로 디렉토리 seq 검색
-	public int getDirSeqByName(String name) {
-		return fdao.getDirSeqByName(name);
+	public int getDirSeqByName(String name, int parent_seq) {
+		return fdao.getDirSeqByName(name, parent_seq);
 	}
 
 	// seq로 디렉토리 경로 검색
 	public String getDirPathBySeq(int seq) {
 		return fdao.getDirPathBySeq(seq);
+	}
+	
+	// seq로 디렉토리의 parent_seq 검색
+	public int getParentSeqBySeq(int seq) {
+		return fdao.getParentSeqBySeq(seq);
 	}
 
 	// 디렉토리 리스트 가져오기
@@ -64,13 +69,19 @@ public class FileService {
 	}
 	
 	// 디렉토리 이름 변경 
-	public void renameDirectory(int seq, String rename) {
+	public int renameDirectory(int seq, String rename) {
+		
+		int result = -1;
+		
 		String path = fdao.getDirPathBySeq(seq);
 		String repath = path.substring(0, path.lastIndexOf('/') + 1);
 		repath = repath + rename;
 		this.renameDirectoryFromDrive(seq, rename, repath);
-		this.renameDirectoryFromDB(seq, rename, repath);
+		result = this.renameDirectoryFromDB(seq, rename, repath);
 		this.renameFilesByDirSeq(seq, repath);
+		
+		return result;
+		
 	}
 	
 	// 디렉토리 이름 변경 from Drive
@@ -239,7 +250,12 @@ public class FileService {
 		int project_seq = 11;
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
 		String name = rename;
-		String extension = name.substring(name.indexOf('.') + 1);
+		String extension = null;
+		
+		if(name.contains(".")) {
+			extension = name.substring(name.indexOf('.') + 1);
+		}
+		
 		String path = dir_path + "/" + name;
 		String uploader = "temp";
 		String text_yn = "N";
@@ -253,9 +269,14 @@ public class FileService {
 	}
 
 	// 파일명 중복 확인 후, rename
-	public String renameFile(int dir_seq, MultipartFile file) {
+	public String renameDuplFile(int dir_seq, MultipartFile file) {
 
 		String name = file.getOriginalFilename();
+		
+		if(!name.contains(".")) {
+			return name;
+		}
+		
 		int checkDupl = fdao.checkDuplFileName(dir_seq, name);
 		String extension = name.substring(name.indexOf('.'));
 		String checkName = name;
@@ -279,7 +300,7 @@ public class FileService {
 	public String uploadFileToDrive(int dir_seq, MultipartFile file) throws Exception {
 
 		// 파일 중복명 확인 후, 수정된 이름 가져오기
-		String rename = this.renameFile(dir_seq, file);
+		String rename = this.renameDuplFile(dir_seq, file);
 		String dirPath = fdao.getDirPathBySeq(dir_seq);
 		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
 		File targetLoc = new File(path + "/" + rename);
@@ -309,6 +330,42 @@ public class FileService {
 	// DB 목록에서 파일 지우기
 	public void deleteFileFromDB(int seq) {
 		fdao.deleteFile(seq);
+	}
+	
+	// 파일 이름 변경
+	public int renameFile(int seq, String rename) {
+
+		String extension = this.getFileExtensionBySeq(seq);
+		
+		System.out.println(extension);
+		if(extension != null)
+			rename = rename + "." + extension;
+		
+		this.renameFileFromDrive(seq, rename);
+		return this.renameFileFromDB(seq, rename);
+		
+	}
+	
+	// 파일 이름 변경 from Drive
+	public void renameFileFromDrive(int seq, String rename) {
+		
+		String ori_path = this.getFilePathBySeq(seq);
+		String root_path = session.getServletContext().getRealPath("upload/backup");
+		ori_path = root_path + ori_path;
+		String new_path = ori_path.substring(0, ori_path.lastIndexOf('/') + 1);
+		
+		File ori_dir = new File(ori_path);
+		File new_dir = new File(new_path + "/" + rename);
+		ori_dir.renameTo(new_dir);
+	}
+	
+	public int renameFileFromDB(int seq, String rename) {
+		
+		String path = this.getFilePathBySeq(seq);
+		path = path.substring(0, path.lastIndexOf('/') + 1);
+		String repath = path + rename;
+		
+		return fdao.renameFile(seq, rename, repath);
 	}
 
 	// 파일 텍스트 읽어 오기

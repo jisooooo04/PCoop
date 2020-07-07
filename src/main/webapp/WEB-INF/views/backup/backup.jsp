@@ -2,6 +2,10 @@
 	pageEncoding="UTF-8"%>
 
 <div class="contents">
+
+	<div class="files">
+	</div>
+
 	<!-- HTML코드를 강조하여 보여줄때.. -->
 	<pre>
 			<code class="file-contents">
@@ -33,8 +37,14 @@
 	
 	<div class="rename_dir">
 		<input type="text" id="dir_rename" placeholder="변경할 디렉토리 이름"> <input
-			type="button" id="ok_rename" value="OK"> <input type="button"
-			id="cancel_rename" value="취소">
+			type="button" id="ok_rename_dir" value="OK"> <input type="button"
+			id="cancel_rename_dir" value="취소">
+	</div>
+	
+	<div class="rename_file">
+		<input type="text" id="file_rename" placeholder="변경할 파일 이름"> <input
+			type="button" class="ok_rename_file" value="OK"> <input type="button"
+			class="cancel_rename_file" value="취소">
 	</div>
 
 	<!-- 디렉토리 삭제 경고 Modal -->

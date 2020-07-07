@@ -113,7 +113,7 @@ public class FileController {
 			// DB에 디렉토리 insert
 			fservice.insertDirectory(path, name, parent_seq);
 			// 새로 생성된 디렉토리 seq 얻기
-			int seq = fservice.getDirSeqByName(name);
+			int seq = fservice.getDirSeqByName(name, parent_seq);
 			result = seq;
 		}
 		
@@ -147,11 +147,19 @@ public class FileController {
 
 	@RequestMapping("renameDirectory")
 	@ResponseBody
-	public String renameDir(int seq, String rename) {
+	public int renameDir(int seq, String rename) {
 
-		fservice.renameDirectory(seq, rename);
-
-		return "";
+		int result = -1;
+		
+		int parent_seq = fservice.getParentSeqBySeq(seq);
+		int duplCheck = fservice.checkDuplDirName(parent_seq, rename);
+		
+		if(duplCheck == 0) {
+			result = fservice.renameDirectory(seq, rename);
+			
+		}
+		
+		return result;
 	}
 
 	@RequestMapping(value = "uploadFile", produces = "application/text; charset=utf8")
@@ -250,6 +258,17 @@ public class FileController {
 
 		System.out.println(json);
 		return new Gson().toJson(json);
+	}
+	
+	@RequestMapping("renameFile")
+	@ResponseBody
+	public int renameFile(int seq, String rename) throws Exception {
+		
+		int result = -1;
+		
+		result = fservice.renameFile(seq, rename);
+		
+		return result;
 	}
 
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수

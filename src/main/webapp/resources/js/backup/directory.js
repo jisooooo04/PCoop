@@ -89,7 +89,7 @@ $(document).on("click", ".dir", function(event){
 					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
 
 				}
-				
+				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
 				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
 				
 			}
@@ -252,7 +252,7 @@ $(document).on("click", ".menu_rename_dir", function(){
 })
 
 // 디렉토리 이름 변경
-$(document).on("click", "#ok_rename", function(){
+$(document).on("click", "#ok_rename_dir", function(){
 	
 	var id = $(".menu_rename_dir").attr("id");
 	var rename = $("#dir_rename").val();
@@ -267,10 +267,11 @@ $(document).on("click", "#ok_rename", function(){
 		url: "renameDirectory",
 		type: "POST",
 		data: data,
-		success: function(){
+		success: function(data){
 
-			$("#" + id).html("<b>" + rename + "</b>");
-
+			if(data != -1)
+				$("#" + id).html("<b>" + rename + "</b>");
+			else alert("디렉토리 이름 중복");
 		}
 	});
 	
@@ -279,7 +280,7 @@ $(document).on("click", "#ok_rename", function(){
 })
 
 // 디렉토리 이름 변경 취소
-$(document).on("click", "#cancel_rename", function(){
+$(document).on("click", "#cancel_rename_dir", function(){
 	var id = $(".menu_rename_dir").attr("id");
 	$(".rename_dir").hide();
 	var dir_name = $("#" + id).text();
