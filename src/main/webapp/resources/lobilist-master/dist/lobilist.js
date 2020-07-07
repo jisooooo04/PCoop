@@ -109,7 +109,6 @@ $(function () {
 		this.$options = options;
 		this.$globalOptions = $lobiList.$options;
 		this.$items = {};
-		console.log('this._init();');
 		this._init();
 	};
 
@@ -165,7 +164,7 @@ $(function () {
 					me.$el.addClass(me.$options.defaultStyle);
 				}
 			
-				console.log('me._createHeader();');
+				//console.log('me._createHeader();');
 				me.$header = me._createHeader();
 				me.$title = me._createTitle();
 				me.$body = me._createBody();
@@ -599,7 +598,7 @@ $(function () {
 			},
 
 			_createHeader: function () {
-				console.log('_createHeader');
+				//console.log('_createHeader');
 				var me = this;
 				var $header = $('<div>', {
 					'class': 'lobilist-header'
@@ -962,7 +961,7 @@ $(function () {
 			},
 
 			_createAddNewButton: function () {
-				console.log('_createAddNewButton');
+				//console.log('_createAddNewButton');
 				var me = this;
 				var $btn = $('<button>', {
 					'class': 'btn btn-default btn-xs',
@@ -988,7 +987,7 @@ $(function () {
 				
 				
 				
-				console.log('리스트 추가 리턴? ');
+				//console.log('리스트 추가 리턴? ');
 
 				return $btn;
 			},
@@ -1470,8 +1469,30 @@ console.log("지우고 나서");
 							oldIndex = parseInt($wrapper.attr('data-previndex'));
 							me._triggerEvent('afterListReorder', [me, $list.data('lobiList'), currentIndex, oldIndex]);
 							
-							console.log('위치변경 리스트ID');
-							console.log($list.data()['dbId']);
+							console.log('oldIndex : '+oldIndex);
+							console.log('currentIndex : '+currentIndex);
+							console.log('위치변경 리스트ID : '+$list.data()['dbId']);
+
+							
+							// 오른쪽으로 이동 oldIndex < currentIndex
+							// 왼쪽으로 이동 currentIndex < oldIndex
+							
+							console.log($wrapper.nextAll());
+
+							console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
+							for(var i =0; i<$wrapper.nextAll().length;i++){
+								console.log($wrapper.nextAll()[i]);
+							}
+							
+							
+							
+							console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
+							
+							for(var i =0; i<$wrapper.prevAll().length -2 ;i++){
+								console.log($wrapper.prevAll()[i]);
+							}
+							
+							//다른 리스트들의 자리값과 id 구하기!
 
 						}
 					});
