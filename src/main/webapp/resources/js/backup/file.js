@@ -34,7 +34,8 @@ $(document).on("click", "#uploadSubmit", function(event){
 	var form = document.uploadForm;
 	form.dir_seq.value = dir_seq;
 	
-	console.log(dir_seq);
+	console.log(form);
+	
 	var data = new FormData(form);
 
     $.ajax({
@@ -72,6 +73,63 @@ $(document).on("click", "#uploadSubmit", function(event){
     });
     
 })
+
+// .zip 파일 선택 Modal
+$(document).on("click", ".menu_upload_zip", function(){
+	$(".modal_upload_zip").modal();
+})
+
+// upload .zip
+$(document).on("click", "#uploadZipSubmit", function(event){
+	
+	// 기본으로 정의된 이벤트를 작동하지 못하게 막음
+	// submit을 막음
+	event.preventDefault();
+	var dir_seq = $(".menu_upload_zip").attr("id").substring(3);
+	var form = document.uploadZipForm;
+	form.dir_seq.value = dir_seq;
+
+	
+	// 확장자 체크(.zip 파일만)
+	var name = form.zip.value;
+	extension = name.substring(name.indexOf('.'));
+	
+	if(extension != '.zip'){
+		alert(".zip 파일만 가능합니다.");
+		form.zip.value = "";
+	}
+	
+	else{
+		
+		var data = new FormData(form);
+		
+		$.ajax({
+	    	url: "uploadZip",
+	        type: "POST",
+	        enctype: 'multipart/form-data',
+	        data: data,
+	        processData: false,
+	        contentType: false,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	        	
+	        	if(data == "dupl"){
+	        		alert("디렉토리 이름 중복");
+	        		form.zip_dir.value = "";
+	        	}
+
+	        },
+	        error: function (e) {
+	            console.log("ERROR : ", e);
+	            alert("fail");
+	        }
+	    });
+		
+	}
+	
+})
+
 
 $(document).on("click", ".readFile", function(){
 	

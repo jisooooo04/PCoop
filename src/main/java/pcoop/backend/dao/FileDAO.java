@@ -43,6 +43,12 @@ public class FileDAO {
 		return jdbc.queryForObject(sql, new Object[] {seq}, Integer.class);
 	}
 	
+	// path로 디렉토리의 seq 검색
+	public int getDirSeqByPath(String path) {
+		String sql = "select seq from directory where path = ?";
+		return jdbc.queryForObject(sql, new Object[] {path}, Integer.class);
+	}
+	
 	// 디렉토리 중복 확인
 	public int checkDuplDirName(int parent_seq, String name) {
 		String sql = "select count(*) from directory where parent_seq = ? and name = ?";

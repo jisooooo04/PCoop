@@ -62,6 +62,7 @@ $(document).on("click", ".dir", function(event){
 	var dir_seq = id.substring(3);
 	
 	$(".menu_upload_file").attr("id", id);
+	$(".menu_upload_zip").attr("id", id);
 	$(".menu_add_dir").attr("id", id);
 	$(".menu_delete_dir").attr("id", id);
 	$(".menu_rename_dir").attr("id", id);

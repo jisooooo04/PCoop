@@ -1,9 +1,12 @@
 package pcoop.backend.service;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,24 +27,24 @@ public class FileService {
 
 	@Autowired
 	private FileDAO fdao;
-	
+
 	public int createProjectBackup(int seq, String name) {
 		this.createProjectBackuptoDrive(name);
 		return this.createProjectBackuptoDB(seq, name);
 	}
-	
+
 	public void createProjectBackuptoDrive(String name) {
 		String rootDir = session.getServletContext().getRealPath("upload/backup");
 		String path = rootDir + "/" + name;
 		File root_dir = new File(path);
 		root_dir.mkdir();
 	}
-	
+
 	public int createProjectBackuptoDB(int seq, String name) {
 		String path = "/" + name;
 		return fdao.insertRootDirectory(seq, name, path);
 	}
-	
+
 	public int checkDuplDirName(int parent_seq, String name) {
 		return fdao.checkDuplDirName(parent_seq, name);
 	}
@@ -60,7 +63,7 @@ public class FileService {
 		return path;
 	}
 
-	// DB에 디렉토리 insert 후, 디렉토리 seq 리턴
+	// DB에 디렉토리 insert
 	public int insertDirectory(String path, String name, int parent_seq) {
 		return fdao.insertDirectory(path, name, parent_seq);
 	}
@@ -74,7 +77,7 @@ public class FileService {
 	public String getDirPathBySeq(int seq) {
 		return fdao.getDirPathBySeq(seq);
 	}
-	
+
 	// seq로 디렉토리의 parent_seq 검색
 	public int getParentSeqBySeq(int seq) {
 		return fdao.getParentSeqBySeq(seq);
@@ -84,45 +87,45 @@ public class FileService {
 	public List<DirectoryDTO> getDirList(){
 		return fdao.getDirList();
 	}
-	
+
 	// 디렉토리 이름 변경 
 	public int renameDirectory(int seq, String rename) {
-		
+
 		int result = -1;
-		
+
 		String path = fdao.getDirPathBySeq(seq);
 		String repath = path.substring(0, path.lastIndexOf('/') + 1);
 		repath = repath + rename;
 		this.renameDirectoryFromDrive(seq, rename, repath);
 		result = this.renameDirectoryFromDB(seq, rename, repath);
 		this.renameFilesByDirSeq(seq, repath);
-		
+
 		return result;
-		
+
 	}
-	
+
 	// 디렉토리 이름 변경 from Drive
 	public void renameDirectoryFromDrive(int seq, String rename, String repath) {
-		
+
 		String root_path = session.getServletContext().getRealPath("upload/backup");
 		String real_path = root_path + fdao.getDirPathBySeq(seq);
-		
+
 		File ori_dir = new File(real_path);
 		File new_dir = new File(root_path + repath);
 		ori_dir.renameTo(new_dir);
-		
+
 	}
-	
+
 	// 디렉토리 이름 변경 from DB
 	public int renameDirectoryFromDB(int seq, String rename, String repath) {
 		return fdao.renameDirectory(seq, rename, repath);
 	}
-	
+
 	// 디렉토리 이름 변경 시, 파일 path도 변경 from DB
 	public int renameFilesByDirSeq(int dir_seq, String repath) {
-		
+
 		List<FileDTO> list = this.getFileListByDirSeq(dir_seq);
-		
+
 		for(FileDTO f : list) {
 			String frepath = repath + "/" + f.getName();
 			fdao.repathFileByDirSeq(f.getSeq(), repath, frepath);
@@ -134,17 +137,17 @@ public class FileService {
 	public List<FileDTO> getFileList(){
 		return fdao.getFileList();
 	}
-	
+
 	// 파일 이름 가져오기
 	public String getFileNameBySeq(int seq) {
 		return fdao.getFileNameBySeq(seq);
 	}
-	
+
 	// 파일 경로 가져오기
 	public String getFilePathBySeq(int seq) {
 		return fdao.getFilePathBySeq(seq);
 	}
-	
+
 	// 파일 확장자 가져오기
 	public String getFileExtensionBySeq(int seq) {
 		return fdao.getFileExtensionBySeq(seq);
@@ -154,7 +157,7 @@ public class FileService {
 	public List<FileDTO> getFileListByDirSeq(int dir_seq){
 		return fdao.getFileListByDirSeq(dir_seq);
 	}
-	
+
 	// 디렉토리 삭제
 	public void deleteDirectory(int seq, String path) {
 		this.deleteDirFromDrive(path);
@@ -268,20 +271,96 @@ public class FileService {
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
 		String name = rename;
 		String extension = null;
-		
+
 		if(name.contains(".")) {
 			extension = name.substring(name.indexOf('.') + 1);
 		}
-		
+
 		String path = dir_path + "/" + name;
 		String uploader = "temp";
 		String text_yn = "N";
-		
+
 		if(fdao.isTextFile(extension) > 0) {
 			text_yn = "Y";
 		}
-		
+
 		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader, text_yn);
+
+	}
+
+	// 파일 업로드 - .zip - 압축 해제
+	public void unzip(int dir_seq, MultipartFile zip, String zip_dir) throws Exception {
+
+		String path = this.makeDirToDrive(dir_seq, zip_dir);
+		this.insertDirectory(path, zip_dir, dir_seq);
+		int zip_dir_seq = this.getDirSeqByName(zip_dir, dir_seq);
+
+		// 압축 해제하기 위해 생성하는 디렉토리
+		String dirPath = fdao.getDirPathBySeq(zip_dir_seq);
+		path = session.getServletContext().getRealPath("upload/backup") + dirPath;
+		File zipFile = new File(path + "/" + zip.getOriginalFilename());
+
+		System.out.println(dirPath);
+		if(!zip.isEmpty()) {
+			zip.transferTo(zipFile);
+		}
+		
+		FileInputStream fis = null;
+		ZipInputStream zis = null;
+		ZipEntry zipentry = null;
+
+		// 파일 스트림
+		fis = new FileInputStream(zipFile);
+
+		// Zip 파일 스트림
+		zis = new ZipInputStream(fis);
+
+		// entry가 없을 때까지 뽑기
+		while ((zipentry = zis.getNextEntry()) != null) {
+
+			String filename = zipentry.getName();
+			File file = new File(path, filename);
+
+			// System.out.println(filename);
+			// entry가 폴더면 폴더 생성
+			if (zipentry.isDirectory()) {
+				
+				// /temp/project/BoardProject 2
+				// src/test/java/
+				file.mkdirs();
+				//filename.substring()
+				//int parent_seq = fdao.getDirSeqByPath(dirPath);
+				//fdao.insertDirectory(dirPath, filename, parent_seq);
+				
+			} else {
+				
+				// 파일이면 파일 만들기
+				// 디렉토리 확인
+		        File parentDir = new File(file.getParent());
+
+		        // 디렉토리가 없으면 생성
+		        if (!parentDir.exists()) {
+		            parentDir.mkdirs();
+		        }
+
+		        // 파일 스트림 선언
+		        FileOutputStream fos = new FileOutputStream(file);
+
+		            byte[] buffer = new byte[256];
+		            int size = 0;
+		            // Zip 스트림으로부터 byte 뽑기
+		            while ((size = zis.read(buffer)) > 0) {
+		                // byte로 파일 만들기
+		                fos.write(buffer, 0, size);
+		            }
+
+		    }
+			
+
+		}
+		
+		fis.close();
+		zipFile.delete();
 
 	}
 
@@ -289,11 +368,11 @@ public class FileService {
 	public String renameDuplFile(int dir_seq, MultipartFile file) {
 
 		String name = file.getOriginalFilename();
-		
+
 		if(!name.contains(".")) {
 			return name;
 		}
-		
+
 		int checkDupl = fdao.checkDuplFileName(dir_seq, name);
 		String extension = name.substring(name.indexOf('.'));
 		String checkName = name;
@@ -328,9 +407,9 @@ public class FileService {
 		}
 
 		return targetLoc.getName();
-		
+
 	}
-	
+
 	// 파일 지우기
 	public void deleteFile(int seq) {
 		deleteFileFromDrive(seq);
@@ -348,56 +427,56 @@ public class FileService {
 	public void deleteFileFromDB(int seq) {
 		fdao.deleteFile(seq);
 	}
-	
+
 	// 파일 이름 변경
 	public int renameFile(int seq, String rename) {
 
 		String extension = this.getFileExtensionBySeq(seq);
-		
+
 		System.out.println(extension);
 		if(extension != null)
 			rename = rename + "." + extension;
-		
+
 		this.renameFileFromDrive(seq, rename);
 		return this.renameFileFromDB(seq, rename);
-		
+
 	}
-	
+
 	// 파일 이름 변경 from Drive
 	public void renameFileFromDrive(int seq, String rename) {
-		
+
 		String ori_path = this.getFilePathBySeq(seq);
 		String root_path = session.getServletContext().getRealPath("upload/backup");
 		ori_path = root_path + ori_path;
 		String new_path = ori_path.substring(0, ori_path.lastIndexOf('/') + 1);
-		
+
 		File ori_dir = new File(ori_path);
 		File new_dir = new File(new_path + "/" + rename);
 		ori_dir.renameTo(new_dir);
 	}
-	
+
 	public int renameFileFromDB(int seq, String rename) {
-		
+
 		String path = this.getFilePathBySeq(seq);
 		path = path.substring(0, path.lastIndexOf('/') + 1);
 		String repath = path + rename;
-		
+
 		return fdao.renameFile(seq, rename, repath);
 	}
 
 	// 파일 텍스트 읽어 오기
 	public String getFileText(String path) throws Exception {
-		
+
 		File file = new File(path);
-	    String fileContents = FileUtils.readFileToString(file, "UTF-8");
-	    // fileContents = fileContents.replace("\n", "<br>");
-	    return fileContents;
-	    
+		String fileContents = FileUtils.readFileToString(file, "UTF-8");
+		// fileContents = fileContents.replace("\n", "<br>");
+		return fileContents;
+
 	}
-	
+
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
-//	public int insertExtensions(String extension) {
-//		return fdao.insertExtensions(extension);
-//	}
+	//	public int insertExtensions(String extension) {
+	//		return fdao.insertExtensions(extension);
+	//	}
 
 }

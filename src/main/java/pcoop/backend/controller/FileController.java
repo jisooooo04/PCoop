@@ -164,9 +164,9 @@ public class FileController {
 
 	@RequestMapping(value = "uploadFile", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
+	public String upload(int dir_seq, MultipartFile file) throws Exception {
 
-		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
+		// int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
 
 		// 드라이브에 파일 생성
 		String name = fservice.uploadFileToDrive(dir_seq, file);
@@ -189,6 +189,27 @@ public class FileController {
 
 		return new Gson().toJson(fileArr);
 
+	}
+	
+	@RequestMapping("uploadZip")
+	@ResponseBody
+	public String uploadZip(int dir_seq, String zip_dir, MultipartFile zip) throws Exception {
+		
+		String result = "";
+		
+		// 압축 해제할 디렉토리 이름 중복 체크
+		int checkDupl = fservice.checkDuplDirName(dir_seq, zip_dir);
+		
+		// 이름 중복일 경우
+		if(checkDupl != 0) {
+			result = "dupl";
+		}
+
+		else {
+			fservice.unzip(dir_seq, zip, zip_dir);
+		}
+		
+		return result;
 	}
 
 	@RequestMapping("downloadFile")

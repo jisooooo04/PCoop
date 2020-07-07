@@ -59,13 +59,13 @@ ul{
 	border: none;
 }
 
-.delete_dir, .upload_file{
+.delete_dir, .upload_file, .upload_zip{
 	background-color: #7dc8c9;
 	color: white;
 	border: none;
 }
 
-.delete_dir_cancel, .upload_file_cancel{
+.delete_dir_cancel, .upload_file_cancel, .upload_zip_cancel{
 	background-color: lightgray;
 	color: white;
 	border: none;
