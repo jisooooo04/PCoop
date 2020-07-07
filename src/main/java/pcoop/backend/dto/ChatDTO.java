@@ -9,14 +9,14 @@ public class ChatDTO {
 	private String full_date;
 	private String form_date;
 	private String time;
-	private String file_path;
+	private int file_path;  //file_seq로 바꾸기 (만약 file 아니면 null값 들어가게)
 	
 	public ChatDTO() {
 		super();
 	}
 
 	public ChatDTO(int seq, int project_seq, int chatting_seq, String writer, String chat, String full_date,
-			String form_date, String time, String file_path) {
+			String form_date, String time, int file_path) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
@@ -93,11 +93,11 @@ public class ChatDTO {
 		this.time = time;
 	}
 
-	public String getFile_path() {
+	public int getFile_path() {
 		return file_path;
 	}
 
-	public void setFile_path(String file_path) {
+	public void setFile_path(int file_path) {
 		this.file_path = file_path;
 	}
 	

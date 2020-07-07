@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ChatFile">
+	
+	<select id="selectFile" resultType="pcoop.backend.dto.ChatFileDTO">
+		select * from chat_file where seq=#{value}
+	</select>
+	
+	
+	<select id="selectPresentSeq" resultType="int">
+		select seq from (select * from chat_file order by seq desc) where ROWNUM = 1
+	</select>
+	
+	
+	<insert id="insertFile">
+		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, #{project_seq}, #{chatting_seq}, #{chat_seq})
+	</insert>
+	
+	
+</mapper>

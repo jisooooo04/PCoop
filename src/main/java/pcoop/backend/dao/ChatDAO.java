@@ -26,12 +26,18 @@ public class ChatDAO {
 	
 	public List<ChatDTO> selectLastChat(String date){
 		
-		return mybatis.selectList("Chat.selectChatChat", date);
+		return mybatis.selectList("Chat.selectLastChat", date);
 	}
 	
 	
 	public int deleteChat(int seq){
 		
 		return mybatis.delete("Chat.delete", seq);
+	}
+	
+	
+	public int selectChatSeq(){
+		
+		return mybatis.selectOne("Chat.selectChatSeq");
 	}
 }

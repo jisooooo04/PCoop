@@ -34,4 +34,8 @@ public class ChatService {
 		return cdao.deleteChat(seq);
 	}
 	
+	public int selectChatSeq(){
+		
+		return cdao.selectChatSeq();
+	}
 }
