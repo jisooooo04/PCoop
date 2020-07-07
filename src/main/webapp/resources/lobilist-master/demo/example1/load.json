@@ -6,8 +6,8 @@
             "defaultStyle": "lobilist-danger",
             "items": [
                 {
-                    "title": "beforeItemDelete is never called",
-                    "description": "even in your \"Event handling\" example"
+                    "title": "P-Coop를 이용해 주셔서 감사합니다!",
+                    "description": "프로젝트 관리와 협업을 위한 기능들이 준비되어 있습니다"
                 }
             ]
         },
@@ -16,7 +16,7 @@
             "defaultStyle": "lobilist-info",
             "items": [
                 {
-                    "title": "Function to get all lobilist info (lists, items) as object"
+                    "title": "할일 리스트를 만들고 꾸밀 수 있습니다!"
                 }
             ]
         },
@@ -25,7 +25,7 @@
             "defaultStyle": "lobilist-success",
             "items": [
                 {
-                    "title": "List style change event"
+                    "title": "할일 카드를 추가하고 작업진행률을 확인 하세요!"
                 }
             ]
         }

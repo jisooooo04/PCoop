@@ -951,17 +951,18 @@ $(function () {
 			},
 
 			_createAddNewButton: function () {
-
+				console.log('_createAddNewButton');
 				var me = this;
 				var $btn = $('<button>', {
 					'class': 'btn btn-default btn-xs',
 					html: '<i class="glyphicon glyphicon-plus"></i>'
 				});
+				
 				$btn.click(function () {
+					
 					console.log('리스트 추가 버튼 클릭 2');
 					var list = me.$lobiList.addList();
 					
-					console.log('_createAddNewButton >');
 					list.startTitleEditing();
 				});
 				
@@ -1453,6 +1454,7 @@ console.log("지우고 나서");
 			 * @returns {List} Just added <code>List</code> instance
 			 */
 			addList: function (list) {
+				console.log('addList');
 				var me = this;
 				if (!(list instanceof List)) {
 					list = new List(me, me._processListOptions(list));

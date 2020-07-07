@@ -54,6 +54,15 @@
 		<!--Actions by ajax		-->
 
 		<div id="actions-by-ajax">
+		
+					<!--진행률 바-->
+			<div class="progress" id="progress">
+				<div id="selector" class="progress-bar progress-bar-striped active"
+					role="progressbar" aria-valuenow="60" aria-valuemin="0"
+					aria-valuemax="100" style="width:${bar}%">
+					<span class="sr-only">45% Complete</span>
+				</div>
+			</div>
 
 			<!--불러올 데이터 없을 때 생성 버튼	-->
 			<div id="create_list" style="display: none;">
@@ -63,14 +72,7 @@
 			</div>
 
 
-			<!--진행률 바-->
-			<div class="progress" id="progress" style="display: inline-block;">
-				<div id="selector" class="progress-bar progress-bar-striped active"
-					role="progressbar" aria-valuenow="60" aria-valuemin="0"
-					aria-valuemax="100" style="width:${bar}%">
-					<span class="sr-only">45% Complete</span>
-				</div>
-			</div>
+
 
 
 		</div>
@@ -90,7 +92,9 @@
 		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
 	<script
 		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/lobilist-master/dist/lobilist.js"></script>
+
+	<script
+		src="/resources/lobilist-master/dist/lobilist.js?v=<%=System.currentTimeMillis()%>"></script>
 
 	<script src="/resources/lobilist-master/lib/lobibox/js/lobibox.min.js"></script>
 	<script
@@ -99,93 +103,193 @@
 
 	<script>
 		$(function() {
-			var list;
 			
 			
-		
-				 $('#actions-by-ajax').lobiList({
-					 
-				    });
+			function isEmpty(param) {
+				  return Object.keys(param).length === 0;
+			}
+
+			// 할일 리스트들 양식대로 불러오기 전에 데이터 존재 여부 체크
+			$.ajax({
+				type : 'get',
+				url : '/Task/TaskAjax',
+				datatype : 'json',
+				success : function(data) {			
+					if(isEmpty(data.lists)){
+						console.log('lists가 데이터베이스에 없음!');
+
+				          $('#actions-by-ajax').lobiList({
+				                actions: {
+				                    load: '/resources/lobilist-master/demo/example1/load.json',
+				                    insert: '',
+				                    delete: '',
+				                    update: ''
+				                },
+				                afterItemAdd: function(){
+				                    console.log(arguments);
+				                },			                
+				                afterListRemove: function(){
+				            		console.log("afterListRemove 변화 감지!");
+				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
+				    				console.log("버튼 보여라!!!");
+				    				$("#create_list").css('display', 'inline-block');
+				    			} else {
+				    				console.log("버튼 숨겨라!!!");
+				    				$("#create_list").css('display', 'none');
+				    			}	
+				    						                }			                
+				            });
+					
+					}else{
+						console.log('lists가 데이터베이스에 존재!');					
+						 $('#actions-by-ajax').lobiList({   
+				                afterListRemove: function(){
+				            		console.log("afterListRemove 변화 감지!");
+
+				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
+				    				console.log("버튼 보여라!!!");
+				    				$("#create_list").css('display', 'inline-block');
+				    				} else {
+				    				console.log("버튼 숨겨라!!!");
+				    				$("#create_list").css('display', 'none');
+				    				}
+				    			},
+				    			afterItemDelete: function(){
+				    				//ajax 코드 추가 작업진행바 (아이템 삭제시)
+				    				$.ajax({
+				    					type : 'get',
+				    					url : '/Task/selectCount',
+				    					datatype : 'json',
+				    					success : function(data) {
+				    						console.log('작업진행률 : '+ data.to);
+				    						$('#selector').css('width', data.to + '%');
+
+				    					},
+				    					error : function(error) {
+				    						alert('data error');
+				    					}
+				    				});
+				    				
+				    			},
+				                afterItemAdd: function(){
+				                	//ajax 코드 추가 작업진행바 (아이템 추가시)
+				    				$.ajax({
+				    					type : 'get',
+				    					url : '/Task/selectCount',
+				    					datatype : 'json',
+				    					success : function(data) {
+				    						console.log('작업진행률 : '+ data.to);
+				    						$('#selector').css('width', data.to + '%');
+
+				    					},
+				    					error : function(error) {
+				    						alert('data error');
+				    					}
+				    				});
+				                }
+				    			
+				    			
+				    			
+						    });	          
+					}
+
+				},
+				error : function(error) {
+					alert('data error');
+				}
+			});
+			
 	
+			//ajax 코드 추가 작업진행바 (처음 불러올때)
+			$.ajax({
+				type : 'get',
+				url : '/Task/selectCount',
+				datatype : 'json',
+				success : function(data) {
+					console.log('작업진행률 : '+ data.to);
+					$('#selector').css('width', data.to + '%');
+
+				},
+				error : function(error) {
+					alert('data error');
+				}
+			});
 			
 			
 
-			// 값이 없을 때 리스트 버튼 보이게
-			if ($("#actions-by-ajax").find('.lobilist').text() == "") {
-				console.log("남은 리스트가 없음");
-				$("#create_list").css('display', 'inline-block');
-				$("#progress").css('display', 'none');
 
-			} else {
-				console.log("남은 리스트가 있음");
-				$("#create_list").css('display', 'none');
-				$("#progress").css('display', 'inline-block');
-				
-				//ajax 코드 추가 작업진행바
+			
+			$('#create_btn').click(function (){
+				console.log("버튼 클릭!");
+				 //location.reload(); // 버튼 누르면 새로고침 ... 개선필요...
+				 history.go(0);
+			/*
 				$.ajax({
 					type : 'get',
-					url : '/Task/selectCount',
+					url : '/Task/TaskAjax',
 					datatype : 'json',
-					success : function(data) {
-						console.log(data.to);
-						$('#selector').css('width', data.to + '%');
+					success : function(data) {			
+				
+						if(isEmpty(data.lists)){
+							console.log('lists가 데이터베이스에 없음 (버튼)');
+					          $('#actions-by-ajax').lobiList({
+					                actions: {
+					                    load: '/resources/lobilist-master/demo/example1/load.json',
+					                    insert: '',
+					                    delete: '',
+					                    update: ''
+					                },
+					                afterItemAdd: function(){
+					                    console.log(arguments);
+					                },
+					                
+					                afterListRemove: function(){
+					            		console.log("afterListRemove 변화 감지!");
+					    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
+					    				console.log("버튼 보여라!!!");
+					    				$("#create_list").css('display', 'inline-block');
+					    				} else {
+					    				console.log("버튼 숨겨라!!!");
+					    				$("#create_list").css('display', 'none');
+					    				}	
+					    			}
+					                
+					            });
+					          
+					          
+							
+						}else{
+							console.log('lists가 데이터베이스에 존재(버튼)');
+							
+							 $('#actions-by-ajax').lobiList({
+
+					                afterListRemove: function(){
+					            		console.log("afterListRemove 변화 감지!");
+
+					    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
+					    				console.log("버튼 보여라!!!");
+					    				$("#create_list").css('display', 'inline-block');
+					    			} else {
+					    				console.log("버튼 숨겨라!!!");
+					    				$("#create_list").css('display', 'none');
+					    			}
+					    				}
+							 				 
+							    });				 	 
+					          
+						};
 
 					},
 					error : function(error) {
 						alert('data error');
 					}
 				});
-				
-			}
-			
-			
-	
-			$('#create_btn').click(function (){
-				console.log("버튼 클릭!");
-	            
-				
-				//$('#actions-by-ajax').val('');
-			 //$('#actions-by-ajax').removeClass();
-			 
-			          $('#actions-by-ajax').lobiList({
-			                actions: {
-			                    load: '/resources/lobilist-master/demo/example1/load.json',
-			                    insert: '',
-			                    delete: '',
-			                    update: ''
-			                },
-			                afterItemAdd: function(){
-			                    console.log(arguments);
-			                }
-			            });
-			
-	  
-		
-					console.log("데모 추가 후 남은 리스트가 있음");
-					//$("#create_list").css('display', 'none');
-					//$("#progress").css('display', 'inline-block');
 					
-					//ajax 코드 추가 작업진행바
-					$.ajax({
-						type : 'get',
-						url : '/Task/selectCount',
-						datatype : 'json',
-						success : function(data) {
-							console.log(data.to);
-							$('#selector').css('width', data.to + '%');
-
-						},
-						error : function(error) {
-							alert('data error');
-						}
-					});
-					
+	*/
 				});
-	            
+
 	            
 			});
-
-
 	</script>
 </body>
 </html>
