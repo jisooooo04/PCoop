@@ -15,11 +15,11 @@
 	</insert>
 	
 	<insert id="insertProjectMember">
-		insert into project_member values(project_member_seq.nextval,${project_seq},#{project_name},${member_seq},#{member_email},#{member_name},#{leader_yn})
+		insert into project_member values(project_member_seq.nextval,${project_seq},#{project_name},${member_seq},#{member_email},#{member_name},#{leader_yn},#{join_ynd})
 	</insert>
 	
 	<select id="get_project_seq" resultType="int">
-		select project_seq from project_member where member_seq=${value}
+		select project_seq from project_member where member_seq=${value} and join_yn='y'
 	</select>
 	
 	<select id="get_projectList" resultType="pcoop.backend.dto.ProjectDTO">
@@ -37,4 +37,37 @@
 	<select id="SelectProjectMember" resultType="pcoop.backend.dto.ProjectMemberDTO">
 		select * from project_member where seq=${value}
 	</select>
+	
+	<select id="searchByCode" resultType="pcoop.backend.dto.ProjectDTO">
+		select * from project where code=#{value}
+	</select>
+	
+	<select id="joinCheck" resultType="String">
+		select join_yn from project_member where project_seq=${project_seq} and member_seq=${member_seq}
+	</select>
+	
+	<select id="selectBySeq" resultType="pcoop.backend.dto.ProjectDTO">
+		select * from project where seq=${value}
+	</select>
+	
+	<select id="joinYNcheck" resultType="pcoop.backend.dto.ProjectMemberDTO">
+		select * from project_member where project_seq=${value} and join_yn='n'
+	</select>
+	
+	<update id="accept">
+		update project_member set join_yn='y', leader_yn='n' where project_seq=${project_seq} and member_seq=${mem_seq}
+	</update>
+	
+	<select id="countPeople" resultType="int">
+		select count(*) from project_member where project_seq=${value}
+	</select>
+	
+	<select id="getPeople" resultType="int">
+		select people_num from project where seq=${value}
+	</select>
+	
+	<delete id="refuse">
+		delete from project_member where project_seq=${project_seq} and member_seq=${mem_seq}
+	</delete>
+	
 </mapper>

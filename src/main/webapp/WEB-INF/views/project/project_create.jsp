@@ -5,10 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet" href="/resources/css/main/main.css?after" />
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <title>PCOOP!</title>
-
 </head>
 <body>
 
@@ -44,26 +42,21 @@
 			</div>
 			<form action="create" method="post" id="formtag">
 				<div class="form-group">
-					<label for="exampleFormControlInput1">Project name</label> <input
-						type="text" class="form-control" id="exampleFormControlInput1"
-						name='name' placeholder='프로젝트의 이름을 입력해주세요.' required>
+					<label>Project name</label> <input type="text" class="form-control"
+						id="exampleFormControlInput1" name='name'
+						placeholder='프로젝트의 이름을 입력해주세요.' required>
 				</div>
 				<div class="form-group">
-					<label for="exampleFormControlSelect1">프로젝트 참여 인원수를 설정해주세요.</label>
-					<select class="form-control" id="exampleFormControlSelect1"
+					<label>프로젝트 참여 인원수를 설정해주세요.</label> <select class="form-control"
 						name="people_num">
 						<c:forEach var='i' begin='1' step='1' end='50'>
 							<option value='${i}'>${i}</option>
 						</c:forEach>
 					</select>
+					<button type="submit" class="btn btn-sm">프로젝트 생성</button>
 				</div>
-				<button type="submit" class="btn btn-sm">프로젝트 생성</button>
-
 			</form>
 		</section>
 	</div>
-	<script>
-		
-	</script>
 </body>
 </html>

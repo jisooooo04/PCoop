@@ -8,6 +8,7 @@ public class ProjectMemberDTO {
 	private String member_email;
 	private String member_name;
 	private String leader_yn;
+	private String join_ynd;
 	
 	
 	
@@ -15,7 +16,7 @@ public class ProjectMemberDTO {
 		super();
 	}
 	public ProjectMemberDTO(int seq, int project_seq, String project_name, int member_seq, String member_email,
-			String member_name, String leader_yn) {
+			String member_name, String leader_yn, String join_ynd) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
@@ -24,6 +25,7 @@ public class ProjectMemberDTO {
 		this.member_email = member_email;
 		this.member_name = member_name;
 		this.leader_yn = leader_yn;
+		this.join_ynd = join_ynd;
 	}
 	public int getSeq() {
 		return seq;
@@ -66,6 +68,12 @@ public class ProjectMemberDTO {
 	}
 	public void setLeader_yn(String leader_yn) {
 		this.leader_yn = leader_yn;
+	}
+	public String getJoin_ynd() {
+		return join_ynd;
+	}
+	public void setJoin_ynd(String join_ynd) {
+		this.join_ynd = join_ynd;
 	}
 	
 	

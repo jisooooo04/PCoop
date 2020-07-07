@@ -1,7 +1,6 @@
 package pcoop.backend.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.dto.ProjectMemberDTO;
 
 @Repository
 public class MemberDAO {
@@ -154,5 +154,7 @@ public class MemberDAO {
 	    public List<Integer> SelectMyProjectSeq(int seq)throws Exception{
 	    	return mybatis.selectList("project.SelectMyProjectSeq", seq);
 	    }
+	    
+	   
 	    
 }
