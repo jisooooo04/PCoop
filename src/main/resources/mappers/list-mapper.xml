@@ -112,12 +112,19 @@
 		select count(done)
 		from
 		task_card
+		<if test="project_seq != null">
+			where project_seq = #{project_seq}
+		</if>
+		
 	</select>
 
 	<select id="trueCount" resultType="int">
 		select count(done)
 		from
 		task_card where done='true'
+		<if test="project_seq != null">
+			and project_seq = #{project_seq}
+		</if>
 	</select>
 
 </mapper>
