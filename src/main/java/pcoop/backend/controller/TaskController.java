@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import com.google.gson.JsonParser;
 
 import pcoop.backend.dto.CardDTO;
 import pcoop.backend.dto.ListDTO;
+import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.ListService;
 
 
@@ -30,7 +32,8 @@ public class TaskController {
 
 	@Autowired
 	private ListService lservice;
-
+	@Autowired
+	HttpSession session;
 	
 	@RequestMapping("/task")
 	public String Task() {
@@ -41,7 +44,7 @@ public class TaskController {
 	
 
 	@ResponseBody
-	@RequestMapping("cardListIdUpdateAjax")
+	@RequestMapping("cardIndexUpdateAjax")
 	public void cardListIdUpdate(HttpServletRequest request) {
 		System.out.println("cardListIdUpdate 시작");
 		
@@ -58,8 +61,9 @@ public class TaskController {
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("id")); 
 		param.put("listId", request.getParameter("listId"));
+		param.put("cardIndex", request.getParameter("cardIndex"));
 
-		int result = lservice.cardListIdUpdate(param);
+		int result = lservice.cardIndexUpdate(param);
 		
 		System.out.println("cardListIdUpdate 결과 : "+result);
 
@@ -170,8 +174,8 @@ public class TaskController {
 
 
 	@ResponseBody
-	@RequestMapping("finishTitleEditingAjax")
-	public void finishTitleEditingAjax(HttpServletRequest request) {
+	@RequestMapping("listAddAjax")
+	public void listAddAjax(HttpServletRequest request) {
 		System.out.println("test ajaxtest");
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");
@@ -181,30 +185,35 @@ public class TaskController {
 		}
 		System.out.println("----------------------------");
 
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
+	
+		
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("listId")); 
 		param.put("title", request.getParameter("title"));
+		if(pdto != null ){
+			param.put("project_seq", pdto.getSeq()); 
+		}
 
 
-		// id 존재 여부 확인
+
+		// id 존재 여부 확인 특히 프로젝트가 여럿일때 getId() 값 중복 체크 할것!!!
 		int dupleList = lservice.selectListId(param);
 		System.out.println("dupleList : "+dupleList);
 
-
-		if(dupleList>0) {
+		if(dupleList == 0) {
+		System.out.println("리스트 생성");
+		int result = lservice.insertlist(param);
+		System.out.println("insertlist 결과 : "+result);
+		}else {
 			// id가 이미 존재하면 update
 			System.out.println("리스트 이름 수정");
 
 			int result = lservice.updatelist(param);
 			System.out.println("updatelist 결과 : "+result);
-
-		}else {
-			// id가 없으면 생성
-			System.out.println("리스트 생성");
-			int result = lservice.insertlist(param);
-			System.out.println("insertlist 결과 : "+result);
-
 		}
+
+		
 
 
 
@@ -352,10 +361,12 @@ public class TaskController {
 		// listgroup에 포함된 list 조회
 		// 넘겨받은 seq를 list테이블의 listgroup_seq과 같은지 조회
 		// request.getParameter("seq") 가 null이면 모든 리스트 조회
-		
+		// 세션에 프로젝트dto , 이름은 projectInfo
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 		Map<String, Object> param = new HashMap<>();
-		param.put("listgroup_seq", request.getParameter("seq")); 
-		
+		if(pdto != null ){
+		param.put("project_seq", pdto.getSeq()); 
+		}
 		List<ListDTO> TaskList = lservice.selectList(param);
 		String TaskListArr = new Gson().toJson(TaskList);
 		System.out.println("TaskListArr : "+ TaskListArr);

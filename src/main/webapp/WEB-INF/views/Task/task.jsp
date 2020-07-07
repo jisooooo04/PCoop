@@ -161,7 +161,7 @@
 				    					url : '/Task/selectCount',
 				    					datatype : 'json',
 				    					success : function(data) {
-				    						console.log('작업진행률 : '+ data.to);
+				    						//console.log('작업진행률 : '+ data.to);
 				    						$('#selector').css('width', data.to + '%');
 
 				    					},

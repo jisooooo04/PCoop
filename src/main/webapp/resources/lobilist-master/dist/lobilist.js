@@ -417,7 +417,7 @@ $(function () {
 				//리스트 아이디 검색
 				//리스트가 검색되지 않으면 생성 (id 만 존재)
 				$.ajax({
-					url:"/Task/finishTitleEditingAjax",
+					url:"/Task/listAddAjax",
 					type:"get",
 					data:{
 						listId : listId,
@@ -1119,6 +1119,8 @@ console.log("지우고 나서");
 					opacity: 0.9,
 					revert: 70,
 					start: function (event, ui) {
+						console.log("_enableSorting start "); //
+
 						var $todo = ui.item,
 						$list = $todo.closest('.lobilist');
 						$todo.data('oldIndex', $todo.index());
@@ -1142,20 +1144,21 @@ console.log("지우고 나서");
 		
 						console.log("변경후 listId: "+obj2.id); // 
 						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
-						if(item.listId != obj2.id){
+						
 						//	ajax 코드 추가 enableSortingAjax
 							$.ajax({
-								url:"/Task/cardListIdUpdateAjax",
+								url:"/Task/cardIndexUpdateAjax",
 								type:"get",
 								data:{
 									id : item.id,
-									listId : obj2.id
+									listId : obj2.id,
+									cardIndex : currentIndex
 								}
 							})
-						}else{
+						
 						// 2. 리스트 내에서 순서 변경
 							
-						}
+						
 						
 						//    현재는 해당 리스트내의 id 순으로 정렬
 						console.log("oldIndex: "+oldIndex); // 이전 순서

@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="List">
-<!--
-	<select id="selectAll" resultType="pcoop.backend.dto.ListDTO">
-		select lobilist.id, lobilist.title, lobicard.title title_card,
-		lobicard.description, lobicard.duedate
-		from lobilist
-		left join lobicard
-		on lobilist.id = lobicard.listId
-		order by lobilist.id
-	</select>
--->
+	<!-- <select id="selectAll" resultType="pcoop.backend.dto.ListDTO"> select 
+		lobilist.id, lobilist.title, lobicard.title title_card, lobicard.description, 
+		lobicard.duedate from lobilist left join lobicard on lobilist.id = lobicard.listId 
+		order by lobilist.id </select> -->
 
 	<select id="selectCard" resultType="pcoop.backend.dto.CardDTO">
 		select *
 		from task_card
-		where listId = #{listId}
+		where
+		listId = #{listId}
+		order by cardIndex
 	</select>
 
 	<select id="selectList" resultType="pcoop.backend.dto.ListDTO">
 		select *
 		from task_list
-		<if test="listgroup_seq != null">
-			where listgroup_seq = #{listgroup_seq}
+		<if test="project_seq != null">
+			where project_seq = #{project_seq}
 		</if>
+		order by id
 	</select>
 
 
 	<insert id="insert">
-		insert into task_card(id, title, description, dueDate, done, listId)
-		values( task_card_seq.nextval, #{title}, #{description}, #{dueDate},'false',
+		insert into task_card(id, title, description,
+		dueDate, done, listId)
+		values( task_card_seq.nextval, #{title},
+		#{description}, #{dueDate},'false',
 		#{listId})
 	</insert>
-	
-	<!-- 컬럼명에서는 따옴표 쓰면 안된다.
-따라서 #{컬럼명}이 아닌 ${컬럼명}로 -->
+
+	<!-- 컬럼명에서는 따옴표 쓰면 안된다. 따라서 #{컬럼명}이 아닌 ${컬럼명}로 -->
 
 	<insert id="update">
 		update task_card
-		set title= #{title}, description=#{description}, dueDate=#{dueDate}
+		set title= #{title},
+		description=#{description}, dueDate=#{dueDate}
 		where id=#{id}
 	</insert>
 
@@ -50,10 +49,18 @@
 		select count(*) from
 		task_list where id= #{id}
 	</select>
-	
+
+
 	<insert id="insertlist">
-		insert into task_list(id, title, defaultStyle, items)
-		values( #{id}, #{title}, 'lobilist-default','')
+		insert into task_list
+		<if test="project_seq == null">
+			(id, title, defaultStyle, items)
+			values( task_list_seq.nextval, #{title}, 'lobilist-default','')
+		</if>
+		<if test="project_seq != null">
+			(id, title, defaultStyle, items, project_seq)
+			values( task_list_seq.nextval, #{title}, 'lobilist-default','',#{project_seq})
+		</if>
 	</insert>
 
 	<insert id="updatelist">
@@ -94,12 +101,13 @@
 		where id=#{id}
 	</insert>
 
-	<insert id="cardListIdUpdate">
+	<insert id="cardIndexUpdate">
 		update task_card
-		set listId= #{listId}
+		set listId= #{listId},
+		cardIndex=#{cardIndex}
 		where id=#{id}
 	</insert>
-	
+
 	<select id="selectCount" resultType="int">
 		select count(done)
 		from
@@ -108,7 +116,8 @@
 
 	<select id="trueCount" resultType="int">
 		select count(done)
-		from task_card where done='true'
+		from
+		task_card where done='true'
 	</select>
-	
+
 </mapper>
