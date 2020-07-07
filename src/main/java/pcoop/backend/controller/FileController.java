@@ -100,17 +100,28 @@ public class FileController {
 	@ResponseBody
 	public int addDirectory(int parent_seq, String name) {
 
-		// 드라이브에 디렉토리 생성
-		String path = fservice.makeDirToDrive(parent_seq, name);
-		// DB에 디렉토리 insert
-		fservice.insertDirectory(path, name);
-		// 새로 생성된 디렉토리 seq 얻기
-		int seq = fservice.getDirSeqByName(name);
+		int result = -1;
 
-		return seq;
+		// 디렉토리 이름 중복 확인
+		int checkDupl = fservice.checkDuplDirName(parent_seq, name);
+
+		// 중복이 아니라면
+		if(checkDupl == 0) {
+			
+			// 드라이브에 디렉토리 생성
+			String path = fservice.makeDirToDrive(parent_seq, name);
+			// DB에 디렉토리 insert
+			fservice.insertDirectory(path, name, parent_seq);
+			// 새로 생성된 디렉토리 seq 얻기
+			int seq = fservice.getDirSeqByName(name);
+			result = seq;
+		}
+		
+		return result;
+		
 	}
 
-	@RequestMapping("deleteDirectory")
+	@RequestMapping(value = "deleteDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String deleteDirectory(int seq) {
 
@@ -139,22 +150,8 @@ public class FileController {
 	public String renameDir(int seq, String rename) {
 
 		fservice.renameDirectory(seq, rename);
-		
-		// 업데이트된 리스트 보내기
-		List<DirectoryDTO> dirList = fservice.getDirList();
 
-		JsonArray dirArr = new JsonArray();
-
-		for(DirectoryDTO dto : dirList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			dirArr.add(json);
-		}
-
-		JsonObject json = new JsonObject();
-		json.addProperty("dirlist", new Gson().toJson(dirArr));
-		return new Gson().toJson(json);
+		return "";
 	}
 
 	@RequestMapping(value = "uploadFile", produces = "application/text; charset=utf8")

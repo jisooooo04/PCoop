@@ -24,6 +24,10 @@ public class FileService {
 
 	@Autowired
 	private FileDAO fdao;
+	
+	public int checkDuplDirName(int parent_seq, String name) {
+		return fdao.checkDuplDirName(parent_seq, name);
+	}
 
 	// 드라이브에 디렉토리 생성 후, path 리턴
 	public String makeDirToDrive(int parent_seq, String name) {
@@ -40,8 +44,8 @@ public class FileService {
 	}
 
 	// DB에 디렉토리 insert 후, 디렉토리 seq 리턴
-	public int insertDirectory(String path, String name) {
-		return fdao.insertDirectory(path, name);
+	public int insertDirectory(String path, String name, int parent_seq) {
+		return fdao.insertDirectory(path, name, parent_seq);
 	}
 
 	// 이름으로 디렉토리 seq 검색
@@ -66,8 +70,10 @@ public class FileService {
 		repath = repath + rename;
 		this.renameDirectoryFromDrive(seq, rename, repath);
 		this.renameDirectoryFromDB(seq, rename, repath);
+		this.renameFilesByDirSeq(seq, repath);
 	}
 	
+	// 디렉토리 이름 변경 from Drive
 	public void renameDirectoryFromDrive(int seq, String rename, String repath) {
 		
 		String root_path = session.getServletContext().getRealPath("upload/backup");
@@ -82,6 +88,18 @@ public class FileService {
 	// 디렉토리 이름 변경 from DB
 	public int renameDirectoryFromDB(int seq, String rename, String repath) {
 		return fdao.renameDirectory(seq, rename, repath);
+	}
+	
+	// 디렉토리 이름 변경 시, 파일 path도 변경 from DB
+	public int renameFilesByDirSeq(int dir_seq, String repath) {
+		
+		List<FileDTO> list = this.getFileListByDirSeq(dir_seq);
+		
+		for(FileDTO f : list) {
+			String frepath = repath + "/" + f.getName();
+			fdao.repathFileByDirSeq(f.getSeq(), repath, frepath);
+		}
+		return 1;
 	}
 
 	// 파일 리스트 가져오기

@@ -174,9 +174,14 @@ $(document).on("click", "#ok", function(){
 		type: "POST",
 		data: data,
 		success: function(data){
-			$("#dir" + parent_seq).append(
-					"<ul><li class='dir' id='dir" + data + "'><b>"
-					+ name + "</b></li></ul>");
+			
+			if(data != -1){
+				$("#dir" + parent_seq).append(
+						"<ul><li class='dir' id='dir" + data + "'><b>"
+						+ name + "</b></li></ul>");
+			}
+			else alert("디렉토리명 중복");
+			
 		}
 	});
 	$(".add_dir").hide();

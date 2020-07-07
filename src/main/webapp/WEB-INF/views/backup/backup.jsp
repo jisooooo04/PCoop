@@ -2,10 +2,6 @@
 	pageEncoding="UTF-8"%>
 
 <div class="contents">
-	<div class="files">
-		<a href="#">클릭</a>
-	</div>
-
 	<!-- HTML코드를 강조하여 보여줄때.. -->
 	<pre>
 			<code class="file-contents">

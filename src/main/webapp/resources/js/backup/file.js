@@ -118,7 +118,8 @@ $(document).on("click", ".closeFile", function(){
 $(document).on("click", ".deleteFile", function(){
 
 	var seq = this.id.substring(5);
-	var dir_seq = $(".menu_upload_file").attr("id");
+	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
+	console.log(dir_seq);
 
 	var data = { dir_seq: dir_seq,
 			seq : seq };

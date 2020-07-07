@@ -32,13 +32,19 @@ public class FileDAO {
 
 		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
 	}
+	
+	// 디렉토리 중복 확인
+	public int checkDuplDirName(int parent_seq, String name) {
+		String sql = "select count(*) from directory where parent_seq = ? and name = ?";
+		return jdbc.queryForObject(sql, new Object[] {parent_seq, name}, Integer.class);
+	}
 
 	// 디렉토리 insert
-	public int insertDirectory(String path, String name) {
+	public int insertDirectory(String path, String name, int parent_seq) {
 
-		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, 'N')";
+		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, ?, 'N')";
 
-		return jdbc.update(sql, 11, name, path);
+		return jdbc.update(sql, 11, parent_seq, name, path);
 	}
 
 	// 디렉토리 delete
@@ -51,6 +57,11 @@ public class FileDAO {
 	public int renameDirectory(int seq, String rename, String repath) {
 		String sql = "update directory set name = ?, path = ? where seq = ?";
 		return jdbc.update(sql, rename, repath, seq);
+	}
+	
+	public int repathFileByDirSeq(int seq, String repath, String frepath) {
+		String sql = "update files set directory_path = ?, path = ? where seq = ?";
+		return jdbc.update(sql, repath, frepath, seq);
 	}
 
 	// 디렉토리 리스트
