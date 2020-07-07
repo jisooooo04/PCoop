@@ -196,8 +196,7 @@ $(function () {
 			saveProperty: function (property, value) {
 				var me = this;
 				if (!me.isStateful()){
-					console.error("saveProperty 에러?");
-
+					console.error("saveProperty 에러가 무슨 의미?");
 					console.error("object is not stateful");
 					return false;
 				}
@@ -378,6 +377,8 @@ $(function () {
 				console.log('startTitleEditing')    
 				var me = this;
 				var input = me._createInput();
+
+				console.log('input : '+input)   //추가 코드
 				me.$title.attr('data-old-title', me.$title.html());
 				input.val(me.$title.html());
 				input.insertAfter(me.$title);
@@ -408,26 +409,36 @@ $(function () {
 				$input.remove();
 				me.$header.removeClass('title-editing');
 
-				console.log('finishTitleEditing'); // 이름변경 코드
 				console.log(oldTitle, $input.val()); // 이름변경 코드
+				console.log(oldTitle); // 이름변경 코드
 
 				var listId = me.getId();
 				console.log('listId : '+listId); // 이름변경 코드
 
-				//리스트 아이디 검색
-				//리스트가 검색되지 않으면 생성 (id 만 존재)
+
+				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
+				if(oldTitle ==''){
+					console.log('리스트 추가 동작');
+					$.ajax({
+						url:"/Task/listAddAjax",
+						type:"get",
+						data:{
+							title : $input.val()
+						}
+					})
+				}else{
+					console.log('리스트 수정 동작');
+							//이름 변경 ajax 코드 추가
 				$.ajax({
-					url:"/Task/listAddAjax",
+					url:"/Task/titleChangeAjax",
 					type:"get",
 					data:{
 						listId : listId,
 						title : $input.val()
 					}
 				})
-
-
-				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
-
+				}
+	
 				return me;
 			},
 
@@ -964,6 +975,7 @@ $(function () {
 					var list = me.$lobiList.addList();
 					
 					list.startTitleEditing();
+					
 				});
 				
 				// 다른 버튼도 추가
@@ -1062,6 +1074,8 @@ console.log("지우고 나서");
 				});
 				$btn.click(function () {
 					me.finishTitleEditing();
+
+					console.log('me.finishTitleEditing 끝');
 				});
 				return $btn;
 			},
@@ -1085,7 +1099,15 @@ console.log("지우고 나서");
 				var input = $('<input type="text" class="form-control">');  
 				input.on('keyup', function (ev) {
 					if (ev.which === 13) {
+						
+						
+						if (input[0].value == '') { // 리스트 네임
+							alert('리스트 이름을 입력해 주세요!');
+							return
+						}
+						
 						me.finishTitleEditing();
+				
 					}
 				});
 				return input;
@@ -1478,7 +1500,9 @@ console.log("지우고 나서");
 					me.$el.append(list.$elWrapper);
 					list.$el.data('lobiList', list);
 					me._triggerEvent('afterListAdd', [me, list]);
+				
 				}
+
 				return list;
 			},
 

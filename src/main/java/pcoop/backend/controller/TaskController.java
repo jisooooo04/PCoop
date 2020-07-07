@@ -171,12 +171,54 @@ public class TaskController {
 	}
 
 
+	
+	@ResponseBody
+	@RequestMapping("titleChangeAjax")
+	public void titleChangeAjax(HttpServletRequest request) {
+		System.out.println("titleChangeAjax");
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+	
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", request.getParameter("listId")); 
+		param.put("title", request.getParameter("title"));
 
 
+
+		// id 존재 여부 확인 특히 프로젝트가 여럿일때 getId() 값 중복 체크 할것!!!
+		int dupleList = lservice.selectListId(param);
+		System.out.println("dupleList : "+dupleList);
+
+		if(dupleList == 0) {
+		System.out.println("해당 리스트아이디 존재 안함. 리스트 생성??");
+//		int result = lservice.insertlist(param);
+//		System.out.println("insertlist 결과 : "+result);
+		}else {
+			// id가 이미 존재하면 update
+			System.out.println("리스트 이름 수정 !!");
+			int result = lservice.updatelist(param);
+			System.out.println("updatelist 결과 : "+result);
+		}
+
+		
+
+
+
+	}
+	
+	
+	
 	@ResponseBody
 	@RequestMapping("listAddAjax")
 	public void listAddAjax(HttpServletRequest request) {
-		System.out.println("test ajaxtest");
+		System.out.println("listAddAjax");
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");
 		while (params.hasMoreElements()){
@@ -189,32 +231,15 @@ public class TaskController {
 	
 		
 		Map<String, Object> param = new HashMap<>();
-		param.put("id", request.getParameter("listId")); 
 		param.put("title", request.getParameter("title"));
 		if(pdto != null ){
 			param.put("project_seq", pdto.getSeq()); 
 		}
 
 
-
-		// id 존재 여부 확인 특히 프로젝트가 여럿일때 getId() 값 중복 체크 할것!!!
-		int dupleList = lservice.selectListId(param);
-		System.out.println("dupleList : "+dupleList);
-
-		if(dupleList == 0) {
-		System.out.println("리스트 생성");
+		System.out.println("리스트 생성 !");
 		int result = lservice.insertlist(param);
 		System.out.println("insertlist 결과 : "+result);
-		}else {
-			// id가 이미 존재하면 update
-			System.out.println("리스트 이름 수정");
-
-			int result = lservice.updatelist(param);
-			System.out.println("updatelist 결과 : "+result);
-		}
-
-		
-
 
 
 	}
@@ -387,7 +412,9 @@ public class TaskController {
 			//System.out.print(j+" 번째 Listobject : "+ListObject);	
 
 			String list_Id = ListObject.get("id").getAsString();
-			String listTitle = ListObject.get("title").getAsString();
+			String listTitle = String.valueOf(ListObject.get("title"));// null 오브젝트에 getAsString() 을 사용하면 에러 발생, String.valueOf()를 사용할것
+
+			
 			String defaultStyle = ListObject.get("defaultStyle").getAsString();
 			List<CardDTO> selectlist = lservice.selectCard(list_Id);
 			String CardArr = new Gson().toJson(selectlist);
@@ -445,7 +472,10 @@ public class TaskController {
 			list.addProperty("id", list_Id);
 //			System.out.println("list에 id : "+ list_Id);
 
-			list.addProperty("title", listTitle);
+			if(!listTitle.contentEquals("null")) {
+				String trim_listTitle = listTitle.substring(1, listTitle.length()-1); //쌍따옴표 제거
+				list.addProperty("title", trim_listTitle);  
+			}
 //			System.out.println("list에 title : "+ listTitle);
 
 			list.addProperty("defaultStyle", defaultStyle); //리스트 색상 일단 고정
