@@ -17,10 +17,11 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.web.multipart.MultipartFile;
 
 import pcoop.backend.dto.ChatDTO;
+import pcoop.backend.dto.ChatFileDTO;
 import pcoop.backend.dto.MemberDTO;
+import pcoop.backend.service.ChatFileService;
 import pcoop.backend.service.ChatService;
 import pcoop.backend.statics.HttpSessionConfigurator;
 
@@ -32,6 +33,7 @@ public class WebChat {
 	
 	//의존성을 검색해서 집어넣어줌
 	private ChatService cservice = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
+	private ChatFileService fservice = MyApplicationContextAware.getApplicationContext().getBean(ChatFileService.class);
 	
 	//set : 중복을 방지하고 key가 존재
 	//static을 해놓지 않으면 새로 접속할때마다 set이 매번 새로 만들어지는 것이므로 static으로 설정
@@ -58,41 +60,89 @@ public class WebChat {
 	
 	@OnMessage  //메세지가 오면 이 메서드를 실행해줌
 	public void onMessage(String message) {
-		//Session 세션객체 안에는 다른 클래스?에 메세지를 보낼 수 있는 기능이 들어있음
-		//누가보냈는지 = 세션 / 내용=메세지
-		//System.out.println(session.getId() + " : " + message);  //지금은 client id 없으므로 주석처리
 		
-		System.out.println(message);
-		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
+		System.out.println(message);  //잘 왔는지 json 출력
+		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");  //사용자 정보
 		
 		synchronized(clients) {
 			for(Session client : clients) {
 					Basic basic = client.getBasicRemote();
-			         try {			        	 
-			        	 System.out.println(message);  //jsp에서 잘 넘어왔는지 출력
+			         try {
 			        	 
 			        	 JSONObject jsonObj;
 			        	 jsonObj = (JSONObject)jsonParser.parse(message); //클라이언트쪽에서 문자열로 넘어온 json오브젝트를 jsonObject로 만들어준다
 			        	 
 			        	 
-			        	 String id = mdto.getName();
-			        	 jsonObj.put("id", id);  System.out.println(id);
-			        	 String text = (String)jsonObj.get("text");
+			        	 //json으로 넘어온 정보들을 cdto에 저장하기 위해 String 변수로 변환해 임시 저장
+			        	 String nickname = mdto.getName();
+			        	 //String text = (String)jsonObj.get("text");
 			        	 String fullDate = (String)jsonObj.get("fulldate");
 			        	 String date = (String)jsonObj.get("date");  //날짜
 			        	 String time = (String)jsonObj.get("time");  //시간
 			        	 
+			        	 //추가해야함!!  (chat_seq는 밑에서 db로 seq값 불러와서 추가)
+			        	 //String project_seq = (String)jsonObj.get("project_seq");
+			        	 //String chatting_seq = (String)jsonObj.get("chatting_seq");
 			        	 
-			        	 //DB에 채팅내용 저장
-			        	 ChatDTO cdto = new ChatDTO(0,0,0,id,text,fullDate,date,time,"");
+			        	 jsonObj.put("nickname", nickname);
 			        	 
+			        	 
+			        	 //파일인지 텍스트인지 구분
+			        	 String text = "";
+			        	 int nextFileSeq = 0;
+			        	 
+			        	 if(jsonObj.containsKey("file")) {
+			        		 System.out.println("이 json은 파일을 가지고 있습니다.");
+			        		 
+			        		 int presentFileSeq = fservice.selectPresentSeq();  //chat 테이블에 넣을 file_seq 불러옴
+			        		 nextFileSeq = presentFileSeq + 1;
+			        		 
+			        		 String oriname = (String)jsonObj.get("file");
+			        		 text = "<a href='fileDownload?presentFileSeq="+presentFileSeq+"'>" + oriname + "</a>";
+			        		 
+			        		 //이미지 일때 이미지로 보여주기
+			        		 String extension = (String)jsonObj.get("extension");
+			        		 String target = (String)jsonObj.get("target");
+			        		 
+			        		 //if(extension.contentEquals("jpg") || extension.contentEquals("png")) {
+			        		 //	 text = "<img src='"+target+"' style='width: 100px'>";
+			        		 //}
+			        		 
+			        		 
+			        		 
+			        		 jsonObj.put("text", text);  //json에 file 키만 넘어왔으므로 text키에 file명을 넣어줌
+			        		 
+			        		 
+			        		 //이후 fdto에 chat 정보들 저장해야함
+				        	 ChatFileDTO fdto = new ChatFileDTO();
+				        	 //fdto.setProject_seq(project_seq);
+				        	 //fdto.setChatting_seq(chatting_seq);
+				        	 //fdto.setChat_seq(chat_seq);
+				        	 
+				        	 
+				        	 //chat_file 테이블에 file 정보 저장!
+				        	 //int fresult = fservice.insertFile(fdto);  //잘 될지 모르겠음. 왜냐면 fdto 내용들을 여기서 저장한게 아니니까
+				        	 
+			        	 }else {
+			        		 System.out.println("이 json은 텍스트 메세지 입니다.");
+			        		 text = (String)jsonObj.get("text");
+			        	 }
+			        	 
+			        	 
+			        	 // file / text 공통 수행
+			        	 ChatDTO cdto = new ChatDTO(0,0,0,nickname,text,fullDate,date,time,nextFileSeq);
+			        	 
+			        	 
+			        	 //chat DB에 채팅내용 저장  (seq, pj_seq, chatting_seq, ... , file_path)
 			        	 int result = cservice.insertChat(cdto);
 			        	 System.out.println(result);
 			        	 
-			        	 //DB에 가장 최근에 입력된 챗의 seq값 불러오기
+			        	 
+			        	 //DB에 가장 최근에 입력된 챗의 seq값 불러오기 (chat div에 id 부여하는 용도)
 			        	 int seq = cservice.selectChatSeq();
 			        	 jsonObj.put("seq", seq);
-			        	 System.out.println("seq : "+seq);
+			        	 System.out.println("chat_seq : "+seq);
+			        	 
 			        	 
 			        	 basic.sendText(jsonObj.toJSONString());  //jsp로 보내기
 			        	 
