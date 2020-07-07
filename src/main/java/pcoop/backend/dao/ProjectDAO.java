@@ -1,5 +1,8 @@
 package pcoop.backend.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,4 +32,36 @@ public class ProjectDAO {
 		return mybatis.insert("project.insertProjectMember",dto);
 	}
 	
+	public ProjectDTO searchByCode(String code)throws Exception{
+		return mybatis.selectOne("project.searchByCode",code);
+	}
+	
+	 public String joinCheck(Map<String,Integer> param )throws Exception{
+	    	return mybatis.selectOne("project.joinCheck", param);
+	    }
+	 
+	 public ProjectDTO selectBySeq(int seq)throws Exception{
+		 return mybatis.selectOne("project.selectBySeq", seq);
+	 }
+	 
+	 public List<ProjectMemberDTO> joinYNCheck (int project_seq)throws Exception{
+	 	return mybatis.selectList("project.joinYNcheck", project_seq);
+	 }
+	 
+	 public int accept (Map<String,Integer>param)throws Exception{
+		 return mybatis.update("project.accept", param);
+	 }
+	 
+	 public int count (int project_seq)throws Exception{
+		 return mybatis.selectOne("project.countPeople", project_seq);
+	 }
+	 
+	 public int getPeople (int project_seq)throws Exception{
+		 return mybatis.selectOne("project.getPeople", project_seq);
+	 }
+	 
+	 public int refuse (Map<String,Integer>param)throws Exception{
+		 return mybatis.update("project.refuse", param);
+	 }
+	 
 }

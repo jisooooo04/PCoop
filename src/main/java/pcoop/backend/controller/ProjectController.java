@@ -1,11 +1,18 @@
 package pcoop.backend.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
@@ -57,6 +64,7 @@ public class ProjectController {
 		pmdto.setMember_email(mdto.getEmail());
 		pmdto.setMember_name(mdto.getName());
 		pmdto.setLeader_yn("y");
+		pmdto.setJoin_ynd("y");
 		service.insertp_m(pmdto);
 		
 		// project back root directory insert
@@ -65,19 +73,89 @@ public class ProjectController {
 		return "project/project_code";
 	}
 	
-	@RequestMapping("temp")
-	public String temp ()throws Exception{
-		/*
-		 * Random rand = new Random(); StringBuffer sb = new StringBuffer(); for(int i =
-		 * 0; i<6;i++) { int index = rand.nextInt(3); switch(index) { case 0 :
-		 * sb.append((char)(rand.nextInt(26)+97)); break; case 1:
-		 * sb.append((char)(rand.nextInt(26)+65)); break; case 2:
-		 * sb.append(rand.nextInt(10)); break; } } String ssb = sb.toString();
-		 * System.out.println("실험중"+ssb);
-		 */
-		return "project/project_create";
+	@RequestMapping("project_join")
+	public String project_join (Model model)throws Exception{//페이지 이동
+		return "project/project_search";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value ="searchByCode",produces="application/gson;charset=utf8")
+	public String searchByCode (String code)throws Exception{
+		ProjectDTO dto = service.searchByCode(code);//코드로 프로젝트 dto 찾기
+		
+		int project_seq = dto.getSeq();
+		int member_seq= ((MemberDTO)session.getAttribute("loginInfo")).getSeq();
+		Map<String,Integer> param = new HashMap<>();
+		param.put("project_seq", project_seq);
+		param.put("member_seq", member_seq);
+		String result = service.JoinCheck(param);//프로젝트 참여 대기중인지 아닌지 확인
+		String send_result = "null";
+		if(result==null) {//참가 신청 보낼 수 있음
+			send_result= "null";
+		}else if(result.equals("y")) {//이미 참가중
+			send_result="y";
+		}else if(result.equals("n")) {//대기중
+			send_result="n";
+		}
+		
+		 int count = service.count(project_seq);//현재 인원 수 
+		 int people = service.getPeople(project_seq);//정해져 있는 인원 수 
+		
+		Object arr [] = {dto,send_result,count,people};
+		String respArr = new Gson().toJson(arr);
+		return respArr;
 	}
 	
 	
-	
+	  @ResponseBody 
+	  @RequestMapping("sendJoin") 
+	  public String sendJoin (int project_seq,String project_name)throws Exception{
+		  MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		  ProjectMemberDTO pdto = new ProjectMemberDTO(0,project_seq,project_name,mdto.getSeq(),mdto.getEmail(),mdto.getName(),"null","n");
+		  int result = service.insertp_m(pdto);
+		  return result+""; //참여 신청 보내기 
+	  }
+	 
+	  @RequestMapping("goProjectHome")
+	  public String goProjectHome(int seq,Model model)throws Exception{
+		  ProjectDTO pdto = service.selectBySeq(seq);//프로젝트 seq로 프로젝트 dto 가져오기
+		  this.session.setAttribute("projectInfo", pdto);//세션에 dto담기 
+		  
+		  //이 프로젝트에 대해 참가요청이 있다면 가져오기
+		  List<ProjectMemberDTO> list = service.joinYNCheck(seq);
+		  int size = list.size(); 
+		  if(size==0) {
+			  
+			  }else {
+				  model.addAttribute("list", list); 
+				  }
+		 
+		  return "project/project_home";
+	  }
+	  
+	  @RequestMapping("goMain")
+	  public String goMain()throws Exception{
+		  session.removeAttribute("projectInfo"); //프로젝트 세션만 삭제하기
+		  return "redirect:/";
+	  }
+	  
+	  @RequestMapping("accept")
+	  public String accept(int mem_seq,int project_seq,Model model)throws Exception{//참가 수락
+		 Map<String,Integer>param = new HashMap<>();
+		 param.put("mem_seq", mem_seq);
+		 param.put("project_seq", project_seq);
+		 int result = service.accept(param);
+		 model.addAttribute("seq", project_seq);
+		 return "redirect:goProjectHome";
+	  }
+	  
+	  @RequestMapping("refuse")
+	  public String refuse(int mem_seq,int project_seq,Model model)throws Exception{//참가 거절
+		  Map<String,Integer>param = new HashMap<>();
+		  param.put("mem_seq", mem_seq);
+		  param.put("project_seq", project_seq);
+		  model.addAttribute("seq", project_seq);
+		  service.refuse(param);
+		  return "redirect:goProjectHome";
+	  }
 }
