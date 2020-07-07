@@ -82,7 +82,7 @@
 					</p>
 				</div>
 
-				<div>
+				<div id="project_join">
 					<span class="icon fa-envelope-open"></span>
 					<h3>프로젝트 참가</h3>
 					<p>
@@ -174,7 +174,9 @@
 		$("#project_create").on("click",function(){
 			location.href="project/project_create";
 		})
-		
+		$("#project_join").on("click",function(){
+			location.href="project/project_join";
+		})
 		$("#signUp").on("click",function(){
 			location.href="member/toEmailView";
 		})

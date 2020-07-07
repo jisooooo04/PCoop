@@ -1,5 +1,7 @@
 package pcoop.backend.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,40 @@ public class ProjectService {
 		return dao.insertp_m(dto);
 	}
 	
+
+	public ProjectDTO searchByCode(String code)throws Exception{
+		return dao.searchByCode(code);
+	}
+	
+	public String JoinCheck(Map<String,Integer> param )throws Exception{
+		return dao.joinCheck(param);
+	}
+	
+	public ProjectDTO selectBySeq(int seq)throws Exception{
+		return dao.selectBySeq(seq);
+	}
+	
+	public List<ProjectMemberDTO> joinYNCheck(int project_seq)throws Exception{
+	   return dao.joinYNCheck(project_seq);
+	  }
+	 
+	 public int accept (Map<String,Integer> param)throws Exception{
+		 return dao.accept(param);
+	 }
+	
+	 public int refuse (Map<String,Integer> param)throws Exception{
+		 return dao.refuse(param);
+	 }
+	 
+	 public int count(int project_seq)throws Exception{
+		 return dao.count(project_seq);
+	 }
+	 
+	 public int getPeople(int project_seq)throws Exception{
+		 return dao.getPeople(project_seq);
+	 }
+	 
+
 	public int create_backup(ProjectDTO dto) throws Exception {
 		
 		int seq = dto.getSeq();
@@ -69,4 +105,5 @@ public class ProjectService {
 		return 0;
 	}
 	
+
 }
