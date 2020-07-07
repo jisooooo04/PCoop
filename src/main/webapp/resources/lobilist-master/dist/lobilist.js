@@ -1136,25 +1136,27 @@ console.log("지우고 나서");
 
 						console.log("item.id: "+item.id); // 카드 고유 id
 						console.log("item.listId: "+item.listId); // 카드 이전 listId
-						console.log("변경후 listId ? "); // 
+				
 						var obj1 =$list.data('lobiList').$el;
 						var obj2 = obj1[Object.keys(obj1)[0]];
-						console.log(obj2.id); // 
-
+		
+						console.log("변경후 listId: "+obj2.id); // 
 						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
-						
+						if(item.listId != obj2.id){
 						//	ajax 코드 추가 enableSortingAjax
-						$.ajax({
-							url:"/Task/cardListIdUpdateAjax",
-							type:"get",
-							data:{
-								id : item.id,
-								listId : obj2.id
-							}
-						})
-						
-						
+							$.ajax({
+								url:"/Task/cardListIdUpdateAjax",
+								type:"get",
+								data:{
+									id : item.id,
+									listId : obj2.id
+								}
+							})
+						}else{
 						// 2. 리스트 내에서 순서 변경
+							
+						}
+						
 						//    현재는 해당 리스트내의 id 순으로 정렬
 						console.log("oldIndex: "+oldIndex); // 이전 순서
 						console.log("currentIndex: "+currentIndex); //
@@ -1418,6 +1420,10 @@ console.log("지우고 나서");
 			 */
 			_handleSortable: function () {
 				var me = this;
+				
+				console.log('_handleSortable');
+
+				
 				if (me.$options.sortable) {
 					me.$el.sortable({
 						items: '.lobilist-wrapper',
@@ -1430,6 +1436,7 @@ console.log("지우고 나서");
 						start: function (event, ui) {
 							var $wrapper = ui.item;
 							$wrapper.attr('data-previndex', $wrapper.index());
+							
 						},
 						update: function (event, ui) {
 							var $wrapper = ui.item,
@@ -1437,6 +1444,10 @@ console.log("지우고 나서");
 							currentIndex = $wrapper.index(),
 							oldIndex = parseInt($wrapper.attr('data-previndex'));
 							me._triggerEvent('afterListReorder', [me, $list.data('lobiList'), currentIndex, oldIndex]);
+							
+							console.log('위치변경 리스트ID');
+							console.log($list.data()['dbId']);
+
 						}
 					});
 				} else {
