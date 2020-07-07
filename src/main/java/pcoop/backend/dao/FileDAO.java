@@ -18,6 +18,11 @@ public class FileDAO {
 	@Autowired
 	private JdbcTemplate jdbc;
 
+	public int insertRootDirectory(int seq, String name, String path) {
+		String sql = "insert into directory values(directory_seq.nextval, ?, null, ?, ?, 'Y')";
+		return jdbc.update(sql, seq, name, path);
+	}
+	
 	// 이름으로 디렉토리 seq 검색
 	public int getDirSeqByName(String name, int parent_seq) {
 		String sql = "select seq from directory where name = ? and parent_seq = ?";

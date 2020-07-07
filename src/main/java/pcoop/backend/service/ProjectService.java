@@ -5,6 +5,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pcoop.backend.dao.FileDAO;
 import pcoop.backend.dao.ProjectDAO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.dto.ProjectMemberDTO;
@@ -14,6 +15,8 @@ public class ProjectService {
 	
 	@Autowired
 	private ProjectDAO dao;
+	@Autowired
+	FileService fservice;
 	
 	public int getproject_seq ()throws Exception{
 		return dao.getproject_seq();
@@ -59,6 +62,10 @@ public class ProjectService {
 	}
 	
 	public int create_backup(ProjectDTO dto) throws Exception {
+		
+		int seq = dto.getSeq();
+		String name = dto.getName();
+		fservice.createProjectBackup(seq, name);
 		return 0;
 	}
 	

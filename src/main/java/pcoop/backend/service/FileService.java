@@ -25,6 +25,23 @@ public class FileService {
 	@Autowired
 	private FileDAO fdao;
 	
+	public int createProjectBackup(int seq, String name) {
+		this.createProjectBackuptoDrive(name);
+		return this.createProjectBackuptoDB(seq, name);
+	}
+	
+	public void createProjectBackuptoDrive(String name) {
+		String rootDir = session.getServletContext().getRealPath("upload/backup");
+		String path = rootDir + "/" + name;
+		File root_dir = new File(path);
+		root_dir.mkdir();
+	}
+	
+	public int createProjectBackuptoDB(int seq, String name) {
+		String path = "/" + name;
+		return fdao.insertRootDirectory(seq, name, path);
+	}
+	
 	public int checkDuplDirName(int parent_seq, String name) {
 		return fdao.checkDuplDirName(parent_seq, name);
 	}

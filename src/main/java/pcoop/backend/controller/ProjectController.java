@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.dto.ProjectMemberDTO;
+import pcoop.backend.service.FileService;
 import pcoop.backend.service.ProjectService;
 
 @Controller
@@ -18,6 +19,7 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService service;
+	
 
 	@Autowired
 	HttpSession session;
