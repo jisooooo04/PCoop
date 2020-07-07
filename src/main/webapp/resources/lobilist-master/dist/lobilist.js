@@ -1472,17 +1472,28 @@ console.log("지우고 나서");
 							console.log('oldIndex : '+oldIndex);
 							console.log('currentIndex : '+currentIndex);
 							console.log('위치변경 리스트ID : '+$list.data()['dbId']);
-							console.log($list.data('lobiList'));
+			
 
 							
 							// 오른쪽으로 이동 oldIndex < currentIndex
-							// 왼쪽으로 이동 currentIndex < oldIndex
+							// oldIndex < * <=currentIndex
+							// 2번 에서 4번으로 이동한다면
+							// 기존의 3번 4번 자리의 인덱스 -1
 							
-							console.log($wrapper.nextAll());
+							//for(var i =oldIndex; i<currentIndex;i++){
+							//}
+							
+							// 왼쪽으로 이동 currentIndex < oldIndex
+							// currentIndex <= * < oldIndex
+							// 4번에서 2번으로 이동한다면
+							// 기존의 2번 3번 자리의 인덱스 +1
+						
 
 							console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
 							for(var i =0; i<$wrapper.nextAll().length;i++){
+								console.log($wrapper.nextAll()[i]);
 								console.log($wrapper.nextAll()[i].lastChild.id);
+								
 							}
 												
 							console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
