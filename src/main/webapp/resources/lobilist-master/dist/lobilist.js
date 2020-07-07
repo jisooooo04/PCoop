@@ -1472,6 +1472,7 @@ console.log("지우고 나서");
 							console.log('oldIndex : '+oldIndex);
 							console.log('currentIndex : '+currentIndex);
 							console.log('위치변경 리스트ID : '+$list.data()['dbId']);
+							console.log($list.data('lobiList'));
 
 							
 							// 오른쪽으로 이동 oldIndex < currentIndex
@@ -1481,15 +1482,13 @@ console.log("지우고 나서");
 
 							console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
 							for(var i =0; i<$wrapper.nextAll().length;i++){
-								console.log($wrapper.nextAll()[i]);
+								console.log($wrapper.nextAll()[i].lastChild.id);
 							}
-							
-							
-							
+												
 							console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
 							
 							for(var i =0; i<$wrapper.prevAll().length -2 ;i++){
-								console.log($wrapper.prevAll()[i]);
+								console.log($wrapper.prevAll()[i].lastChild.id);
 							}
 							
 							//다른 리스트들의 자리값과 id 구하기!
