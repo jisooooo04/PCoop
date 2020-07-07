@@ -28,7 +28,7 @@
          var msg = JSON.parse(e.data);
          
          var chat_seq = msg.seq;
-         var id = msg.id;
+         var nickname = msg.nickname;
          var text = msg.text;
          var date = msg.date;
          var time = msg.time;
@@ -44,7 +44,7 @@
          var chat = $("<div class='chat' id="+chat_seq+">");
          var timediv = $("<div class='time'>");
          
-         name.append(id);
+         name.append(nickname);
          chat.append(text);
          timediv.append(time);
          
@@ -95,7 +95,7 @@
       
       
       //전송 버튼
-      $("#send_btn").on("click", function(){
+      $(document).on("click", "#send_btn", function(){
 
 			var d = new Date();
 			
@@ -107,13 +107,11 @@
 			var time = d.toLocaleTimeString();
 			
 			
+			var filename = "";
+			var fileCheck = fileCheck = $("#file_select").val();
 			
-			var tmptext = "";
-			var fileCheck = $("#file_select").val();
+			//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
 			if(fileCheck){
-				
-				//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
-				//에이작스 실행
 				
 				var form = $('#fileForm')[0];
 				var formData = new FormData(form);
@@ -124,44 +122,86 @@
 					data : formData,
 					processData: false,
 					contentType: false,
+					dataType : "json"
 
 				}).done(function(response) {
-					
+										
 					//파일명 + 경로 정보 받기!
 					//밑에 웹소켓으로 정보 보내면 거기서 db 거쳐서 저장해야 함
+					filename = response.oriname;  //파일명
+					var extension = response.extension;
+					var target = response.target;
 					
-					tmptext = response;
+					
+					//근데 받을때 여러개 데이터 받아야 할 것 같음
+					//sysname, oriname, filepath(session에서) >> 이것들 다 db에 저장도 해야함!
+					//받아서 여기서 <a>태그에 href 걸어서 누르면 다운로드 되게 만듬!!
+					//그리고 확장자에 따라서 이미지 보이는거 만들어줌
+					//디비는..  >> seq(file), sysname, oriname, parent_seq ! ++ 프로젝트seq, 부모경로, 내경로, 날짜, 확장자, 올린사람, chat_seq, text여부 등..
 					
 					var msg = {
 							type: "message",
-							text: tmptext,
+							file: filename,  //text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
-							time: time
+							time: time,
+							extension: extension,
+							target: target
 						};
 					
-					ws.send(JSON.stringify(msg));
-					
-					updateScroll();
-					$("#input").html("");
-					
-					return false;
+					ws.send(JSON.stringify(msg));  //웹소켓으로 "파일내용" 먼저 보내기
 					
 					
+					//#input 안의 <div file_box> 지우고,
+					$("#input>.file_box").remove();
 					
-				})  //done 끝!
+					
+					//그다음에 input에 있는 텍스트 내용 웹소켓으로 한번 더 보내기! (있으면!!)
+					if($("#input").html() != ""){  //텍스트 내용이 있으면 (비어있지 않으면)
+						var msg = {
+					               type: "message",
+					               text: $("#input").html(),
+					               fulldate: fulldate,
+					               date: date,
+					               time: time
+					            };
+						
+						ws.send(JSON.stringify(msg));
+						//근데 하나의 에이작스 안에서 웹소켓 두번 보내서 받는게 가능할지 모르겠음  >> 됬네?
+						
+					} //if 끝 (텍스트 보내기)
+					
+					document.getElementById('fileForm').reset();  //file form 리셋
+					
+				}) //done 끝!
 				
 			}
 			
 			
+			//else if(fileCheck == false){  //파일 첨부된거 없으면
+				
+			//#input 안의 <div file_box> 지우고,
+			$("#input>.file_box").remove();
 			
+			if($("#input").html() != ""){
+				
+				//메세지만 보냈으면 그냥 원래처럼 메세지 보내기
+				var msg = {
+			               type: "message",
+			               text: $("#input").html(),
+			               fulldate: fulldate,
+			               date: date,
+			               time: time
+			            };
+				
+				ws.send(JSON.stringify(msg));
+				
+			}
 			
-			//formdata로 보내기
-			//var form = new FormData(document.getElementById('fileForm'));
+			updateScroll();
+			$("#input").html("");
 			
-			//ws.send(form);
-			
-			
+			return false; //엔터쳤을때 커서가 아래로 떨어지지 않게 막아줌
 		})
 		
 		
@@ -238,156 +278,156 @@
          }
       })
       
-      //마우스 우클릭 브라우저 기본이벤트 변경
-    var chat_id = "";
-	$(document).on('contextmenu', ".chat", function() {
-         
-    	 event.stopPropagation();
-         event.preventDefault();
-          
-         chat_id = $(this).attr("id");
-         
-         $(".chat_section").css("overflow-y", "hidden");  //스크롤 방지
-
-         x = event.pageX;
-         y = event.pageY;
-
-         $("#contextmenu").css("margin-top", y + 1 + "px");
-         $("#contextmenu").css("margin-left", x + 1 + "px");
-         $("#contextmenu").css("display", "block");
-         
-      });
       
-      
-      //챗 우클릭 후 이외 공간 클릭시
-      $(document).on("click", function(){
-         $("#contextmenu").css("display", "none");
-         $(".chat_section").css("overflow-y", "auto");
-      })
-      
-        
-        //1. 우클릭 > 대화 삭제
-        $(document).on("click", ".delete_chat", function(){
-        	
-           // chat_id = 지금 클릭한 챗
-           //먼저 팝업창 띄우고, 예 누르면 ajax로 삭제 실행
-           
-           $.ajax({
-              url: "deleteChat",
-              type: "post",
-              data: {seq: chat_id}
-              
-           }).done(function(response){
-              
-              if(response==1){
-                 //id가 chat_id인 애를 화면에서 삭제!
-                  $("#"+chat_id).parent().parent().remove();
-                  alert("삭제되었습니다.");
-              }
-           })
-        })
-        
-        
-        //2. 우클릭 > 복사 선택시
-        $(".copy_chat").on("click", function(){
-        	//id가 chat_id 인 애의 내용을 가져와서 복사함
-        	
-        	var contents = $("#"+chat_id).html();
-        	$("#copy_box").val(contents);
-            
-        	$("#copy_box").select();
-            document.execCommand("copy");
-        })
-        
-        
-        
-        //이모티콘 박스 보이기
-        $(".emoticon_icon").on("click", function(){
-           $(".emoticon_section").toggle();
-        })
-        
-        
-        //이모티콘 선택하면 div에 넣기
-        $(".emoticon_box>.emoticon").on("click", function(){
-           $(".emoticon_section").hide();
-           
-           var emoticon_id = $(this).attr("id");
-           $("#input").append("<img src=resources/images/chatting/"+emoticon_id+" class=emoticon id="+emoticon_id+"><br>");
-           
-           //자동줄바꿈 추가하기!
-           
-        })
-        
-        
-        //코드 편집기 열기
-        var code_index = 1;
-        $(".code_icon").on("click",function(){
-           if($("#input").html().indexOf("</pre>") == -1){  //이 코드가 없다면
-                $("#input").append("<pre class=pre><code class='code_editor hljs' style='overflow-x: hidden'></code></pre>");
-                
-                //$("#input>.pre").css("display","block");
-                //$("#input>.pre>.code_editor").css("display","block");
-                
-            }else if(code_index == 1){
-                //$("#input>.pre").css("display","block");
-                //$("#input>.pre>.code_editor").css("display","block");
-                
-                var pre = $("<pre class=pre></pre>");
-                var code = $("<code class='code_editor hljs' style='overflow-x: hidden'></code>");
-                pre.append(code);                
-                $("#input").append(pre);
-                
-                
-                code_index = code_index*-1;
-            }else{
-                //$("#input>.pre").css("display","none");
-                //$("#input>.pre>.code_editor").css("display","none");
-                //$("#input>.pre>.code_editor").html("");
-                
-                $("#input>.pre").remove();
-                $("#input>.pre>.code_editor").remove();
-                
-                code_index = code_index*-1;
-            }
-        })
-        
-        
-        //파일첨부 아이콘 누르면 파일첨부 버튼 눌러지게
-        $(".file_icon").on("click", function(){
-        	$("#file_select").trigger("click");
-        	
-        })
-        
-        
-        //파일 첨부되면 이벤트 발생
-        $("#file_select").change(function(e){
-        	
-        	var file = $("#file_select").val();  //경로+이름
-        	
-        	if(file){  //파일이 첨부됬으면
-        		$("#input>.file_box").remove();
-        		
-        		var file_box = $("<div class=file_box>");
-        		
-        		file_box.append(file);
-        		
-        		$("#input").append(file_box);  //글자 못쓰게 추가해야됨.
-        		$("#input").focus();  //추가하고 커서 div로 옮기기
-        		
-        	}else{  //파일 첨부 안됬으면
-        		$("#input>.file_box").remove();
-        	}
-        	
-        })
-        
-        
-        
+		//마우스 우클릭 브라우저 기본이벤트 변경
+		var chat_id = "";
+		$(document).on('contextmenu', ".chat", function() {
 
-        //이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!
-        
+			event.stopPropagation();
+			event.preventDefault();
 
-   })
+			chat_id = $(this).attr("id");
 
+			$(".chat_section").css("overflow-y", "hidden"); //스크롤 방지
+
+			x = event.pageX;
+			y = event.pageY;
+
+			$("#contextmenu").css("margin-top", y + 1 + "px");
+			$("#contextmenu").css("margin-left", x + 1 + "px");
+			$("#contextmenu").css("display", "block");
+
+		});
+		
+		
+		//챗 우클릭 후 이외 공간 클릭시
+		$(document).on("click", function() {
+			$("#contextmenu").css("display", "none");
+			$(".chat_section").css("overflow-y", "auto");
+		})
+		
+		
+		//1. 우클릭 > 대화 삭제
+		$(document).on("click", ".delete_chat", function() {
+
+			// chat_id = 지금 클릭한 챗
+			//먼저 팝업창 띄우고, 예 누르면 ajax로 삭제 실행
+
+			$.ajax({
+				url : "deleteChat",
+				type : "post",
+				data : {
+					seq : chat_id
+				}
+
+			}).done(function(response) {
+
+				if (response == 1) {
+					//id가 chat_id인 애를 화면에서 삭제!
+					$("#" + chat_id).parent().parent().remove();
+					alert("삭제되었습니다.");
+				}
+			})
+		})
+
+		//2. 우클릭 > 복사 선택시
+		$(".copy_chat").on("click", function() {
+			//id가 chat_id 인 애의 내용을 가져와서 복사함
+
+			var contents = $("#" + chat_id).html();
+			$("#copy_box").val(contents);
+
+			$("#copy_box").select();
+			document.execCommand("copy");
+		})
+
+		//이모티콘 박스 보이기
+		$(".emoticon_icon").on("click", function() {
+			$(".emoticon_section").toggle();
+		})
+
+		//이모티콘 선택하면 div에 넣기
+		$(".emoticon_box>.emoticon")
+				.on(
+						"click",
+						function() {
+							$(".emoticon_section").hide();
+
+							var emoticon_id = $(this).attr("id");
+							$("#input")
+									.append(
+											"<img src=resources/images/chatting/"+emoticon_id+" class=emoticon id="+emoticon_id+"><br>");
+
+							//자동줄바꿈 추가하기!
+
+						})
+
+		//코드 편집기 열기
+		var code_index = 1;
+		$(".code_icon")
+				.on(
+						"click",
+						function() {
+							if ($("#input").html().indexOf("</pre>") == -1) { //이 코드가 없다면
+								$("#input")
+										.append(
+												"<pre class=pre><code class='code_editor hljs' style='overflow-x: hidden'></code></pre>");
+
+								//$("#input>.pre").css("display","block");
+								//$("#input>.pre>.code_editor").css("display","block");
+
+							} else if (code_index == 1) {
+								//$("#input>.pre").css("display","block");
+								//$("#input>.pre>.code_editor").css("display","block");
+
+								var pre = $("<pre class=pre></pre>");
+								var code = $("<code class='code_editor hljs' style='overflow-x: hidden'></code>");
+								pre.append(code);
+								$("#input").append(pre);
+
+								code_index = code_index * -1;
+							} else {
+								//$("#input>.pre").css("display","none");
+								//$("#input>.pre>.code_editor").css("display","none");
+								//$("#input>.pre>.code_editor").html("");
+
+								$("#input>.pre").remove();
+								$("#input>.pre>.code_editor").remove();
+
+								code_index = code_index * -1;
+							}
+						})
+
+		//파일첨부 아이콘 누르면 파일첨부 버튼 눌러지게
+		$(".file_icon").on("click", function() {
+			$("#file_select").trigger("click");
+
+		})
+
+		//파일 첨부되면 이벤트 발생
+		$("#file_select").change(function(e) {
+
+			var file = $("#file_select").val(); //경로+이름
+
+			if (file) { //파일이 첨부됬으면
+				$("#input>.file_box").remove();
+
+				var file_box = $("<div class=file_box>");
+
+				file_box.append(file);
+
+				$("#input").append(file_box); //글자 못쓰게 추가해야됨.
+				$("#input").focus(); //추가하고 커서 div로 옮기기
+
+			} else { //파일 첨부 안됬으면
+				$("#input>.file_box").remove();
+			}
+
+		})
+
+		//이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!
+
+	})
 </script>
 
 </head>
@@ -472,9 +512,8 @@
 					
 					<button id=send_btn>전송</button>
 					
-					<div id=input contenteditable=true>
-						<!-- <pre class=pre><code class="code_editor hljs" style="overflow-x: hidden"></code></pre> -->
-					</div>
+					<div id=input contenteditable=true></div>		
+					
 					
 					<div class=icon_box>
 						<img src=resources/images/chatting/smile.png
@@ -503,10 +542,13 @@
 
 					</div>
 				</div>
-
+				
+				
+				<input type=text id=copy_box style="bottom: -50px; position: absolute">
+				
 			</div>
 			
-			<input type=text id=copy_box style="display: none">
+			
 			
 			
 			<!-- 여기까지 각자 영역 설정 -->
