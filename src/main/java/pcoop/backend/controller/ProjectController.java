@@ -133,12 +133,6 @@ public class ProjectController {
 		  return "project/project_home";
 	  }
 	  
-	  @RequestMapping("goMain")
-	  public String goMain()throws Exception{
-		  session.removeAttribute("projectInfo"); //프로젝트 세션만 삭제하기
-		  return "redirect:/";
-	  }
-	  
 	  @RequestMapping("accept")
 	  public String accept(int mem_seq,int project_seq,Model model)throws Exception{//참가 수락
 		 Map<String,Integer>param = new HashMap<>();
