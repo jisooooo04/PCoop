@@ -11,19 +11,9 @@ function printDirList(dirlist){
 
 	for (var i = 0; i < dirlist.length; i++) {
 
-		var patharr = dirlist[i].path.split('/');
+		var name = dirlist[i].name;
 		var parent = ".root";
-
-		for (var j = 2; j < patharr.length; j++) {
-
-			if (j == patharr.length - 1)
-				$(parent).append(
-						"<ul id=" + patharr[j] + "><li class='dir' id='dir" + dirlist[i].seq +"'><b>"
-						+ patharr[j] + "</b></li></ul>");
-			else
-				parent = "#" + patharr[j];
-
-		}
+		$(parent).append("<li class=dir id=dir" + dirlist[i].seq + ">" + name + "</li>");
 
 	}
 
@@ -72,7 +62,7 @@ $(document).on("click", ".dir", function(event){
 	};
 
 	$.ajax({
-		url: "getFileList",
+		url: "getDirAndFileList",
 		type: "POST",
 		data: data,
 		success: function(data){

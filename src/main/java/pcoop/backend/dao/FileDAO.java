@@ -2,8 +2,10 @@ package pcoop.backend.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,200 +19,172 @@ public class FileDAO {
 
 	@Autowired
 	private JdbcTemplate jdbc;
+	@Autowired
+	private SqlSessionTemplate mybatis;
 
+	// 프로젝트 생성 시, Root 디렉토리 생성함
 	public int insertRootDirectory(int seq, String name, String path) {
-		String sql = "insert into directory values(directory_seq.nextval, ?, null, ?, ?, 'Y')";
-		return jdbc.update(sql, seq, name, path);
+		
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("seq", seq);
+		values.put("name", name);
+		values.put("path", path);
+
+		return mybatis.insert("Backup.insertRootDir", values);
+		
+	}
+	
+	// 프로젝트의 루트 디렉토리 검색
+	public int getRootDirSeq(int project_seq) {
+		return mybatis.selectOne("Backup.getRootDirSeq", project_seq);
+	}
+	
+	// 디렉토리의 하위 디렉토리 리스트 검색
+	public List<DirectoryDTO> getDirListByDirSeq(int seq){
+		return mybatis.selectList("Backup.", seq);
 	}
 	
 	// 이름으로 디렉토리 seq 검색
 	public int getDirSeqByName(String name, int parent_seq) {
-		String sql = "select seq from directory where name = ? and parent_seq = ?";
-		return jdbc.queryForObject(sql, new Object[] {name, parent_seq}, Integer.class);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("name", name);
+		values.put("parent_seq", parent_seq);
+		return mybatis.selectOne("Backup.getDirSeqByName", values);
 	}
 
 	// seq로 디렉토리 경로 검색
 	public String getDirPathBySeq(int seq) {
-
-		String sql = "select path from directory where seq = ?";
-
-		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+		return mybatis.selectOne("Backup.getDirPathBySeq", seq);
 	}
 	
 	// seq로 디렉토리의 parent_seq 검색
 	public int getParentSeqBySeq(int seq) {
-		String sql = "select parent_seq from directory where seq = ?";
-		return jdbc.queryForObject(sql, new Object[] {seq}, Integer.class);
+		return mybatis.selectOne("Backup.getParentSeqBySeq", seq);
 	}
 	
 	// path로 디렉토리의 seq 검색
 	public int getDirSeqByPath(String path) {
-		String sql = "select seq from directory where path = ?";
-		return jdbc.queryForObject(sql, new Object[] {path}, Integer.class);
+		return mybatis.selectOne("Backup.getDirSeqByPath", path);
 	}
 	
 	// 디렉토리 중복 확인
 	public int checkDuplDirName(int parent_seq, String name) {
-		String sql = "select count(*) from directory where parent_seq = ? and name = ?";
-		return jdbc.queryForObject(sql, new Object[] {parent_seq, name}, Integer.class);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("parent_seq", parent_seq);
+		values.put("name", name);
+		return mybatis.selectOne("Backup.checkDuplDirName", values);
 	}
+	
+	
 
 	// 디렉토리 insert
 	public int insertDirectory(String path, String name, int parent_seq) {
-
-		String sql = "insert into directory values(DIRECTORY_SEQ.nextval, ?, ?, ?, ?, 'N')";
-
-		return jdbc.update(sql, 11, parent_seq, name, path);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("parent_seq", parent_seq);
+		values.put("name", name);
+		values.put("path", path);
+		return mybatis.insert("Backup.insertDirectory", values);
 	}
 
 	// 디렉토리 delete
 	public int deleteDirectory(String path) {
-		String sql = "delete from directory where path like ?";
-		return jdbc.update(sql, path + "%");
+		return mybatis.delete("Backup.deleteDirectory", path);
 	}
 	
 	// 디렉토리 이름 및 path 변경
 	public int renameDirectory(int seq, String rename, String repath) {
-		String sql = "update directory set name = ?, path = ? where seq = ?";
-		return jdbc.update(sql, rename, repath, seq);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("name", rename);
+		values.put("path", repath);
+		values.put("seq", seq);
+		return mybatis.update("Backup.renameDirectory", values);
 	}
 	
+	// 디렉토리 이름 변경 시, 하위 파일들 path 변경
 	public int repathFileByDirSeq(int seq, String repath, String frepath) {
-		String sql = "update files set directory_path = ?, path = ? where seq = ?";
-		return jdbc.update(sql, repath, frepath, seq);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("repath", repath);
+		values.put("frepath", frepath);
+		values.put("seq", seq);
+		return mybatis.update("Backup.repathFileByDirSeq", values);
 	}
 
-	// 디렉토리 리스트
-	public List<DirectoryDTO> getDirList(){
-
-		String sql = "select * from directory where root_yn = 'N' order by 1";
-		return jdbc.query(sql, new RowMapper<DirectoryDTO>() {
-			@Override
-			public DirectoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-				DirectoryDTO dto = new DirectoryDTO();
-				dto.setSeq(rs.getInt("seq"));
-				dto.setProject_seq(rs.getInt("project_seq"));
-				dto.setName(rs.getString("name"));
-				dto.setPath(rs.getString("path"));
-				dto.setRoot_yn(rs.getString("root_yn"));
-
-				return dto;
-
-			}
-		});
-
+	// 루트 디렉토리 리스트
+	public List<DirectoryDTO> getDirList(int root_seq){
+		return mybatis.selectList("Backup.getDirList", root_seq);
 	}
 
 	// 파일 이름 가져오기
 	public String getFileNameBySeq(int seq) {
-		String sql = "select name from files where seq = ?";
-		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+		return mybatis.selectOne("Backup.getFileNameBySeq", seq);
 	}
 
 	// 파일 경로 가져오기
 	public String getFilePathBySeq(int seq) {
-
-		String sql = "select path from files where seq = ?";
-
-		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+		return mybatis.selectOne("Backup.getFilePathBySeq", seq);
 	}
 
 	// 파일의 확장자가 텍스트인지 체크
 	public int isTextFile(String extension) {
-		String sql = "select count(*) from extension where extension = ?";
-		return jdbc.queryForObject(sql, new Object[] {extension}, Integer.class);
+		return mybatis.selectOne("Backup.isTextFile", extension);
 	}
 
 	// 파일 확장자 가져오기
 	public String getFileExtensionBySeq(int seq) {
-		String sql = "select extension from files where seq = ?";
-		return jdbc.queryForObject(sql, new Object[] {seq}, String.class);
+		return mybatis.selectOne("Backup.getFileExtensionBySeq", seq);
 	}
 
 	// 같은 디렉토리 내 파일명 중복 확인
 	public int checkDuplFileName(int directory_seq, String name) {
-
-		String sql = "select count(*) from files where directory_seq = ? and name = ?";
-		return jdbc.queryForObject(sql, new Object[] {directory_seq, name}, Integer.class);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("directory_seq", directory_seq);
+		values.put("name", name);
+		return mybatis.selectOne("Backup.checkDuplFileName", values);
 	}
 
 	// 특정 디렉토리 내 파일 리스트
 	public List<FileDTO> getFileListByDirSeq(int dir_seq){
+		return mybatis.selectList("Backup.getFileListByDirSeq", dir_seq);
 
-		String sql = "select * from files where directory_seq = ?";
-		return jdbc.query(sql, new Object[] {dir_seq}, new RowMapper<FileDTO>(){
-			public FileDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-				FileDTO dto = new FileDTO();
-
-				dto.setSeq(rs.getInt("seq"));
-				dto.setProject_seq(rs.getInt("project_seq"));
-				dto.setDirectory_seq(rs.getInt("directory_seq"));
-				dto.setDirectory_path(rs.getString("directory_path"));
-				dto.setName(rs.getString("name"));
-				dto.setExtension(rs.getString("extension"));
-				dto.setPath(rs.getString("path"));
-				dto.setUpload_date(rs.getTimestamp("upload_date"));
-				dto.setUploader(rs.getString("uploader"));
-				dto.setText_yn((rs.getString("text_yn")));
-
-				return dto;
-			};
-		});
 	}
 
 	// 특정 디렉토리 내 모든 파일 지우기
 	public int deleteFilesByDirPath(String dir_path) {
-		String sql = "delete from files where path like ?";
-		return jdbc.update(sql, dir_path + "%");
+		return mybatis.delete("Backup.deleteFilesByDirPath", dir_path + "%");
 	}
 
 	// 전체 파일 리스트
 	public List<FileDTO> getFileList(){
-
-		String sql = "select * from files";
-
-		return jdbc.query(sql, new RowMapper<FileDTO>() {
-			@Override
-			public FileDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-				FileDTO dto = new FileDTO();
-
-				dto.setSeq(rs.getInt("seq"));
-				dto.setProject_seq(rs.getInt("project_seq"));
-				dto.setDirectory_seq(rs.getInt("directory_seq"));
-				dto.setDirectory_path(rs.getString("directory_path"));
-				dto.setName(rs.getString("name"));
-				dto.setExtension(rs.getString("extension"));
-				dto.setPath(rs.getString("path"));
-				dto.setUpload_date(rs.getTimestamp("upload_date"));
-				dto.setUploader(rs.getString("uploader"));
-				dto.setText_yn((rs.getString("text_yn")));
-
-				return dto;
-			}
-		});
-
+		return mybatis.selectList("Backup.getFileList");
 	}
 
 	// 파일 생성
 	public int insertFile(int project_seq, int directory_seq, String directory_path,
 			String name, String extension, String path, String uploader, String text_yn){
-
-		String sql = "insert into files values(files_seq.nextval, ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
-		return jdbc.update(sql, project_seq, directory_seq, directory_path, name, extension, path, uploader, text_yn);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("project_seq", project_seq);
+		values.put("directory_seq", directory_seq);
+		values.put("directory_path", directory_path);
+		values.put("name", name);
+		values.put("extension", extension);
+		values.put("path", path);
+		values.put("uploader", uploader);
+		values.put("text_yn", text_yn);
+		return mybatis.insert("Backup.insertFile", values);
 	}
 
 	// 파일 삭제
 	public int deleteFile(int seq) {
-		String sql = "delete from files where seq = ?";
-		return jdbc.update(sql, seq);
+		return mybatis.delete("Backup.deleteFile", seq);
 	}
 	
+	// 파일 이름 변경
 	public int renameFile(int seq, String rename, String repath) {
-		String sql = "update files set name = ?, path = ? where seq = ?";
-		return jdbc.update(sql, rename, repath, seq);
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("name", rename);
+		values.put("path", repath);
+		values.put("seq", seq);
+		return mybatis.update("Backup.renameFile", values);
 	}
 
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
