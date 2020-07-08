@@ -41,6 +41,8 @@
 #calendarBox{
 	margin-top:100px;
 	width:1200px;
+	zoom: 0.6; 
+	margin: 0 auto;
 }
 </style>
 
@@ -347,12 +349,19 @@
 
 	<section id="box">
 		<div id="wrapper">
-			<div id="todoListBox">
+		
+
+
+
+
+			
+			
+			
+						<div id="todoListBox">
 				<!--Actions by ajax		-->
-
 				<div id="actions-by-ajax">
-
-					<!--진행률 바-->
+				
+									<!--진행률 바-->
 					<div class="progress" id="progress">
 						<div id="selector"
 							class="progress-bar progress-bar-striped active"
@@ -361,19 +370,13 @@
 							<span class="sr-only">45% Complete</span>
 						</div>
 					</div>
-
-					<!--불러올 데이터 없을 때 생성 버튼	-->
-					<div id="create_list" style="display: none;">
-						<button id="create_btn" type="button"
-							class="btn btn-default btn-xs">
-							<i class="glyphicon glyphicon-plus"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div id="calendarBox">
-				<div id='calendar'"></div>
+				
+				
+				
+				
+				
+			<div id="calendarBox" >
+				<div id='calendar'></div>
 				<!--ㅡㅡㅡㅡㅡ 일정 생성하기 modal ㅡㅡㅡㅡㅡㅡㅡ-->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -690,8 +693,37 @@
      								
 <!--ㅡㅡㅡㅡㅡ /삭제 확인 modal ㅡㅡㅡㅡㅡㅡㅡ-->
 		</div>
+		
+		
+		
+		
+				
+				<br><br>
+		
+		
+		
+		
 			</div>
-		</div>
+				
+				
+				
+				
+				
+				
+		
+
+
+					<!--불러올 데이터 없을 때 생성 버튼	-->
+					<div id="create_list" style="display: none;">
+						<button id="create_btn" type="button"
+							class="btn btn-default btn-xs">
+							<i class="glyphicon glyphicon-plus"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			
+		</div> <!--wrapper?		-->
 
 
 
@@ -733,7 +765,7 @@
 
 				          $('#actions-by-ajax').lobiList({
 				                actions: {
-				                    load: '/resources/lobilist-master/demo/example1/load.json',
+				                    load: '/resources/lobilist-master/demo/load.json',
 				                    insert: '',
 				                    delete: '',
 				                    update: ''
@@ -836,69 +868,7 @@
 				console.log("버튼 클릭!");
 				 //location.reload(); // 버튼 누르면 새로고침 ... 개선필요...
 				 history.go(0);
-			/*
-				$.ajax({
-					type : 'get',
-					url : '/Task/TaskAjax',
-					datatype : 'json',
-					success : function(data) {			
-				
-						if(isEmpty(data.lists)){
-							console.log('lists가 데이터베이스에 없음 (버튼)');
-					          $('#actions-by-ajax').lobiList({
-					                actions: {
-					                    load: '/resources/lobilist-master/demo/example1/load.json',
-					                    insert: '',
-					                    delete: '',
-					                    update: ''
-					                },
-					                afterItemAdd: function(){
-					                    console.log(arguments);
-					                },
-					                
-					                afterListRemove: function(){
-					            		console.log("afterListRemove 변화 감지!");
-					    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
-					    				console.log("버튼 보여라!!!");
-					    				$("#create_list").css('display', 'inline-block');
-					    				} else {
-					    				console.log("버튼 숨겨라!!!");
-					    				$("#create_list").css('display', 'none');
-					    				}	
-					    			}
-					                
-					            });
-					          
-					          
-							
-						}else{
-							console.log('lists가 데이터베이스에 존재(버튼)');
-							
-							 $('#actions-by-ajax').lobiList({
-
-					                afterListRemove: function(){
-					            		console.log("afterListRemove 변화 감지!");
-
-					    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
-					    				console.log("버튼 보여라!!!");
-					    				$("#create_list").css('display', 'inline-block');
-					    			} else {
-					    				console.log("버튼 숨겨라!!!");
-					    				$("#create_list").css('display', 'none');
-					    			}
-					    				}
-							 				 
-							    });				 	 
-					          
-						};
-
-					},
-					error : function(error) {
-						alert('data error');
-					}
-				});
-					
-	*/
+		
 				});
 
 	            
