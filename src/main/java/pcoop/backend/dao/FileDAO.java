@@ -161,9 +161,9 @@ public class FileDAO {
 	}
 
 	// 특정 디렉토리 내 모든 파일 지우기
-	public int deleteFileByDir(int dir_seq) {
-		String sql = "delete from files where directory_seq = ?";
-		return jdbc.update(sql, dir_seq);
+	public int deleteFilesByDirPath(String dir_path) {
+		String sql = "delete from files where path like ?";
+		return jdbc.update(sql, dir_path + "%");
 	}
 
 	// 전체 파일 리스트
