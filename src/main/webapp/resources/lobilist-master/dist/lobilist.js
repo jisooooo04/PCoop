@@ -683,7 +683,7 @@ $(function () {
 							'type': 'text',
 							name: 'dueDate',
 							'class': 'form-control',
-							placeholder: 'Due Date'
+							placeholder: 'Due Date : YYYY-MM-DD'
 						})
 				).appendTo($form);
 				var $ft = $('<div class="lobilist-form-footer">');
@@ -734,7 +734,7 @@ $(function () {
 				}
 				if(due != ""){
 					if (!testdue){
-						me._showFormError('dueDate', '형식에 맞게 넣어주세요'); // 정규식 에러 알림
+						me._showFormError('dueDate', '형식에 맞게 넣어주세요 : YYYY-MM-DD'); // 정규식 에러 알림
 						return
 					}
 				}
@@ -1158,24 +1158,34 @@ console.log("지우고 나서");
 						$list = $todo.closest('.lobilist'); // 추가 코드
 
 						console.log("item.id: "+item.id); // 카드 고유 id
-						console.log("item.listId: "+item.listId); // 카드 이전 listId
+						console.log("이전 listId: "+item.listId); // 카드 이전 listId
 				
 						var obj1 =$list.data('lobiList').$el;
 						var obj2 = obj1[Object.keys(obj1)[0]];
 		
 						console.log("변경후 listId: "+obj2.id); // 
-						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
 						
-						//	ajax 코드 추가 enableSortingAjax
+						console.log('모든 카드 : '+$todo.parent().find('.lobilist-item').length);
+						for(var i=0; i<$todo.parent().find('.lobilist-item').length; i++){
+							console.log($todo.parent().find('.lobilist-item')[i]);
+							console.log($todo.parent().find('.lobilist-item')[i].getAttribute( 'data-id' ));
+						
+							//	ajax 코드 추가 enableSortingAjax
 							$.ajax({
 								url:"/Task/cardIndexUpdateAjax",
 								type:"get",
 								data:{
-									id : item.id,
+									id : $todo.parent().find('.lobilist-item')[i].getAttribute( 'data-id' ),
 									listId : obj2.id,
-									cardIndex : currentIndex
+									cardIndex : i
 								}
 							})
+							
+						}
+						
+						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
+						
+
 						
 						// 2. 리스트 내에서 순서 변경
 							
@@ -1475,34 +1485,36 @@ console.log("지우고 나서");
 			
 
 							
-							// 오른쪽으로 이동 oldIndex < currentIndex
-							// oldIndex < * <=currentIndex
-							// 2번 에서 4번으로 이동한다면
-							// 기존의 3번 4번 자리의 인덱스 -1
-							
-							//for(var i =oldIndex; i<currentIndex;i++){
+			
+							//console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
+							//for(var i =0; i<$wrapper.prevAll().length -2 ;i++){
+							//	console.log($wrapper.prevAll()[i]);
+							//	console.log($wrapper.prevAll()[i].lastChild.id);
+							//}
+
+							//console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
+							//for(var i =0; i<$wrapper.nextAll().length;i++){
+							//	console.log($wrapper.nextAll()[i]);
+							//	console.log($wrapper.nextAll()[i].lastChild.id);	
 							//}
 							
-							// 왼쪽으로 이동 currentIndex < oldIndex
-							// currentIndex <= * < oldIndex
-							// 4번에서 2번으로 이동한다면
-							// 기존의 2번 3번 자리의 인덱스 +1
-						
-
-							console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
-							for(var i =0; i<$wrapper.nextAll().length;i++){
-								console.log($wrapper.nextAll()[i]);
-								console.log($wrapper.nextAll()[i].lastChild.id);
+							console.log('모든 siblings : '+$wrapper.parent().find('.lobilist-wrapper').length);
+							for(var i =0; i<$wrapper.parent().find('.lobilist-wrapper').length;i++){
+								console.log($wrapper.parent().find('.lobilist-wrapper')[i]);
+								console.log($wrapper.parent().find('.lobilist-wrapper')[i].lastChild.id);
+								
+								$.ajax({
+									url:"/Task/listIndexUpdateAjax",
+									type:"get",
+									data:{
+										listId : $wrapper.parent().find('.lobilist-wrapper')[i].lastChild.id,
+										listIndex : i
+									}
+								})
 								
 							}
-												
-							console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
 							
-							for(var i =0; i<$wrapper.prevAll().length -2 ;i++){
-								console.log($wrapper.prevAll()[i].lastChild.id);
-							}
-							
-							//다른 리스트들의 자리값과 id 구하기!
+					
 
 						}
 					});
