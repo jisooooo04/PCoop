@@ -289,13 +289,17 @@ public class TaskController {
 		System.out.println("----------------------------");
 
 
+
 		Map<String, Object> param = new HashMap<>();
 		param.put("listId", request.getParameter("listId")); 
 		param.put("title", request.getParameter("title")); 
 		param.put("description", request.getParameter("description")); 
 		param.put("dueDate", request.getParameter("dueDate")); 
 
-
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
+		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		
+		
 		int result = lservice.insert(param);
 		System.out.println("insert 결과 : "+result);
 		Boolean success = false;
@@ -379,25 +383,7 @@ public class TaskController {
 	}
 
 	
-	@ResponseBody
-	@RequestMapping(value="selectListgroup",produces="application/json;charset=utf8")
-	public void selectListgroup(HttpServletRequest request)  throws Exception {
-		System.out.println("selectListgroup 시작");
-		
-		Enumeration params = request.getParameterNames();
-		System.out.println("----------------------------");
-		while (params.hasMoreElements()){
-			String name = (String)params.nextElement();
-			System.out.println(name + " : " +request.getParameter(name));
-		}
-		System.out.println("----------------------------");
 
-		// 프로젝트에 포함된 listgroup 조회
-		// 프로젝트_seq로 listgroup의 이름과 클릭시 seq를 포함해서 넘겨주기
-		// 사이드바에 ajax로 출력
-		// 사이드 바에서  listgroup 추가 제거 삭제 가능 하도록 하기
-		
-	}
 	
 	
 
@@ -532,10 +518,16 @@ public class TaskController {
 	
 	@ResponseBody
 	@RequestMapping("selectCount")
-	public JsonObject countdone(Model model) {
+	public JsonObject countdone(Model model) throws Exception {
+		
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
+		Map<String, Object> param = new HashMap<>();
+		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		
 		JsonObject json = new JsonObject();	
-		int allcount =  lservice.selectCount();
-		int truecount =  lservice.trueCount();
+		
+		int allcount =  lservice.selectCount(param);
+		int truecount =  lservice.trueCount(param);
 		
 		System.out.println("전체 갯수"+allcount);
 		System.out.println("2체크된 갯수"+truecount);
