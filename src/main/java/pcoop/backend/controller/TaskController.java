@@ -41,12 +41,36 @@ public class TaskController {
 	}
 
 	
-	
+	@ResponseBody
+	@RequestMapping("listIndexUpdateAjax")
+	public void listIndexUpdate(HttpServletRequest request) {
+		System.out.println("listIndexUpdate 시작");
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("listId", request.getParameter("listId"));
+		param.put("listIndex", request.getParameter("listIndex"));
+
+		int result = lservice.listIndexUpdate(param);
+		
+		System.out.println("listIndexUpdate 결과 : "+result);
+
+
+	}
 
 	@ResponseBody
 	@RequestMapping("cardIndexUpdateAjax")
 	public void cardListIdUpdate(HttpServletRequest request) {
-		System.out.println("cardListIdUpdate 시작");
+		System.out.println("cardIndexUpdate 시작");
 		
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");
