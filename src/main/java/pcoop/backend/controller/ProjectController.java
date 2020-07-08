@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.dto.ProjectMemberDTO;
-import pcoop.backend.service.FileService;
+import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.ProjectService;
 
 @Controller
@@ -26,6 +26,9 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService service;
+	
+	@Autowired
+	ChattingService cservice;
 	
 
 	@Autowired
@@ -70,6 +73,9 @@ public class ProjectController {
 		// project back root directory insert
 		result = service.create_backup(dto);
 		
+		//프로젝트 생성시 단체 채팅방 생성(입력) - 프로젝트 시퀀스, 프로젝트 이름, 멤버 시퀀스, 멤버 이름 전달
+		result = cservice.createChatting(pmdto);
+				
 		return "project/project_code";
 	}
 	
@@ -133,11 +139,6 @@ public class ProjectController {
 		  return "project/project_home";
 	  }
 	  
-	  @RequestMapping("goMain")
-	  public String goMain()throws Exception{
-		  session.removeAttribute("projectInfo"); //프로젝트 세션만 삭제하기
-		  return "redirect:/";
-	  }
 	  
 	  @RequestMapping("accept")
 	  public String accept(int mem_seq,int project_seq,Model model)throws Exception{//참가 수락
@@ -146,6 +147,10 @@ public class ProjectController {
 		 param.put("project_seq", project_seq);
 		 int result = service.accept(param);
 		 model.addAttribute("seq", project_seq);
+		 
+		 //멤버 추가시, 단체 채팅방에도 멤버 추가
+		 result = cservice.insertMember(project_seq, mem_seq);
+		 
 		 return "redirect:goProjectHome";
 	  }
 	  

@@ -86,5 +86,12 @@ public class HomeController {
 		model.addAttribute("yesterdayChat", yesterdayChat);
 		return "chatting/merge-chatting";
 	}
+	
+
+	  @RequestMapping("goMain")
+	  public String goMain()throws Exception{
+		  session.removeAttribute("projectInfo"); //프로젝트 세션만 삭제하기
+		  return "redirect:/";
+	  }
 
 }
