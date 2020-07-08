@@ -91,7 +91,7 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping(value="EditEvent",produces="application/gson;charset-utf8")
 	public String editEvent(CalendarDTO dto)throws Exception{//일정 수정
-		System.out.println(dto.getSeq()+":"+dto.getTitle()+":"+dto.getContents()+":"+dto.getWriter()+":"+dto.getStart_date()+":"+dto.getEnd_date()+":"+dto.getColor());
+		//System.out.println(dto.getSeq()+":"+dto.getTitle()+":"+dto.getContents()+":"+dto.getWriter()+":"+dto.getStart_date()+":"+dto.getEnd_date()+":"+dto.getColor());
 		int result = Cservice.editEvent(dto);
 		return "";
 	}
@@ -99,7 +99,7 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping(value="DeleteEvent",produces="application/gson;charset-utf8")
 	public String deleteEvent(int seq)throws Exception{//일정 삭제 
-		System.out.println(seq);
+		//System.out.println(seq);
 		int result = Cservice.deleteEvent(seq);
 		return "";
 	}
