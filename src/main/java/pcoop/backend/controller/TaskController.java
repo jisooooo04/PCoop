@@ -165,6 +165,10 @@ public class TaskController {
 			int result = lservice.updatelistStyle(param);
 			System.out.println("updatelistStyle 결과 : "+result);
 
+		}else {
+			//리스트 추가하자마자 새로 불러오기
+			System.out.println("리스트 스타일 수정 실패!");
+
 		}
 
 
@@ -221,7 +225,7 @@ public class TaskController {
 		
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("listId")); 
-		param.put("title", request.getParameter("title"));
+		param.put("title", request.getParameter("title") );
 
 
 
@@ -264,10 +268,9 @@ public class TaskController {
 	
 		
 		Map<String, Object> param = new HashMap<>();
-		param.put("title", request.getParameter("title"));
-		if(pdto != null ){
-			param.put("project_seq", pdto.getSeq()); 
-		}
+		param.put("title", request.getParameter("title") );
+		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+
 
 
 		System.out.println("리스트 생성 !");
@@ -290,13 +293,17 @@ public class TaskController {
 		System.out.println("----------------------------");
 
 
+
 		Map<String, Object> param = new HashMap<>();
 		param.put("listId", request.getParameter("listId")); 
 		param.put("title", request.getParameter("title")); 
 		param.put("description", request.getParameter("description")); 
 		param.put("dueDate", request.getParameter("dueDate")); 
 
-
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
+		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		
+		
 		int result = lservice.insert(param);
 		System.out.println("insert 결과 : "+result);
 		Boolean success = false;
@@ -380,25 +387,7 @@ public class TaskController {
 	}
 
 	
-	@ResponseBody
-	@RequestMapping(value="selectListgroup",produces="application/json;charset=utf8")
-	public void selectListgroup(HttpServletRequest request)  throws Exception {
-		System.out.println("selectListgroup 시작");
-		
-		Enumeration params = request.getParameterNames();
-		System.out.println("----------------------------");
-		while (params.hasMoreElements()){
-			String name = (String)params.nextElement();
-			System.out.println(name + " : " +request.getParameter(name));
-		}
-		System.out.println("----------------------------");
 
-		// 프로젝트에 포함된 listgroup 조회
-		// 프로젝트_seq로 listgroup의 이름과 클릭시 seq를 포함해서 넘겨주기
-		// 사이드바에 ajax로 출력
-		// 사이드 바에서  listgroup 추가 제거 삭제 가능 하도록 하기
-		
-	}
 	
 	
 
@@ -422,9 +411,9 @@ public class TaskController {
 		// 세션에 프로젝트dto , 이름은 projectInfo
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 		Map<String, Object> param = new HashMap<>();
-		if(pdto != null ){
-		param.put("project_seq", pdto.getSeq()); 
-		}
+//if(pdto != null) {
+		param.put("project_seq", pdto.getSeq()); // project_seq 받아오기
+//}
 		List<ListDTO> TaskList = lservice.selectList(param);
 		String TaskListArr = new Gson().toJson(TaskList);
 		System.out.println("TaskListArr : "+ TaskListArr);
@@ -533,10 +522,16 @@ public class TaskController {
 	
 	@ResponseBody
 	@RequestMapping("selectCount")
-	public JsonObject countdone(Model model) {
+	public JsonObject countdone(Model model) throws Exception {
+		
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
+		Map<String, Object> param = new HashMap<>();
+		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		
 		JsonObject json = new JsonObject();	
-		int allcount =  lservice.selectCount();
-		int truecount =  lservice.trueCount();
+		
+		int allcount =  lservice.selectCount(param);
+		int truecount =  lservice.trueCount(param);
 		
 		System.out.println("전체 갯수"+allcount);
 		System.out.println("2체크된 갯수"+truecount);
