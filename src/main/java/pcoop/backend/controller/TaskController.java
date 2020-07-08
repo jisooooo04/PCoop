@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import com.google.gson.JsonParser;
 
 import pcoop.backend.dto.CardDTO;
 import pcoop.backend.dto.ListDTO;
+import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.ListService;
 
 
@@ -30,7 +32,8 @@ public class TaskController {
 
 	@Autowired
 	private ListService lservice;
-
+	@Autowired
+	HttpSession session;
 	
 	@RequestMapping("/task")
 	public String Task() {
@@ -41,7 +44,7 @@ public class TaskController {
 	
 
 	@ResponseBody
-	@RequestMapping("cardListIdUpdateAjax")
+	@RequestMapping("cardIndexUpdateAjax")
 	public void cardListIdUpdate(HttpServletRequest request) {
 		System.out.println("cardListIdUpdate 시작");
 		
@@ -58,8 +61,9 @@ public class TaskController {
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("id")); 
 		param.put("listId", request.getParameter("listId"));
+		param.put("cardIndex", request.getParameter("cardIndex"));
 
-		int result = lservice.cardListIdUpdate(param);
+		int result = lservice.cardIndexUpdate(param);
 		
 		System.out.println("cardListIdUpdate 결과 : "+result);
 
@@ -167,12 +171,11 @@ public class TaskController {
 	}
 
 
-
-
+	
 	@ResponseBody
-	@RequestMapping("finishTitleEditingAjax")
-	public void finishTitleEditingAjax(HttpServletRequest request) {
-		System.out.println("test ajaxtest");
+	@RequestMapping("titleChangeAjax")
+	public void titleChangeAjax(HttpServletRequest request) {
+		System.out.println("titleChangeAjax");
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");
 		while (params.hasMoreElements()){
@@ -181,31 +184,62 @@ public class TaskController {
 		}
 		System.out.println("----------------------------");
 
+	
+		
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("listId")); 
 		param.put("title", request.getParameter("title"));
 
 
-		// id 존재 여부 확인
+
+		// id 존재 여부 확인 특히 프로젝트가 여럿일때 getId() 값 중복 체크 할것!!!
 		int dupleList = lservice.selectListId(param);
 		System.out.println("dupleList : "+dupleList);
 
-
-		if(dupleList>0) {
+		if(dupleList == 0) {
+		System.out.println("해당 리스트아이디 존재 안함. 리스트 생성??");
+//		int result = lservice.insertlist(param);
+//		System.out.println("insertlist 결과 : "+result);
+		}else {
 			// id가 이미 존재하면 update
-			System.out.println("리스트 이름 수정");
-
+			System.out.println("리스트 이름 수정 !!");
 			int result = lservice.updatelist(param);
 			System.out.println("updatelist 결과 : "+result);
-
-		}else {
-			// id가 없으면 생성
-			System.out.println("리스트 생성");
-			int result = lservice.insertlist(param);
-			System.out.println("insertlist 결과 : "+result);
-
 		}
 
+		
+
+
+
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("listAddAjax")
+	public void listAddAjax(HttpServletRequest request) {
+		System.out.println("listAddAjax");
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
+	
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("title", request.getParameter("title"));
+		if(pdto != null ){
+			param.put("project_seq", pdto.getSeq()); 
+		}
+
+
+		System.out.println("리스트 생성 !");
+		int result = lservice.insertlist(param);
+		System.out.println("insertlist 결과 : "+result);
 
 
 	}
@@ -352,10 +386,12 @@ public class TaskController {
 		// listgroup에 포함된 list 조회
 		// 넘겨받은 seq를 list테이블의 listgroup_seq과 같은지 조회
 		// request.getParameter("seq") 가 null이면 모든 리스트 조회
-		
+		// 세션에 프로젝트dto , 이름은 projectInfo
+		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 		Map<String, Object> param = new HashMap<>();
-		param.put("listgroup_seq", request.getParameter("seq")); 
-		
+		if(pdto != null ){
+		param.put("project_seq", pdto.getSeq()); 
+		}
 		List<ListDTO> TaskList = lservice.selectList(param);
 		String TaskListArr = new Gson().toJson(TaskList);
 		System.out.println("TaskListArr : "+ TaskListArr);
@@ -376,7 +412,9 @@ public class TaskController {
 			//System.out.print(j+" 번째 Listobject : "+ListObject);	
 
 			String list_Id = ListObject.get("id").getAsString();
-			String listTitle = ListObject.get("title").getAsString();
+			String listTitle = String.valueOf(ListObject.get("title"));// null 오브젝트에 getAsString() 을 사용하면 에러 발생, String.valueOf()를 사용할것
+
+			
 			String defaultStyle = ListObject.get("defaultStyle").getAsString();
 			List<CardDTO> selectlist = lservice.selectCard(list_Id);
 			String CardArr = new Gson().toJson(selectlist);
@@ -434,7 +472,10 @@ public class TaskController {
 			list.addProperty("id", list_Id);
 //			System.out.println("list에 id : "+ list_Id);
 
-			list.addProperty("title", listTitle);
+			if(!listTitle.contentEquals("null")) {
+				String trim_listTitle = listTitle.substring(1, listTitle.length()-1); //쌍따옴표 제거
+				list.addProperty("title", trim_listTitle);  
+			}
 //			System.out.println("list에 title : "+ listTitle);
 
 			list.addProperty("defaultStyle", defaultStyle); //리스트 색상 일단 고정

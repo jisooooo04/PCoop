@@ -11,6 +11,7 @@ import java.util.zip.ZipInputStream;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -328,8 +329,19 @@ public class FileService {
 				// /temp/project/BoardProject 2
 				// src/test/java/
 				file.mkdirs();
-				//filename.substring()
-				//int parent_seq = fdao.getDirSeqByPath(dirPath);
+				
+				int countDir = StringUtils.countMatches(filename, ".");
+				
+				String parent_path;
+				
+				if(countDir == 1) {
+					parent_path = dirPath;
+				}
+				else parent_path = dirPath + "/" + filename.substring(0, filename.lastIndexOf('/', 1));
+				
+				System.out.println(parent_path);
+				
+				// int parent_seq = fdao.getDirSeqByPath(dirPath);
 				//fdao.insertDirectory(dirPath, filename, parent_seq);
 				
 			} else {

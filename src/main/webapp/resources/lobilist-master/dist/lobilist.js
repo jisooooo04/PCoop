@@ -109,7 +109,6 @@ $(function () {
 		this.$options = options;
 		this.$globalOptions = $lobiList.$options;
 		this.$items = {};
-		console.log('this._init();');
 		this._init();
 	};
 
@@ -165,7 +164,7 @@ $(function () {
 					me.$el.addClass(me.$options.defaultStyle);
 				}
 			
-				console.log('me._createHeader();');
+				//console.log('me._createHeader();');
 				me.$header = me._createHeader();
 				me.$title = me._createTitle();
 				me.$body = me._createBody();
@@ -196,8 +195,7 @@ $(function () {
 			saveProperty: function (property, value) {
 				var me = this;
 				if (!me.isStateful()){
-					console.error("saveProperty 에러?");
-
+					console.error("saveProperty 에러가 무슨 의미?");
 					console.error("object is not stateful");
 					return false;
 				}
@@ -378,6 +376,8 @@ $(function () {
 				console.log('startTitleEditing')    
 				var me = this;
 				var input = me._createInput();
+
+				console.log('input : '+input)   //추가 코드
 				me.$title.attr('data-old-title', me.$title.html());
 				input.val(me.$title.html());
 				input.insertAfter(me.$title);
@@ -408,26 +408,36 @@ $(function () {
 				$input.remove();
 				me.$header.removeClass('title-editing');
 
-				console.log('finishTitleEditing'); // 이름변경 코드
 				console.log(oldTitle, $input.val()); // 이름변경 코드
+				console.log(oldTitle); // 이름변경 코드
 
 				var listId = me.getId();
 				console.log('listId : '+listId); // 이름변경 코드
 
-				//리스트 아이디 검색
-				//리스트가 검색되지 않으면 생성 (id 만 존재)
+
+				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
+				if(oldTitle ==''){
+					console.log('리스트 추가 동작');
+					$.ajax({
+						url:"/Task/listAddAjax",
+						type:"get",
+						data:{
+							title : $input.val()
+						}
+					})
+				}else{
+					console.log('리스트 수정 동작');
+							//이름 변경 ajax 코드 추가
 				$.ajax({
-					url:"/Task/finishTitleEditingAjax",
+					url:"/Task/titleChangeAjax",
 					type:"get",
 					data:{
 						listId : listId,
 						title : $input.val()
 					}
 				})
-
-
-				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
-
+				}
+	
 				return me;
 			},
 
@@ -588,7 +598,7 @@ $(function () {
 			},
 
 			_createHeader: function () {
-				console.log('_createHeader');
+				//console.log('_createHeader');
 				var me = this;
 				var $header = $('<div>', {
 					'class': 'lobilist-header'
@@ -951,31 +961,33 @@ $(function () {
 			},
 
 			_createAddNewButton: function () {
-
+				//console.log('_createAddNewButton');
 				var me = this;
 				var $btn = $('<button>', {
 					'class': 'btn btn-default btn-xs',
 					html: '<i class="glyphicon glyphicon-plus"></i>'
 				});
+				
 				$btn.click(function () {
+					
 					console.log('리스트 추가 버튼 클릭 2');
 					var list = me.$lobiList.addList();
 					
-					console.log('_createAddNewButton >');
 					list.startTitleEditing();
+					
 				});
 				
 				// 다른 버튼도 추가
 	
-				$('#create_btn').click(function() {
-					console.log('create_btn 버튼 클릭');
-				var list = me.$lobiList.addList();
-				list.startTitleEditing();
-		    	});
+//				$('#create_btn').click(function() {
+//					console.log('create_btn 버튼 클릭(js)');
+//				var list = me.$lobiList.addList();
+//				list.startTitleEditing();
+//		    	});
 				
 				
 				
-				console.log('리스트 추가 리턴? ');
+				//console.log('리스트 추가 리턴? ');
 
 				return $btn;
 			},
@@ -1061,6 +1073,8 @@ console.log("지우고 나서");
 				});
 				$btn.click(function () {
 					me.finishTitleEditing();
+
+					console.log('me.finishTitleEditing 끝');
 				});
 				return $btn;
 			},
@@ -1084,7 +1098,15 @@ console.log("지우고 나서");
 				var input = $('<input type="text" class="form-control">');  
 				input.on('keyup', function (ev) {
 					if (ev.which === 13) {
+						
+						
+						if (input[0].value == '') { // 리스트 네임
+							alert('리스트 이름을 입력해 주세요!');
+							return
+						}
+						
 						me.finishTitleEditing();
+				
 					}
 				});
 				return input;
@@ -1118,6 +1140,8 @@ console.log("지우고 나서");
 					opacity: 0.9,
 					revert: 70,
 					start: function (event, ui) {
+						console.log("_enableSorting start "); //
+
 						var $todo = ui.item,
 						$list = $todo.closest('.lobilist');
 						$todo.data('oldIndex', $todo.index());
@@ -1135,25 +1159,28 @@ console.log("지우고 나서");
 
 						console.log("item.id: "+item.id); // 카드 고유 id
 						console.log("item.listId: "+item.listId); // 카드 이전 listId
-						console.log("변경후 listId ? "); // 
+				
 						var obj1 =$list.data('lobiList').$el;
 						var obj2 = obj1[Object.keys(obj1)[0]];
-						console.log(obj2.id); // 
-
+		
+						console.log("변경후 listId: "+obj2.id); // 
 						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
 						
 						//	ajax 코드 추가 enableSortingAjax
-						$.ajax({
-							url:"/Task/cardListIdUpdateAjax",
-							type:"get",
-							data:{
-								id : item.id,
-								listId : obj2.id
-							}
-						})
-						
+							$.ajax({
+								url:"/Task/cardIndexUpdateAjax",
+								type:"get",
+								data:{
+									id : item.id,
+									listId : obj2.id,
+									cardIndex : currentIndex
+								}
+							})
 						
 						// 2. 리스트 내에서 순서 변경
+							
+						
+						
 						//    현재는 해당 리스트내의 id 순으로 정렬
 						console.log("oldIndex: "+oldIndex); // 이전 순서
 						console.log("currentIndex: "+currentIndex); //
@@ -1417,6 +1444,10 @@ console.log("지우고 나서");
 			 */
 			_handleSortable: function () {
 				var me = this;
+				
+				console.log('_handleSortable');
+
+				
 				if (me.$options.sortable) {
 					me.$el.sortable({
 						items: '.lobilist-wrapper',
@@ -1429,6 +1460,7 @@ console.log("지우고 나서");
 						start: function (event, ui) {
 							var $wrapper = ui.item;
 							$wrapper.attr('data-previndex', $wrapper.index());
+							
 						},
 						update: function (event, ui) {
 							var $wrapper = ui.item,
@@ -1436,6 +1468,32 @@ console.log("지우고 나서");
 							currentIndex = $wrapper.index(),
 							oldIndex = parseInt($wrapper.attr('data-previndex'));
 							me._triggerEvent('afterListReorder', [me, $list.data('lobiList'), currentIndex, oldIndex]);
+							
+							console.log('oldIndex : '+oldIndex);
+							console.log('currentIndex : '+currentIndex);
+							console.log('위치변경 리스트ID : '+$list.data()['dbId']);
+
+							
+							// 오른쪽으로 이동 oldIndex < currentIndex
+							// 왼쪽으로 이동 currentIndex < oldIndex
+							
+							console.log($wrapper.nextAll());
+
+							console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
+							for(var i =0; i<$wrapper.nextAll().length;i++){
+								console.log($wrapper.nextAll()[i]);
+							}
+							
+							
+							
+							console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
+							
+							for(var i =0; i<$wrapper.prevAll().length -2 ;i++){
+								console.log($wrapper.prevAll()[i]);
+							}
+							
+							//다른 리스트들의 자리값과 id 구하기!
+
 						}
 					});
 				} else {
@@ -1453,6 +1511,7 @@ console.log("지우고 나서");
 			 * @returns {List} Just added <code>List</code> instance
 			 */
 			addList: function (list) {
+				console.log('addList');
 				var me = this;
 				if (!(list instanceof List)) {
 					list = new List(me, me._processListOptions(list));
@@ -1462,7 +1521,9 @@ console.log("지우고 나서");
 					me.$el.append(list.$elWrapper);
 					list.$el.data('lobiList', list);
 					me._triggerEvent('afterListAdd', [me, list]);
+				
 				}
+
 				return list;
 			},
 
