@@ -939,8 +939,9 @@ $(function () {
 						console.log(obj2);
 						var obj3 = obj2[Object.keys(obj2)[0]];
 						console.log(obj3);
-						console.log(obj3.id);
-						
+						console.log(obj3.getAttribute('id')); //로드한 리스트면 진짜 id , 생성한 리스트면 임시id
+
+						console.log(obj3.getAttribute('data-db-id')); // 갓 만든 리스트는 data-db-id가 없음
 						
 						
 						me._triggerEvent('styleChange', [me, oldClass, this.className]);
@@ -950,7 +951,7 @@ $(function () {
 							url:"/Task/styleChangeAjax",
 							type:"get",
 							data:{
-								id : obj3.id,
+								id : obj3.getAttribute('data-db-id'),
 								defaultStyle : this.className
 							}
 						})

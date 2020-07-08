@@ -165,6 +165,10 @@ public class TaskController {
 			int result = lservice.updatelistStyle(param);
 			System.out.println("updatelistStyle 결과 : "+result);
 
+		}else {
+			//리스트 추가하자마자 새로 불러오기
+			System.out.println("리스트 스타일 수정 실패!");
+
 		}
 
 
