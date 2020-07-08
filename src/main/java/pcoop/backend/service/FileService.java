@@ -97,11 +97,6 @@ public class FileService {
 		return fdao.getDirList(root_seq);
 	}
 
-	// 디렉토리의 하위 디렉토리 리스트 검색
-	public List<DirectoryDTO> getDirListByDirSeq(int seq){
-		return getDirListByDirSeq(seq);
-	}
-
 	// 디렉토리 이름 변경 
 	public int renameDirectory(int seq, String rename) {
 

@@ -3,7 +3,12 @@
 
 <div class="contents">
 
-	<div class="files">
+	<div class="backup-path"></div>
+
+	<div class="list">
+		<div class="dirs"></div>
+
+		<div class="files"></div>
 	</div>
 
 	<!-- HTML코드를 강조하여 보여줄때.. -->
@@ -35,17 +40,17 @@
 			type="button" id="ok" value="OK"> <input type="button"
 			id="cancel" value="취소">
 	</div>
-	
+
 	<div class="rename_dir">
-		<input type="text" id="dir_rename" placeholder="변경할 디렉토리 이름"> <input
-			type="button" id="ok_rename_dir" value="OK"> <input type="button"
-			id="cancel_rename_dir" value="취소">
+		<input type="text" id="dir_rename" placeholder="변경할 디렉토리 이름">
+		<input type="button" id="ok_rename_dir" value="OK"> <input
+			type="button" id="cancel_rename_dir" value="취소">
 	</div>
-	
+
 	<div class="rename_file">
 		<input type="text" id="file_rename" placeholder="변경할 파일 이름"> <input
-			type="button" class="ok_rename_file" value="OK"> <input type="button"
-			class="cancel_rename_file" value="취소">
+			type="button" class="ok_rename_file" value="OK"> <input
+			type="button" class="cancel_rename_file" value="취소">
 	</div>
 
 	<!-- 디렉토리 삭제 경고 Modal -->
@@ -100,10 +105,11 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- .zip 파일 추가 Modal -->
-	<div class="modal modal_upload_zip fade" id="exampleModal" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal modal_upload_zip fade" id="exampleModal"
+		tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -116,10 +122,11 @@
 				<div class="modal-body">
 					<form action="uploadZip" name="uploadZipForm" method="POST"
 						enctype="multipart/form-data">
-						<label for="recipient-name" class="col-form-label">.zip 파일 선택</label> <input
-							type="file" name="zip" class="form-control" id="selectedFiles">
-							<label id=zipname>압축 해제할 디렉토리 이름 설정</label><input type="text" name=zip_dir>
-						<input type="hidden" name="dir_seq"> <input type="submit"
+						<label for="recipient-name" class="col-form-label">.zip 파일
+							선택</label> <input type="file" name="zip" class="form-control"
+							id="selectedFiles"> <label id=zipname>압축 해제할 디렉토리
+							이름 설정</label><input type="text" name=zip_dir> <input
+							type="hidden" name="dir_seq"> <input type="submit"
 							id="uploadZipSubmit">
 					</form>
 				</div>
