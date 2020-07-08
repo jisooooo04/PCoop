@@ -27,10 +27,6 @@ $(function() {
 	// 디렉토리 가지고 오기
 	var dirlist = ${dirlist};
 	printDirList(dirlist);
-
-	// 파일 가지고 오기
-	var filelist = ${filelist};
-	// printFileList(filelist);
 	
 })
 </script>

@@ -78,7 +78,9 @@ public class ListDAO {
 	   public int cardIndexUpdate(Map<String, Object> param) {
 		      return mybatis.update("List.cardIndexUpdate", param);
 	}
-	   
+	   public int listIndexUpdate(Map<String, Object> param) {
+		      return mybatis.update("List.listIndexUpdate", param);
+	}  
 	   
 	   public int selectCount() {
 		   System.out.println("갯수확인");

@@ -3,13 +3,16 @@ package pcoop.backend.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +53,11 @@ public class FileService {
 		return fdao.checkDuplDirName(parent_seq, name);
 	}
 
+	// 프로젝트의 루트 디렉토리 seq 검색
+	public int getRootDirSeq(int project_seq) {
+		return fdao.getRootDirSeq(project_seq);
+	}
+
 	// 드라이브에 디렉토리 생성 후, path 리턴
 	public String makeDirToDrive(int parent_seq, String name) {
 
@@ -84,9 +92,14 @@ public class FileService {
 		return fdao.getParentSeqBySeq(seq);
 	}
 
-	// 디렉토리 리스트 가져오기
-	public List<DirectoryDTO> getDirList(){
-		return fdao.getDirList();
+	// 디렉토리의 하위 디렉토리 가져오기
+	public List<DirectoryDTO> getDirList(int root_seq){
+		return fdao.getDirList(root_seq);
+	}
+
+	// 디렉토리의 하위 디렉토리 리스트 검색
+	public List<DirectoryDTO> getDirListByDirSeq(int seq){
+		return getDirListByDirSeq(seq);
 	}
 
 	// 디렉토리 이름 변경 
@@ -161,9 +174,10 @@ public class FileService {
 
 	// 디렉토리 삭제
 	public void deleteDirectory(int seq, String path) {
+		String dir_path = this.getDirPathBySeq(seq);
 		this.deleteDirFromDrive(path);
 		this.deleteDirectoryFromDB(path);
-		fdao.deleteFileByDir(seq);
+		fdao.deleteFilesByDirPath(dir_path);
 	}
 
 	// DB에서 디렉토리 삭제
@@ -272,19 +286,39 @@ public class FileService {
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
 		String name = rename;
 		String extension = null;
-
-		if(name.contains(".")) {
-			extension = name.substring(name.indexOf('.') + 1);
-		}
-
-		String path = dir_path + "/" + name;
 		String uploader = "temp";
 		String text_yn = "N";
 
-		if(fdao.isTextFile(extension) > 0) {
-			text_yn = "Y";
+		if(name.contains(".")) {
+			extension = name.substring(name.indexOf('.') + 1);
+			if(fdao.isTextFile(extension) > 0) {
+				text_yn = "Y";
+			}
 		}
 
+		String path = dir_path + "/" + name;
+
+		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader, text_yn);
+
+	}
+
+	public void uploadFile(int dir_seq, File file, String rename) throws Exception {
+
+		int project_seq = 11;
+		String dir_path = fdao.getDirPathBySeq(dir_seq);
+		String name = rename;
+		String extension = null;
+		String uploader = "temp";
+		String text_yn = "N";
+
+		if(name.contains(".")) {
+			extension = name.substring(name.lastIndexOf('.') + 1);
+			if(fdao.isTextFile(extension) > 0) {
+				text_yn = "Y";
+			}
+		}
+
+		String path = dir_path + "/" + name;
 		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader, text_yn);
 
 	}
@@ -301,11 +335,15 @@ public class FileService {
 		path = session.getServletContext().getRealPath("upload/backup") + dirPath;
 		File zipFile = new File(path + "/" + zip.getOriginalFilename());
 
-		System.out.println(dirPath);
 		if(!zip.isEmpty()) {
 			zip.transferTo(zipFile);
 		}
-		
+
+		Charset CP866 = Charset.forName("CP866");
+
+		ZipFile zf = new ZipFile(zipFile, CP866.name());
+		Enumeration e = zf.getEntries();
+
 		FileInputStream fis = null;
 		ZipInputStream zis = null;
 		ZipEntry zipentry = null;
@@ -314,9 +352,10 @@ public class FileService {
 		fis = new FileInputStream(zipFile);
 
 		// Zip 파일 스트림
-		zis = new ZipInputStream(fis);
+		zis = new ZipInputStream(fis, Charset.forName("Cp437"));
 
 		// entry가 없을 때까지 뽑기
+		// (zipentry = zis.getNextEntry()) != null
 		while ((zipentry = zis.getNextEntry()) != null) {
 
 			String filename = zipentry.getName();
@@ -325,52 +364,63 @@ public class FileService {
 			// System.out.println(filename);
 			// entry가 폴더면 폴더 생성
 			if (zipentry.isDirectory()) {
-				
+
 				// /temp/project/BoardProject 2
 				// src/test/java/
 				file.mkdirs();
-				
-				int countDir = StringUtils.countMatches(filename, ".");
-				
+
+				int countDir = StringUtils.countMatches(filename, "/");
+
 				String parent_path;
-				
+				String name;
+
+				// parent_path 설정
+				// 하위 폴더 없을 경우
 				if(countDir == 1) {
 					parent_path = dirPath;
+					name = filename.substring(0, filename.length() - 1);
 				}
-				else parent_path = dirPath + "/" + filename.substring(0, filename.lastIndexOf('/', 1));
-				
-				System.out.println(parent_path);
-				
-				// int parent_seq = fdao.getDirSeqByPath(dirPath);
-				//fdao.insertDirectory(dirPath, filename, parent_seq);
-				
+				// 하위 폴더 있을 경우
+				else{
+					parent_path = dirPath + "/" + filename.substring(0, filename.lastIndexOf("/", filename.length() - 2));
+					name = filename.substring(filename.lastIndexOf("/", filename.length() - 2) + 1, filename.lastIndexOf("/"));
+				}
+
+				int parent_seq = fdao.getDirSeqByPath(parent_path);
+				fdao.insertDirectory(dirPath + "/" + filename.substring(0, filename.length() - 1), name, parent_seq);
+
 			} else {
-				
+
 				// 파일이면 파일 만들기
 				// 디렉토리 확인
-		        File parentDir = new File(file.getParent());
+				File parentDir = new File(file.getParent());
+				String parent_path = parentDir.getPath();
+				parent_path = parent_path.substring(session.getServletContext().getRealPath("upload/backup").length());
+				int directory_seq = fdao.getDirSeqByPath(parent_path.replace("\\", "/"));
 
-		        // 디렉토리가 없으면 생성
-		        if (!parentDir.exists()) {
-		            parentDir.mkdirs();
-		        }
+				// 디렉토리가 없으면 생성
+				if (!parentDir.exists()) {
+					parentDir.mkdirs();
+				}
 
-		        // 파일 스트림 선언
-		        FileOutputStream fos = new FileOutputStream(file);
+				// 파일 스트림 선언
+				FileOutputStream fos = new FileOutputStream(file);
 
-		            byte[] buffer = new byte[256];
-		            int size = 0;
-		            // Zip 스트림으로부터 byte 뽑기
-		            while ((size = zis.read(buffer)) > 0) {
-		                // byte로 파일 만들기
-		                fos.write(buffer, 0, size);
-		            }
+				byte[] buffer = new byte[256];
+				int size = 0;
+				// Zip 스트림으로부터 byte 뽑기
+				while ((size = zis.read(buffer)) > 0) {
+					// byte로 파일 만들기
+					fos.write(buffer, 0, size);
+				}
 
-		    }
-			
+				this.uploadFile(directory_seq, file, file.getName());
+
+			}
+
 
 		}
-		
+
 		fis.close();
 		zipFile.delete();
 

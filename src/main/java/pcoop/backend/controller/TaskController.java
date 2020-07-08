@@ -1,6 +1,7 @@
 package pcoop.backend.controller;
 
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +21,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import pcoop.backend.dto.CalendarDTO;
 import pcoop.backend.dto.CardDTO;
 import pcoop.backend.dto.ListDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.service.CalendarService;
 import pcoop.backend.service.ListService;
 
 
@@ -33,20 +36,50 @@ public class TaskController {
 	@Autowired
 	private ListService lservice;
 	@Autowired
+	private CalendarService Cservice;
+	@Autowired
 	HttpSession session;
 	
 	@RequestMapping("/task")
-	public String Task() {
+	public String Task(Model model)throws Exception {
+		List<CalendarDTO> list = new ArrayList<>();
+		int project_seq=0;
+		list = Cservice.selectAll(project_seq);
+		model.addAttribute("list", list);
 		return "Task/task";
 	}
 
 	
-	
+	@ResponseBody
+	@RequestMapping("listIndexUpdateAjax")
+	public void listIndexUpdate(HttpServletRequest request) {
+		System.out.println("listIndexUpdate 시작");
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+
+
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("listId", request.getParameter("listId"));
+		param.put("listIndex", request.getParameter("listIndex"));
+
+		int result = lservice.listIndexUpdate(param);
+		
+		System.out.println("listIndexUpdate 결과 : "+result);
+
+
+	}
 
 	@ResponseBody
 	@RequestMapping("cardIndexUpdateAjax")
 	public void cardListIdUpdate(HttpServletRequest request) {
-		System.out.println("cardListIdUpdate 시작");
+		System.out.println("cardIndexUpdate 시작");
 		
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");

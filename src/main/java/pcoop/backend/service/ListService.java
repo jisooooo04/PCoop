@@ -76,7 +76,10 @@ public class ListService {
 	public int cardIndexUpdate (Map<String, Object> param) {
 		return ldao.cardIndexUpdate(param);
 	}
-	
+
+	public int listIndexUpdate (Map<String, Object> param) {
+		return ldao.listIndexUpdate(param);
+	}
 	
 	public int selectCount(){
 		return ldao.selectCount();
