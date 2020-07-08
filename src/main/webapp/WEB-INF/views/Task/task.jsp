@@ -373,7 +373,9 @@
 			</div>
 
 			<div id="calendarBox">
-				<div id='calendar'"></div>
+
+			<div id='calendar'></div>
+		
 				<!--ㅡㅡㅡㅡㅡ 일정 생성하기 modal ㅡㅡㅡㅡㅡㅡㅡ-->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -691,7 +693,8 @@
 <!--ㅡㅡㅡㅡㅡ /삭제 확인 modal ㅡㅡㅡㅡㅡㅡㅡ-->
 		</div>
 			</div>
-		</div>
+		
+		
 
 
 

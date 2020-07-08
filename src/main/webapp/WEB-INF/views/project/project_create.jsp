@@ -7,6 +7,44 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <title>PCOOP!</title>
+<style>
+	.container{
+        position: relative;
+    }
+    .container>h2{        
+         font-family: 'Noto Sans KR', sans-serif;
+         font-weight: 600px;
+         text-align: center;
+         font-weight: bolder;
+         color: cadetblue;
+         margin-top: 50px;
+         margin-bottom: 50px;
+    }    
+    form{
+        border: 1.5px solid cadetblue;
+        border-radius: 10px;
+        padding: 20px;
+        width: 600px;
+        position: absolute;
+        left: 25%;
+        padding-bottom: 7px;
+    }
+    .btn{
+        margin-top:10px;
+        width: 150px;
+        height: 50px;
+        background-color: cadetblue;
+        opacity: 80%;
+        color: aliceblue;
+    }
+    .btn:hover{
+        opacity: 130%;
+        color: aliceblue;
+    }
+    label{
+       font-family: 'Noto Sans KR', sans-serif; 
+    }
+</style>
 </head>
 <body>
 
@@ -37,12 +75,11 @@
 
 		</header>
 		<section>
-			<div>
-				<h5>프로젝트 생성하기</h5>
-			</div>
+			<div class="container">
+        <h2>프로젝트 생성하기</h2>		
 			<form action="create" method="post" id="formtag">
 				<div class="form-group">
-					<label>Project name</label> <input type="text" class="form-control"
+					<label>Project name</label><input type="text" class="form-control"
 						id="exampleFormControlInput1" name='name'
 						placeholder='프로젝트의 이름을 입력해주세요.' required>
 				</div>
@@ -53,9 +90,10 @@
 							<option value='${i}'>${i}</option>
 						</c:forEach>
 					</select>
-					<button type="submit" class="btn btn-sm">프로젝트 생성</button>
+					<button type="submit" class="btn">프로젝트 생성</button>
 				</div>
 			</form>
+			</div>
 		</section>
 	</div>
 </body>
