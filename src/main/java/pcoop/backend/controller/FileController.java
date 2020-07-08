@@ -36,6 +36,8 @@ public class FileController {
 	HttpSession session;
 	@Autowired
 	FileService fservice;
+	
+	private int project_seq = 11;
 
 	@RequestMapping("fileList")
 	public String fileList(Model model) {
@@ -62,7 +64,7 @@ public class FileController {
 		//		}
 
 		// DB에서 목록 가져올 때
-		List<DirectoryDTO> dirList = fservice.getDirList();
+		List<DirectoryDTO> dirList = fservice.getDirList(project_seq);
 		JsonArray dirArr = new JsonArray();
 
 		for(DirectoryDTO dto : dirList) {
@@ -76,12 +78,26 @@ public class FileController {
 		return "backup/fileList";
 	}
 
-	@RequestMapping(value = "getFileList", produces = "application/text; charset=utf8")
+	@RequestMapping(value = "getDirAndFileList", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String getFileList(int dir_seq) {
+	public String getDirAndFileList(int dir_seq) {
 
+		System.out.println(dir_seq);
+		List<DirectoryDTO> dirList = fservice.getDirList(dir_seq);
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
+		
+		for(DirectoryDTO dto : dirList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			// json.addProperty("project_seq", dto.getProject_seq());
+			json.addProperty("parent_seq", dto.getParent_seq());
+			json.addProperty("name", dto.getName());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("root_yn", dto.getRoot_yn());
+			dirArr.add(json);
+		}
 
 		for(FileDTO dto : fileList) {
 			JsonObject json = new JsonObject();
@@ -93,7 +109,13 @@ public class FileController {
 			fileArr.add(json);
 		}
 
-		return new Gson().toJson(fileArr);
+		JsonObject arrs = new JsonObject();
+		arrs.addProperty("dirArr", new Gson().toJson(dirArr));
+		arrs.addProperty("fileArr", new Gson().toJson(fileArr));
+		System.out.println(dirArr);
+		System.out.println(fileArr);
+
+		return new Gson().toJson(arrs);
 	}
 
 	@RequestMapping("addDirectory")
@@ -129,7 +151,7 @@ public class FileController {
 		fservice.deleteDirectory(seq, path);
 
 		// 업데이트된 리스트 보내기
-		List<DirectoryDTO> dirList = fservice.getDirList();
+		List<DirectoryDTO> dirList = fservice.getDirList(seq);
 
 		JsonArray dirArr = new JsonArray();
 
@@ -197,6 +219,7 @@ public class FileController {
 		
 		String result = "";
 		
+		System.out.println(dir_seq + " : " + zip_dir + " : " + zip);
 		// 압축 해제할 디렉토리 이름 중복 체크
 		int checkDupl = fservice.checkDuplDirName(dir_seq, zip_dir);
 		
@@ -309,28 +332,24 @@ public class FileController {
 
 	@RequestMapping("project-main")
 	public String projectMain(Model model) {
+		
+		// 프로젝트의 루트 디렉토리 seq 가져옴
+		int root_seq = fservice.getRootDirSeq(project_seq);
+		
 		// DB에서 목록 가져올 때
-		List<DirectoryDTO> dirList = fservice.getDirList();
-		List<FileDTO> fileList = fservice.getFileList();
+		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
 		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
 
 		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
 			json.addProperty("seq", dto.getSeq());
+			json.addProperty("name", dto.getName());
 			json.addProperty("path", dto.getPath());
 			dirArr.add(json);
 		}
-
-		for(FileDTO dto : fileList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			fileArr.add(json);
-		}
-
+		
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		model.addAttribute("filelist", new Gson().toJson(fileArr));
 		return "project-main";
 	}
 

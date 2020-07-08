@@ -18,6 +18,10 @@ ul{
 	padding-left: 10px;
 }
 
+.backup-path{
+	height: 100px;
+}
+
 .contextmenu, .add_dir, .rename_dir, .rename_file, .contextmenu_container {
 	display: none;
 	position: absolute;
@@ -69,5 +73,32 @@ ul{
 	background-color: lightgray;
 	color: white;
 	border: none;
+}
+
+.backup-path{
+	border-bottom: 1px solid lightgray;
+}
+
+.list{
+	padding: 60px;
+}
+
+.dirs>.dir, .file{
+	float: left;
+	text-align: center;
+	height: 130px;
+	width: 130px;
+	margin: 10px;
+}
+
+.icon{
+	text-align: center;
+	border-round: 90px;
+	line-height: 100px;
+	height: 64px;
+}
+
+.icon>span{
+	width: 100%;
 }
 

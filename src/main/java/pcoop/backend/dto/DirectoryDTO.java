@@ -4,6 +4,7 @@ public class DirectoryDTO {
 	
 	private int seq;
 	private int project_seq;
+	private int parent_seq;
 	private String name;
 	private String path;
 	private String root_yn;
@@ -11,11 +12,12 @@ public class DirectoryDTO {
 	public DirectoryDTO() {
 		super();
 	}
-
-	public DirectoryDTO(int seq, int project_seq, String name, String path, String root_yn) {
+	
+	public DirectoryDTO(int seq, int project_seq, int parent_seq, String name, String path, String root_yn) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
+		this.parent_seq = parent_seq;
 		this.name = name;
 		this.path = path;
 		this.root_yn = root_yn;
@@ -35,6 +37,16 @@ public class DirectoryDTO {
 
 	public void setProject_seq(int project_seq) {
 		this.project_seq = project_seq;
+	}
+	
+	
+
+	public int getParent_seq() {
+		return parent_seq;
+	}
+
+	public void setParent_seq(int parent_seq) {
+		this.parent_seq = parent_seq;
 	}
 
 	public String getName() {

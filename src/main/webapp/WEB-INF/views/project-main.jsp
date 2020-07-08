@@ -23,14 +23,10 @@
 $(function() {
 
 	$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
-
+	
 	// 디렉토리 가지고 오기
 	var dirlist = ${dirlist};
 	printDirList(dirlist);
-
-	// 파일 가지고 오기
-	var filelist = ${filelist};
-	// printFileList(filelist);
 	
 })
 </script>
@@ -38,7 +34,7 @@ $(function() {
 	$(function() {
 
 		$(".menu-chat").on("click", function(){
-			$("#container").load("chat");
+			$("#container").load("chatting");
 			//$("#modals").load("chat .modals");
 		})
 		
@@ -55,11 +51,12 @@ $(function() {
 	<jsp:include page="header/sidebar-left.jsp"></jsp:include>
 
 	<section>
-
 		<div id="container">
-		
+			<!-- 본인영역 추가 -->
+			
+			
+			<!-- 본인영역 끝 -->
 		</div>
-
 	</section>
 	
 	<div id="modals"></div>

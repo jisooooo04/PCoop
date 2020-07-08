@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Backup">
+
+<!-- [SELECT] -->
+
+<!-- 프로젝트의 루트 디렉토리 검색 -->
+<select id="getRootDirSeq" resultType="int">
+	select seq from directory where project_seq = ${value} and root_yn = 'Y'
+</select>
+
+<!-- 이름으로 디렉토리 seq 검색 -->
+<select id="getDirSeqByName" resultType="int">
+	select seq from directory where name = #{name} and parent_seq = ${parent_seq}
+</select>
+
+<!-- seq로 디렉토리 경로 검색 -->
+<select id="getDirPathBySeq" resultType="String">
+	select path from directory where seq = ${value}
+</select>
+
+<!-- seq로 디렉토리의 parent_seq 검색 -->
+<select id="getParentSeqBySeq" resultType="int">
+	select parent_seq from directory where seq = ${value}
+</select>
+
+<!-- path로 디렉토리의 seq 검색 -->
+<select id="getDirSeqByPath" resultType="int">
+	select seq from directory where path = #{value}
+</select>
+
+<!-- 디렉토리 중복 확인 -->
+<select id="checkDuplDirName" resultType="int">
+	select count(*) from directory where parent_seq = ${parent_seq} and name = #{name}
+</select>
+
+<!-- 디렉토리의 하위 디렉토리 리스트 -->
+<select id="getDirList" resultType="pcoop.backend.dto.DirectoryDTO">
+	select * from directory where parent_seq = ${value} order by 1
+</select>
+
+<!-- 파일 이름 가져오기 -->
+<select id="getFileNameBySeq" resultType="String">
+	select name from files where seq = ${value}
+</select>
+
+<!-- 파일 경로 가져오기 -->
+<select id="getFilePathBySeq" resultType="String">
+	select path from files where seq = ${value}
+</select>
+
+<!-- 파일의 확장자가 텍스트인지 체크 -->
+<select id="isTextFile" resultType="int">
+	select count(*) from extension where extension = #{value}
+</select>
+
+<!-- 파일 확장자 가져오기 -->
+<select id="getFileExtensionBySeq" resultType="String">
+	select extension from files where seq = ${value}
+</select>
+
+<!-- 같은 디렉토리 내 파일명 중복 확인 -->
+<select id="checkDuplFileName" resultType="int">
+	select count(*) from files where directory_seq = ${directory_seq} and name = #{name}
+</select>
+
+<!-- 특정 디렉토리 내 파일 리스트 -->
+
+<select id="getFileListByDirSeq" resultType="pcoop.backend.dto.FileDTO">
+	select * from files where directory_seq = ${value}
+</select>
+
+<!-- 전체 파일 리스트 -->
+<select id="getFileList" resultType="pcoop.backend.dto.FileDTO">
+	select * from files
+</select>
+
+
+
+
+
+<!-- [INSERT] -->
+
+<!-- 프로젝트 생성 시, Root 디렉토리 생성함 -->
+<insert id="insertRootDir">
+	insert into directory values(directory_seq.nextval, ${seq}, null, #{name}, #{path}, 'Y')
+</insert>
+
+<!-- 디렉토리 insert -->
+<insert id="insertDirectory">
+	insert into directory values(DIRECTORY_SEQ.nextval, 11, ${parent_seq}, #{name}, #{path}, 'N')
+</insert>
+
+<!-- 파일 생성 -->
+<insert id="insertFile">
+	insert into files values(files_seq.nextval, ${project_seq}, ${directory_seq}, #{directory_path}, #{name}, #{extension}, #{path}, sysdate, #{uploader}, #{text_yn})
+</insert>
+
+
+
+
+
+<!-- [DELETE] -->
+
+<!-- 디렉토리 delete -->
+<delete id="deleteDirectory">
+	delete from directory where path like #{value}
+</delete>
+
+<!-- 특정 디렉토리 내 모든 파일 지우기 -->
+<delete id="deleteFilesByDirPath">
+	delete from files where path like #{value}
+</delete>
+
+<!-- 파일 삭제 -->
+<delete id="deleteFile">
+	delete from files where seq = ${value}
+</delete>
+
+
+
+
+
+<!-- [UPDATE] -->
+
+<!-- 디렉토리 이름 및 path 변경 -->
+<update id="renameDirectory">
+	update directory set name = #{name}, path = #{path} where seq = ${seq}
+</update>
+
+<!-- 디렉토리 이름 변경 시, 하위 파일들 path 변경 -->
+<update id="repathFileByDirSeq">
+	update files set directory_path = #{repath}, path = #{frepath} where seq = ${seq}
+</update>
+
+<!-- 파일 이름 변경 -->
+<update id="renameFile">
+	update files set name = #{name}, path = #{path} where seq = ${seq}
+</update>
+
+</mapper>

@@ -88,7 +88,7 @@ public class HomeController {
 	}
 	
 
-	@RequestMapping("goMain")
+	  @RequestMapping("goMain")
 	  public String goMain()throws Exception{
 		  session.removeAttribute("projectInfo"); //프로젝트 세션만 삭제하기
 		  return "redirect:/";

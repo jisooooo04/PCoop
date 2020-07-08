@@ -53,6 +53,11 @@ public class FileService {
 		return fdao.checkDuplDirName(parent_seq, name);
 	}
 
+	// 프로젝트의 루트 디렉토리 seq 검색
+	public int getRootDirSeq(int project_seq) {
+		return fdao.getRootDirSeq(project_seq);
+	}
+
 	// 드라이브에 디렉토리 생성 후, path 리턴
 	public String makeDirToDrive(int parent_seq, String name) {
 
@@ -87,9 +92,9 @@ public class FileService {
 		return fdao.getParentSeqBySeq(seq);
 	}
 
-	// 디렉토리 리스트 가져오기
-	public List<DirectoryDTO> getDirList(){
-		return fdao.getDirList();
+	// 디렉토리의 하위 디렉토리 가져오기
+	public List<DirectoryDTO> getDirList(int root_seq){
+		return fdao.getDirList(root_seq);
 	}
 
 	// 디렉토리 이름 변경 
@@ -330,14 +335,14 @@ public class FileService {
 		}
 
 		Charset CP866 = Charset.forName("CP866");
-		
+
 		ZipFile zf = new ZipFile(zipFile, CP866.name());
 		Enumeration e = zf.getEntries();
-		
+
 		FileInputStream fis = null;
 		ZipInputStream zis = null;
 		ZipEntry zipentry = null;
-		
+
 		// 파일 스트림
 		fis = new FileInputStream(zipFile);
 
@@ -347,7 +352,7 @@ public class FileService {
 		// entry가 없을 때까지 뽑기
 		// (zipentry = zis.getNextEntry()) != null
 		while ((zipentry = zis.getNextEntry()) != null) {
-			
+
 			String filename = zipentry.getName();
 			File file = new File(path, filename);
 
