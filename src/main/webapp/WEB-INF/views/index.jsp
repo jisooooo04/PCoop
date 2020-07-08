@@ -44,7 +44,7 @@
 				<a href="#">프로젝트 소개</a> 
 				<a href="Task/task">할 일 목록</a>
 				<a href="project-main">백업</a> 
-				<a href="calendar?project_seq=0">캘린더</a>
+				<a href="calendar/calendar?project_seq=0">캘린더</a>
 				<a href="chatting">채팅</a>
 
 			</nav>

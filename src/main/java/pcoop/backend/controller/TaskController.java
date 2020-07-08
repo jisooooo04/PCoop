@@ -1,6 +1,7 @@
 package pcoop.backend.controller;
 
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +21,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import pcoop.backend.dto.CalendarDTO;
 import pcoop.backend.dto.CardDTO;
 import pcoop.backend.dto.ListDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.service.CalendarService;
 import pcoop.backend.service.ListService;
 
 
@@ -33,10 +36,16 @@ public class TaskController {
 	@Autowired
 	private ListService lservice;
 	@Autowired
+	private CalendarService Cservice;
+	@Autowired
 	HttpSession session;
 	
 	@RequestMapping("/task")
-	public String Task() {
+	public String Task(Model model)throws Exception {
+		List<CalendarDTO> list = new ArrayList<>();
+		int project_seq=0;
+		list = Cservice.selectAll(project_seq);
+		model.addAttribute("list", list);
 		return "Task/task";
 	}
 
