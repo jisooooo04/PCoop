@@ -12,12 +12,12 @@
 	</select>
 	
 	<delete id="delete">
-		delete from member where id= #{value}
+		delete from member where seq= #{seq}
 	</delete>
 	
 	
 	<update id="update">
-update member set pw= #{pw}, name=#{name}, phone=#{phone}, email=#{email}, zipcode=#{zipcode}, address1=#{address1}, address2=#{address2} where id =#{id}
+update member set pw= #{pw}, name=#{name} where seq =#{seq}
 	</update>
 	
 	

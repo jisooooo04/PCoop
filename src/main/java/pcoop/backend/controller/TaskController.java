@@ -256,9 +256,8 @@ public class TaskController {
 		
 		Map<String, Object> param = new HashMap<>();
 		param.put("title", request.getParameter("title") );
-		if(pdto != null ){
-			param.put("project_seq", pdto.getSeq()); 
-		}
+		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+
 
 
 		System.out.println("리스트 생성 !");
@@ -413,9 +412,9 @@ public class TaskController {
 		// 세션에 프로젝트dto , 이름은 projectInfo
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 		Map<String, Object> param = new HashMap<>();
-		if(pdto != null ){
-		param.put("project_seq", pdto.getSeq()); 
-		}
+//if(pdto != null) {
+		param.put("project_seq", pdto.getSeq()); // project_seq 받아오기
+//}
 		List<ListDTO> TaskList = lservice.selectList(param);
 		String TaskListArr = new Gson().toJson(TaskList);
 		System.out.println("TaskListArr : "+ TaskListArr);

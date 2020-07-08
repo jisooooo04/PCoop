@@ -734,7 +734,7 @@ $(function () {
 
 
 				if (!me.$form[0].title.value) {
-					me._showFormError('title', '공백으로 등록 할 수 없습니다.');
+					me._showFormError('title', '제목을 입력해주세요.');
 					return
 				}
 				

@@ -195,7 +195,7 @@
 
 				},
 				error : function(error) {
-					alert('data error');
+					alert('프로젝트가 없습니다.');
 				}
 			});
 			
