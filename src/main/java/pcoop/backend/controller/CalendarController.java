@@ -17,6 +17,7 @@ import pcoop.backend.dto.CalendarDTO;
 import pcoop.backend.service.CalendarService;
 
 @Controller
+@RequestMapping("calendar")
 public class CalendarController {
 	
 	@Autowired

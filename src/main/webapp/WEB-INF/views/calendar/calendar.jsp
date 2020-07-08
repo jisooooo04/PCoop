@@ -18,7 +18,7 @@
     var calendarEl = document.getElementById('calendar');
 
 
-	var json;
+	/* var json;
 	
 	$.ajax({
 		url : "tempcalendar",
@@ -28,7 +28,7 @@
 			console.log(json);
 		}		
 	});
-	
+	 */
 	
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	displayEventTime:false,//제목에 시간 같이 display 안되게 설정하는
