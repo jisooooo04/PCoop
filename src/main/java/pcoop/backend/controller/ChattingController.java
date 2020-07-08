@@ -45,7 +45,6 @@ public class ChattingController {
 		//사용자가 클릭한 채팅방(디폴트-속한단체채팅방) 정보 받아오기
 		//채팅방seq 혹은 이름
 		
-		
 		//현재 날짜 보내기
 		Date dateobj = new Date();
 		SimpleDateFormat form = new SimpleDateFormat("yyyy년 MM월 dd일 ");

@@ -118,13 +118,8 @@ public class MemberDAO {
 	        //조건식 ? true일때의 값 : false일때의 값
 	        return (user_name1==null) ? true : false;
 	    }
-	 
 	    
-	    //회원의 프로필 정보를 리턴한다.
-	    public List<MemberDTO> member_profile(String user_id) throws Exception {
-	        
-	        return sqlSession.selectList("member.member_profile", user_id);
-	    }
+	    
 	    
 	  //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
 	    public List<ProjectDTO> getProjectList(int seq)throws Exception{
@@ -155,6 +150,14 @@ public class MemberDAO {
 	    	return mybatis.selectList("project.SelectMyProjectSeq", seq);
 	    }
 	    
-	   
+	    
+	    
+	    //-------------------------채팅방 기능-------------------------------
+	    
+	    //member_seq로 회원 이름 조회
+	    public String selectName(int member_seq) throws Exception {
+	        return mybatis.selectOne("Member.selectName", member_seq);
+	    }
+	    
 	    
 }
