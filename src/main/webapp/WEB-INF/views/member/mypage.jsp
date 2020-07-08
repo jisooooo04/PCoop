@@ -19,7 +19,6 @@
 	top:100%;
 	position:fixed;
 	background: #fff;
-	border:1px solid red;
 	width:100%;
 	height:100%;
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
@@ -40,7 +39,28 @@
 .modal-open{
 	top:0;
 }
-
+/* #modifybtn{
+	width:80px;
+	border-radius:10px;
+	border:none;
+	height:30px;
+	font: inherit;
+}
+#deletebtn{
+	width:80px;
+	border-radius:10px;
+	border:none;
+} */
+/* .btns>button:hover{
+  transform: scale(1.2);
+} */
+.btns>button{
+	width:80px;
+	border-radius:10px;
+	border:none;
+	height:30px;
+	font: inherit;
+}
 </style>
 </head>
 <body>
@@ -100,8 +120,7 @@
 				</div>
 				<div class="row">
 					<div class="col-2"></div>
-					<div class="col-3"></div>
-					<div class="col-5">
+					<div class="col-8 btns">
 						<button id="modifybtn">수정</button>
 						<button id="deletebtn">탈퇴</button>
 					</div>
@@ -110,8 +129,8 @@
 				
 			</div>
 			<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ프로젝트 카드  -->
-
-			<div class="col-8">
+			
+			<div class="col-sm-8">
 				<div class="row">
 				<c:choose>
 					<c:when test='${list_size ==0}'>
@@ -124,20 +143,15 @@
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="i" items="${list}">
-						<div class="col-6-sm">
-							<div class="row">
-							<div class="col-sm-10">
-								<div class="card" style='width: 20rem;'>
+						<div class="col-sm-6 pt-2">						
+						<div class="card" style='width: 100%;'>
 									<div class="card-body">
 										<h5 class="card-title">${i.name}</h5>
 										<p class="card-text">${i.code}</p>
-										<a href="../project/goProjectHome?seq=${i.seq}" class="btn btn-primary btn-sm">프로젝트 바로가기</a>
-										<a href="" class="btn btn-primary btn-sm">프로젝트 나가기</a>
+										<a href="../project/goProjectHome?seq=${i.seq}" class="btn btn-primary">프로젝트 바로가기</a>
+										<a href="" class="btn btn-primary" >프로젝트 나가기</a>
 									</div>
-								</div>
-							</div>
-							<div class="col-sm-2"></div>
-						</div>
+								</div>	
 						</div>
 					</c:forEach>
 					</c:otherwise>
@@ -145,6 +159,7 @@
 					
 				</div>
 			</div>
+			
 		</div>
 	</section>
 		</div>

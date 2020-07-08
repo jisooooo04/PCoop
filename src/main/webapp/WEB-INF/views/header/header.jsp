@@ -41,7 +41,7 @@
 	<!-- 헤더 -->
 	<header>
 		<!-- 로고 -->
-		<div class="logo" OnClick="location.href ='goMain'">
+		<div class="logo" OnClick="location.href ='/goMain'">
 			<b>P</b>COOP!
 		</div>
 
