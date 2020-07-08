@@ -102,13 +102,9 @@ public class MemberService {
         
         return result;
     }
- 
- 
-    //�ڽ��� �������� �� �� �ְ� �ϴ� �޼ҵ�
-    public List<MemberDTO> member_profile(String user_id) throws Exception{
-        
-        return mdao.member_profile(user_id);
-    }
+    
+    
+    
     
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
     public List<ProjectDTO> getProjectList (int seq)throws Exception{

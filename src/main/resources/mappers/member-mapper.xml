@@ -38,4 +38,10 @@ update member set pw= #{pw}, name=#{name} where seq =#{seq}
 	</delete>
 	
 	
+	<!--  채팅방 기능 영역   -->
+	<select id="selectName" resultType="String">
+		select name from member where seq=#{value}
+	</select>
+	
+	
 </mapper>
