@@ -34,7 +34,7 @@ $(function() {
 	$(function() {
 
 		$(".menu-chat").on("click", function(){
-			$("#container").load("chat");
+			$("#container").load("chatting");
 			//$("#modals").load("chat .modals");
 		})
 		
@@ -51,11 +51,12 @@ $(function() {
 	<jsp:include page="header/sidebar-left.jsp"></jsp:include>
 
 	<section>
-
 		<div id="container">
-		
+			<!-- 본인영역 추가 -->
+			
+			
+			<!-- 본인영역 끝 -->
 		</div>
-
 	</section>
 	
 	<div id="modals"></div>
