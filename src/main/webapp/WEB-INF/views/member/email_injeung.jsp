@@ -25,7 +25,7 @@
 		<div class="form-container log-in-container">
 			<form action="join_injeung.do${dice}" method="post">
 			<br><br>
-				<h1>입력한 이메일로 전송된 인증번호를 입력하세요</h1>
+				<h1>인증번호를 입력</h1>
 				<br><br>
 				
 				<input type="text" name="email_injeung" placeholder="인증번호 입력"  class="in" />

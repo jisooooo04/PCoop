@@ -166,7 +166,7 @@
 
 				    					},
 				    					error : function(error) {
-				    						alert('data error');
+				    						alert('selectCount (아이템 삭제)');
 				    					}
 				    				});
 				    				
@@ -183,7 +183,7 @@
 
 				    					},
 				    					error : function(error) {
-				    						alert('data error');
+				    						alert('selectCount (아이템 추가)');
 				    					}
 				    				});
 				                }
@@ -211,7 +211,7 @@
 
 				},
 				error : function(error) {
-					alert('data error');
+					alert('selectCount (첫 load)');
 				}
 			});
 			

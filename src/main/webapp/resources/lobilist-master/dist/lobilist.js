@@ -239,7 +239,7 @@ $(function () {
 						if (res.success) { //res.success 조건 발생 안함
 							console.log('res.success : '+res.success);
 							item.id = res.id;
-							console.log('item.id : '+item.id);
+							console.log('추가되는 item.id : '+item.id);
 							me._addItemToList(item);
 						} else {
 							if (errorCallback && typeof errorCallback === 'function') {
@@ -413,11 +413,15 @@ $(function () {
 
 				var listId = me.getId();
 				console.log('listId : '+listId); // 이름변경 코드
+				console.log(me); // 이름변경 코드
 
+				//console.log(me.parent().find('.lobilist-wrapper').length); // 이름변경 코드
 
+				
 				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
 				if(oldTitle ==''){
-					console.log('리스트 추가 동작');
+					console.log('리스트 추가 동작 ');
+					
 					$.ajax({
 						url:"/Task/listAddAjax",
 						type:"get",
@@ -724,26 +728,40 @@ $(function () {
 				var dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
 				var due = me.$form[0].dueDate.value
 				var testdue = dayRegExp.test(due);
-				console.log(testdue)	
+					
+	               console.log(testdue);
 
 
 
 				if (!me.$form[0].title.value) {
-					me._showFormError('title', 'Title can not be empty');
-
+					me._showFormError('title', '공백으로 등록 할 수 없습니다.');
+					return
 				}
-				if(due != ""){
-					if (!testdue){
-						me._showFormError('dueDate', '형식에 맞게 넣어주세요 : YYYY-MM-DD'); // 정규식 에러 알림
-						return
-					}
+				
+				// 카드 입력값 사이즈 제한
+				if(me.$form[0].title.value.length > 33){
+					me._showFormError('title', '30 글자 이하로 입력해주세요');
+					return
 				}
 
+				if(me.$form[0].description.value.length > 166){
+					me._showFormError('description', '150 글자 이하로 입력해주세요');
+					return
+				}
+					
+			//구버전 IE에서는 엔터시 무한카드 입력
+					//if문 안에 if문이 들어가는 형식은 에러 발생
+				if (due && !testdue){
+	                  me._showFormError('dueDate', '형식에 맞게 넣어주세요 : YYYY-MM-DD');
+	                  return
+	               }
+			
 				var formData = {},
 				$inputs = me.$form.find('[name]');
 				$inputs.each(function (ind, el) {
 					formData[el.name] = el.value;
 				});
+			
 				me.saveOrUpdateItem(formData);
 
 				me.$form.addClass('hide');
@@ -809,7 +827,7 @@ $(function () {
 				});
 
 				$item.change(function () {
-					console.log("_createCheckbox");
+					//console.log("_createCheckbox");
 					
 					me._onCheckboxChange(this);
 				});
@@ -826,8 +844,8 @@ $(function () {
 				item.done = $this.prop('checked');
 				
 
-				console.log("item.id: "+item.id); // 대상 아이템 아이디
-				console.log("item.done: "+item.done); // 체크유무
+				console.log("카드 체크 : "+item.id+" : "+item.done); // 대상 아이템 아이디
+		
 				
 				//ajax 코드 추가 checkboxChangeAjax
 				$.ajax({
@@ -1102,6 +1120,10 @@ console.log("지우고 나서");
 						
 						if (input[0].value == '') { // 리스트 네임
 							alert('리스트 이름을 입력해 주세요!');
+							return
+						}
+						if (input[0].value.length > 33) { // 리스트 네임
+							alert('리스트 이름은 30글자 이하로 입력해주세요.');
 							return
 						}
 						

@@ -212,7 +212,7 @@ public class TaskController {
 		
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", request.getParameter("listId")); 
-		param.put("title", request.getParameter("title"));
+		param.put("title", request.getParameter("title") );
 
 
 
@@ -255,7 +255,7 @@ public class TaskController {
 	
 		
 		Map<String, Object> param = new HashMap<>();
-		param.put("title", request.getParameter("title"));
+		param.put("title", request.getParameter("title") );
 		if(pdto != null ){
 			param.put("project_seq", pdto.getSeq()); 
 		}
