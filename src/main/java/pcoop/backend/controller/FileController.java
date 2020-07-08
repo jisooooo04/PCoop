@@ -311,27 +311,27 @@ public class FileController {
 	//		}
 	//	}
 
-	@RequestMapping("project-main")
-	public String projectMain(Model model) {
-		
-		// 프로젝트의 루트 디렉토리 seq 가져옴
-		int root_seq = fservice.getRootDirSeq(project_seq);
-		
-		// DB에서 목록 가져올 때
-		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
-		JsonArray dirArr = new JsonArray();
-		JsonArray fileArr = new JsonArray();
-
-		for(DirectoryDTO dto : dirList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("name", dto.getName());
-			json.addProperty("path", dto.getPath());
-			dirArr.add(json);
-		}
-		
-		model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		return "project-main";
-	}
+//	@RequestMapping("project-main")
+//	public String projectMain(Model model) {
+//		
+//		// 프로젝트의 루트 디렉토리 seq 가져옴
+//		int root_seq = fservice.getRootDirSeq(project_seq);
+//		
+//		// DB에서 목록 가져올 때
+//		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
+//		JsonArray dirArr = new JsonArray();
+//		JsonArray fileArr = new JsonArray();
+//
+//		for(DirectoryDTO dto : dirList) {
+//			JsonObject json = new JsonObject();
+//			json.addProperty("seq", dto.getSeq());
+//			json.addProperty("name", dto.getName());
+//			json.addProperty("path", dto.getPath());
+//			dirArr.add(json);
+//		}
+//		
+//		model.addAttribute("dirlist", new Gson().toJson(dirArr));
+//		return "project-main";
+//	}
 
 }

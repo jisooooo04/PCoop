@@ -172,10 +172,10 @@
 
 	<script>
 		$("#project_create").on("click",function(){
-			location.href="project/project_create";
+			location.href="project_create";
 		})
 		$("#project_join").on("click",function(){
-			location.href="project/project_join";
+			location.href="project_join";
 		})
 		$("#signUp").on("click",function(){
 			location.href="member/toEmailView";

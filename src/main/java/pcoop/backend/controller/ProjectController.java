@@ -21,7 +21,6 @@ import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.ProjectService;
 
 @Controller
-@RequestMapping("project")
 public class ProjectController {
 	
 	@Autowired
@@ -123,12 +122,17 @@ public class ProjectController {
 	  }
 	 
 	  @RequestMapping("goProjectHome")
-	  public String goProjectHome(int seq,Model model)throws Exception{
-		  ProjectDTO pdto = service.selectBySeq(seq);//프로젝트 seq로 프로젝트 dto 가져오기
-		  this.session.setAttribute("projectInfo", pdto);//세션에 dto담기 
+	  public String goProjectHome(Model model)throws Exception{
+		  
+		  //ProjectDTO pdto = service.selectBySeq(seq);//프로젝트 seq로 프로젝트 dto 가져오기
+		  //session.setAttribute("projectInfo", pdto);//세션에 dto담기 
+		  
+		  ProjectDTO pdto = (ProjectDTO)session.getAttribute("projectInfo");
+		  int project_seq = pdto.getSeq();
+		  System.out.println("projectController : 프로젝트 시퀀스는 >> " + project_seq); //seq 확인용
 		  
 		  //이 프로젝트에 대해 참가요청이 있다면 가져오기
-		  List<ProjectMemberDTO> list = service.joinYNCheck(seq);
+		  List<ProjectMemberDTO> list = service.joinYNCheck(project_seq);
 		  int size = list.size(); 
 		  if(size==0) {
 			  
@@ -138,6 +142,7 @@ public class ProjectController {
 		 
 		  return "project/project_home";
 	  }
+	  
 	  
 	  @RequestMapping("accept")
 	  public String accept(int mem_seq,int project_seq,Model model)throws Exception{//참가 수락

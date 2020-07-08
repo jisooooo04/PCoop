@@ -21,12 +21,24 @@
 
 <script>
 $(function() {
-
+	
+	//바로 projectHome 로드되도록 설정
+	$("#container").load("goProjectHome");  //리퀘스트매핑
+	
 	$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
 
 	// 디렉토리 가지고 오기
 	var dirlist = ${dirlist};
 	printDirList(dirlist);
+	
+	
+	//채팅 목록 list 불러와서 왼쪽 사이드바에 뿌려주기
+	var chattingList = ${chattingList};
+	
+	
+	
+	$(".chattinList").append();
+	
 	
 })
 </script>
@@ -54,6 +66,7 @@ $(function() {
 		<div id="container">
 			<!-- 본인영역 추가 -->
 			
+			project main입니다.
 			
 			<!-- 본인영역 끝 -->
 		</div>
