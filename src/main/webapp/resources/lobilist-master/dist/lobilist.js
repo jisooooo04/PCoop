@@ -217,11 +217,16 @@ $(function () {
 			addItem: function (item, errorCallback) {
 				console.log("addItem 기능 시작 ");
 				var me = this;
+
 				if (me._triggerEvent('beforeItemAdd', [me, item]) === false) {
+
 					return me;
 				}
+				
 
 				item = me._processItemData(item);
+				console.log(JSON.stringify(item));
+
 				if (me.$globalOptions.actions.insert) {
 
 					console.log("addItem insert 기능 ajax 동작 : "+ JSON.stringify(item));
@@ -242,8 +247,10 @@ $(function () {
 							console.log('추가되는 item.id : '+item.id);
 							me._addItemToList(item);
 						} else {
+							alert('도움말의 변경사항은 저장되지 않습니다.\n + 버튼으로 새 리스트를 생성한 후 작업해주세요!');
+
 							if (errorCallback && typeof errorCallback === 'function') {
-								errorCallback(res)
+								errorCallback(res);
 							}
 						}
 					});
@@ -871,9 +878,8 @@ $(function () {
 				url : '/Task/selectCount',
 				datatype : 'json',
 				success : function(data) {
-					console.log(data.to);
+					console.log('_onCheckboxChange 작업진행 : '+data.to);
 					$('#selector').css('width', data.to + '%');
-
 				},
 				error : function(error) {
 					alert('data error');

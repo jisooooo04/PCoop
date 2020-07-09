@@ -11,7 +11,7 @@
 		from task_card
 		where
 		listId = #{listId}
-		order by cardIndex
+		order by cardIndex ,id
 	</select>
 
 	<select id="selectList" resultType="pcoop.backend.dto.ListDTO">
@@ -24,10 +24,13 @@
 	</select>
 
 
-	<insert id="insert">
+	<insert id="insert" parameterType="pcoop.backend.dto.CardDTO">
+			<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select task_card_seq.nextval FROM DUAL
+		</selectKey>
 		insert into task_card(id, title, description,
 		dueDate, done, listId, project_seq)
-		values( task_card_seq.nextval,
+		values( #{id},
 		#{title},
 		#{description}, #{dueDate},'false',
 		#{listId} ,

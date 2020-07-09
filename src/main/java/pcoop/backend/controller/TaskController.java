@@ -302,18 +302,26 @@ public class TaskController {
 		System.out.println("----------------------------");
 
 
+		CardDTO cdto = new CardDTO();
 
-		Map<String, Object> param = new HashMap<>();
-		param.put("listId", request.getParameter("listId")); 
-		param.put("title", request.getParameter("title")); 
-		param.put("description", request.getParameter("description")); 
-		param.put("dueDate", request.getParameter("dueDate")); 
+		//Map<String, Object> param = new HashMap<>();
+
+		//param.put("listId", request.getParameter("listId")); 
+		if(request.getParameter("listId").contentEquals("NaN")) {
+			System.out.println("도움말에 카드를 추가해도 저장되지 않음");
+			Map<String, Object> failCardMap = new HashMap<>();
+			failCardMap.put("success", false);
+			return failCardMap;
+		}
+		cdto.setListId(Integer.parseInt(request.getParameter("listId")));
+		cdto.setTitle(request.getParameter("title"));
+		cdto.setDescription(request.getParameter("description"));
+		cdto.setDueDate(request.getParameter("dueDate"));
 
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
-		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		cdto.setProject_seq(pdto.getSeq());
 		
-		
-		int result = lservice.insert(param);
+		int result = lservice.insert(cdto);
 		System.out.println("insert 결과 : "+result);
 		Boolean success = false;
 		if(result>0) {
@@ -322,10 +330,8 @@ public class TaskController {
 			success = false;
 		}
 
-		CardDTO cdto = lservice.selectLatestCard();
 		//		System.out.println("List<BoardDTO> list의 사이즈 : "+list.size());
 		//클라이언트는 JSON으로 받는게 좋음 : List<BoardDTO>를 JSON으로
-
 		Map<String, Object> cardMap = new HashMap<>();
 		cardMap.put("id", cdto.getId());
 		cardMap.put("title", cdto.getTitle());

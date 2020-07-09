@@ -24,12 +24,12 @@ public class ListDAO {
 	
 	
 	public List<ListDTO> selectAll() throws Exception{
-		System.out.println("ListDAO의  selectAll");
+		//System.out.println("ListDAO의  selectAll");
 		return mybatis.selectList("List.selectAll");
 	}
 	
 	public List<CardDTO> selectCard(String listId) throws Exception{
-		System.out.println("ListDAO의  selectCard");
+		//System.out.println("ListDAO의  selectCard");
 		return mybatis.selectList("List.selectCard",listId);
 	}
 	
@@ -39,8 +39,8 @@ public class ListDAO {
 		return mybatis.selectList("List.selectList",param);
 	}
 	
-	   public int insert(Map<String, Object> param) {
-		      return mybatis.insert("List.insert", param);
+	   public int insert(CardDTO cdto) {
+		      return mybatis.insert("List.insert", cdto);
 	}
 	   
 	   public int delete(Map<String, Object> param) {
