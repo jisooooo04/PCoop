@@ -88,12 +88,12 @@
 
 <!-- 디렉토리 insert -->
 <insert id="insertDirectory">
-	insert into directory values(DIRECTORY_SEQ.nextval, 11, ${parent_seq}, #{name}, #{path}, 'N')
+	insert into directory values(DIRECTORY_SEQ.nextval, ${project_seq}, ${parent_seq}, #{name}, #{path}, 'N')
 </insert>
 
 <!-- 파일 생성 -->
 <insert id="insertFile">
-	insert into files values(files_seq.nextval, ${project_seq}, ${directory_seq}, #{directory_path}, #{name}, #{extension}, #{path}, sysdate, #{uploader}, #{text_yn})
+	insert into files values(files_seq.nextval, ${project_seq}, ${directory_seq}, #{directory_path}, #{name}, #{extension, jdbcType=VARCHAR}, #{path}, sysdate, #{uploader}, #{text_yn})
 </insert>
 
 

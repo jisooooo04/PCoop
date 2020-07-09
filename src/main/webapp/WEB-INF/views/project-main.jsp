@@ -22,10 +22,12 @@
 <script>
 $(function() {
 	
+	var root_seq = ${root_seq};
+	var root_name = '${projectInfo.name}';
 	//바로 projectHome 로드되도록 설정
 	$("#container").load("goProjectHome");  //리퀘스트매핑
 	
-	$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
+	$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
 	
 	// 디렉토리 가지고 오기
 	var dirlist = ${dirlist};
@@ -33,11 +35,10 @@ $(function() {
 	
 	
 	//채팅 목록 list 불러와서 왼쪽 사이드바에 뿌려주기
-	var chattingList = ${chattingList};
+	//var chattingList = ${chattingList};
+
 	
-	
-	
-	$(".chattinList").append();
+	//$(".chattinList").append();
 	
 	
 })
