@@ -64,4 +64,8 @@ public class ProjectDAO {
 		 return mybatis.update("project.refuse", param);
 	 }
 	 
+	 public int countProject(int mem_seq)throws Exception{
+		 return mybatis.selectOne("project.countProject", mem_seq);
+	 }
+	 
 }

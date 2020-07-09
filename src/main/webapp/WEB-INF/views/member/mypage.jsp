@@ -54,6 +54,7 @@
 	background-color: #fcfbf7;
 	opacity:80%;
 }
+
 </style>
 </head>
 <body>
@@ -137,14 +138,19 @@
 					<c:otherwise>
 						<c:forEach var="i" items="${list}">
 						<div class="col-sm-6 pt-2">						
-						<div class="card" style='width: 100%;'>
+						<%-- <div class="card" style='width: 100%;'>
 									<div class="card-body">
 										<h5 class="card-title">${i.name}</h5>
 										<p class="card-text">${i.code}</p>
 										<a href="../project/goProjectHome?seq=${i.seq}" class="btn btn-outline-secondary">프로젝트 바로가기</a>
 										<a href="" class="btn btn-outline-secondary" >프로젝트 나가기</a>
 									</div>
-								</div>	
+								</div>	 --%>
+								<div class="wrapper">
+            <div>${i.name}</div>
+            <div>초대 코드 : ${i.code}</div>
+            <div><i class="fas fa-user fa-lg"></i>3/5</div>
+           <div><button><a href="../project/goProjectHome?seq=${i.seq}">프로젝트 바로가기</a></button><button><a href="">프로젝트 나가기</a></button></div>
 						</div>
 					</c:forEach>
 					</c:otherwise>

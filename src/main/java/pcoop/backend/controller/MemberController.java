@@ -289,10 +289,6 @@ public class MemberController {
 				
 			}else {
 				List<Integer> SelectMyProjectSeq =mservice.SelectMyPojectSeq(seq);
-				for(int i : SelectMyProjectSeq) {
-					System.out.println("나의 project 멤버 시퀀스는 "+i);
-					
-				}
 			}
 		}
 		

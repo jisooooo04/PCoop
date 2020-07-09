@@ -105,5 +105,8 @@ public class ProjectService {
 		return 0;
 	}
 	
+	public int countProject(int mem_seq)throws Exception{
+		return dao.countProject(mem_seq);
+	}
 
 }

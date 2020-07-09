@@ -70,4 +70,7 @@
 		delete from project_member where project_seq=${project_seq} and member_seq=${mem_seq}
 	</delete>
 	
+	<select id="countProject" resultType="int">
+		select count (*) from project_member where member_seq=${value}
+	</select>
 </mapper>
