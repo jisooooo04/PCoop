@@ -1,11 +1,14 @@
 @charset "UTF-8";
 
-.dir {
-	color: black;
+.dir{
 	cursor: pointer;
 }
 
 .file {
+	cursor: pointer;
+}
+
+.file>a{
 	color: black;
 }
 
@@ -16,10 +19,6 @@
 ul{
 	margin-left: 0;
 	padding-left: 10px;
-}
-
-.backup-path{
-	height: 100px;
 }
 
 .contextmenu, .add_dir, .rename_dir, .rename_file, .contextmenu_container {
@@ -76,7 +75,11 @@ ul{
 }
 
 .backup-path{
-	border-bottom: 1px solid lightgray;
+	height: 70px;
+	font-size: 25px;
+	line-height: 70px;
+	border-bottom: 2px solid lightgray;
+	padding-left: 25px;
 }
 
 .list{
@@ -86,9 +89,16 @@ ul{
 .dirs>.dir, .file{
 	float: left;
 	text-align: center;
-	height: 130px;
+	height: 100px;
 	width: 130px;
 	margin: 10px;
+	border: 1px solid lightgray;
+	border-round: 90px;
+}
+
+.icon:hover{
+	color: #7dc8c9;
+	
 }
 
 .icon{
