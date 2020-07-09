@@ -29,6 +29,11 @@
 	select seq from directory where path = #{value}
 </select>
 
+<!-- 디렉토리가 존재하는지 확인 -->
+<select id="dirExists">
+	select count(*) from directory where path = #{value}
+</select>
+
 <!-- 디렉토리 중복 확인 -->
 <select id="checkDuplDirName" resultType="int">
 	select count(*) from directory where parent_seq = ${parent_seq} and name = #{name}

@@ -20,10 +20,13 @@
 </script>
 
 <script>
+
+var root_seq = ${root_seq};
+var root_name = '${projectInfo.name}';
+
 $(function() {
 	
-	var root_seq = ${root_seq};
-	var root_name = '${projectInfo.name}';
+	
 	//바로 projectHome 로드되도록 설정
 	$("#container").load("goProjectHome");  //리퀘스트매핑
 	
@@ -42,8 +45,7 @@ $(function() {
 	
 	
 })
-</script>
-<script>
+
 	$(function() {
 
 		$(".menu-chat").on("click", function(){
@@ -54,6 +56,7 @@ $(function() {
 		$(".menu-backup").on("click", function(){
 			$("#container").load("backup .contents");
 			$("#modals").load("backup .modals");
+			$(".root").trigger("click");
 		})
 		
 	})
@@ -66,18 +69,18 @@ $(function() {
 	<section>
 		<div id="container">
 			<!-- 본인영역 추가 -->
-			
+
 			project main입니다.
-			
+
 			<!-- 본인영역 끝 -->
 		</div>
 	</section>
-	
+
 	<div id="modals"></div>
 
 
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
-	
+
 </body>
 </html>

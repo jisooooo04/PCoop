@@ -81,6 +81,11 @@ public class FileDAO {
 		values.put("path", path);
 		return mybatis.insert("Backup.insertDirectory", values);
 	}
+	
+	// 디렉토리가 존재하는지 확인
+	public int dirExists(String path) {
+		return mybatis.selectOne("Backup.dirExists", path);
+	}
 
 	// 디렉토리 delete
 	public int deleteDirectory(String path) {
@@ -166,7 +171,6 @@ public class FileDAO {
 		values.put("path", path);
 		values.put("uploader", uploader);
 		values.put("text_yn", text_yn);
-		System.out.println(values);
 		return mybatis.insert("Backup.insertFile", values);
 	}
 

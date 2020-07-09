@@ -77,6 +77,7 @@ public class FileController {
 	@ResponseBody
 	public String getDirAndFileList(int dir_seq) {
 
+		String path = fservice.getDirPathBySeq(dir_seq);
 		List<DirectoryDTO> dirList = fservice.getDirList(dir_seq);
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray dirArr = new JsonArray();
@@ -102,13 +103,14 @@ public class FileController {
 			fileArr.add(json);
 		}
 
-		JsonObject arrs = new JsonObject();
-		arrs.addProperty("dirArr", new Gson().toJson(dirArr));
-		arrs.addProperty("fileArr", new Gson().toJson(fileArr));
+		JsonObject data = new JsonObject();
+		data.addProperty("path", path);
+		data.addProperty("dirArr", new Gson().toJson(dirArr));
+		data.addProperty("fileArr", new Gson().toJson(fileArr));
 		System.out.println(dirArr);
 		System.out.println(fileArr);
 
-		return new Gson().toJson(arrs);
+		return new Gson().toJson(data);
 	}
 
 	@RequestMapping(value = "addDirectory", produces = "application/text; charset=utf8")

@@ -22,7 +22,6 @@
 <div class="modals">
 	<!-- 디렉토리 우 클릭 시, 나타나는 드롭 다운 메뉴 -->
 	<ul class="contextmenu">
-		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
 		<li class="menu_rename_dir"><a href="#">디렉토리 이름 변경</a></li>
 		<li class="menu_delete_dir"><a href="#">디렉토리 삭제</a></li>
 	</ul>

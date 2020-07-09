@@ -53,7 +53,7 @@ public class HomeController {
 	}
 
 	@RequestMapping("backup")
-	public String backup() {
+	public String backup(Model model) {
 		return "backup/backup";
 	}
 
