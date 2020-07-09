@@ -31,7 +31,7 @@
 		<div class="navtitle menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon> 채팅
 		</div>
-		<div class="navcontents">
+		<div class="navcontents chattingList">
 			<div>
 				<span class=logon>● </span>kh 파이널 5조
 			</div>
