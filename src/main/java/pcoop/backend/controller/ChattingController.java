@@ -62,7 +62,7 @@ public class ChattingController {
 		
 		System.out.println("c_seq : " + c_seq + ", chatting_seq : " + chatting_seq);
 		System.out.println("p_seq : " + p_seq);
-				
+		
 		
 		//현재 날짜 보내기
 		Date dateobj = new Date();
@@ -133,10 +133,7 @@ public class ChattingController {
 	
 	@ResponseBody
 	@RequestMapping(value="fileUpload", produces="application/json; charset=utf8")
-	public ChatFileDTO fileUpload(MultipartFile file, String p_seq, String c_seq) throws Exception{
-		
-		int project_seq = Integer.parseInt(p_seq.substring(5));
-		int chatting_seq = Integer.parseInt(c_seq.substring(5));
+	public ChatFileDTO fileUpload(MultipartFile file) throws Exception{
 		
 		String oriname = file.getOriginalFilename();
 		System.out.println("오리지널 파일이름 : " + oriname);  //오리지널 파일이름
@@ -171,8 +168,7 @@ public class ChattingController {
 		String targetLocation = target.toString();
 		System.out.println("target : " + target);
 		
-		ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, targetLocation, extension, project_seq, chatting_seq, 0);
-		//int result = fservice.insertFile(fdto);
+		ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, targetLocation, extension, 0, 0, 0);
 		
 		return fdto;
 		
@@ -183,7 +179,6 @@ public class ChattingController {
 	@RequestMapping("fileDownload")
 	public void download(int presentFileSeq, HttpServletResponse response) throws Exception{
 		
-		System.out.println("presentFileSeq" + presentFileSeq);
 		ChatFileDTO fdto = fservice.selectFile(presentFileSeq);  //file 테이블에서 file 정보 가져옴
 		String filepath = session.getServletContext().getRealPath("upload/chat");  //세션에 값이 있어? / request에서 받아옴
 		
@@ -193,9 +188,11 @@ public class ChattingController {
 		DataInputStream dis = new DataInputStream(new FileInputStream(target));
 		ServletOutputStream sos = response.getOutputStream();
 		
+		String oriname = new String(fdto.getOriname().getBytes("utf8"),"iso-8859-1");
+		
 		response.reset();
 		response.setContentType("application/octet-stream");
-		response.setHeader("Content-disposition", "attachment;filename="+fdto.getOriname()+";");
+		response.setHeader("Content-disposition", "attachment;filename="+oriname+";");
 		
 		byte[] fileContents = new byte[(int)target.length()];
 		dis.readFully(fileContents);
