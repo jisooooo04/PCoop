@@ -17,4 +17,8 @@
 	</select>
 	
 	
+	<select id="selectChatting" resultType="pcoop.backend.dto.ChattingDTO">
+		select * from chatting where seq=${value}
+	</select>
+	
 </mapper>

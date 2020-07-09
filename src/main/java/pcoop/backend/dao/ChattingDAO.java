@@ -41,4 +41,8 @@ public class ChattingDAO {
 	}
 	
 	
+	public List<ChattingDTO> selectChatting(int seq) {
+		return mybatis.selectList("Chatting.selectChatting", seq);
+	}
+	
 }

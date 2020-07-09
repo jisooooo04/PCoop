@@ -75,14 +75,14 @@ public class WebChat {
 			        	 
 			        	 //json으로 넘어온 정보들을 cdto에 저장하기 위해 String 변수로 변환해 임시 저장
 			        	 String nickname = mdto.getName();
-			        	 //String text = (String)jsonObj.get("text");
 			        	 String fullDate = (String)jsonObj.get("fulldate");
 			        	 String date = (String)jsonObj.get("date");  //날짜
 			        	 String time = (String)jsonObj.get("time");  //시간
 			        	 
-			        	 //추가해야함!!  (chat_seq는 밑에서 db로 seq값 불러와서 추가)
-			        	 //String project_seq = (String)jsonObj.get("project_seq");
-			        	 //String chatting_seq = (String)jsonObj.get("chatting_seq");
+			        	 String p_seq = (String)jsonObj.get("p_seq");
+			        	 String c_seq = (String)jsonObj.get("c_seq");
+			        	 int project_seq = Integer.parseInt(p_seq.substring(5));
+			        	 int chatting_seq = Integer.parseInt(c_seq.substring(5));
 			        	 
 			        	 jsonObj.put("nickname", nickname);
 			        	 
@@ -92,7 +92,7 @@ public class WebChat {
 			        	 int nextFileSeq = 0;
 			        	 
 			        	 if(jsonObj.containsKey("file")) {
-			        		 System.out.println("이 json은 파일을 가지고 있습니다.");
+			        		 System.out.println("WebChat으로 넘어온 json은 파일을 가지고 있습니다.");
 			        		 
 			        		 int presentFileSeq = fservice.selectPresentSeq();  //chat 테이블에 넣을 file_seq 불러옴
 			        		 nextFileSeq = presentFileSeq + 1;
@@ -100,38 +100,33 @@ public class WebChat {
 			        		 String oriname = (String)jsonObj.get("file");
 			        		 text = "<a href='fileDownload?presentFileSeq="+presentFileSeq+"'>" + oriname + "</a>";
 			        		 
-			        		 //이미지 일때 이미지로 보여주기
-			        		 String extension = (String)jsonObj.get("extension");
+			        		 String sysname = (String)jsonObj.get("sysname");
+			        		 String filepath = (String)jsonObj.get("filepath");
 			        		 String target = (String)jsonObj.get("target");
+			        		 String extension = (String)jsonObj.get("extension");
 			        		 
+			        		 
+			        		 //이미지 일때 이미지로 보여주기
 			        		 //if(extension.contentEquals("jpg") || extension.contentEquals("png")) {
 			        		 //	 text = "<img src='"+target+"' style='width: 100px'>";
 			        		 //}
 			        		 
 			        		 
+			        		 ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, target, extension, project_seq, chatting_seq, 0);
+			        		 int result = fservice.insertFile(fdto);
+			        		 
 			        		 
 			        		 jsonObj.put("text", text);  //json에 file 키만 넘어왔으므로 text키에 file명을 넣어줌
 			        		 
 			        		 
-			        		 //이후 fdto에 chat 정보들 저장해야함
-				        	 ChatFileDTO fdto = new ChatFileDTO();
-				        	 //fdto.setProject_seq(project_seq);
-				        	 //fdto.setChatting_seq(chatting_seq);
-				        	 //fdto.setChat_seq(chat_seq);
-				        	 
-				        	 
-				        	 //chat_file 테이블에 file 정보 저장!
-				        	 //int fresult = fservice.insertFile(fdto);  //잘 될지 모르겠음. 왜냐면 fdto 내용들을 여기서 저장한게 아니니까
-				        	 
 			        	 }else {
-			        		 System.out.println("이 json은 텍스트 메세지 입니다.");
+			        		 System.out.println("WebChat으로 넘어온 json은 텍스트 메세지 입니다.");
 			        		 text = (String)jsonObj.get("text");
 			        	 }
 			        	 
 			        	 
 			        	 // file / text 공통 수행
-			        	 ChatDTO cdto = new ChatDTO(0,0,0,nickname,text,fullDate,date,time,nextFileSeq);
-			        	 
+			        	 ChatDTO cdto = new ChatDTO(0,project_seq,chatting_seq,nickname,text,fullDate,date,time,nextFileSeq);
 			        	 
 			        	 //chat DB에 채팅내용 저장  (seq, pj_seq, chatting_seq, ... , file_path)
 			        	 int result = cservice.insertChat(cdto);

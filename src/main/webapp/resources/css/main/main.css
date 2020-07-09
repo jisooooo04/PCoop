@@ -2925,7 +2925,7 @@
 		position: relative;
 	}
 
-		#banner:before {
+	#banner:before {
 			content: '';
 			background: rgba(56, 62, 70, 0.7);
 			position: absolute;
