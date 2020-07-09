@@ -6,12 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+<!-- cdn.jsp 연결하지 않고 별도로 연결하였습니다. popper.js 에러 알림을 없애기 위해 바디 하단부에 코드를 나누어 넣었습니다. -->
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- 아이콘 -->
+<script src="https://kit.fontawesome.com/8f6ea3bf70.js"
+	crossorigin="anonymous"></script>
+ <!-- 구글 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">	
+
+
 <link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
 <script src='/resources/js/calendar/calendar.js'></script>
-<jsp:include page="../header/cdn.jsp"></jsp:include>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!-- Lobi List Default installation-->
 <link rel="stylesheet"
@@ -20,13 +29,16 @@
 	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="/resources/lobilist-master/dist/lobilist.min.css">
-
 <link rel="stylesheet"
 	href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
 <link rel="stylesheet"
 	href="/resources/lobilist-master/lib/highlight/github.css">
 <!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
+
 <style>
+*{
+
+}
 #box {
 	margin: 10px 0px 0px 10px;
 }
@@ -43,15 +55,17 @@
 #calendarBox {
 	margin-top: 100px;
 	width: 1200px;
-	zoom: 0.6;
+	/* zoom: 0.6; */
 	margin: 0 auto;
+}
+
+#actions-by-ajax{
+	min-width : 1227.22px; 	/* 스케줄러 너비값 */
 }
 </style>
 
 
 </head>
-
-
 
 
 <body>
@@ -346,17 +360,8 @@
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
 
-
-
-
 	<section id="box">
 		<div id="wrapper">
-
-
-
-
-
-
 
 
 			<div id="todoListBox">
@@ -374,9 +379,22 @@
 					</div>
 
 
+<!--테스트-->
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+주간 스케쥴러
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
 
 
-
+<!-- -----------------------------------------------------------------------------------------------------------------------------------------------------------		-->
 					<div id="calendarBox">
 						<div id='calendar'></div>
 						<!--ㅡㅡㅡㅡㅡ 일정 생성하기 modal ㅡㅡㅡㅡㅡㅡㅡ-->
@@ -708,25 +726,26 @@
 
 						<!--ㅡㅡㅡㅡㅡ /삭제 확인 modal ㅡㅡㅡㅡㅡㅡㅡ-->
 					</div>
+	<!-- -----------------------------------------------------------------------------------------------------------------------------------------------------------		-->
 
 
+      </div>
+    </div>
+  </div>
 
 
+</div>
 
-					<br>
-					<br>
+<!--테스트 end-->
+<br>
+
+	
 
 
+				
 
 
 				</div>
-
-
-
-
-
-
-
 
 
 				<!--불러올 데이터 없을 때 생성 버튼	-->
@@ -745,14 +764,12 @@
 
 
 	</section>
-<script
-  src="https://code.jquery.com/jquery-3.5.1.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
 
 	<!-- Lobi List Default installation-->
 	<script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
 	<script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
+
 	<script
 		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
 	<script
@@ -766,9 +783,18 @@
 		src="/resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
 	<!-- <script src="resources/lobilist-master/demo/demo.js"></script>-->
 
+	<!--Error: Bootstrap dropdown require Popper.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script> -->
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	
 	<script>
 		$(function() {
 			
+			$('#collapseOne').collapse('hide');
+			// 처음부터 show 를 빼버리면 캘린더 첫화면이 깨짐 (아무 캘린더 버튼을 누르면 정상화)
+			// 클래스에 show를 줘서 정상로딩 시키고 별도로 hide 시키기
 			
 			function isEmpty(param) {
 				  return Object.keys(param).length === 0;
@@ -786,13 +812,11 @@
 				          $('#actions-by-ajax').lobiList({
 				                actions: {
 				                    load: "/resources/lobilist-master/demo/load.json?v=<%=System.currentTimeMillis()%>",
-				                    insert: '',
-				                    delete: '',
-				                    update: ''
+				                    insert: 'insert',
+				    				delete: 'delete',
+				    				update: 'update'
 				                },
-				                afterItemAdd: function(){
-				                    console.log(arguments);
-				                },			                
+				                
 				                afterListRemove: function(){
 				            		console.log("afterListRemove 변화 감지!");
 				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
@@ -831,7 +855,7 @@
 
 				    					},
 				    					error : function(error) {
-				    						alert('selectCount (아이템 삭제)');
+				    						console.error('selectCount (아이템 삭제)');
 				    					}
 				    				});
 				    				
@@ -848,7 +872,7 @@
 
 				    					},
 				    					error : function(error) {
-				    						alert('selectCount (아이템 추가)');
+				    						console.error('selectCount (아이템 추가)');
 				    					}
 				    				});
 				                }
@@ -871,12 +895,12 @@
 				url : '/Task/selectCount',
 				datatype : 'json',
 				success : function(data) {
-					console.log('작업진행률 : '+ data.to);
+					console.log('초기 작업진행률 : '+ data.to);
 					$('#selector').css('width', data.to + '%');
 
 				},
 				error : function(error) {
-					alert('selectCount (첫 load)');
+					console.error('selectCount (첫 load)');
 				}
 			});
 			

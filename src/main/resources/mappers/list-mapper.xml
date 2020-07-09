@@ -11,7 +11,7 @@
 		from task_card
 		where
 		listId = #{listId}
-		order by cardIndex
+		order by cardIndex ,id
 	</select>
 
 	<select id="selectList" resultType="pcoop.backend.dto.ListDTO">
@@ -20,16 +20,21 @@
 		<if test="project_seq != null">
 			where project_seq = #{project_seq}
 		</if>
-		order by listIndex
+		order by listIndex ,id
 	</select>
 
 
-	<insert id="insert">
+	<insert id="insert" parameterType="pcoop.backend.dto.CardDTO">
+			<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select task_card_seq.nextval FROM DUAL
+		</selectKey>
 		insert into task_card(id, title, description,
 		dueDate, done, listId, project_seq)
-		values( task_card_seq.nextval, #{title},
+		values( #{id},
+		#{title},
 		#{description}, #{dueDate},'false',
-		#{listId} , #{project_seq})
+		#{listId} ,
+		#{project_seq})
 	</insert>
 
 	<!-- 컬럼명에서는 따옴표 쓰면 안된다. 따라서 #{컬럼명}이 아닌 ${컬럼명}로 -->
@@ -50,16 +55,20 @@
 		task_list where id= #{id}
 	</select>
 
+		<!-- 삽입하면서 동시에 seq로 추가된 id값 가져오기 -->
+	<insert id="insertlist" parameterType="pcoop.backend.dto.ListDTO">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select task_list_seq.nextval FROM DUAL
+		</selectKey>
 
-	<insert id="insertlist">
 		insert into task_list
 		<if test="project_seq == null">
 			(id, title, defaultStyle, items)
-			values( task_list_seq.nextval, #{title}, 'lobilist-default','')
+			values( #{id}, #{title},'lobilist-default','')
 		</if>
 		<if test="project_seq != null">
 			(id, title, defaultStyle, items, project_seq)
-			values( task_list_seq.nextval, #{title}, 'lobilist-default','',#{project_seq})
+			values(#{id}, #{title}, 'lobilist-default','',#{project_seq})
 		</if>
 	</insert>
 
@@ -107,10 +116,10 @@
 		cardIndex=#{cardIndex}
 		where id=#{id}
 	</insert>
-	
-		<insert id="listIndexUpdate">
+
+	<insert id="listIndexUpdate">
 		update task_list
-		set 
+		set
 		listIndex=#{listIndex}
 		where id=#{listId}
 	</insert>
@@ -122,7 +131,7 @@
 		<if test="project_seq != null">
 			where project_seq = #{project_seq}
 		</if>
-		
+
 	</select>
 
 	<select id="trueCount" resultType="int">
@@ -133,5 +142,9 @@
 			and project_seq = #{project_seq}
 		</if>
 	</select>
+
+
+
+
 
 </mapper>

@@ -18,25 +18,25 @@ public class ListService {
 
 
 	public List<ListDTO> selectAll() throws Exception{
-		System.out.println("ListService의  selectAll");
+		//System.out.println("ListService의  selectAll");
 		List<ListDTO> ldtoList = ldao.selectAll();
 		return ldtoList;
 	}
 
 	public List<CardDTO> selectCard(String listId) throws Exception{
-		System.out.println("ListService의  selectCard");
+		//System.out.println("ListService의  selectCard");
 		List<CardDTO> ldtoList = ldao.selectCard(listId);
 		return ldtoList;
 	}
 
 	public List<ListDTO> selectList(Map<String, Object> param) throws Exception{
-		System.out.println("ListService의  selectListId");
+		//System.out.println("ListService의  selectListId");
 		List<ListDTO> TaskList = ldao.selectList(param);
 		return TaskList;
 	}
 
-	public int insert (Map<String, Object> param) {
-		return ldao.insert(param);
+	public int insert (CardDTO cdto) {
+		return ldao.insert(cdto);
 	}
 	public int delete (Map<String, Object> param) {
 		return ldao.delete(param);
@@ -49,8 +49,8 @@ public class ListService {
 	public int selectListId (Map<String, Object> param) {
 		return ldao.selectListId(param);
 	}
-	public int insertlist (Map<String, Object> param) {
-		return ldao.insertlist(param);
+	public int insertlist (ListDTO ldto) {
+		return ldao.insertlist(ldto);
 	}
 	public int updatelist (Map<String, Object> param) {
 		return ldao.updatelist(param);
@@ -87,5 +87,6 @@ public class ListService {
 	public int trueCount(Map<String, Object> param){
 		return ldao.trueCount(param);
 	}
+	
 	
 }
