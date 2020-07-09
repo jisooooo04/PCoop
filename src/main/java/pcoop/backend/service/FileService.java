@@ -384,7 +384,9 @@ public class FileService {
 					name = filename.substring(filename.lastIndexOf("/", filename.length() - 2) + 1, filename.lastIndexOf("/"));
 				}
 
+
 				int parent_seq = fdao.getDirSeqByPath(parent_path);
+
 				fdao.insertDirectory(dirPath + "/" + filename.substring(0, filename.length() - 1), name, project_seq, parent_seq);
 
 			} else {
@@ -394,12 +396,27 @@ public class FileService {
 				File parentDir = new File(file.getParent());
 				String parent_path = parentDir.getPath();
 				parent_path = parent_path.substring(session.getServletContext().getRealPath("upload/backup").length());
-				int directory_seq = fdao.getDirSeqByPath(parent_path.replace("\\", "/"));
-
+				parent_path = parent_path.replace("\\", "/");
+	
 				// 디렉토리가 없으면 생성
 				if (!parentDir.exists()) {
+					
+					
 					parentDir.mkdirs();
+					
+					
+					
+//					System.out.println(file.getName());
+//					System.out.println(parent_path + " : " + parent_path.lastIndexOf('/'));
+//					int gparent_seq = fdao.getDirSeqByPath(parent_path.substring(0, parent_path.lastIndexOf('/')));
+//					System.out.println(gparent_seq);
+//					this.insertDirectory(parent_path, parentDir.getName(), project_seq, gparent_seq);
 				}
+				
+				
+				int directory_seq = fdao.getDirSeqByPath(parent_path);
+
+				
 
 				// 파일 스트림 선언
 				FileOutputStream fos = new FileOutputStream(file);
@@ -422,6 +439,10 @@ public class FileService {
 		fis.close();
 		zipFile.delete();
 
+	}
+	
+	public int dirExists(String path) {
+		return fdao.dirExists(path);
 	}
 
 	// 파일명 중복 확인 후, rename
