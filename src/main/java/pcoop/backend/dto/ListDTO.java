@@ -2,16 +2,33 @@ package pcoop.backend.dto;
 
 public class ListDTO {
 
-	private String id;
+	private int id;
 	private String title;
 	private String defaultStyle;
 	private String items;
+	private int project_seq;
 	
 	
-	
+	public ListDTO(int id, String title, String defaultStyle, String items, int project_seq) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.defaultStyle = defaultStyle;
+		this.items = items;
+		this.project_seq = project_seq;
+	}
+
+	public int getProject_seq() {
+		return project_seq;
+	}
+
+	public void setProject_seq(int project_seq) {
+		this.project_seq = project_seq;
+	}
+
 	public ListDTO() {}
 	
-	public ListDTO(String id, String title, String defaultStyle, String items) {
+	public ListDTO(int id, String title, String defaultStyle, String items) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -19,10 +36,10 @@ public class ListDTO {
 		this.items = items;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getTitle() {

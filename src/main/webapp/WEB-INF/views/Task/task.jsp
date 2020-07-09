@@ -346,17 +346,8 @@
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
 
-
-
-
 	<section id="box">
 		<div id="wrapper">
-
-
-
-
-
-
 
 
 			<div id="todoListBox">
@@ -372,9 +363,6 @@
 							<span class="sr-only">45% Complete</span>
 						</div>
 					</div>
-
-
-
 
 
 					<div id="calendarBox">
@@ -711,22 +699,11 @@
 
 
 
-
-
 					<br>
 					<br>
-
-
 
 
 				</div>
-
-
-
-
-
-
-
 
 
 				<!--불러올 데이터 없을 때 생성 버튼	-->
@@ -792,7 +769,8 @@
 				                },
 				                afterItemAdd: function(){
 				                    console.log(arguments);
-				                },			                
+				                },
+				                
 				                afterListRemove: function(){
 				            		console.log("afterListRemove 변화 감지!");
 				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
@@ -802,7 +780,11 @@
 				    					console.log("버튼 숨겨라!!!");
 				    					$("#create_list").css('display', 'none');
 				    				}	
-				    			}
+				    			},
+				                afterListAdd: function(){
+
+				                    console.log('afterListAdd demo');
+				                }
 				            });
 					
 					}else{
@@ -851,6 +833,10 @@
 				    						alert('selectCount (아이템 추가)');
 				    					}
 				    				});
+				                },
+				                afterListAdd: function(){
+
+				                    console.log('afterListAdd load');
 				                }
 				    			
 				    			

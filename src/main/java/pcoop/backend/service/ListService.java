@@ -49,8 +49,8 @@ public class ListService {
 	public int selectListId (Map<String, Object> param) {
 		return ldao.selectListId(param);
 	}
-	public int insertlist (Map<String, Object> param) {
-		return ldao.insertlist(param);
+	public int insertlist (ListDTO ldto) {
+		return ldao.insertlist(ldto);
 	}
 	public int updatelist (Map<String, Object> param) {
 		return ldao.updatelist(param);
@@ -87,5 +87,6 @@ public class ListService {
 	public int trueCount(Map<String, Object> param){
 		return ldao.trueCount(param);
 	}
+	
 	
 }
