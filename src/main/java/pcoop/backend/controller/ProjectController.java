@@ -74,7 +74,13 @@ public class ProjectController {
 		
 		//프로젝트 생성시 단체 채팅방 생성(입력) - 프로젝트 시퀀스, 프로젝트 이름, 멤버 시퀀스, 멤버 이름 전달
 		result = cservice.createChatting(pmdto);
-				
+
+		return "redirect:project_code";
+	}
+	
+	@RequestMapping("project_code")//forward 피하기 위해서 컨트롤러를 두개 만들었다.
+	public String project_code (String code,Model model)throws Exception{
+		model.addAttribute("code", code);
 		return "project/project_code";
 	}
 	

@@ -81,11 +81,11 @@ public class ListService {
 		return ldao.listIndexUpdate(param);
 	}
 	
-	public int selectCount(){
-		return ldao.selectCount();
+	public int selectCount(Map<String, Object> param){
+		return ldao.selectCount(param);
 	}
-	public int trueCount(){
-		return ldao.trueCount();
+	public int trueCount(Map<String, Object> param){
+		return ldao.trueCount(param);
 	}
 	
 }

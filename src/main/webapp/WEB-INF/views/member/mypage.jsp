@@ -24,42 +24,35 @@
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
 	margin:0;
 	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #fffefc;
 }
 .deletemodal{
 	top:100%;
 	position:fixed;
 	background: #fff;
-	border:1px solid red;
 	width:100%;
 	height:100%;
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
 	margin:0;
 	font-family: 'Noto Sans KR', sans-serif;
+	/* background-image:url("/resources/images/mypage/Colors Of Sky.jpg");  */
+	background-color:#fffefc;
 }
 .modal-open{
 	top:0;
 }
-/* #modifybtn{
-	width:80px;
-	border-radius:10px;
-	border:none;
-	height:30px;
-	font: inherit;
-}
-#deletebtn{
-	width:80px;
-	border-radius:10px;
-	border:none;
-} */
-/* .btns>button:hover{
-  transform: scale(1.2);
-} */
 .btns>button{
 	width:80px;
 	border-radius:10px;
 	border:none;
 	height:30px;
 	font: inherit;
+}
+.card{
+	border:none;
+	border-radius:10px;
+	background-color: #fcfbf7;
+	opacity:80%;
 }
 </style>
 </head>
@@ -166,32 +159,31 @@
 
 <!-- 수정하기  -->
 		<div class="row modifymodal">
-			<div class="col-sm-2">
-				
-			</div>
 			<div class="col-sm-8">
 				
 					<div class="row">
-					<div class="col-4">e-mail</div>
-					<div class="col-5">${loginInfo.email}</div>
-					<div class="col-3"></div>
+					<div class="col-4"></div>
+					<div class="col-2">e-mail</div>
+					<div class="col-2">${loginInfo.email}</div>
+					<div class="col-4"></div>
 				</div>
 				<div class="row">
-					<div class="col-4">name</div>
-					<div class="col-5"><input type="text" id="modifyname"></div>
-					<div class="col-3"></div>
+					<div class="col-4"></div>
+					<div class="col-2">name</div>
+					<div class="col-2"><input type="text" id="modifyname"></div>
+					<div class="col-4"></div>
 				</div>
 				<div class="row">
-					<div class="col-4">password</div>
-					<div class="col-5">
+					<div class="col-4"></div>
+					<div class="col-2">password</div>
+					<div class="col-4">
 						<input type="password" value="${loginInfo.pw}" id="modifypw">
 					</div>
-					<div class="col-3"></div>
+					<div class="col-2"></div>
 				</div>
 				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-3"></div>
-					<div class="col-5">
+					<div class="col-4"></div>
+					<div class="col-8 btns">
 						<button id="modifycancel">취소</button>
 						<button id="save">저장</button>
 					</div>
@@ -200,7 +192,7 @@
 				
 			
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-4">
 				
 			</div>
 		</div>

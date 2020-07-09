@@ -82,9 +82,22 @@ public class FileController {
 	@ResponseBody
 	public String getDirAndFileList(int dir_seq) {
 
-		List<DirectoryDTO> dirList = fservice.getDirListByDirSeq(dir_seq);
+		System.out.println(dir_seq);
+		List<DirectoryDTO> dirList = fservice.getDirList(dir_seq);
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
+		
+		for(DirectoryDTO dto : dirList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			// json.addProperty("project_seq", dto.getProject_seq());
+			json.addProperty("parent_seq", dto.getParent_seq());
+			json.addProperty("name", dto.getName());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("root_yn", dto.getRoot_yn());
+			dirArr.add(json);
+		}
 
 		for(FileDTO dto : fileList) {
 			JsonObject json = new JsonObject();
@@ -96,7 +109,13 @@ public class FileController {
 			fileArr.add(json);
 		}
 
-		return new Gson().toJson(fileArr);
+		JsonObject arrs = new JsonObject();
+		arrs.addProperty("dirArr", new Gson().toJson(dirArr));
+		arrs.addProperty("fileArr", new Gson().toJson(fileArr));
+		System.out.println(dirArr);
+		System.out.println(fileArr);
+
+		return new Gson().toJson(arrs);
 	}
 
 	@RequestMapping("addDirectory")

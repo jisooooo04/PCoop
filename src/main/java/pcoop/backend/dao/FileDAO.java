@@ -39,11 +39,6 @@ public class FileDAO {
 		return mybatis.selectOne("Backup.getRootDirSeq", project_seq);
 	}
 	
-	// 디렉토리의 하위 디렉토리 리스트 검색
-	public List<DirectoryDTO> getDirListByDirSeq(int seq){
-		return mybatis.selectList("Backup.", seq);
-	}
-	
 	// 이름으로 디렉토리 seq 검색
 	public int getDirSeqByName(String name, int parent_seq) {
 		HashMap<String, Object> values = new HashMap<>();
@@ -109,7 +104,7 @@ public class FileDAO {
 		return mybatis.update("Backup.repathFileByDirSeq", values);
 	}
 
-	// 루트 디렉토리 리스트
+	// 디렉토리의 하위 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(int root_seq){
 		return mybatis.selectList("Backup.getDirList", root_seq);
 	}

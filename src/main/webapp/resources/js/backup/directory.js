@@ -67,21 +67,30 @@ $(document).on("click", ".dir", function(event){
 		data: data,
 		success: function(data){
 
+			$(".contents .dir").remove();
 			$(".file").remove();
-			var files = JSON.parse(data);
+			
+			var data = JSON.parse(data);
+			var dirs = JSON.parse(data.dirArr);
+			var files = JSON.parse(data.fileArr);
+			
+			for(var i = 0 ; i < dirs.length ; i++){
+				var dir_id = "dir" + dirs[i].seq;
+				$(".dirs").append("<div class=dir id=" + dir_id + "><div class=icon><span class='fas fa-folder-open fa-4x'></span></div>" + dirs[i].name + "</div>")
+			}
 			
 			for(var i = 0 ; i < files.length ; i++){
 				
 				var id = "f" + files[i].seq;
-				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				$(".files").append("<div class=file id=" + id + "><div class=icon><span class='fas fa-file-upload fa-4x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
 								
-				if(files[i].text_yn == "Y"){
-					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
-					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
-
-				}
-				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
-				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
+//				if(files[i].text_yn == "Y"){
+//					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
+//					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
+//
+//				}
+//				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
+//				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
 				
 			}
 

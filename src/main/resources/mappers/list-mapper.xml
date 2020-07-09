@@ -26,10 +26,10 @@
 
 	<insert id="insert">
 		insert into task_card(id, title, description,
-		dueDate, done, listId)
+		dueDate, done, listId, project_seq)
 		values( task_card_seq.nextval, #{title},
 		#{description}, #{dueDate},'false',
-		#{listId})
+		#{listId} , #{project_seq})
 	</insert>
 
 	<!-- 컬럼명에서는 따옴표 쓰면 안된다. 따라서 #{컬럼명}이 아닌 ${컬럼명}로 -->

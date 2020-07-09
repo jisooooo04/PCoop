@@ -295,8 +295,7 @@ public class MemberController {
 				}
 			}
 		}
-		
-		
+
 		return "member/mypage";
 	}
 	
@@ -318,7 +317,7 @@ public class MemberController {
 	@RequestMapping(value ="delmem",produces="application/gson;charset=utf8")
 	public String delmem(int seq,String pw)throws Exception{
 		Map<String , Object> map = new HashMap<>();
-		map.put("seq", seq);
+		map.put("seq", seq); // seq 값 세션에서?
 		map.put("pw", mservice.getSHA512(pw));
 		int check = mservice.checkmem(map);//비밀번호가 일치하는지 확인
 		String result = null;

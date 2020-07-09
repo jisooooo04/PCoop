@@ -26,7 +26,7 @@ $(function() {
 	$("#container").load("goProjectHome");  //리퀘스트매핑
 	
 	$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
-
+	
 	// 디렉토리 가지고 오기
 	var dirlist = ${dirlist};
 	printDirList(dirlist);
