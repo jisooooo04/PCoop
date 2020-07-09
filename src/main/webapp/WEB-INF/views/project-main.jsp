@@ -20,14 +20,17 @@
 </script>
 
 <script>
+
+var root_seq = ${root_seq};
+var root_name = '${projectInfo.name}';
+
 $(function() {
-	
-	
-	
-	$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
 	
 	//바로 projectHome 로드되도록 설정
 	$("#container").load("goProjectHome");  //리퀘스트매핑
+	
+	//왼쪽 사이드바 backup에 루트 디렉토리 추가
+	$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
 	
 	// 디렉토리 가지고 오기
 	var dirlist = ${dirlist};
@@ -56,7 +59,6 @@ $(function() {
 		$(".chattingList").append(div);
 	}
 	
-	
 })
 </script>
 <script>
@@ -71,6 +73,7 @@ $(function() {
 		$(".menu-backup").on("click", function(){
 			$("#container").load("backup .contents");
 			$("#modals").load("backup .modals");
+			$(".root").trigger("click");
 		})
 		
 	})
@@ -83,19 +86,19 @@ $(function() {
 	<section>
 		<div id="container">
 			<!-- 본인영역 추가 -->
-			
+
 			project main입니다.
-			
+
 			<!-- 본인영역 끝 -->
 		</div>
 	</section>
-	
+
 	<div id="modals"></div>
 
 	
 	<script src="resources/js/chatting/chatting.js"></script>
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
-	
+
 </body>
 </html>

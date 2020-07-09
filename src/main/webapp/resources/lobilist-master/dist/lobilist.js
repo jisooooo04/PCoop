@@ -217,11 +217,16 @@ $(function () {
 			addItem: function (item, errorCallback) {
 				console.log("addItem 기능 시작 ");
 				var me = this;
+
 				if (me._triggerEvent('beforeItemAdd', [me, item]) === false) {
+
 					return me;
 				}
+				
 
 				item = me._processItemData(item);
+				console.log(JSON.stringify(item));
+
 				if (me.$globalOptions.actions.insert) {
 
 					console.log("addItem insert 기능 ajax 동작 : "+ JSON.stringify(item));
@@ -242,8 +247,10 @@ $(function () {
 							console.log('추가되는 item.id : '+item.id);
 							me._addItemToList(item);
 						} else {
+							alert('도움말의 변경사항은 저장되지 않습니다.\n + 버튼으로 새 리스트를 생성한 후 작업해주세요!');
+
 							if (errorCallback && typeof errorCallback === 'function') {
-								errorCallback(res)
+								errorCallback(res);
 							}
 						}
 					});
@@ -412,7 +419,7 @@ $(function () {
 				console.log(oldTitle); // 이름변경 코드
 
 				var listId = me.getId();
-				console.log('listId : '+listId); // 이름변경 코드
+				console.log('이름수정 listId : '+listId); // 이름변경 코드
 				console.log(me); // 이름변경 코드
 
 				//console.log(me.parent().find('.lobilist-wrapper').length); // 이름변경 코드
@@ -427,8 +434,15 @@ $(function () {
 						type:"get",
 						data:{
 							title : $input.val()
+						},
+						success : function(data) {
+							console.log('DB 리스트아이디 : '+data.listSeqCurrval);
+							listId = data.listSeqCurrval;
+							me.setId(data.listSeqCurrval); // 될까?
+
 						}
 					})
+					// 리스트 추가 후 진짜 DB의 아이디 가져오기 -> listId에 덮어쓰기?
 				}else{
 					console.log('리스트 수정 동작');
 							//이름 변경 ajax 코드 추가
@@ -549,7 +563,7 @@ $(function () {
 				var me = this;
 				me.$el.attr('id', id);
 				me.$options.id = id;
-				me.$el.attr('data-db-id', me.$options.id);
+				me.$el.attr('data-db-id', me.$options.id); //스타일 임시 아이디 말고! 진짜 아이디
 				return me;
 			},
 
@@ -864,9 +878,8 @@ $(function () {
 				url : '/Task/selectCount',
 				datatype : 'json',
 				success : function(data) {
-					console.log(data.to);
+					console.log('_onCheckboxChange 작업진행 : '+data.to);
 					$('#selector').css('width', data.to + '%');
-
 				},
 				error : function(error) {
 					alert('data error');
@@ -1629,27 +1642,34 @@ console.log("지우고 나서");
 
 			//lobilist-list- 가 아닌 숫자로 id 넣도록 변경
 			getNextListId: function () {
-//				console.log('getNextListId 동작')
+				console.log('getNextListId 동작')
 
 				var $lists = this.$el.find('.lobilist');
 				var maxId = 0;
+				var lobilistId = new Array();
 //				var maxId = $('.lobilist').index(this);
+				for(var i =0; i <$('.lobilist').length; i++){
+				lobilistId.push($('.lobilist')[i].id)
 
+				console.log($('.lobilist')[i].id)
+			}
+				
+				console.log('최대값 : '+Math.max.apply(null, lobilistId));
+				maxId = Math.max.apply(null, lobilistId);
+				
 				$lists.each(function(index, item){
 					var $list = $(item).data('lobiList');
 //					if ($list.getId().indexOf('lobilist-list-') === 0 &&
 //					parseInt($list.getId().replace('lobilist-list-')) > maxId){
 //					maxId = parseInt($list.getId().replace('lobilist-list-'));
-
 					if ($list.getId() === 0 &&
 							parseInt($list.getId()) > maxId){
 						maxId = parseInt($list.getId());
-
 					}
 					maxId = $list.getId();
 				});
 //				return 'lobilist-list-' + (maxId + 1);
-//				console.log('(maxId + 1) : '+ (parseInt(maxId) + parseInt(1)))
+				console.log('(maxId + 1) : '+ (parseInt(maxId) + parseInt(1)))
 				return parseInt(maxId) + parseInt(1);
 			},
 

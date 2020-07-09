@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pcoop.backend.dao.FileDAO;
 import pcoop.backend.dto.DirectoryDTO;
 import pcoop.backend.dto.FileDTO;
+import pcoop.backend.dto.ProjectDTO;
 
 @Service
 public class FileService {
@@ -33,19 +34,19 @@ public class FileService {
 	private FileDAO fdao;
 
 	public int createProjectBackup(int seq, String name) {
-		this.createProjectBackuptoDrive(name);
+		this.createProjectBackuptoDrive(seq, name);
 		return this.createProjectBackuptoDB(seq, name);
 	}
 
-	public void createProjectBackuptoDrive(String name) {
+	public void createProjectBackuptoDrive(int seq, String name) {
 		String rootDir = session.getServletContext().getRealPath("upload/backup");
-		String path = rootDir + "/" + name;
+		String path = rootDir + "/" + seq + "_" + name;
 		File root_dir = new File(path);
 		root_dir.mkdir();
 	}
 
 	public int createProjectBackuptoDB(int seq, String name) {
-		String path = "/" + name;
+		String path = "/" + seq + "_" + name;
 		return fdao.insertRootDirectory(seq, name, path);
 	}
 
@@ -73,8 +74,8 @@ public class FileService {
 	}
 
 	// DB에 디렉토리 insert
-	public int insertDirectory(String path, String name, int parent_seq) {
-		return fdao.insertDirectory(path, name, parent_seq);
+	public int insertDirectory(String path, String name, int project_seq, int parent_seq) {
+		return fdao.insertDirectory(path, name, project_seq, parent_seq);
 	}
 
 	// 이름으로 디렉토리 seq 검색
@@ -93,8 +94,8 @@ public class FileService {
 	}
 
 	// 디렉토리의 하위 디렉토리 가져오기
-	public List<DirectoryDTO> getDirList(int root_seq){
-		return fdao.getDirList(root_seq);
+	public List<DirectoryDTO> getDirList(int seq){
+		return fdao.getDirList(seq);
 	}
 
 	// 디렉토리 이름 변경 
@@ -277,7 +278,8 @@ public class FileService {
 	// DB에 새로운 파일 추가하고 seq 넘기기
 	public void uploadFile(int dir_seq, MultipartFile file, String rename) throws Exception {
 
-		int project_seq = 11;
+		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+		int project_seq = project.getSeq();
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
 		String name = rename;
 		String extension = null;
@@ -299,7 +301,8 @@ public class FileService {
 
 	public void uploadFile(int dir_seq, File file, String rename) throws Exception {
 
-		int project_seq = 11;
+		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+		int project_seq = project.getSeq();
 		String dir_path = fdao.getDirPathBySeq(dir_seq);
 		String name = rename;
 		String extension = null;
@@ -319,10 +322,10 @@ public class FileService {
 	}
 
 	// 파일 업로드 - .zip - 압축 해제
-	public void unzip(int dir_seq, MultipartFile zip, String zip_dir) throws Exception {
+	public void unzip(int project_seq, int dir_seq, MultipartFile zip, String zip_dir) throws Exception {
 
 		String path = this.makeDirToDrive(dir_seq, zip_dir);
-		this.insertDirectory(path, zip_dir, dir_seq);
+		this.insertDirectory(path, zip_dir, project_seq, dir_seq);
 		int zip_dir_seq = this.getDirSeqByName(zip_dir, dir_seq);
 
 		// 압축 해제하기 위해 생성하는 디렉토리
@@ -381,8 +384,10 @@ public class FileService {
 					name = filename.substring(filename.lastIndexOf("/", filename.length() - 2) + 1, filename.lastIndexOf("/"));
 				}
 
+
 				int parent_seq = fdao.getDirSeqByPath(parent_path);
-				fdao.insertDirectory(dirPath + "/" + filename.substring(0, filename.length() - 1), name, parent_seq);
+
+				fdao.insertDirectory(dirPath + "/" + filename.substring(0, filename.length() - 1), name, project_seq, parent_seq);
 
 			} else {
 
@@ -391,12 +396,27 @@ public class FileService {
 				File parentDir = new File(file.getParent());
 				String parent_path = parentDir.getPath();
 				parent_path = parent_path.substring(session.getServletContext().getRealPath("upload/backup").length());
-				int directory_seq = fdao.getDirSeqByPath(parent_path.replace("\\", "/"));
-
+				parent_path = parent_path.replace("\\", "/");
+	
 				// 디렉토리가 없으면 생성
 				if (!parentDir.exists()) {
+					
+					
 					parentDir.mkdirs();
+					
+					
+					
+//					System.out.println(file.getName());
+//					System.out.println(parent_path + " : " + parent_path.lastIndexOf('/'));
+//					int gparent_seq = fdao.getDirSeqByPath(parent_path.substring(0, parent_path.lastIndexOf('/')));
+//					System.out.println(gparent_seq);
+//					this.insertDirectory(parent_path, parentDir.getName(), project_seq, gparent_seq);
 				}
+				
+				
+				int directory_seq = fdao.getDirSeqByPath(parent_path);
+
+				
 
 				// 파일 스트림 선언
 				FileOutputStream fos = new FileOutputStream(file);
@@ -419,6 +439,10 @@ public class FileService {
 		fis.close();
 		zipFile.delete();
 
+	}
+	
+	public int dirExists(String path) {
+		return fdao.dirExists(path);
 	}
 
 	// 파일명 중복 확인 후, rename

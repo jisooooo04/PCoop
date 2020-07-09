@@ -254,7 +254,7 @@ public class TaskController {
 	
 	@ResponseBody
 	@RequestMapping("listAddAjax")
-	public void listAddAjax(HttpServletRequest request) {
+	public Object listAddAjax(HttpServletRequest request) {
 		System.out.println("listAddAjax");
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");
@@ -266,17 +266,26 @@ public class TaskController {
 
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 	
-		
-		Map<String, Object> param = new HashMap<>();
-		param.put("title", request.getParameter("title") );
-		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		ListDTO ldto = new ListDTO();
+		ldto.setTitle(request.getParameter("title"));
+		ldto.setProject_seq(pdto.getSeq());
+//		Map<String, Object> param = new HashMap<>();
+//		param.put("title", request.getParameter("title") );
+//		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
 
 
 
 		System.out.println("리스트 생성 !");
-		int result = lservice.insertlist(param);
+		int result = lservice.insertlist(ldto);
 		System.out.println("insertlist 결과 : "+result);
+		System.out.println("추가된 리스트아이디 결과 : "+ldto.getId());
+		
+		//int listSeqCurrval = lservice.listSeqCurrval();
+		//System.out.println("listSeqCurrval 결과 : "+listSeqCurrval);
 
+		JsonObject json = new JsonObject();	
+		json.addProperty("listSeqCurrval", ldto.getId() );
+		return json;
 
 	}
 
@@ -293,18 +302,26 @@ public class TaskController {
 		System.out.println("----------------------------");
 
 
+		CardDTO cdto = new CardDTO();
 
-		Map<String, Object> param = new HashMap<>();
-		param.put("listId", request.getParameter("listId")); 
-		param.put("title", request.getParameter("title")); 
-		param.put("description", request.getParameter("description")); 
-		param.put("dueDate", request.getParameter("dueDate")); 
+		//Map<String, Object> param = new HashMap<>();
+
+		//param.put("listId", request.getParameter("listId")); 
+		if(request.getParameter("listId").contentEquals("NaN")) {
+			System.out.println("도움말에 카드를 추가해도 저장되지 않음");
+			Map<String, Object> failCardMap = new HashMap<>();
+			failCardMap.put("success", false);
+			return failCardMap;
+		}
+		cdto.setListId(Integer.parseInt(request.getParameter("listId")));
+		cdto.setTitle(request.getParameter("title"));
+		cdto.setDescription(request.getParameter("description"));
+		cdto.setDueDate(request.getParameter("dueDate"));
 
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
-		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
+		cdto.setProject_seq(pdto.getSeq());
 		
-		
-		int result = lservice.insert(param);
+		int result = lservice.insert(cdto);
 		System.out.println("insert 결과 : "+result);
 		Boolean success = false;
 		if(result>0) {
@@ -313,10 +330,8 @@ public class TaskController {
 			success = false;
 		}
 
-		CardDTO cdto = lservice.selectLatestCard();
 		//		System.out.println("List<BoardDTO> list의 사이즈 : "+list.size());
 		//클라이언트는 JSON으로 받는게 좋음 : List<BoardDTO>를 JSON으로
-
 		Map<String, Object> cardMap = new HashMap<>();
 		cardMap.put("id", cdto.getId());
 		cardMap.put("title", cdto.getTitle());
@@ -394,7 +409,7 @@ public class TaskController {
 	@RequestMapping(value="TaskAjax",produces="application/json;charset=utf8")
 	@ResponseBody
 	public Object TaskAjax(HttpServletRequest request)  throws Exception {
-		System.out.println("TaskAjax 도착");
+		System.out.println("TaskAjax 도착 load");
 		//파라미터 이름 보기
 		Enumeration params = request.getParameterNames();
 		System.out.println("----------------------------");

@@ -52,16 +52,20 @@ public class ProjectDAO {
 		 return mybatis.update("project.accept", param);
 	 }
 	 
-	 public int count (int project_seq)throws Exception{
+	 public int countNum (int project_seq)throws Exception{
 		 return mybatis.selectOne("project.countPeople", project_seq);
 	 }
 	 
-	 public int getPeople (int project_seq)throws Exception{
-		 return mybatis.selectOne("project.getPeople", project_seq);
+	 public int getPeopleNum (int project_seq)throws Exception{
+		 return mybatis.selectOne("project.getPeopleNum", project_seq);
 	 }
 	 
 	 public int refuse (Map<String,Integer>param)throws Exception{
 		 return mybatis.update("project.refuse", param);
+	 }
+	 
+	 public int countProject(int mem_seq)throws Exception{
+		 return mybatis.selectOne("project.countProject", mem_seq);
 	 }
 	 
 }

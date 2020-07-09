@@ -53,7 +53,7 @@ public class HomeController {
 	}
 
 	@RequestMapping("backup")
-	public String backup() {
+	public String backup(Model model) {
 		return "backup/backup";
 	}
 
@@ -71,8 +71,7 @@ public class HomeController {
 		  //프로젝트 seq로 프로젝트 dto 가져오기
 		  ProjectDTO pdto = pservice.selectBySeq(seq);
 		  session.setAttribute("projectInfo", pdto);  //세션에 pdto담기 
-		  
-		  
+		  		  
 		  int project_seq = pdto.getSeq();
 		  System.out.println("HomeController : 프로젝트 시퀀스는 >> " + project_seq);
 		  
@@ -101,14 +100,12 @@ public class HomeController {
 		  model.addAttribute("chattingList", new Gson().toJson(chattingArray));
 		  
 		  
-		  
 		  // 프로젝트의 루트 디렉토리 seq 가져옴
 		  int root_seq = fservice.getRootDirSeq(project_seq);
 		  
 		  // DB에서 목록 가져올 때
 		  List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
 		  JsonArray dirArr = new JsonArray();
-		  JsonArray fileArr = new JsonArray();
 		  
 		  for(DirectoryDTO dto : dirList) {
 			  JsonObject json = new JsonObject();
@@ -118,6 +115,7 @@ public class HomeController {
 			  dirArr.add(json);
 		  }
 		  
+		  model.addAttribute("root_seq", root_seq);
 		  model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		  
 		  

@@ -57,6 +57,9 @@
         font-weight: 500;
         font-size: 18px;
     }
+    a:hover{
+    	text-decoration: none;
+    }
 </style>
 </head>
 <body>

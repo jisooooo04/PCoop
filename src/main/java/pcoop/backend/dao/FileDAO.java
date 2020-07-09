@@ -73,12 +73,18 @@ public class FileDAO {
 	
 
 	// 디렉토리 insert
-	public int insertDirectory(String path, String name, int parent_seq) {
+	public int insertDirectory(String path, String name, int project_seq, int parent_seq) {
 		HashMap<String, Object> values = new HashMap<>();
+		values.put("project_seq", project_seq);
 		values.put("parent_seq", parent_seq);
 		values.put("name", name);
 		values.put("path", path);
 		return mybatis.insert("Backup.insertDirectory", values);
+	}
+	
+	// 디렉토리가 존재하는지 확인
+	public int dirExists(String path) {
+		return mybatis.selectOne("Backup.dirExists", path);
 	}
 
 	// 디렉토리 delete

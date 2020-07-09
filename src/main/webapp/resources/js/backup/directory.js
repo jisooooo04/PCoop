@@ -8,7 +8,7 @@
 //디렉토리 리스트 출력 함수
 
 function printDirList(dirlist){
-
+	
 	for (var i = 0; i < dirlist.length; i++) {
 
 		var name = dirlist[i].name;
@@ -19,28 +19,6 @@ function printDirList(dirlist){
 
 }
 
-
-//전체 파일 리스트 가져오는 함수
-function printFileList(filelist){
-	for (var i = 0; i < filelist.length; i++) {
-
-		var patharr = filelist[i].path.split('/');
-		var parent = ".root";
-
-		for (var j = 2; j < patharr.length; j++) {
-
-			if (j == patharr.length - 1)
-				$(parent)
-				.append(
-						"<ul><li class='file'>" + patharr[j]
-						+ "</li></ul>");
-			else
-				parent = "#" + patharr[j];
-
-		}
-
-	}
-}
 
 //디렉토리 - 클릭 - 디렉토리 내 파일 리스트
 $(document).on("click", ".dir", function(event){
@@ -71,18 +49,26 @@ $(document).on("click", ".dir", function(event){
 			$(".file").remove();
 			
 			var data = JSON.parse(data);
+			var path = data.path;
+			
+			
+			path = path.substring(path.indexOf('_') + 1, path.length);
+			path = path.replace(/\//g, "　<i class='fas fa-chevron-right'></i>　")
+			$(".backup-path").html(path);
+
+			// 하위 디렉토리와 파일들 리스트 출력
 			var dirs = JSON.parse(data.dirArr);
 			var files = JSON.parse(data.fileArr);
 			
 			for(var i = 0 ; i < dirs.length ; i++){
 				var dir_id = "dir" + dirs[i].seq;
-				$(".dirs").append("<div class=dir id=" + dir_id + "><div class=icon><span class='fas fa-folder-open fa-4x'></span></div>" + dirs[i].name + "</div>")
+				$(".dirs").append("<div class=dir id=" + dir_id + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + dirs[i].name + "</div>")
 			}
 			
 			for(var i = 0 ; i < files.length ; i++){
 				
 				var id = "f" + files[i].seq;
-				$(".files").append("<div class=file id=" + id + "><div class=icon><span class='fas fa-file-upload fa-4x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				$(".files").append("<div class=file id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
 								
 //				if(files[i].text_yn == "Y"){
 //					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
@@ -101,19 +87,19 @@ $(document).on("click", ".dir", function(event){
 })
 
 //디렉토리 - 우 클릭 - 드롭다운 메뉴
-$(document).on("contextmenu", ".dir", function(event){
+$(document).on("contextmenu", ".dirs>.dir", function(event){
 	
 	// 이벤트 버블링 방지
 	event.stopImmediatePropagation();
 
 	var id = this.id;
-	var left = $("#" + id).offset().left;
-	var top = $("#" + id).offset().top + 30;
+	var left = $(".dirs>#" + id).offset().left + 20;
+	var top = $(".dirs>#" + id).offset().top + 90;
 
 	// 루트 디렉토리는 삭제 메뉴가 안 보이게 처리함 
 	var root_id = $(".root").attr("id");
 	
-	if(id == 'dir4')
+	if(id == root_id)
 		$(".menu_delete_dir").css("display", "none");
 	
 	else $(".menu_delete_dir").css("display", "block");
@@ -151,17 +137,16 @@ $(document).on("click", ".menu_add_dir", function(){
 	var left = $("#" + id).offset().left;
 	var top = $("#" + id).offset().top + 30;
 
-	$(".add_dir").css({
-		"left": left,
-		"top": top
-	}).show();
-
+	$(".add_dir").show();
 	$(".contextmenu").hide();
 })
 
-//새 디렉토리 추가
+// 새 디렉토리 추가
 $(document).on("click", "#ok", function(){
 
+	var root_id = $(".root").attr("id");
+	var root_name = $(".root>b").text();
+	
 	var parent_seq = $(".menu_add_dir").attr("id").substring(3);
 	var name = $("#dir_name").val();
 	var data = {
@@ -175,10 +160,16 @@ $(document).on("click", "#ok", function(){
 		data: data,
 		success: function(data){
 			
-			if(data != -1){
-				$("#dir" + parent_seq).append(
-						"<ul><li class='dir' id='dir" + data + "'><b>"
-						+ name + "</b></li></ul>");
+			var json = JSON.parse(data);
+			var checkDupl = json.checkDupl;
+			
+			if(checkDupl != 1){
+				var dirlist= JSON.parse(json.dirlist);
+				$(".root").remove();
+				// 리스트 새로 만들기
+				$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
+				// 디렉토리 가지고 오기
+				printDirList(dirlist);
 			}
 			else alert("디렉토리명 중복");
 			
@@ -202,13 +193,18 @@ $(document).on("click", ".menu_delete_dir", function(){
 
 //디렉토리 삭제
 $(document).on("click", ".delete_dir", function(){
+	
+	var root_id = $(".root").attr("id");
+	var root_name = $(".root>b").text();
 
 	$(".modal_alert").modal('hide');
 
 	var seq = $(".menu_add_dir").attr("id").substring(3);
-	console.log(seq);
+	var root_seq = root_id.substring(3);
+	
 	var data = {
-			seq: seq
+			seq: seq,
+			root_seq: root_seq
 	}
 
 	$.ajax({
@@ -223,7 +219,7 @@ $(document).on("click", ".delete_dir", function(){
 			var data = JSON.parse(data);
 
 			// 리스트 새로 만들기
-			$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
+			$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
 			// 디렉토리 가지고 오기
 			var dirlist = JSON.parse(data.dirlist);
 			printDirList(dirlist);
@@ -237,8 +233,8 @@ $(document).on("click", ".delete_dir", function(){
 $(document).on("click", ".menu_rename_dir", function(){
 	
 	var id = this.id;
-	var left = $("#" + id).offset().left;
-	var top = $("#" + id).offset().top + 30;
+	var left = $(".dirs>#" + id).offset().left;
+	var top = $(".dirs>#" + id).offset().top + 70;
 	var dir_name = $("#" + id).text();
 	
 	$("#dir_rename").val(dir_name);

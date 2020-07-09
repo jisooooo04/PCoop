@@ -109,10 +109,12 @@ public class ProjectController {
 			send_result="n";
 		}
 		
-		 int count = service.count(project_seq);//현재 인원 수 
-		 int people = service.getPeople(project_seq);//정해져 있는 인원 수 
+		 int countNum = service.countNum(project_seq);//현재 인원 수 
+		 int peopleNum = service.getPeopleNum(project_seq);//정해져 있는 인원 수 
 		
-		Object arr [] = {dto,send_result,count,people};
+		 int countProject = service.countProject(member_seq);//내가 참여한 프로젝트 갯수
+		 
+		Object arr [] = {dto,send_result,countNum,peopleNum,countProject};
 		String respArr = new Gson().toJson(arr);
 		return respArr;
 	}
@@ -172,5 +174,19 @@ public class ProjectController {
 		  model.addAttribute("seq", project_seq);
 		  service.refuse(param);
 		  return "redirect:goProjectHome";
+	  }
+	  
+	  @ResponseBody
+	  @RequestMapping("countProject")
+	  public String countProject(int mem_seq)throws Exception{//프로젝트는 최대 10개까지만 참여가능
+		  String str = null;
+		  int count = service.countProject(mem_seq);
+		  System.out.println("count는"+count);
+		  if(count>=10) {
+			  str="fail";
+		  }else {
+			  str="success";
+		  }
+		  return str;
 	  }
 }

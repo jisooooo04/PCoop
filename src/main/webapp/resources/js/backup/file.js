@@ -33,9 +33,7 @@ $(document).on("click", "#uploadSubmit", function(event){
 	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
 	var form = document.uploadForm;
 	form.dir_seq.value = dir_seq;
-	
-	console.log(form);
-	
+		
 	var data = new FormData(form);
 
     $.ajax({
@@ -92,7 +90,7 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 	
 	// 확장자 체크(.zip 파일만)
 	var name = form.zip.value;
-	extension = name.substring(name.indexOf('.'));
+	extension = name.substring(name.lastIndexOf('.'));
 	
 	if(extension != '.zip'){
 		alert(".zip 파일만 가능합니다.");
