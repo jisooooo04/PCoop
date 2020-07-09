@@ -75,14 +75,14 @@ public class WebChat {
 			        	 
 			        	 //json으로 넘어온 정보들을 cdto에 저장하기 위해 String 변수로 변환해 임시 저장
 			        	 String nickname = mdto.getName();
-			        	 //String text = (String)jsonObj.get("text");
 			        	 String fullDate = (String)jsonObj.get("fulldate");
 			        	 String date = (String)jsonObj.get("date");  //날짜
 			        	 String time = (String)jsonObj.get("time");  //시간
 			        	 
-			        	 //추가해야함!!  (chat_seq는 밑에서 db로 seq값 불러와서 추가)
-			        	 //String project_seq = (String)jsonObj.get("project_seq");
-			        	 //String chatting_seq = (String)jsonObj.get("chatting_seq");
+			        	 String p_seq = (String)jsonObj.get("p_seq");
+			        	 String c_seq = (String)jsonObj.get("c_seq");
+			        	 int project_seq = Integer.parseInt(p_seq.substring(5));
+			        	 int chatting_seq = Integer.parseInt(c_seq.substring(5));
 			        	 
 			        	 jsonObj.put("nickname", nickname);
 			        	 
@@ -100,10 +100,14 @@ public class WebChat {
 			        		 String oriname = (String)jsonObj.get("file");
 			        		 text = "<a href='fileDownload?presentFileSeq="+presentFileSeq+"'>" + oriname + "</a>";
 			        		 
-			        		 //이미지 일때 이미지로 보여주기
-			        		 String extension = (String)jsonObj.get("extension");
+			        		 int file_seq = (int)jsonObj.get("file_seq");
+			        		 String sysname = (String)jsonObj.get("sysname");
+			        		 String filepath = (String)jsonObj.get("filepath");
 			        		 String target = (String)jsonObj.get("target");
+			        		 String extension = (String)jsonObj.get("extension");
+			        		 			        		 
 			        		 
+			        		 //이미지 일때 이미지로 보여주기
 			        		 //if(extension.contentEquals("jpg") || extension.contentEquals("png")) {
 			        		 //	 text = "<img src='"+target+"' style='width: 100px'>";
 			        		 //}
@@ -130,7 +134,7 @@ public class WebChat {
 			        	 
 			        	 
 			        	 // file / text 공통 수행
-			        	 ChatDTO cdto = new ChatDTO(0,0,0,nickname,text,fullDate,date,time,nextFileSeq);
+			        	 ChatDTO cdto = new ChatDTO(0,project_seq,chatting_seq,nickname,text,fullDate,date,time,nextFileSeq);
 			        	 
 			        	 
 			        	 //chat DB에 채팅내용 저장  (seq, pj_seq, chatting_seq, ... , file_path)

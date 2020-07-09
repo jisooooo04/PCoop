@@ -26,10 +26,10 @@ var root_name = '${projectInfo.name}';
 
 $(function() {
 	
-	
 	//바로 projectHome 로드되도록 설정
 	$("#container").load("goProjectHome");  //리퀘스트매핑
 	
+	//왼쪽 사이드바 backup에 루트 디렉토리 추가
 	$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
 	
 	// 디렉토리 가지고 오기
@@ -38,18 +38,35 @@ $(function() {
 	
 	
 	//채팅 목록 list 불러와서 왼쪽 사이드바에 뿌려주기
-	//var chattingList = ${chattingList};
-
+	var chattingList = ${chattingList};
 	
-	//$(".chattinList").append();
-	
+	for (var i = 0; i < chattingList.length; i++) {
+		var chatting_seq = chattingList[i].chatting_seq;
+		var project_seq = chattingList[i].project_seq;
+		var title = chattingList[i].title;
+		var member_count = chattingList[i].member_count;
+		var member_seq = chattingList[i].member_seq;
+		var member_name = chattingList[i].member_name;
+		var create_date = chattingList[i].create_date;
+		var type = chattingList[i].type;
+		
+		
+		var div = $("<div></div>");
+		var span = $("<span class=logon>● </span>");
+		var chatting = $("<a class=c_list id='c_seq"+chatting_seq+"'>"+title+"</a>");
+		div.append(span);
+		div.append(chatting);
+		$(".chattingList").append(div);
+	}
 	
 })
-
+</script>
+<script>
 	$(function() {
 
-		$(".menu-chat").on("click", function(){
-			$("#container").load("chatting");
+		$(".c_list").on("click", function(){
+			var c_seq = $(this).attr("id");
+			$("#container").load("chatting", {c_seq: c_seq});
 			//$("#modals").load("chat .modals");
 		})
 		
@@ -78,7 +95,8 @@ $(function() {
 
 	<div id="modals"></div>
 
-
+	
+	<script src="resources/js/chatting/chatting.js"></script>
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
 
