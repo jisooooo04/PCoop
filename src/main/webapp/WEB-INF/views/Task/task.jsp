@@ -36,8 +36,22 @@
 <!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
 
 <style>
-*{
+body{
 
+	overflow-y: hidden;
+	 overflow-x: hidden;
+}
+#wrapper{
+
+	width: 50%;
+	position: fixed;
+	z-index : 10;
+	bottom : 0px;
+	  background-color: rgba( 255, 255, 255, 0.7 );
+}
+#todoListBox{
+	margin: 10px;
+	overflow : hidden;
 }
 #box {
 	margin: 10px 0px 0px 10px;
@@ -55,13 +69,17 @@
 #calendarBox {
 	margin-top: 100px;
 	width: 1200px;
-	/* zoom: 0.6; */
+	zoom: 0.8;
 	margin: 0 auto;
 }
 
 #actions-by-ajax{
-	min-width : 1227.22px; 	/* 스케줄러 너비값 */
+	/* 스케줄러 너비값*/
+height : 88%;
+
+	overflow-y: hidden;
 }
+
 </style>
 
 
@@ -362,22 +380,9 @@
 
 	<section id="box">
 		<div id="wrapper">
-
-
-			<div id="todoListBox">
-				<!--Actions by ajax		-->
-				<div id="actions-by-ajax">
-
-					<!--진행률 바-->
-					<div class="progress" id="progress">
-						<div id="selector"
-							class="progress-bar progress-bar-striped active"
-							role="progressbar" aria-valuenow="60" aria-valuemin="0"
-							aria-valuemax="100" style="width:${bar}%">
-							<span class="sr-only">45% Complete</span>
-						</div>
-					</div>
-
+	
+					
+					
 
 <!--테스트-->
 <div class="accordion" id="accordionExample">
@@ -737,7 +742,24 @@
 </div>
 
 <!--테스트 end-->
-<br>
+							<!--진행률 바-->
+					<div class="progress" id="progress">
+						<div id="selector"
+							class="progress-bar progress-bar-striped active"
+							role="progressbar" aria-valuenow="60" aria-valuemin="0"
+							aria-valuemax="100" style="width:${bar}%">
+							<span class="sr-only">45% Complete</span>
+						</div>
+					</div>	
+					
+</div>
+			<div id="todoListBox">
+
+				<!--Actions by ajax		-->
+				<div id="actions-by-ajax">
+
+				
+
 
 	
 
@@ -755,7 +777,7 @@
 						<i class="glyphicon glyphicon-plus"></i>
 					</button>
 				</div>
-			</div>
+			
 		</div>
 
 		</div>
