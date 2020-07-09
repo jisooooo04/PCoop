@@ -12,53 +12,137 @@
 .row {
 	margin-top: 10px;
 }
-.container{
- 	font-family: 'Noto Sans KR', sans-serif; 
-}
-.modifymodal{
-	top:100%;
-	position:fixed;
+
+.modifymodal {
+	top: 100%;
+	position: fixed;
 	background: #fff;
-	width:100%;
-	height:100%;
+	width: 100%;
+	height: 100%;
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
-	margin:0;
+	margin: 0;
 	font-family: 'Noto Sans KR', sans-serif;
 	background-color: #fffefc;
 }
-.deletemodal{
-	top:100%;
-	position:fixed;
+
+.deletemodal {
+	top: 100%;
+	position: fixed;
 	background: #fff;
-	width:100%;
-	height:100%;
+	width: 100%;
+	height: 100%;
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
-	margin:0;
+	margin: 0;
 	font-family: 'Noto Sans KR', sans-serif;
 	/* background-image:url("/resources/images/mypage/Colors Of Sky.jpg");  */
-	background-color:#fffefc;
+	background-color: #fffefc;
 }
-.modal-open{
-	top:0;
+
+.modal-open {
+	top: 0;
 }
-.btns>button{
-	width:80px;
-	border-radius:10px;
-	border:none;
-	height:30px;
-	font: inherit;
+/* 프로젝트 리스트  */
+.box {
+	margin-bottom: 10px;
+	font-family: 'Noto Sans KR', sans-serif;
+	text-align: center;
+	font-size: 18px;
+	padding: 20px;
+	width: 400px;
+	margin-bottom: 10px;
+	border: 3px solid #5f83ba;
+	border-radius: 15px;
+	font-weight: 600;
+	color: dimgrey;
+	border-radius: 15px;
+	font-weight: 600;
+	font-weight: 600;
 }
-.card{
-	border:none;
-	border-radius:10px;
-	background-color: #fcfbf7;
-	opacity:80%;
+
+.head {
+	width: 400px;
+	border-radius: 15px;
+	background-color: #5f83ba;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 30px;
+	text-align: center;
+	font-weight: bolder;
+	color: white;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.fa-list-ul {
+	margin-right: 10px;
+}
+
+.box button {
+	margin: 5px;
+	background-color: #5f83ba;
+	border-radius: 10px;
+	border: none;
+	padding: 6px;
+}
+
+.box a {
+	text-decoration: none;
+	color: white;
+}
+
+.box>div {
+	margin: 5px;
+}
+
+.fa-user {
+	margin-right: 5px;
+}
+
+/* 프로젝트 나가기 모달  */
+.deleteProjectBox {
+	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
+	border: none;
+	position: fixed;
+	top: 100%;
+	padding: 25px;
+	border-radius: 10px;
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+	margin: auto;
+}
+
+.emphasized {
+	box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px, rgba(0, 0, 0, 0.5) 2px 2px
+		3px 3px;
+	z-index: 100;
+}
+
+.deleteProjectBox>div {
+	text-align: center;
+	margin: auto;
+	margin-top: 5px;
+}
+
+.deleteProjectBox>div:nth-child(1) {
+	font-size: 25px;
+}
+
+.deleteProjectBox button {
+	margin: 5px;
+	width: 80px;
+	border-radius: 15px;
+	border: 0.5px solid #32a6f0;
+	background-color: white;
+	color: #32a6f0;
+}
+
+.openModal {
+	top: 20%;
 }
 </style>
 </head>
 <body>
-	
-		<div class="container">
+
+	<div class="container">
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">Navbar</a>
@@ -81,170 +165,193 @@
 					</ul>
 				</div>
 			</nav>
-			
-			</header>
-			<section>
 
-		<div class="row">
-			<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 정보-->
-			
-			<div class="col-4-sm">
-			<div class="row p-1">
-				<div class="col-12"></div>
-			</div>
-				<div class="row">
-					
-					<div class="col-4">e-mail</div>
-					<div class="col-5">${loginInfo.email}</div>
-					<div class="col-3"></div>
-				</div>
-				<div class="row">
-					
-					<div class="col-4">name</div>
-					<div class="col-5">${loginInfo.name}</div>
-					<div class="col-3"></div>
-				</div>
-				<div class="row">
-					<div class="col-4">password</div>
-					<div class="col-5">
-						<input type="password" readonly value="${loginInfo.pw}">
-					</div>
-					<div class="col-3"></div>
-				</div>
-				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-8 btns">
-						<button id="modifybtn">수정</button>
-						<button id="deletebtn">탈퇴</button>
-					</div>
-					<div class="col-2"></div>
-				</div>
-				
-			</div>
-			<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ프로젝트 카드  -->
-			
-			<div class="col-sm-8">
-				<div class="row">
-				<c:choose>
-					<c:when test='${list_size ==0}'>
-					<div class="col-4-sm m-5">
-					</div>
-						<div class="col-8-sm m-5">
-					아직 참여한 프로젝트가 없습니다.. <br>
-					프로젝트를 생성하거나 참여해보세요 !
-					</div>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="i" items="${list}">
-						<div class="col-sm-6 pt-2">						
-						<div class="card" style='width: 100%;'>
-									<div class="card-body">
-										<h5 class="card-title">${i.name}</h5>
-										<p class="card-text">${i.code}</p>
-										<a href="../project-main?seq=${i.seq}" class="btn btn-primary">프로젝트 바로가기</a>
-										<a href="" class="btn btn-primary" >프로젝트 나가기</a>
-									</div>
-								</div>	
-						</div>
-					</c:forEach>
-					</c:otherwise>
-				</c:choose>
-					
-				</div>
-			</div>
-			
-		</div>
-	</section>
-		</div>
+		</header>
+		<section>
 
-<!-- 수정하기  -->
-		<div class="row modifymodal">
-			<div class="col-sm-8">
-				
+			<div class="row">
+				<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 정보-->
+
+				<div class="col-4-sm">
+					<div class="row p-1">
+						<div class="col-12"></div>
+					</div>
 					<div class="row">
-					<div class="col-4"></div>
-					<div class="col-2">e-mail</div>
-					<div class="col-2">${loginInfo.email}</div>
-					<div class="col-4"></div>
-				</div>
-				<div class="row">
-					<div class="col-4"></div>
-					<div class="col-2">name</div>
-					<div class="col-2"><input type="text" id="modifyname"></div>
-					<div class="col-4"></div>
-				</div>
-				<div class="row">
-					<div class="col-4"></div>
-					<div class="col-2">password</div>
-					<div class="col-4">
-						<input type="password" value="${loginInfo.pw}" id="modifypw">
-					</div>
-					<div class="col-2"></div>
-				</div>
-				<div class="row">
-					<div class="col-4"></div>
-					<div class="col-8 btns">
-						<button id="modifycancel">취소</button>
-						<button id="save">저장</button>
-					</div>
-			</div>
-				
-				
-			
-			</div>
-			<div class="col-sm-4">
-				
-			</div>
-		</div>
-		
-		<!-- 탈퇴 + 프로젝트 나가기   -->
-		<div class="row deletemodal">
-			<div class="col-sm-2">
-				
-			</div>
-			<div class="col-sm-8">
-				
-				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-10"><i class="fas fa-exclamation-triangle"></i>회원을 탈퇴하시면 참여한 프로젝트에서 자동으로 나가게 됩니다.</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-10"><i class="fas fa-exclamation-triangle"></i>프로젝트의 리더(생성자)인 경우 리더를 다른 팀원에게 넘겨주어야 합니다.</div>
-					
-				</div>
-				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-10">본인확인을 위해 비밀번호를 입력해주세요.</div>
-				</div>
-				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-2">password</div>	
-					<div class="col-5">
-						<input type="password" id="deletepw">
-					</div>
-					<div class="col-3"></div>
-				</div>
-				<div class="row">
-					<div class="col-4"></div>
-					<div class="col-4">
-						<button id="deletecancel">취소</button>
-						<button id="deletesave">확인</button>
-					</div>
-					<div class="col-4"></div>
-			</div>
-				
-				
-			
-			</div>
-			<div class="col-sm-2">
-				
-			</div>
-		</div>
-		
 
-		<script>
+						<div class="col-4">e-mail</div>
+						<div class="col-5">${loginInfo.email}</div>
+						<div class="col-3"></div>
+					</div>
+					<div class="row">
+
+						<div class="col-4">name</div>
+						<div class="col-5">${loginInfo.name}</div>
+						<div class="col-3"></div>
+					</div>
+					<div class="row">
+						<div class="col-4">password</div>
+						<div class="col-5">
+							<input type="password" readonly value="${loginInfo.pw}">
+						</div>
+						<div class="col-3"></div>
+					</div>
+					<div class="row">
+						<div class="col-2"></div>
+						<div class="col-8 btns">
+							<button id="modifybtn">수정</button>
+							<button id="deletebtn">탈퇴</button>
+						</div>
+						<div class="col-2"></div>
+					</div>
+
+				</div>
+				<!-- ㅡㅡㅡ프로젝트 리스트  -->
+				<div class="col-sm-2"></div>
+				<div class="col-sm-6">
+					<div class="row">
+						<c:choose>
+							<c:when test='${list_size ==0}'>
+								<div class="col-4-sm m-5"></div>
+								<div class="col-8-sm m-5">
+									아직 참여한 프로젝트가 없습니다.. <br> 프로젝트를 생성하거나 참여해보세요 !
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="col-sm-12">
+									<div class="wrapper">
+										<div class="head">
+											<i class="fas fa-list-ul"></i>PROJECT LIST
+										</div>
+										<c:forEach var="i" items="${list}">
+											<div class="box">
+												<div>${i.name}</div>
+												<div>초대 코드 : ${i.code}</div>
+												<div>
+													<i class="fas fa-user fa-lg"></i>/${i.people_num}
+												</div>
+												<div>
+													<button>
+														<a href="../project-main?seq=${i.seq}">프로젝트 바로가기</a>
+													</button>
+													<button>
+														<a href="#" onclick="return notice();">프로젝트 나가기</a>
+													</button>
+												</div>
+											</div>
+
+										</c:forEach>
+									</div>
+								</div>
+							</c:otherwise>
+						</c:choose>
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+		<!--프로젝트 나가기   -->
+		<div class="deleteProjectBox">
+			<div>프로젝트를 나가시겠습니까?</div>
+			<div>회원님이 프로젝트의 팀장(프로젝트 생성자)일 경우에는 팀원 중 한명이 프로젝트의 팀장이 됩니다.</div>
+			<div>
+				<button>취소</button>
+				<button>나가기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 수정하기  -->
+	<div class="row modifymodal">
+		<div class="col-sm-8">
+
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-2">e-mail</div>
+				<div class="col-2">${loginInfo.email}</div>
+				<div class="col-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-2">name</div>
+				<div class="col-2">
+					<input type="text" id="modifyname">
+				</div>
+				<div class="col-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-2">password</div>
+				<div class="col-4">
+					<input type="password" value="${loginInfo.pw}" id="modifypw">
+				</div>
+				<div class="col-2"></div>
+			</div>
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-8 btns">
+					<button id="modifycancel">취소</button>
+					<button id="save">저장</button>
+				</div>
+			</div>
+
+
+
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+
+	<!-- 탈퇴 + 프로젝트 나가기   -->
+	<div class="row deletemodal">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
+
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-10">
+					<i class="fas fa-exclamation-triangle"></i>회원을 탈퇴하시면 참여한 프로젝트에서
+					자동으로 나가게 됩니다.
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-10">
+					<i class="fas fa-exclamation-triangle"></i>프로젝트의 리더(생성자)인 경우 리더를 다른
+					팀원에게 넘겨주어야 합니다.
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-10">본인확인을 위해 비밀번호를 입력해주세요.</div>
+			</div>
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-2">password</div>
+				<div class="col-5">
+					<input type="password" id="deletepw">
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-4">
+					<button id="deletecancel">취소</button>
+					<button id="deletesave">확인</button>
+				</div>
+				<div class="col-4"></div>
+			</div>
+
+
+
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+
+
+	<script>
+		/* 회원 정보 수정하기 모달 띄우기 */
 			$("#modifybtn").on("click",function(){
 				$(".modifymodal").addClass('modal-open');
 				$("#modifyname").val('${loginInfo.name}');
@@ -253,6 +360,7 @@
 			$("#modifycancel").on("click",function(){
 				$(".modifymodal").removeClass('modal-open');
 			})
+		/* 	회원정보 수정 저장 버튼 클릭 */
 			$("#save").on("click",function(){
 				var name = $("#modifyname").val();
 				var pw = $("#modifypw").val();
@@ -276,12 +384,14 @@
 				
 			})
 			
+			/* 	회원 탈퇴  모달 띄우기 */
 			$("#deletebtn").on("click",function(){
 				$(".deletemodal").addClass('modal-open');
 			})
 			$("#deletecancel").on("click",function(){
 				$(".deletemodal").removeClass('modal-open');
 			})
+			/* 	회원 탈퇴 버튼 눌렀을 때 */
 			$("#deletesave").on("click",function(){
 				var pw = $("#deletepw").val();
 				console.log("click");
@@ -305,9 +415,28 @@
 					})
 				}
 			})
-			
+	/* 프로젝트 나가기 모달 띄우기 */			
+	function notice(){
+        $(".deleteProjectBox").addClass("openModal");
+        $(".deleteProjectBox").addClass("emphasized");
+        
+        $(".deleteProjectBox>div>button:nth-child(1)").on("click",function(){
+            $(".deleteProjectBox").removeClass("openModal");
+            $(".deleteProjectBox").removeClass("emphasized");
+            return false;
+            })
+         $(".deleteProjectBox>div>button:nth-child(2)").on("click",function(){
+            $(".deleteProjectBox").removeClass("openModal");
+            $(".deleteProjectBox").removeClass("emphasized");
+            return true;
+            })  
+    }
+      /* $(".box>div>button:nth-child(1)").on("click",function(){
+      $(".box").removeClass("openModal");
+      $(".box").removeClass("emphasized");
+      }) */
 		</script>
-	
-	
+
+
 </body>
 </html>
