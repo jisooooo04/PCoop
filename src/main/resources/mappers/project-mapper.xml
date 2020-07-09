@@ -62,7 +62,7 @@
 		select count(*) from project_member where project_seq=${value}
 	</select>
 	
-	<select id="getPeople" resultType="int">
+	<select id="getPeopleNum" resultType="int">
 		select people_num from project where seq=${value}
 	</select>
 	

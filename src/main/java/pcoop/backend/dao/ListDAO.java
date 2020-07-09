@@ -82,14 +82,12 @@ public class ListDAO {
 		      return mybatis.update("List.listIndexUpdate", param);
 	}  
 	   
-	   public int selectCount() {
-		   System.out.println("갯수확인");
-			return mybatis.selectOne("List.selectCount");
+	   public int selectCount(Map<String, Object> param) {
+			return mybatis.selectOne("List.selectCount", param);
 			
 		}
-	   public int trueCount() {
-		   System.out.println("투루갯수확인");
-			return mybatis.selectOne("List.trueCount");
+	   public int trueCount(Map<String, Object> param) {
+			return mybatis.selectOne("List.trueCount", param);
 			
 		}
 	

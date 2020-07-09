@@ -14,9 +14,9 @@
 			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트명</a>
 		</div>
 		<div class="navtitle">
-			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List
+			<a href = "/Task/task"><img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
 		</div>
-		<div class="navcontents task">
+		<div class="navcontents task" >
 			<div>프론트엔드</div>
 			<div>백엔드</div>
 			<div>아두이노</div>
@@ -31,7 +31,7 @@
 		<div class="navtitle menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon> 채팅
 		</div>
-		<div class="navcontents">
+		<div class="navcontents chattingList">
 			<div>
 				<span class=logon>● </span>kh 파이널 5조
 			</div>

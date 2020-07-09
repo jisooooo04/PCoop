@@ -1,5 +1,7 @@
 package pcoop.backend.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,12 @@ public class ChattingService {
 		cdto.setMember_name(mb_name);
 		
 		return cdao.insertMainMember(cdto);
+	}
+	
+	
+	public List<ChattingDTO> selectChattingList(int pj_seq, int mb_seq) {
+		
+		return cdao.selectChattingList(pj_seq, mb_seq);
 	}
 	
 	

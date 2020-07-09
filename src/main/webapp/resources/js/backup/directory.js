@@ -8,6 +8,8 @@
 //디렉토리 리스트 출력 함수
 
 function printDirList(dirlist){
+	
+	console.log(dirlist);
 
 	for (var i = 0; i < dirlist.length; i++) {
 
@@ -19,28 +21,6 @@ function printDirList(dirlist){
 
 }
 
-
-//전체 파일 리스트 가져오는 함수
-function printFileList(filelist){
-	for (var i = 0; i < filelist.length; i++) {
-
-		var patharr = filelist[i].path.split('/');
-		var parent = ".root";
-
-		for (var j = 2; j < patharr.length; j++) {
-
-			if (j == patharr.length - 1)
-				$(parent)
-				.append(
-						"<ul><li class='file'>" + patharr[j]
-						+ "</li></ul>");
-			else
-				parent = "#" + patharr[j];
-
-		}
-
-	}
-}
 
 //디렉토리 - 클릭 - 디렉토리 내 파일 리스트
 $(document).on("click", ".dir", function(event){
@@ -113,7 +93,7 @@ $(document).on("contextmenu", ".dir", function(event){
 	// 루트 디렉토리는 삭제 메뉴가 안 보이게 처리함 
 	var root_id = $(".root").attr("id");
 	
-	if(id == 'dir4')
+	if(id == root_id)
 		$(".menu_delete_dir").css("display", "none");
 	
 	else $(".menu_delete_dir").css("display", "block");
@@ -162,6 +142,9 @@ $(document).on("click", ".menu_add_dir", function(){
 //새 디렉토리 추가
 $(document).on("click", "#ok", function(){
 
+	var root_id = $(".root").attr("id");
+	var root_name = $(".root>b").text();
+	
 	var parent_seq = $(".menu_add_dir").attr("id").substring(3);
 	var name = $("#dir_name").val();
 	var data = {
@@ -175,10 +158,16 @@ $(document).on("click", "#ok", function(){
 		data: data,
 		success: function(data){
 			
-			if(data != -1){
-				$("#dir" + parent_seq).append(
-						"<ul><li class='dir' id='dir" + data + "'><b>"
-						+ name + "</b></li></ul>");
+			var json = JSON.parse(data);
+			var checkDupl = json.checkDupl;
+			
+			if(checkDupl != 1){
+				var dirlist= JSON.parse(json.dirlist);
+				$(".root").remove();
+				// 리스트 새로 만들기
+				$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
+				// 디렉토리 가지고 오기
+				printDirList(dirlist);
 			}
 			else alert("디렉토리명 중복");
 			
@@ -202,13 +191,18 @@ $(document).on("click", ".menu_delete_dir", function(){
 
 //디렉토리 삭제
 $(document).on("click", ".delete_dir", function(){
+	
+	var root_id = $(".root").attr("id");
+	var root_name = $(".root>b").text();
 
 	$(".modal_alert").modal('hide');
 
 	var seq = $(".menu_add_dir").attr("id").substring(3);
-	console.log(seq);
+	var root_seq = root_id.substring(3);
+	
 	var data = {
-			seq: seq
+			seq: seq,
+			root_seq: root_seq
 	}
 
 	$.ajax({
@@ -223,7 +217,7 @@ $(document).on("click", ".delete_dir", function(){
 			var data = JSON.parse(data);
 
 			// 리스트 새로 만들기
-			$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
+			$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
 			// 디렉토리 가지고 오기
 			var dirlist = JSON.parse(data.dirlist);
 			printDirList(dirlist);

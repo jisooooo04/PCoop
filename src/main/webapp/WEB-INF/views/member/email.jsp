@@ -66,8 +66,8 @@
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-right">
-					<h1>안내문</h1>
-					<p>사이트소개</p>
+					<h1>PCOOP</h1>
+					<p>입력하신 주소로 인증번호가 전송됩니다!</p>
 				</div>
 			</div>
 		</div>

@@ -73,8 +73,9 @@ public class FileDAO {
 	
 
 	// 디렉토리 insert
-	public int insertDirectory(String path, String name, int parent_seq) {
+	public int insertDirectory(String path, String name, int project_seq, int parent_seq) {
 		HashMap<String, Object> values = new HashMap<>();
+		values.put("project_seq", project_seq);
 		values.put("parent_seq", parent_seq);
 		values.put("name", name);
 		values.put("path", path);
@@ -165,6 +166,7 @@ public class FileDAO {
 		values.put("path", path);
 		values.put("uploader", uploader);
 		values.put("text_yn", text_yn);
+		System.out.println(values);
 		return mybatis.insert("Backup.insertFile", values);
 	}
 

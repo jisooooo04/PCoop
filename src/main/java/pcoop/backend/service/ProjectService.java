@@ -88,12 +88,12 @@ public class ProjectService {
 		 return dao.refuse(param);
 	 }
 	 
-	 public int count(int project_seq)throws Exception{
-		 return dao.count(project_seq);
+	 public int countNum(int project_seq)throws Exception{
+		 return dao.countNum(project_seq);
 	 }
 	 
-	 public int getPeople(int project_seq)throws Exception{
-		 return dao.getPeople(project_seq);
+	 public int getPeopleNum(int project_seq)throws Exception{
+		 return dao.getPeopleNum(project_seq);
 	 }
 	 
 

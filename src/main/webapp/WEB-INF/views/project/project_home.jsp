@@ -48,16 +48,13 @@
 </style>
 </head>
 <body>
-	<!-- Header -->
-	<jsp:include page="../header/header.jsp"></jsp:include>
-	<!-- 왼쪽 사이드바 -->
-	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
-	
-	<section>
-	
-		<div id="container">
+
 			<!-- 여기부터 각자 영역 설정 -->
+
 			<div class="wrapper">
+
+			프로젝트 홈입니다.
+
 				<c:choose>
 					<c:when test="${loginInfo.seq==projectInfo.leader_seq}">
 						<c:choose>
@@ -75,9 +72,7 @@
 				</c:choose>
 				</div>
 			<!-- 여기까지 각자 영역 설정 -->
-		</div>
-	
-	</section>
+
 	
 	<script>
 		

@@ -2,7 +2,6 @@ package pcoop.backend.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +26,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.MemberService;
+import pcoop.backend.service.ProjectService;
 
 @Controller  //컨트롤러 빈 선언
 @RequestMapping("/member/")
@@ -40,7 +43,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mservice; //서비스를 호출하기 위해 의존성을 주입
-
+	@Autowired 
+	private ProjectService pservice;
+	
 	@Autowired
 	private HttpSession session; // 입력한 이메일주소 저장용 
 
@@ -282,6 +287,7 @@ public class MemberController {
 		//----------내가 속한 모든 프로젝트 뽑기
 		
 		int peopleNum = 0;
+		
 		//----------내가 리더인 프로젝트들의 다음 조원들 뽑기
 		for(ProjectDTO dto : project_list) {
 			int count = dto.getPeople_num();
@@ -291,8 +297,18 @@ public class MemberController {
 				List<Integer> SelectMyProjectSeq =mservice.SelectMyPojectSeq(seq);
 			}
 		}
-		
-		
+
+		//프로젝트에 속한 현재 인원 수 
+		JsonArray respArray = new JsonArray();
+		JsonObject respObj = new JsonObject(); 
+		for(ProjectDTO dto : project_list) {
+			int project_seq = dto.getSeq();
+			int countPeople = pservice.countNum(project_seq);
+			respObj.addProperty("project_seq", project_seq);
+			respObj.addProperty("countPeople", countPeople);
+			respArray.add(respObj);
+		}
+		model.addAttribute("respArray",respArray);
 		return "member/mypage";
 	}
 	
@@ -314,7 +330,7 @@ public class MemberController {
 	@RequestMapping(value ="delmem",produces="application/gson;charset=utf8")
 	public String delmem(int seq,String pw)throws Exception{
 		Map<String , Object> map = new HashMap<>();
-		map.put("seq", seq);
+		map.put("seq", seq); // seq 값 세션에서?
 		map.put("pw", mservice.getSHA512(pw));
 		int check = mservice.checkmem(map);//비밀번호가 일치하는지 확인
 		String result = null;
