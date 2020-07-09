@@ -8,11 +8,11 @@
 	</insert>
 	
 	<select id="selectChatList" resultType="pcoop.backend.dto.ChatDTO">
-		select * from chat where full_date like ${value} order by time
+		select * from chat where full_date like ${full_date} and chatting_seq=${chatting_seq} order by time
 	</select>
 	
 	<select id="selectLastChat" resultType="pcoop.backend.dto.ChatDTO">
-		select * from chat where full_date like ${value} order by time desc
+		select * from chat where full_date like ${full_date} and chatting_seq=${chatting_seq} order by time desc
 	</select>
 	
 	<delete id="delete">

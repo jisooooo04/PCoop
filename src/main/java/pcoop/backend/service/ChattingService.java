@@ -52,10 +52,16 @@ public class ChattingService {
 		return cdao.insertMainMember(cdto);
 	}
 	
-	
+	//내가 속한 채팅방 목록 불러오기
 	public List<ChattingDTO> selectChattingList(int pj_seq, int mb_seq) {
 		
 		return cdao.selectChattingList(pj_seq, mb_seq);
+	}
+	
+	
+	//chatting_seq로 채팅 정보 불러오기
+	public List<ChattingDTO> selectChatting(int seq) {
+		return cdao.selectChatting(seq);
 	}
 	
 	

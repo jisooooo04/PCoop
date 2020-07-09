@@ -84,7 +84,22 @@ public class HomeController {
 		  
 		  //내가 속한 채팅방 목록 가져오기
 		  List<ChattingDTO> chattingList = ctservice.selectChattingList(project_seq, member_seq);
-		  model.addAttribute("chattingList", chattingList);
+		  JsonArray chattingArray = new JsonArray();
+		  
+		  for(ChattingDTO cdto : chattingList) {
+			  JsonObject json = new JsonObject();
+			  json.addProperty("chatting_seq", cdto.getSeq());
+			  json.addProperty("project_seq", cdto.getProject_seq());
+			  json.addProperty("title", cdto.getTitle());
+			  json.addProperty("member_count", cdto.getMember_count());
+			  json.addProperty("member_seq", cdto.getMember_seq());
+			  json.addProperty("member_name", cdto.getMember_name());
+			  json.addProperty("create_date", cdto.getCreate_date());
+			  json.addProperty("type", cdto.getType());
+			  chattingArray.add(json);
+		  }
+		  model.addAttribute("chattingList", new Gson().toJson(chattingArray));
+		  
 		  
 		  
 		  // 프로젝트의 루트 디렉토리 seq 가져옴
@@ -101,7 +116,7 @@ public class HomeController {
 			  json.addProperty("name", dto.getName());
 			  json.addProperty("path", dto.getPath());
 			  dirArr.add(json);
-			  }
+		  }
 		  
 		  model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		  

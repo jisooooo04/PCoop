@@ -1,6 +1,7 @@
 package pcoop.backend.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,15 @@ public class ChatDAO {
 	}
 	
 	
-	public List<ChatDTO> selectChatList(String today){
-		return mybatis.selectList("Chat.selectChatList", today);
+	public List<ChatDTO> selectChatList(ChatDTO cdto){
+		
+		return mybatis.selectList("Chat.selectChatList", cdto);
 	}
 	
 	
-	public List<ChatDTO> selectLastChat(String date){
+	public List<ChatDTO> selectLastChat(ChatDTO cdto){
 		
-		return mybatis.selectList("Chat.selectLastChat", date);
+		return mybatis.selectList("Chat.selectLastChat", cdto);
 	}
 	
 	

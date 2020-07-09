@@ -9,7 +9,7 @@ public class ChatDTO {
 	private String full_date;
 	private String form_date;
 	private String time;
-	private int file_path;  //file_seq로 바꾸기 (만약 file 아니면 null값 들어가게)
+	private int file_path; //file_seq로 바꾸기 (만약 file 아니면 null값 들어가게)
 	
 	public ChatDTO() {
 		super();
