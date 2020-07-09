@@ -141,8 +141,8 @@
 									<div class="card-body">
 										<h5 class="card-title">${i.name}</h5>
 										<p class="card-text">${i.code}</p>
-										<a href="../project/goProjectHome?seq=${i.seq}" class="btn btn-outline-secondary">프로젝트 바로가기</a>
-										<a href="" class="btn btn-outline-secondary" >프로젝트 나가기</a>
+										<a href="../project-main?seq=${i.seq}" class="btn btn-primary">프로젝트 바로가기</a>
+										<a href="" class="btn btn-primary" >프로젝트 나가기</a>
 									</div>
 								</div>	
 						</div>
