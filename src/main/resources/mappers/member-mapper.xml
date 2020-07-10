@@ -15,12 +15,6 @@
 		delete from member where seq= #{seq}
 	</delete>
 	
-	
-	<update id="update">
-update member set pw= #{pw}, name=#{name} where seq =#{seq}
-	</update>
-	
-	
 	<select id="duplCheck" resultType="int">
 		select count(*) from member where email= #{value}
 	</select>
