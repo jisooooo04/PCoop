@@ -43,7 +43,7 @@ public class TaskController {
 	@RequestMapping("/task")
 	public String Task(Model model)throws Exception {
 		List<CalendarDTO> list = new ArrayList<>();
-		int project_seq=0;
+		int project_seq=0;  // 캘린더 임시 시퀀스
 		list = Cservice.selectAll(project_seq);
 		model.addAttribute("list", list);
 		return "Task/task";
@@ -266,6 +266,7 @@ public class TaskController {
 
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 	
+		
 		ListDTO ldto = new ListDTO();
 		ldto.setTitle(request.getParameter("title"));
 		ldto.setProject_seq(pdto.getSeq());
@@ -548,11 +549,11 @@ public class TaskController {
 		int allcount =  lservice.selectCount(param);
 		int truecount =  lservice.trueCount(param);
 		
-		System.out.println("전체 갯수"+allcount);
-		System.out.println("2체크된 갯수"+truecount);
-		System.out.println("총"+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
+		System.out.println("프로젝트의 총 Task_card 수: "+allcount);
+		System.out.println("완료된 Task_card 수: "+truecount);
+		System.out.println("진행률 : "+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
 		int count = (int) Math.round(((double) truecount / (double) allcount) * 100);
-		System.out.println(count);
+
 		String to = Integer.toString(count);
 
 		

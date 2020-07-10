@@ -8,6 +8,24 @@
 <meta charset="UTF-8">
 <jsp:include page="header/cdn.jsp"></jsp:include>
 
+<!-- Lobi List Default installation-->
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="/resources/lobilist-master/dist/lobilist.min.css">
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/highlight/github.css">
+	
+
+
+<link href='/resources/css/task/task.css' rel='stylesheet' />
+
+	
+
 <link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
 <link rel="stylesheet" href="resources/css/chatting/chatting.css?after" />
 
@@ -19,6 +37,8 @@
 	hljs.initHighlightingOnLoad();
 </script>
 
+
+
 <script>
 
 var root_seq = ${root_seq};
@@ -26,10 +46,10 @@ var root_name = '${projectInfo.name}';
 
 $(function() {
 	
+	
 	//바로 projectHome 로드되도록 설정
 	$("#container").load("goProjectHome");  //리퀘스트매핑
 	
-	//왼쪽 사이드바 backup에 루트 디렉토리 추가
 	$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
 	
 	// 디렉토리 가지고 오기
@@ -59,9 +79,9 @@ $(function() {
 		$(".chattingList").append(div);
 	}
 	
+	
 })
-</script>
-<script>
+
 	$(function() {
 
 		$(".c_list").on("click", function(){
@@ -74,6 +94,11 @@ $(function() {
 			$("#container").load("backup .contents");
 			$("#modals").load("backup .modals");
 			$(".root").trigger("click");
+		})
+		
+		
+		$(".menu-todo").on("click", function(){
+			$("#container").load("/Task/task");
 		})
 		
 	})
@@ -95,10 +120,10 @@ $(function() {
 
 	<div id="modals"></div>
 
-	
-	<script src="resources/js/chatting/chatting.js"></script>
+
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
+
 
 </body>
 </html>

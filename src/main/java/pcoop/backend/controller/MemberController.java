@@ -82,23 +82,14 @@ public class MemberController {
 		String setfrom = "okeydoke2@naver.com";
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
-
 				System.getProperty("line.separator")+ //한줄씩 줄간격을 두기위해 작성
-
 				System.getProperty("line.separator")+
-
 				"안녕하세요 회원님 저희 P-Coop 홈페이지를 찾아주셔서 감사합니다"
-
         +System.getProperty("line.separator")+
-
         System.getProperty("line.separator")+
-
         " 인증번호는 " +dice+ " 입니다. "
-
         +System.getProperty("line.separator")+
-
         System.getProperty("line.separator")+
-
         "받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
 
 
@@ -178,10 +169,8 @@ public class MemberController {
 			//만약 인증번호가 같다면 이메일을 회원가입 페이지로 같이 넘겨서 이메일을
 			//한번더 입력할 필요가 없게 한다.
 
-
 			mv.addObject("tomail",session.getAttribute("tomail"));//세션에서 인증용으로 입력한 메일주소 불러오기
 			System.out.println(session.getAttribute("tomail"));
-
 
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
@@ -189,7 +178,6 @@ public class MemberController {
 			out_equals.flush();
 
 			return mv;
-
 
 		}else if (email_injeung != dice) {
 
