@@ -8,6 +8,24 @@
 <meta charset="UTF-8">
 <jsp:include page="header/cdn.jsp"></jsp:include>
 
+<!-- Lobi List Default installation-->
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="/resources/lobilist-master/dist/lobilist.min.css">
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/highlight/github.css">
+	
+
+
+<link href='/resources/css/task/task.css' rel='stylesheet' />
+
+	
+
 <link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
 <link rel="stylesheet" href="resources/css/chatting/chatting.css?after" />
 
@@ -18,6 +36,8 @@
 <script>
 	hljs.initHighlightingOnLoad();
 </script>
+
+
 
 <script>
 
@@ -103,6 +123,7 @@ $(function() {
 
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
+
 
 </body>
 </html>

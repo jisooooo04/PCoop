@@ -5,10 +5,7 @@
 
 		$(function() {
 			
-			$('#collapseOne').collapse('hide');
-			// 처음부터 show 를 빼버리면 캘린더 첫화면이 깨짐 (아무 캘린더 버튼을 누르면 정상화)
-			// 클래스에 show를 줘서 정상로딩 시키고 별도로 hide 시키기
-			
+
 			function isEmpty(param) {
 				  return Object.keys(param).length === 0;
 			}
@@ -29,7 +26,6 @@
 				    				delete: 'delete',
 				    				update: 'update'
 				                },
-				                
 				                afterListRemove: function(){
 				            		console.log("afterListRemove 변화 감지!");
 				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
@@ -39,7 +35,9 @@
 				    					console.log("버튼 숨겨라!!!");
 				    					$("#create_list").css('display', 'none');
 				    				}	
-				    			}
+				    			},
+				    			
+				                name: $('.project_home').html()
 				            });
 					
 					}else{
@@ -88,7 +86,8 @@
 				    						console.error('selectCount (아이템 추가)');
 				    					}
 				    				});
-				                }
+				                },
+				                name: 'ProjectName default'
 				    			
 				    			
 				    			
@@ -132,6 +131,6 @@
 			});
 		
 		$( "#progress" ).click(function() {
-			  $( "#calendar" ).slideToggle( "slow" );
+		  $( "#calendar" ).slideToggle( "slow" );
 			});
 		
