@@ -56,8 +56,10 @@ $(function(){
  			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
  			var time = d.toLocaleTimeString();
  			
+ 			var c_seq = $(".chat_title").attr("id");
+			var p_seq = $(".chat_person_num").attr("id");
  			
- 			var filename = "";
+ 			var oriname = "";
  			var fileCheck = fileCheck = $("#file_select").val();
  			
  			//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
@@ -65,81 +67,96 @@ $(function(){
  				var form = $('#fileForm')[0];
  				var formData = new FormData(form);
  				
- 				$.ajax({
- 					url : "fileUpload",
- 					type : "post",
- 					data : formData,
- 					processData: false,
- 					contentType: false,
- 					dataType : "json"
- 						
- 				}).done(function(response) {
- 										
- 					//파일 정보 받기!
- 					//밑에 웹소켓으로 정보 보내면 거기서 db 거쳐서 저장해야 함
- 					filename = response.oriname;  //파일명
- 					var extension = response.extension;
- 					var target = response.target;
- 					
- 					//그리고 확장자에 따라서 이미지 보이는거 만들어줌
- 					
- 					var msg = {
- 							type: "message",
- 							file: filename,  //text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
- 							fulldate: fulldate,
- 							date: date,
- 							time: time,
- 							extension: extension,
- 							target: target
- 						};
- 					
- 					ws.send(JSON.stringify(msg));  //웹소켓으로 "파일내용" 먼저 보내기
- 					
- 					
- 					//#input 안의 <div file_box> 지우고,
- 					$("#input>.file_box").remove();
- 					
- 					//그다음에 input에 있는 텍스트 내용 웹소켓으로 한번 더 보내기! (있으면!!)
- 					if($("#input").html() != ""){  //텍스트 내용이 있으면 (비어있지 않으면)
- 						var msg = {
- 					               type: "message",
- 					               text: $("#input").html(),
- 					               fulldate: fulldate,
- 					               date: date,
- 					               time: time
- 					            };
- 						
- 						ws.send(JSON.stringify(msg));
- 						//근데 하나의 에이작스 안에서 웹소켓 두번 보내서 받는게 가능할지 모르겠음  >> 됬네?
- 						
- 					} //if 끝 (텍스트 보내기)
- 					
- 					document.getElementById('fileForm').reset();  //file form 리셋
- 					
- 				}) //done 끝!
+ 				// 1) 먼저 서버에 파일 저장
+				$.ajax({
+					url : "fileUpload",
+					type : "post",
+					data : formData,
+					processData: false,
+					contentType: false,
+					dataType : "json"
+						
+				}).done(function(response) {
+										
+					//파일 정보 받기!
+					//밑에 웹소켓으로 정보 보내면 거기서 db 거쳐서 저장해야 함
+					var file_seq = response.seq;
+					oriname = response.oriname;  //파일명
+					var sysname = response.sysname;
+					var filepath = response.filepath;
+					var target = response.target;
+					var extension = response.extension;
+					
+					
+					//그리고 확장자에 따라서 이미지 보이는거 만들어줌
+					
+					// 2) WebChat에서 chat_file 테이블에 파일 정보 DB 저장
+					var msg = {
+							type: "message",
+							p_seq: p_seq,
+							c_seq: c_seq,
+							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
+							fulldate: fulldate,
+							date: date,
+							time: time,  //이 아래부터 file 내용
+							sysname: sysname,
+							filepath: filepath,
+							target: target,
+							extension: extension
+							
+						};
+					
+					ws.send(JSON.stringify(msg));  //웹소켓으로 "파일내용" 먼저 보내기 + DB 저장
+					
+					
+					//#input 안의 <div file_box> 지우고,
+					$("#input>.file_box").remove();
+					
+					//그다음에 input에 있는 텍스트 내용 웹소켓으로 한번 더 보내기! (있으면!!)
+					if($("#input").html() != ""){  //텍스트 내용이 있으면 (비어있지 않으면)
+						var msg = {
+					               type: "message",
+					               text: $("#input").html(),
+					               fulldate: fulldate,
+					               date: date,
+					               time: time,
+					               p_seq: p_seq,
+					               c_seq: c_seq
+					            };
+						
+						ws.send(JSON.stringify(msg));
+						//근데 하나의 에이작스 안에서 웹소켓 두번 보내서 받는게 가능할지 모르겠음  >> 됬네?
+						
+					} //if 끝 (텍스트 보내기)
+					
+					document.getElementById('fileForm').reset();  //file form 리셋
+					
+				}) //done 끝!
  				
  			}
  			
  			
  			//#input 안의 <div file_box> 지우고,
- 			$("#input>.file_box").remove();
- 			
- 			//메세지만 보냈으면 그냥 원래처럼 메세지 보내기
- 			if($("#input").html() != ""){
- 				var msg = {
- 			               type: "message",
- 			               text: $("#input").html(),
- 			               fulldate: fulldate,
- 			               date: date,
- 			               time: time
- 			            };
- 				ws.send(JSON.stringify(msg));
- 			}
- 			
- 			updateScroll();
- 			$("#input").html("");
- 			
- 			return false; //엔터쳤을때 커서가 아래로 떨어지지 않게 막아줌
+			$("#input>.file_box").remove();
+			
+			//메세지만 보냈으면 그냥 원래처럼 메세지 보내기
+			if($("#input").html() != ""){
+				var msg = {
+			               type: "message",
+			               p_seq: p_seq,
+			               c_seq: c_seq,
+			               text: $("#input").html(),
+			               fulldate: fulldate,
+			               date: date,
+			               time: time
+			            };
+				ws.send(JSON.stringify(msg));
+			}
+			
+			updateScroll();
+			$("#input").html("");
+			
+			return false; //엔터쳤을때 커서가 아래로 떨어지지 않게 막아줌
             
          }
       })
@@ -158,7 +175,11 @@ $(function(){
 			var time = d.toLocaleTimeString();
 			
 			
-			var filename = "";
+			var c_seq = $(".chat_title").attr("id");
+			var p_seq = $(".chat_person_num").attr("id");
+			
+			
+			var oriname = "";
 			var fileCheck = fileCheck = $("#file_select").val();
 			
 			//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
@@ -166,6 +187,7 @@ $(function(){
 				var form = $('#fileForm')[0];
 				var formData = new FormData(form);
 				
+				// 1) 먼저 서버에 파일 저장
 				$.ajax({
 					url : "fileUpload",
 					type : "post",
@@ -178,23 +200,33 @@ $(function(){
 										
 					//파일 정보 받기!
 					//밑에 웹소켓으로 정보 보내면 거기서 db 거쳐서 저장해야 함
-					filename = response.oriname;  //파일명
-					var extension = response.extension;
+					var file_seq = response.seq;
+					oriname = response.oriname;  //파일명
+					var sysname = response.sysname;
+					var filepath = response.filepath;
 					var target = response.target;
+					var extension = response.extension;
+					
 					
 					//그리고 확장자에 따라서 이미지 보이는거 만들어줌
 					
+					// 2) WebChat에서 chat_file 테이블에 파일 정보 DB 저장
 					var msg = {
 							type: "message",
-							file: filename,  //text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
+							p_seq: p_seq,
+							c_seq: c_seq,
+							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
-							time: time,
-							extension: extension,
-							target: target
+							time: time,  //이 아래부터 file 내용
+							sysname: sysname,
+							filepath: filepath,
+							target: target,
+							extension: extension
+							
 						};
 					
-					ws.send(JSON.stringify(msg));  //웹소켓으로 "파일내용" 먼저 보내기
+					ws.send(JSON.stringify(msg));  //웹소켓으로 "파일내용" 먼저 보내기 + DB 저장
 					
 					
 					//#input 안의 <div file_box> 지우고,
@@ -207,7 +239,9 @@ $(function(){
 					               text: $("#input").html(),
 					               fulldate: fulldate,
 					               date: date,
-					               time: time
+					               time: time,
+					               p_seq: p_seq,
+					               c_seq: c_seq
 					            };
 						
 						ws.send(JSON.stringify(msg));
@@ -229,6 +263,8 @@ $(function(){
 			if($("#input").html() != ""){
 				var msg = {
 			               type: "message",
+			               p_seq: p_seq,
+			               c_seq: c_seq,
 			               text: $("#input").html(),
 			               fulldate: fulldate,
 			               date: date,
@@ -251,8 +287,9 @@ $(function(){
 		
 		
 		
-		//스크롤 위로 갈 시 이전 데이터 불러오기
+		//스크롤 위로 갈 시 이전 데이터 불러오기 - 채팅방 seq랑 오늘로부터 몇일 전 날짜인지(num)보냄
       	var num = 2;
+      	var c_seq = $(".chat_title").attr("id");
 		$("#chat_section").on("scroll", function(){
 			
 			if($("#chat_section").scrollTop() == 0){
@@ -261,7 +298,8 @@ $(function(){
 					url : "lastChat",
 					type : "post",
 					data : {
-						num : num
+						num : num,
+						c_seq : c_seq
 					},
 					dataType : "json"
 					
@@ -392,6 +430,7 @@ $(function(){
 			
 			var emoticon_id = $(this).attr("id");
 			$("#input").append("<img src=resources/images/chatting/"+emoticon_id+" class=emoticon id="+emoticon_id+"><br>");
+			$("#input").focus(); //추가하고 커서 div로 옮기기
 			
 			//자동줄바꿈 추가하기!
 			
@@ -458,6 +497,10 @@ $(function(){
 		})
 		
 		
+		//채팅방 인원 누르면 멤버 보여주기
+		$(".chat_person_num").on("click", function(){
+			$(".chat_people").toggle();
+		})
 		
 		
 		//이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!

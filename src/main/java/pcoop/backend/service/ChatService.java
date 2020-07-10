@@ -20,13 +20,19 @@ public class ChatService {
 	}
 	
 	
-	public List<ChatDTO> selectChatList(String today){
-		return cdao.selectChatList(today);
+	public List<ChatDTO> selectChatList(String today, int chatting_seq){
+		
+		ChatDTO cdto = new ChatDTO(0, 0, chatting_seq, "", "", today, "", "", 0);
+		
+		return cdao.selectChatList(cdto);
 	}
 	
 	
-	public List<ChatDTO> selectLastChat(String date){
-		return cdao.selectLastChat(date);
+	public List<ChatDTO> selectLastChat(String date, int chatting_seq){
+		
+		ChatDTO cdto = new ChatDTO(0, 0, chatting_seq, "", "", date, "", "", 0);
+		
+		return cdao.selectLastChat(cdto);
 	}
 	
 	
@@ -38,6 +44,10 @@ public class ChatService {
 	public int selectChatSeq(){
 		return cdao.selectChatSeq();
 	}
+	
+	
+	
+	//-----------------채팅으로 파일 보낼때
 	
 	
 }

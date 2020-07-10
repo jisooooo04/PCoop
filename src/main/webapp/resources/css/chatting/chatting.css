@@ -266,3 +266,32 @@ section {
 #file_select{
 	display: none;
 }
+
+.c_list:hover{cursor:pointer;}
+/* 참여자 목록 */
+.chat_person_num:hover{cursor: pointer;}
+            .chat_people{
+                float: left;
+                position: relative;
+                margin-left: 10px;
+                margin-top: 20px;
+                z-index: 5;
+                padding: 10px;
+                border: 1px solid lightgray;
+                border-radius: 10px;
+                background-color: white;
+                display: none;
+            }
+            .chat_person{
+                height: 35px;
+                line-height: 35px;
+            }
+            .participant{
+                float: left;
+                width: 25px;
+                height: 25px;
+                margin-right: 5px;
+            }
+            .participant_img{
+                width: 100%;
+            }

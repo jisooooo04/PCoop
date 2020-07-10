@@ -33,13 +33,7 @@
 		</div>
 		<div class="navcontents chattingList">
 			<div>
-				<span class=logon>● </span>kh 파이널 5조
-			</div>
-			<div>
 				<span class=logon>● </span>박정수
-			</div>
-			<div>
-				<span class=logon>● </span>김현동
 			</div>
 		</div>
 		<div class="navtitle menu-backup">

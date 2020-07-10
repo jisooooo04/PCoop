@@ -21,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pcoop.backend.dto.ChatDTO;
 import pcoop.backend.dto.ChatFileDTO;
+import pcoop.backend.dto.ChattingDTO;
 import pcoop.backend.service.ChatFileService;
 import pcoop.backend.service.ChatService;
+import pcoop.backend.service.ChattingService;
 
 @Controller
 public class ChattingController {
@@ -35,15 +37,32 @@ public class ChattingController {
 	private ChatService cservice;
 	
 	@Autowired
+	private ChattingService ctservice;
+	
+	@Autowired
 	private ChatFileService fservice;
 	
 	
 	@RequestMapping("chatting")
-	public String Chatting(Model model) {
-		//채팅방 이름, 인원수, 이전 대화목록, 현재 날짜 보내기
+	public String Chatting(String c_seq, Model model) {
 		
-		//사용자가 클릭한 채팅방(디폴트-속한단체채팅방) 정보 받아오기
-		//채팅방seq 혹은 이름
+		int chatting_seq = Integer.parseInt(c_seq.substring(5));
+		
+		
+		//chatting_seq로 채팅방 정보 불러오기
+		List<ChattingDTO> chattingInfo = ctservice.selectChatting(chatting_seq);
+		System.out.println(chattingInfo.get(0).getTitle());
+		
+		model.addAttribute("chattingInfo", chattingInfo);
+		
+		//div에 id로 부여할 수 있도록 추가로 보내줌
+		String p_seq = "p_seq"+chattingInfo.get(0).getProject_seq();
+		model.addAttribute("c_seq", c_seq);
+		model.addAttribute("p_seq", p_seq);
+		
+		System.out.println("c_seq : " + c_seq + ", chatting_seq : " + chatting_seq);
+		System.out.println("p_seq : " + p_seq);
+		
 		
 		//현재 날짜 보내기
 		Date dateobj = new Date();
@@ -73,15 +92,16 @@ public class ChattingController {
 		model.addAttribute("yesterday", yesterday);
 		
 		
+		//오늘날짜랑, 채팅방 시퀀스로 대화내용 불러와야 함!!  -- ok!
 		
-		//오늘 날짜 대화목록 불러오기
+		//해당 채팅방의 오늘 날짜 대화목록 불러오기
 		String sysdate = "sysdate";
-		List<ChatDTO> todayChat = cservice.selectChatList(sysdate);
+		List<ChatDTO> todayChat = cservice.selectChatList(sysdate, chatting_seq);
 		model.addAttribute("todayChat", todayChat);
 		
-		//어제 날짜 대화목록 불러오기
+		//해당 채팅방의 어제 날짜 대화목록 불러오기
 		String sysdateminus = "sysdate-1";
-		List<ChatDTO> yesterdayChat = cservice.selectChatList(sysdateminus);
+		List<ChatDTO> yesterdayChat = cservice.selectChatList(sysdateminus, chatting_seq);
 		model.addAttribute("yesterdayChat", yesterdayChat);
 		
 		
@@ -91,10 +111,11 @@ public class ChattingController {
 	
 	@ResponseBody
 	@RequestMapping("lastChat")
-	public List<ChatDTO> lastChat(int num) {
+	public List<ChatDTO> lastChat(int num, String c_seq) {
 		
 		String date = "sysdate-" + num;
-		List<ChatDTO> lastList = cservice.selectLastChat(date);
+		int chatting_seq = Integer.parseInt(c_seq.substring(5));
+		List<ChatDTO> lastList = cservice.selectLastChat(date, chatting_seq);
 		
 		return lastList;
 	}
@@ -148,7 +169,6 @@ public class ChattingController {
 		System.out.println("target : " + target);
 		
 		ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, targetLocation, extension, 0, 0, 0);
-		int result = fservice.insertFile(fdto);
 		
 		return fdto;
 		
@@ -159,7 +179,6 @@ public class ChattingController {
 	@RequestMapping("fileDownload")
 	public void download(int presentFileSeq, HttpServletResponse response) throws Exception{
 		
-		System.out.println("presentFileSeq" + presentFileSeq);
 		ChatFileDTO fdto = fservice.selectFile(presentFileSeq);  //file 테이블에서 file 정보 가져옴
 		String filepath = session.getServletContext().getRealPath("upload/chat");  //세션에 값이 있어? / request에서 받아옴
 		
@@ -169,9 +188,11 @@ public class ChattingController {
 		DataInputStream dis = new DataInputStream(new FileInputStream(target));
 		ServletOutputStream sos = response.getOutputStream();
 		
+		String oriname = new String(fdto.getOriname().getBytes("utf8"),"iso-8859-1");
+		
 		response.reset();
 		response.setContentType("application/octet-stream");
-		response.setHeader("Content-disposition", "attachment;filename="+fdto.getOriname()+";");
+		response.setHeader("Content-disposition", "attachment;filename="+oriname+";");
 		
 		byte[] fileContents = new byte[(int)target.length()];
 		dis.readFully(fileContents);

@@ -55,3 +55,5 @@
 .logon {
 	color: limegreen;
 } /* 채팅 온라인 초록불 */
+
+.c_list:hover{cursor:porinter}

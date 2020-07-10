@@ -279,9 +279,7 @@ public class MemberController {
 		//----------내가 리더인 프로젝트들의 다음 조원들 뽑기
 		for(ProjectDTO dto : project_list) {
 			int count = dto.getPeople_num();
-			if(count==1) {//프로젝트 팀원이 나 혼자인 경우
-				
-			}else {
+			if(count!=1) {//프로젝트 팀원이 나 혼자인 경우
 				List<Integer> SelectMyProjectSeq =mservice.SelectMyPojectSeq(seq);
 			}
 		}

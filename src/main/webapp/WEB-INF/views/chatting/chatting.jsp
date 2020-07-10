@@ -35,10 +35,23 @@
 
 			<!-- 채팅 타이틀 -->
 			<div class="chat_title_section">
-				<div class=chat_title>KH 파이널 5조</div>
-				<div class=chat_person_num>
-					<img src="resources/images/chatting/user.png" class=chat_person_img>5
+			
+				<div class=chat_title id="${c_seq}">${chattingInfo[0].title}</div>
+				<div class=chat_person_num id="${p_seq}">
+					<img src="resources/images/chatting/user.png" class=chat_person_img>${chattingInfo[0].member_count}
 				</div>
+				
+				<c:forEach var="i" items="${chattingInfo}">
+					<div class=chat_people>
+						<div class=chat_person>
+							<div class=participant>
+								<img src=resources/images/chatting/profile.png class=participant_img>
+							</div>
+							${i.member_name }
+						</div>
+					</div>
+				</c:forEach>
+				
 			</div>
 
 			<!-- 채팅창 -->
