@@ -21,10 +21,10 @@ ul{
 	padding-left: 10px;
 }
 
-.contextmenu, .add_dir, .rename_dir, .rename_file, .contextmenu_container {
+.contextmenu, .add_dir, .rename_dir, .rename_file, .contextmenu_container, .upload_context, .file_context{
 	display: none;
 	position: absolute;
-	width: 200px;
+	width: auto;
 	margin: 0;
 	padding: 0;
 	background: #FFFFFF;
@@ -36,12 +36,12 @@ ul{
 	z-index: 999999;
 }
 
-.contextmenu li, .add_dir li, .rename_dir li, .rename_file li, .contextmenu_container li{
+.contextmenu li, .add_dir li, .rename_dir li, .rename_file li, .contextmenu_container li, .upload_context li, .file_context li{
 	border-left: 3px solid transparent;
 	transition: ease .2s;
 }
 
-.contextmenu li a, .contextmenu_container li a {
+.contextmenu li a, .contextmenu_container li a, .upload_context li a , .file_context li a{
 	display: block;
 	padding: 10px;
 	color: #B0BEC5;
@@ -49,12 +49,12 @@ ul{
 	transition: ease .2s;
 }
 
-.contextmenu li:hover, .contextmenu_container li:hover {
+.contextmenu li:hover, .contextmenu_container li:hover, .upload_context li:hover, .file_context li:hover{
 	background: #7dc8c9;
 	border-left: 3px solid #519D9E;
 }
 
-.contextmenu li:hover a, .contextmenu_container li:hover a{
+.contextmenu li:hover a, .contextmenu_container li:hover a, .upload_context li:hover a, .file_context li:hover a{
 	color: #FFFFFF;
 }
 
@@ -78,7 +78,6 @@ ul{
 	height: 70px;
 	font-size: 25px;
 	line-height: 70px;
-	border-bottom: 2px solid lightgray;
 	padding-left: 25px;
 }
 
@@ -93,11 +92,10 @@ ul{
 	width: 130px;
 	margin: 10px;
 	border: 1px solid lightgray;
-	border-round: 90px;
+	border-radius: 20px;
 }
 
-.icon:hover{
-	color: #7dc8c9;
+.dirs>.dir:hover, .file:hover{
 	
 }
 
@@ -108,7 +106,35 @@ ul{
 	height: 64px;
 }
 
+.dirs>.dir>.icon{
+	color: #f9c00c;
+}
+
+.file>.icon{
+	color: #4F86C6;
+}
+
 .icon>span{
 	width: 100%;
 }
 
+.backup-btns{
+	height: 40px;
+	line-height:40px;
+	padding-left: 25px;
+}
+
+.menu_add_dir, .menu_upload{
+	cursor: pointer;
+	float: left;
+}
+
+.btn_upload, .btn_add_dir{
+	border: none;
+	background: none;
+	margin-right: 10px;
+}
+
+.btn_upload:focus, .btn_add_dir:focus{
+	outline: none;
+}
