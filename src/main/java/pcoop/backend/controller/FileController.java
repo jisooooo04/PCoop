@@ -134,6 +134,7 @@ public class FileController {
 			String path = fservice.makeDirToDrive(parent_seq, name);
 			// DB에 디렉토리 insert
 			fservice.insertDirectory(path, name, project.getSeq(), parent_seq);
+			int newDirSeq = fservice.getDirSeqByName(name, parent_seq);
 			
 			// 업데이트된 리스트 보내기
 			List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
@@ -146,11 +147,11 @@ public class FileController {
 				dirArr.add(json);
 			}
 			
+			data.addProperty("seq", newDirSeq);
 			data.addProperty("dirlist", new Gson().toJson(dirArr));
 
 		}
 		
-		System.out.println("테스트 : " + checkDupl);
 		data.addProperty("checkDupl", checkDupl);
 		return new Gson().toJson(data);
 		

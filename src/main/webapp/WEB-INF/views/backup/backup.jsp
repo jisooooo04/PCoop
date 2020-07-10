@@ -4,6 +4,16 @@
 <div class="contents">
 
 	<div class="backup-path"></div>
+	<div class="backup-btns">
+		<div class="menu_add_dir">
+			<i class="fas fa-plus-circle"></i>
+			<button type=button class=btn_add_dir>ADD DIRECTORY</button>
+		</div>
+		<div class="menu_upload">
+			<i class="fas fa-arrow-down"></i>
+			<button type=button class="btn_upload">UPLOAD</button>
+		</div>
+	</div>
 
 	<div class="list">
 		<div class="dirs"></div>
@@ -11,12 +21,7 @@
 		<div class="files"></div>
 	</div>
 
-	<!-- HTML코드를 강조하여 보여줄때.. -->
-	<pre>
-			<code class="file-contents">
-						
-				</code>
-		</pre>
+
 
 </div>
 <div class="modals">
@@ -30,14 +35,22 @@
 		<li class="menu_upload_file"><a href="#">파일 업로드</a></li>
 		<li class="menu_upload_zip"><a href="#">.zip 파일 업로드 - 자동 해제</a></li>
 		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
-		<li class="menu_delete_file"><a href="#">디렉토리 삭제</a></li>
-		<li class="menu_rename_dir"><a href="#">디렉토리 이름 변경</a></li>
+	</ul>
+
+	<ul class="upload_context">
+		<li class="menu_upload_file"><a href="#">파일 업로드</a></li>
+		<li class="menu_upload_zip"><a href="#">.zip 파일 업로드 - 자동 압축
+				해제</a></li>
+	</ul>
+
+	<ul class="file_context">
+		<li class="menu_preview_file"><a href="#">미리 보기</a></li>
+		<li class="menu_download_zip"><a href="#">DOWNLOAD</a></li>
 	</ul>
 
 	<div class="add_dir">
 		<input type="text" id="dir_name" placeholder="새 디렉토리 이름"> <input
-			type="button" id="ok" value="OK"> <input type="button"
-			id="cancel" value="취소">
+			type="button" id="ok" value="OK">
 	</div>
 
 	<div class="rename_dir">
@@ -74,6 +87,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<!-- 파일 추가 Modal -->
 	<div class="modal modal_upload fade" id="exampleModal" tabindex="-1"
@@ -137,4 +151,30 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 파일 미리 보기 Modal -->
+	<div class="modal modal_preview fade" id="exampleModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">FILE UPLOAD</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- HTML코드를 강조하여 보여줄때.. -->
+					<pre>
+				<code class="file-contents">
+							
+					</code>
+				</pre>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+
 </div>

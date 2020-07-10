@@ -15,12 +15,49 @@ $(document).on("contextmenu", "#container", function(e){
 		"left": x,
 		"top": y
 	}).show();
+	
+	$(".upload_context").hide();
+	$(".contextmenu").hide();
+	$(".add_dir").hide();
+	$(".rename_dir").hide();
+	$(".file_context").hide();
 
 	return false;
 })
 
+$(document).on("contextmenu", ".file", function(event){
+	
+	event.stopPropagation();
+	var id = this.id;
+	var position = $("#" + id).offset();
+	var left = position.left + 15;
+	var top = position.top + 90;
+	
+	$(".menu_preview_file").attr("id", id);
+	$(".menu_download_file").attr("id", id);
+	
+	$(".file_context").css({
+		left: left,
+		top: top
+	}).show();
+	
+	$(".upload_context").hide();
+	$(".contextmenu").hide();
+	$(".contextmenu_container").hide();
+	$(".add_dir").hide();
+	$(".rename_dir").hide();
+	
+	return false;
+})
+
+$(document).on("click", ".menu_preview_file", function(){
+	var seq = $(".menu_preview_file").attr("id").substring(1);
+	
+})
+
 // 파일 선택 Modal
-$(document).on("click", ".menu_upload_file", function(){
+$(document).on("click", ".menu_upload_file", function(event){
+	$(".upload_context").hide();
 	$(".modal_upload").modal();
 })
 
@@ -53,8 +90,7 @@ $(document).on("click", "#uploadSubmit", function(event){
 			for(var i = 0 ; i < files.length ; i++){
 				
 				var id = "f" + files[i].seq;
-				
-				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				$(".files").append("<div class=file id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
 								
 				if(files[i].text_yn == "Y"){
 					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
@@ -63,10 +99,13 @@ $(document).on("click", "#uploadSubmit", function(event){
 				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
 				$("#" + id).append("<button class=deleteFile id=del_" + id + " type=button>삭제</button>");
 			}
+			
+
+			
         },
         error: function (e) {
             console.log("ERROR : ", e);
-            alert("fail");
+            alert("용량이 너무 큽니다.");
         }
     });
     
@@ -74,6 +113,7 @@ $(document).on("click", "#uploadSubmit", function(event){
 
 // .zip 파일 선택 Modal
 $(document).on("click", ".menu_upload_zip", function(){
+	$(".upload_context").hide();
 	$(".modal_upload_zip").modal();
 })
 
