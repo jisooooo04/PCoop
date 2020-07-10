@@ -8,7 +8,7 @@
 	
 	
 	<select id="selectChattingList" resultType="pcoop.backend.dto.ChattingDTO">
-		select * from chatting where project_seq=#{project_seq} and member_seq=#{member_seq}
+		select * from chatting where project_seq=#{project_seq} and member_seq=#{member_seq} order by seq
 	</select>
 	
 	

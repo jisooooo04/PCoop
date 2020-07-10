@@ -11,7 +11,7 @@
 	<!-- 왼쪽 사이드바 -->
 	<nav id=leftnav>
 		<div class="navhome">
-			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트명</a>
+			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트 홈</a>
 		</div>
 		<div class="navtitle">
 			<a href = "/Task/task"><img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>

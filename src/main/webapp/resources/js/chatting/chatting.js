@@ -165,7 +165,7 @@ $(function(){
       //전송 버튼
       $(document).on("click", "#send_btn", function(){
 
-			var d = new Date();
+    	  var d = new Date();
 			
 			var week = ["일","월","화","수","목","금","토"];
 			var day = week[d.getDay()];
@@ -174,13 +174,11 @@ $(function(){
 			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
 			var time = d.toLocaleTimeString();
 			
-			
-			var c_seq = $(".chat_title").attr("id");
+			var c_num = $(".chat_title").attr("id");
 			var p_seq = $(".chat_person_num").attr("id");
 			
-			
 			var oriname = "";
-			var fileCheck = fileCheck = $("#file_select").val();
+			var fileCheck = $("#file_select").val();
 			
 			//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
 			if(fileCheck){
@@ -214,7 +212,7 @@ $(function(){
 					var msg = {
 							type: "message",
 							p_seq: p_seq,
-							c_seq: c_seq,
+							c_num: c_num,
 							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
@@ -241,7 +239,7 @@ $(function(){
 					               date: date,
 					               time: time,
 					               p_seq: p_seq,
-					               c_seq: c_seq
+					               c_num: c_num
 					            };
 						
 						ws.send(JSON.stringify(msg));
@@ -264,7 +262,7 @@ $(function(){
 				var msg = {
 			               type: "message",
 			               p_seq: p_seq,
-			               c_seq: c_seq,
+			               c_num: c_num,
 			               text: $("#input").html(),
 			               fulldate: fulldate,
 			               date: date,

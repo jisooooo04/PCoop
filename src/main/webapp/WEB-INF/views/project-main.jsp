@@ -51,14 +51,15 @@ $(function() {
 		var create_date = chattingList[i].create_date;
 		var type = chattingList[i].type;
 		
-		
 		var div = $("<div class=side_chatting_list></div>");
 		var span = $("<span class=logon>● </span>");
 		var chatting = $("<a class=c_list id='c_num"+chatting_num+"'>"+title+"</a>");
 		div.append(span);
 		div.append(chatting);
 		$(".chattingList").append(div);
+				
 	}
+	
 	
 })
 </script>
