@@ -938,7 +938,17 @@ body {
 
 	            
 			});
+		
+		$( "#progress" ).click(function() {
+			  $( "#calendar" ).slideToggle( "slow" );
+			});
+		
+		
+		
 	</script>
+
+
+
 
 </body>
 </html>
