@@ -99,7 +99,7 @@
 	
 	<script>
 		
-<<<<<<< HEAD
+
 	var target = document.getElementById('target');
 	target.addEventListener('submit',function(event){
 				if(${countProject}>=10){
@@ -108,35 +108,8 @@
 				}      
         })  
         
-        
-	
 
-      
 				
-			
-=======
-			function check(){
-				var result=""
-				$.ajax({
-					url:"countProject",
-					type:"post",
-					data:{
-						mem_seq:${loginInfo.seq}
-					}
-				}).done(function(resp){
-					result=resp
-				})	
-				if(result.equals("fail")){
-					alert("프로젝트는 10개까지만 참여 가능합니다.");
-					return false;
-				}else if(result.equals("success")){
-					return true;
-				}
-			}
->>>>>>> ae810d9fdc95be1b1e157c375d4035311d837518
-				
-			
-		
 	</script>
 </body>
 </html>
