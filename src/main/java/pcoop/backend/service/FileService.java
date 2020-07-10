@@ -400,6 +400,7 @@ public class FileService {
 	
 				// 디렉토리가 없으면 생성
 				if (!parentDir.exists()) {
+					
 					parentDir.mkdirs();
 
 					String makeDirPath = parent_path.substring(0, parent_path.indexOf('/', 1));
@@ -410,12 +411,17 @@ public class FileService {
 					while(true) {
 						
 						System.out.println("생성 확인할 디렉토리 : " + makeDirPath);
-						String name = makeDirPath.substring(makeDirPath.lastIndexOf('/') + 1);
-						System.out.println(name);
-						//int p_seq = fdao.getDirSeqByPath(makeDirPath);
+						
 						
 						if(this.dirExists(makeDirPath) == 0) {
-							// this.insertDirectory(makeDirPath, name, project_seq, p_seq);
+							String name = makeDirPath.substring(makeDirPath.lastIndexOf('/') + 1);
+							String p_path = makeDirPath.substring(0, makeDirPath.lastIndexOf('/'));
+							int p_seq = fdao.getDirSeqByPath(p_path);
+							
+							System.out.println("name : " + name);
+							System.out.println("p_path : " + p_path);
+							System.out.println("seq : " + p_seq);
+							this.insertDirectory(makeDirPath, name, project_seq, p_seq);
 						}
 						
 						if(makeDirPath.contentEquals(parent_path)) break;
@@ -426,8 +432,6 @@ public class FileService {
 							makeDirPath = parent_path.substring(0, parent_path.indexOf('/', start));
 							start = parent_path.indexOf('/', start + 1);
 						}
-
-						System.out.println(start);
 
 					}
 					
