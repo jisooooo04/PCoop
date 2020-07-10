@@ -14,7 +14,7 @@
 			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트명</a>
 		</div>
 		<div class="navtitle">
-			<a href = "/Task/task"><img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
+			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
 		</div>
 		<div class="navcontents task" >
 			<div>프론트엔드</div>
