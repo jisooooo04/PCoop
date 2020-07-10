@@ -98,7 +98,7 @@
 }
 
 /* 프로젝트 나가기 모달  */
-.deleteProjectBox {
+.exitProjectBox {
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
 	border: none;
 	position: fixed;
@@ -107,7 +107,7 @@
 	border-radius: 10px;
 	font-family: 'Noto Sans KR', sans-serif;
 	background-color: white;
-	margin: auto;
+	transform: translateX(150px);
 }
 
 .emphasized {
@@ -116,17 +116,17 @@
 	z-index: 100;
 }
 
-.deleteProjectBox>div {
+.exitProjectBox>div {
 	text-align: center;
 	margin: auto;
 	margin-top: 5px;
 }
 
-.deleteProjectBox>div:nth-child(1) {
+.exitProjectBox>div:nth-child(1) {
 	font-size: 25px;
 }
 
-.deleteProjectBox button {
+.exitProjectBox button {
 	margin: 5px;
 	width: 80px;
 	border-radius: 15px;
@@ -234,7 +234,7 @@
 														<a href="../project-main?seq=${i.seq}">프로젝트 바로가기</a>
 													</button>
 													<button>
-														<a href="#" onclick="return notice();">프로젝트 나가기</a>
+														<a href="#" onclick="notice(${i.seq});return false;">프로젝트 나가기</a>
 													</button>
 												</div>
 											</div>
@@ -251,9 +251,10 @@
 			</div>
 		</section>
 		<!--프로젝트 나가기   -->
-		<div class="deleteProjectBox">
+		<div class="exitProjectBox">
 			<div>프로젝트를 나가시겠습니까?</div>
 			<div>회원님이 프로젝트의 팀장(프로젝트 생성자)일 경우에는 팀원 중 한명이 프로젝트의 팀장이 됩니다.</div>
+			<div>팀원들이 모두 프로젝트에서 나간다면 프로젝트는 자동으로 삭제됩니다.</div>
 			<div>
 				<button>취소</button>
 				<button>나가기</button>
@@ -416,25 +417,24 @@
 				}
 			})
 	/* 프로젝트 나가기 모달 띄우기 */			
-	function notice(){
-        $(".deleteProjectBox").addClass("openModal");
-        $(".deleteProjectBox").addClass("emphasized");
+	function notice(project_seq){
+        $(".exitProjectBox").addClass("openModal");
+        $(".exitProjectBox").addClass("emphasized");
         
-        $(".deleteProjectBox>div>button:nth-child(1)").on("click",function(){
-            $(".deleteProjectBox").removeClass("openModal");
-            $(".deleteProjectBox").removeClass("emphasized");
-            return false;
+        $(".exitProjectBox>div>button:nth-child(1)").on("click",function(){
+            $(".exitProjectBox").removeClass("openModal");
+            $(".exitProjectBox").removeClass("emphasized");
             })
-         $(".deleteProjectBox>div>button:nth-child(2)").on("click",function(){
-            $(".deleteProjectBox").removeClass("openModal");
-            $(".deleteProjectBox").removeClass("emphasized");
-            return true;
+         $(".exitProjectBox>div>button:nth-child(2)").on("click",function(){
+            $(".exitProjectBox").removeClass("openModal");
+            $(".exitProjectBox").removeClass("emphasized");
+            setTimeout(function() {
+            	location.href="../exitProject?project_seq="+project_seq+"&mem_seq=${loginInfo.seq}"
+            	}, 600);
+            
             })  
     }
-      /* $(".box>div>button:nth-child(1)").on("click",function(){
-      $(".box").removeClass("openModal");
-      $(".box").removeClass("emphasized");
-      }) */
+     
 		</script>
 
 

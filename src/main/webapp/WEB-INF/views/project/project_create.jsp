@@ -77,7 +77,7 @@
 		<section>
 			<div class="container">
         <h2>프로젝트 생성하기</h2>		
-			<form action="create" method="post" onsubmit="return check()">
+			<form action="create" method="post" id="target">
 				<div class="form-group">
 					<label>Project name</label><input type="text" class="form-control"
 						id="exampleFormControlInput1" name='name'
@@ -99,24 +99,20 @@
 	
 	<script>
 		
-			function check(){
-				var result=""
-				$.ajax({
-					url:"countProject",
-					type:"post",
-					data:{
-						mem_seq:${loginInfo.seq}
-					}
-				}).done(function(resp){
-					result=resp
-				})	
-				if(result="fail"){
-					alert("프로젝트는 10개까지만 참여 가능합니다.");
-					return false;
-				}else if(result="success"){
-					return true;
-				}
-			}
+	var target = document.getElementById('target');
+	target.addEventListener('submit',function(event){
+				if(${countProject}>=10){
+					event.preventDefault();    
+					alert("프로젝트 참여는 10개까지만 가능합니다.");
+				}      
+        })  
+        
+        
+	
+
+      
+				
+			
 				
 			
 		

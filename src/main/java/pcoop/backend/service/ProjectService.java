@@ -1,5 +1,6 @@
 package pcoop.backend.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -7,7 +8,6 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pcoop.backend.dao.FileDAO;
 import pcoop.backend.dao.ProjectDAO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.dto.ProjectMemberDTO;
@@ -68,16 +68,16 @@ public class ProjectService {
 		return dao.searchByCode(code);
 	}
 	
-	public String JoinCheck(Map<String,Integer> param )throws Exception{
-		return dao.joinCheck(param);
+	public String JoinYNCheck(Map<String,Integer> param )throws Exception{
+		return dao.joinYNCheck(param);
 	}
 	
 	public ProjectDTO selectBySeq(int seq)throws Exception{
 		return dao.selectBySeq(seq);
 	}
 	
-	public List<ProjectMemberDTO> joinYNCheck(int project_seq)throws Exception{
-	   return dao.joinYNCheck(project_seq);
+	public List<ProjectMemberDTO> joinCheck(int project_seq)throws Exception{
+	   return dao.joinCheck(project_seq);
 	  }
 	 
 	 public int accept (Map<String,Integer> param)throws Exception{
@@ -108,5 +108,37 @@ public class ProjectService {
 	public int countProject(int mem_seq)throws Exception{
 		return dao.countProject(mem_seq);
 	}
-
+	
+	public int exitProject(Map<String,Integer>param)throws Exception{
+		return dao.exitProject(param);
+	}
+	
+	public int deleteProject(int project_seq)throws Exception{
+		return dao.deleteProject(project_seq);
+	}
+	
+	public String checkLeaderYN(Map<String,Integer>param)throws Exception{
+		return dao.checkLeaderYN(param);
+	}
+	
+	public int updateLeader(int project_seq)throws Exception{
+		Map<String,Object> map= dao.nextLeaderSeq(project_seq);
+		if((map.get("seq")!=null)&&(map.get("member_seq")!=null)) {//리더를 넘겨줄 팀원이 있다면
+			int member_project_seq = (int)map.get("seq");//프로젝트 멤버 시퀀스 
+			int member_seq = (int)map.get("member_seq");//멤버 시퀀스
+				dao.updateLeader(member_project_seq);//멤버 프로젝트 테이블 업데이트
+				
+				Map<String,Integer>param = new HashMap<>();
+				param.put("nextProjectLeader", member_seq);
+				param.put("project_seq", project_seq);
+				dao.updateProjectLeader(param);//프로젝트 테이블 업데이트
+				
+			return 1;
+		}else {
+			return 0;
+		}
+		
+			
+		
+	}
 }
