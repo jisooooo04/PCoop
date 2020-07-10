@@ -548,11 +548,11 @@ public class TaskController {
 		int allcount =  lservice.selectCount(param);
 		int truecount =  lservice.trueCount(param);
 		
-		System.out.println("전체 갯수"+allcount);
-		System.out.println("2체크된 갯수"+truecount);
-		System.out.println("총"+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
+		System.out.println("프로젝트의 총 Task_card 수: "+allcount);
+		System.out.println("완료된 Task_card 수: "+truecount);
+		System.out.println("진행률 : "+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
 		int count = (int) Math.round(((double) truecount / (double) allcount) * 100);
-		System.out.println(count);
+
 		String to = Integer.toString(count);
 
 		
