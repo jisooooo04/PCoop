@@ -13,10 +13,10 @@
 		<div class="navhome">
 			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트 홈</a>
 		</div>
-		<div class="navtitle">
-			<a href = "/Task/task"><img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
+		<div class="navtitle menu-todo">
+			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
 		</div>
-		<div class="navcontents task" >
+		<div class="navcontents" >
 			<div>프론트엔드</div>
 			<div>백엔드</div>
 			<div>아두이노</div>
@@ -33,11 +33,13 @@
 		</div>
 		<div class="navcontents chattingList">
 			
+			
 		</div>
 		<div class="navtitle menu-backup">
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon> 백업
 		</div>
 		<div class="navcontents backup">
+			
 			
 		</div>
 	</nav>

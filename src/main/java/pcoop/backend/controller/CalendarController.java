@@ -25,6 +25,7 @@ public class CalendarController {
 	
 	@RequestMapping("calendar")
 	public String Calendar(Model model,int project_seq)throws Exception {//list출력
+	
 		List<CalendarDTO> list = new ArrayList<>();
 		list = Cservice.selectAll(project_seq);
 		

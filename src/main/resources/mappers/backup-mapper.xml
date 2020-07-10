@@ -30,7 +30,7 @@
 </select>
 
 <!-- 디렉토리가 존재하는지 확인 -->
-<select id="dirExists">
+<select id="dirExists" resultType="int">
 	select count(*) from directory where path = #{value}
 </select>
 
@@ -72,12 +72,12 @@
 <!-- 특정 디렉토리 내 파일 리스트 -->
 
 <select id="getFileListByDirSeq" resultType="pcoop.backend.dto.FileDTO">
-	select * from files where directory_seq = ${value}
+	select * from files where directory_seq = ${value} order by 1
 </select>
 
 <!-- 전체 파일 리스트 -->
 <select id="getFileList" resultType="pcoop.backend.dto.FileDTO">
-	select * from files
+	select * from files order by 1
 </select>
 
 

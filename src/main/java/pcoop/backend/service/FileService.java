@@ -401,22 +401,44 @@ public class FileService {
 				// 디렉토리가 없으면 생성
 				if (!parentDir.exists()) {
 					
-					
 					parentDir.mkdirs();
+
+					String makeDirPath = parent_path.substring(0, parent_path.indexOf('/', 1));
+					int start = parent_path.indexOf('/', 1); 
 					
+					System.out.println(parent_path);
 					
+					while(true) {
+						
+						System.out.println("생성 확인할 디렉토리 : " + makeDirPath);
+						
+						
+						if(this.dirExists(makeDirPath) == 0) {
+							String name = makeDirPath.substring(makeDirPath.lastIndexOf('/') + 1);
+							String p_path = makeDirPath.substring(0, makeDirPath.lastIndexOf('/'));
+							int p_seq = fdao.getDirSeqByPath(p_path);
+							
+							System.out.println("name : " + name);
+							System.out.println("p_path : " + p_path);
+							System.out.println("seq : " + p_seq);
+							this.insertDirectory(makeDirPath, name, project_seq, p_seq);
+						}
+						
+						if(makeDirPath.contentEquals(parent_path)) break;
+						
+						if(start == -1)
+							makeDirPath = parent_path;
+						else{
+							makeDirPath = parent_path.substring(0, parent_path.indexOf('/', start));
+							start = parent_path.indexOf('/', start + 1);
+						}
+
+					}
 					
-//					System.out.println(file.getName());
-//					System.out.println(parent_path + " : " + parent_path.lastIndexOf('/'));
-//					int gparent_seq = fdao.getDirSeqByPath(parent_path.substring(0, parent_path.lastIndexOf('/')));
-//					System.out.println(gparent_seq);
-//					this.insertDirectory(parent_path, parentDir.getName(), project_seq, gparent_seq);
 				}
 				
 				
 				int directory_seq = fdao.getDirSeqByPath(parent_path);
-
-				
 
 				// 파일 스트림 선언
 				FileOutputStream fos = new FileOutputStream(file);

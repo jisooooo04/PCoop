@@ -34,6 +34,10 @@ $(document).on("click", ".dir", function(event){
 	$(".menu_add_dir").attr("id", id);
 	$(".menu_delete_dir").attr("id", id);
 	$(".menu_rename_dir").attr("id", id);
+	
+	$(".btn_add_dir").attr("id", id);
+	$(".btn_upload").attr("id", id);
+
 
 	var data = {
 			dir_seq: dir_seq
@@ -86,6 +90,7 @@ $(document).on("click", ".dir", function(event){
 
 })
 
+
 //디렉토리 - 우 클릭 - 드롭다운 메뉴
 $(document).on("contextmenu", ".dirs>.dir", function(event){
 	
@@ -119,26 +124,62 @@ $(document).on("contextmenu", ".dirs>.dir", function(event){
 	$(".menu_delete_dir").attr("id", id);
 	$(".menu_rename_dir").attr("id", id);
 	//Prevent browser default contextmenu.
+	$(".contextmenu_container").hide();
+	$(".add_dir").hide();
+	$(".rename_dir").hide();
+
 	return false;
 })
 
 
 //Hide contextmenu:
-$(document).click(function(){
+$(document).click(function(event){
+	
 	$(".contextmenu").hide();
 	$(".contextmenu_container").hide();
+	$(".upload_context").hide();
+	$(".add_dir").hide();
+	$(".rename_dir").hide();
+	$(".file_context").hide();
 
 });
 
-//디렉토리 추가 버튼 - 입력 창
-$(document).on("click", ".menu_add_dir", function(){
-
-	var id = this.id;
-	var left = $("#" + id).offset().left;
-	var top = $("#" + id).offset().top + 30;
-
-	$(".add_dir").show();
+// 업로드 버튼
+$(document).on("click", ".menu_upload", function(event){
+	event.stopPropagation();
+	var position = $(".btn_upload").offset();
+	var left = position.left;
+	var top = position.top + 40;
+	$(".upload_context").css({
+		"left": left,
+		"top": top
+	}).show();
+	
 	$(".contextmenu").hide();
+	$(".contextmenu_container").hide();
+	$(".add_dir").hide();
+	$(".rename_dir").hide();
+	$(".file_context").hide();
+})
+
+// 디렉토리 추가 버튼
+$(document).on("click", ".menu_add_dir", function(event){
+	
+	event.stopPropagation();
+
+	var position = $(".btn_add_dir").offset();
+	var left = position.left;
+	var top = position.top + 40;
+	
+	$(".add_dir").css({
+		"left": left,
+		"top": top
+	}).show();
+	
+	$(".contextmenu").hide();
+	$(".contextmenu_container").hide();
+	$(".rename_dir").hide();
+	$(".upload_context").hide();
 })
 
 // 새 디렉토리 추가
@@ -162,6 +203,7 @@ $(document).on("click", "#ok", function(){
 			
 			var json = JSON.parse(data);
 			var checkDupl = json.checkDupl;
+			var seq = json.seq;
 			
 			if(checkDupl != 1){
 				var dirlist= JSON.parse(json.dirlist);
@@ -170,6 +212,9 @@ $(document).on("click", "#ok", function(){
 				$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
 				// 디렉토리 가지고 오기
 				printDirList(dirlist);
+				$(".dirs").append("<div class=dir id=dir" + seq + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + name + "</div>")
+
+				
 			}
 			else alert("디렉토리명 중복");
 			
@@ -223,6 +268,8 @@ $(document).on("click", ".delete_dir", function(){
 			// 디렉토리 가지고 오기
 			var dirlist = JSON.parse(data.dirlist);
 			printDirList(dirlist);
+			
+			$("#dir" + seq).remove();
 
 		}
 	});
@@ -244,6 +291,10 @@ $(document).on("click", ".menu_rename_dir", function(){
 	}).show();
 
 	$(".contextmenu").hide();
+	$(".contextmenu_container").hide();
+	$(".add_dir").hide();
+	$(".upload_context").hide();
+
 
 })
 

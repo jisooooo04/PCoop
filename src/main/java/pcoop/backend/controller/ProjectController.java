@@ -34,14 +34,15 @@ public class ProjectController {
 	HttpSession session;
 	
 	@RequestMapping("project_create")
-	public String project_create()throws Exception{
+	public String project_create(Model model)throws Exception{
+		int countProject = service.countProject(((MemberDTO)session.getAttribute("loginInfo")).getSeq());
+		model.addAttribute("countProject", countProject);//현재 속한 프로젝트가 몇갠지 
 		return "project/project_create";
 	}
 	
 	@RequestMapping("create")
 	public String create(String name , int people_num,Model model)throws Exception{
 		ProjectDTO dto = new ProjectDTO();
-		
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		int leader_seq = mdto.getSeq();//생성자 seq
 		
@@ -99,7 +100,7 @@ public class ProjectController {
 		Map<String,Integer> param = new HashMap<>();
 		param.put("project_seq", project_seq);
 		param.put("member_seq", member_seq);
-		String result = service.JoinCheck(param);//프로젝트 참여 대기중인지 아닌지 확인
+		String result = service.JoinYNCheck(param);//프로젝트 참여 대기중인지 아닌지 확인
 		String send_result = "null";
 		if(result==null) {//참가 신청 보낼 수 있음
 			send_result= "null";
@@ -124,7 +125,7 @@ public class ProjectController {
 	  @RequestMapping("sendJoin") 
 	  public String sendJoin (int project_seq,String project_name)throws Exception{
 		  MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
-		  ProjectMemberDTO pdto = new ProjectMemberDTO(0,project_seq,project_name,mdto.getSeq(),mdto.getEmail(),mdto.getName(),"null","n");
+		  ProjectMemberDTO pdto = new ProjectMemberDTO(0,project_seq,project_name,mdto.getSeq(),mdto.getEmail(),mdto.getName(),"n","n");
 		  int result = service.insertp_m(pdto);
 		  return result+""; //참여 신청 보내기 
 	  }
@@ -140,7 +141,7 @@ public class ProjectController {
 		  System.out.println("projectController : 프로젝트 시퀀스는 >> " + project_seq); //seq 확인용
 		  
 		  //이 프로젝트에 대해 참가요청이 있다면 가져오기
-		  List<ProjectMemberDTO> list = service.joinYNCheck(project_seq);
+		  List<ProjectMemberDTO> list = service.joinCheck(project_seq);
 		  int size = list.size(); 
 		  if(size==0) {
 			  
@@ -176,17 +177,29 @@ public class ProjectController {
 		  return "redirect:goProjectHome";
 	  }
 	  
-	  @ResponseBody
-	  @RequestMapping("countProject")
-	  public String countProject(int mem_seq)throws Exception{//프로젝트는 최대 10개까지만 참여가능
-		  String str = null;
-		  int count = service.countProject(mem_seq);
-		  System.out.println("count는"+count);
-		  if(count>=10) {
-			  str="fail";
-		  }else {
-			  str="success";
-		  }
-		  return str;
+	  @RequestMapping("exitProject")
+	  public String exitProject (int project_seq,int mem_seq)throws Exception{//프로젝트 나가기
+		  
+		  Map<String,Integer>param = new HashMap<>();
+		  param.put("mem_seq", mem_seq);
+		  param.put("project_seq", project_seq);
+
+		  String leader = service.checkLeaderYN(param);
+		  //리더인지 아닌지부터 검사
+		  if(leader.contentEquals("y")) {
+			 int result = service.updateLeader(project_seq);
+			//다른 팀원에게 리더 넘겨주기.
+			 service.exitProject(param);
+			 //멤버 프로젝트 테이블에서 삭제
+			if(result==0) {//넘겨줄 팀원 없음 . 
+				service.deleteProject(project_seq);//프로젝트 삭제
+			}
+			
+		  	}else if(leader.contentEquals("n")) {//리더가 아니다.
+			  service.exitProject(param);
+			 // 멤버 프로젝트에서 삭제하기.
+			  
+		  }		  
+		  return "redirect:member/gomypage";
 	  }
 }
