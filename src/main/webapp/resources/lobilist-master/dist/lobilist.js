@@ -223,6 +223,7 @@ $(function () {
 					return me;
 				}
 				
+			
 
 				item = me._processItemData(item);
 				console.log(JSON.stringify(item));
@@ -1773,10 +1774,10 @@ console.log("지우고 나서");
 			lists: [],
 			// Urls to communicate to backend for todos
 			actions: {
-				load: 'TaskAjax',
-				insert: 'insert',
-				delete: 'delete',
-				update: 'update'
+				load: '/Task/TaskAjax',
+				insert: '/Task/insert',
+				delete: '/Task/delete',
+				update: '/Task/update'
 			},
 
 			storage: null,
