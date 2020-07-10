@@ -32,9 +32,7 @@
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon> 채팅
 		</div>
 		<div class="navcontents chattingList">
-			<div>
-				<span class=logon>● </span>박정수
-			</div>
+			
 		</div>
 		<div class="navtitle menu-backup">
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon> 백업

@@ -44,23 +44,22 @@ public class ChattingController {
 	
 	
 	@RequestMapping("chatting")
-	public String Chatting(String c_seq, Model model) {
+	public String Chatting(String c_num, Model model) {
 		
-		int chatting_seq = Integer.parseInt(c_seq.substring(5));
-		
+		int chatting_num = Integer.parseInt(c_num.substring(5));  //c_num00
 		
 		//chatting_seq로 채팅방 정보 불러오기
-		List<ChattingDTO> chattingInfo = ctservice.selectChatting(chatting_seq);
-		System.out.println(chattingInfo.get(0).getTitle());
+		List<ChattingDTO> chattingInfo = ctservice.selectChatting(chatting_num);
+		System.out.println("chattingController : 해당 채팅방 인원수는 = " + chattingInfo.size());
 		
 		model.addAttribute("chattingInfo", chattingInfo);
 		
 		//div에 id로 부여할 수 있도록 추가로 보내줌
 		String p_seq = "p_seq"+chattingInfo.get(0).getProject_seq();
-		model.addAttribute("c_seq", c_seq);
+		model.addAttribute("c_num", c_num);
 		model.addAttribute("p_seq", p_seq);
 		
-		System.out.println("c_seq : " + c_seq + ", chatting_seq : " + chatting_seq);
+		System.out.println("c_num : " + c_num + ", chatting_num : " + chatting_num);
 		System.out.println("p_seq : " + p_seq);
 		
 		
@@ -96,12 +95,12 @@ public class ChattingController {
 		
 		//해당 채팅방의 오늘 날짜 대화목록 불러오기
 		String sysdate = "sysdate";
-		List<ChatDTO> todayChat = cservice.selectChatList(sysdate, chatting_seq);
+		List<ChatDTO> todayChat = cservice.selectChatList(sysdate, chatting_num);
 		model.addAttribute("todayChat", todayChat);
 		
 		//해당 채팅방의 어제 날짜 대화목록 불러오기
 		String sysdateminus = "sysdate-1";
-		List<ChatDTO> yesterdayChat = cservice.selectChatList(sysdateminus, chatting_seq);
+		List<ChatDTO> yesterdayChat = cservice.selectChatList(sysdateminus, chatting_num);
 		model.addAttribute("yesterdayChat", yesterdayChat);
 		
 		
@@ -111,11 +110,11 @@ public class ChattingController {
 	
 	@ResponseBody
 	@RequestMapping("lastChat")
-	public List<ChatDTO> lastChat(int num, String c_seq) {
+	public List<ChatDTO> lastChat(int beforenum, String c_num) {
 		
-		String date = "sysdate-" + num;
-		int chatting_seq = Integer.parseInt(c_seq.substring(5));
-		List<ChatDTO> lastList = cservice.selectLastChat(date, chatting_seq);
+		String date = "sysdate-" + beforenum;
+		int chatting_num = Integer.parseInt(c_num.substring(5));
+		List<ChatDTO> lastList = cservice.selectLastChat(date, chatting_num);
 		
 		return lastList;
 	}
@@ -168,7 +167,7 @@ public class ChattingController {
 		String targetLocation = target.toString();
 		System.out.println("target : " + target);
 		
-		ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, targetLocation, extension, 0, 0, 0);
+		ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, targetLocation, extension, 0, 0);
 		
 		return fdto;
 		

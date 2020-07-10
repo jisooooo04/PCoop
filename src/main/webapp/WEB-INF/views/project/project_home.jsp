@@ -63,7 +63,9 @@
 								<div> <span class="badge badge-primary">New</span>${fn:length(list)}개의 프로젝트 참여 요청이 있습니다.</div>
 								<c:forEach var ="i" items="${list}">
 									 <div><i class="fas fa-user"></i>${i.member_name}/${i.member_email}님</div>
-									<div><button><a href="accept?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}">수락</a></button><button><a href="refuse?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}">거절</a></button></div>
+									<div><button>
+										<a href="accept?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}&member_name=${i.member_name}">수락</a>
+									</button><button><a href="refuse?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}">거절</a></button></div>
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>

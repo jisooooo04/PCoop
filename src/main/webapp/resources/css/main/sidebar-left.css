@@ -52,6 +52,11 @@
 	padding-right: 5px;
 }
 
+.side_chatting_list{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 .logon {
 	color: limegreen;
 } /* 채팅 온라인 초록불 */

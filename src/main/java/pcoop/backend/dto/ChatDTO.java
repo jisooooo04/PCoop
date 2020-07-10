@@ -3,30 +3,30 @@ package pcoop.backend.dto;
 public class ChatDTO {
 	private int seq;
 	private int project_seq;
-	private int chatting_seq;
+	private int chatting_num;
 	private String writer;
 	private String chat;
 	private String full_date;
 	private String form_date;
 	private String time;
-	private int file_path; //file_seq로 바꾸기 (만약 file 아니면 null값 들어가게)
+	private int file_seq; //file_seq로 바꾸기 (만약 file 아니면 null값 들어가게)
 	
 	public ChatDTO() {
 		super();
 	}
 
-	public ChatDTO(int seq, int project_seq, int chatting_seq, String writer, String chat, String full_date,
-			String form_date, String time, int file_path) {
+	public ChatDTO(int seq, int project_seq, int chatting_num, String writer, String chat, String full_date,
+			String form_date, String time, int file_seq) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
-		this.chatting_seq = chatting_seq;
+		this.chatting_num = chatting_num;
 		this.writer = writer;
 		this.chat = chat;
 		this.full_date = full_date;
 		this.form_date = form_date;
 		this.time = time;
-		this.file_path = file_path;
+		this.file_seq = file_seq;
 	}
 
 	public int getSeq() {
@@ -45,12 +45,12 @@ public class ChatDTO {
 		this.project_seq = project_seq;
 	}
 
-	public int getChatting_seq() {
-		return chatting_seq;
+	public int getChatting_num() {
+		return chatting_num;
 	}
 
-	public void setChatting_seq(int chatting_seq) {
-		this.chatting_seq = chatting_seq;
+	public void setChatting_num(int chatting_num) {
+		this.chatting_num = chatting_num;
 	}
 
 	public String getWriter() {
@@ -93,12 +93,12 @@ public class ChatDTO {
 		this.time = time;
 	}
 
-	public int getFile_path() {
-		return file_path;
+	public int getFile_seq() {
+		return file_seq;
 	}
 
-	public void setFile_path(int file_path) {
-		this.file_path = file_path;
+	public void setFile_seq(int file_seq) {
+		this.file_seq = file_seq;
 	}
 	
 }

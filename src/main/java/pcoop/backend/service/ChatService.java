@@ -20,17 +20,17 @@ public class ChatService {
 	}
 	
 	
-	public List<ChatDTO> selectChatList(String today, int chatting_seq){
+	public List<ChatDTO> selectChatList(String today, int chatting_num){
 		
-		ChatDTO cdto = new ChatDTO(0, 0, chatting_seq, "", "", today, "", "", 0);
+		ChatDTO cdto = new ChatDTO(0, 0, chatting_num, "", "", today, "", "", 0);
 		
 		return cdao.selectChatList(cdto);
 	}
 	
 	
-	public List<ChatDTO> selectLastChat(String date, int chatting_seq){
+	public List<ChatDTO> selectLastChat(String date, int chatting_num){
 		
-		ChatDTO cdto = new ChatDTO(0, 0, chatting_seq, "", "", date, "", "", 0);
+		ChatDTO cdto = new ChatDTO(0, 0, chatting_num, "", "", date, "", "", 0);
 		
 		return cdao.selectLastChat(cdto);
 	}

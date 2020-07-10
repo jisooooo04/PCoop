@@ -15,6 +15,7 @@ public class ChatDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
+	
 	public int insertChat(ChatDTO cdto) {
 		return mybatis.insert("Chat.insert", cdto);
 	}
