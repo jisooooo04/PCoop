@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
    	<!--Error: Bootstrap dropdown require Popper.js -- 상단부에 있어야 리스트 색 변경시 에러가 안남 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
 	
-<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
-<script src='/resources/js/calendar/calendar.js'></script>
+
 <!-- Jquery -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- 부트스트랩 -->
@@ -19,16 +19,17 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <script
    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-   
 
-   
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/8f6ea3bf70.js"
 	crossorigin="anonymous"></script>
  <!-- 구글 폰트 -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">	
 
-
+<link href='/resources/css/task/task.css' rel='stylesheet' />
+<script src='/resources/js/task/task.js'></script>
+<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
+<script src='/resources/js/calendar/calendar.js'></script>
 
 
 
@@ -46,55 +47,6 @@
 <!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
 
 <style>
-body {
-	overflow-y: hidden;
-	overflow-x: hidden;
-}
-
-#wrapper {
-	width: 1100px;
-	position: fixed;
-	z-index: 10;
-	bottom: 0px;
-	left: 25%;
-	background-color: rgba(255, 255, 255, 0.9);
-	zoom:0.9;
-	
-}
-
-#todoListBox {
-	margin: 10px;
-	overflow: hidden;
-}
-
-#box {
-	margin: 10px 0px 0px 10px;
-}
-
-#calendar {
-	max-width: 1100px;
-	margin: 0 auto;
-}
-
-#todoListBox {
-	width: 100%;
-}
-
-#calendarBox {
-	margin-top: 100px;
-	width: 1100px;
-	margin: 0 auto;
-}
-
-#actions-by-ajax {
-	height: 80%;
-	overflow-y: hidden;
-}
-#progress{
-	width: 1100px;
-
-	margin: auto;
-}
 
 
 </style>
@@ -389,10 +341,7 @@ body {
 
 </script>
 
-	<!-- Header -->
-	<jsp:include page="../header/header.jsp"></jsp:include>
-	<!-- 왼쪽 사이드바 -->
-	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
+
 
 
 	<section id="box">
@@ -794,7 +743,6 @@ body {
 	<!-- Lobi List Default installation-->
 	<script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
 	<script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
-
 	<script
 		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
 	<script
@@ -809,143 +757,7 @@ body {
 	<!-- <script src="resources/lobilist-master/demo/demo.js"></script>-->
 
 
-	<script>
 
-		$(function() {
-			
-			$('#collapseOne').collapse('hide');
-			// 처음부터 show 를 빼버리면 캘린더 첫화면이 깨짐 (아무 캘린더 버튼을 누르면 정상화)
-			// 클래스에 show를 줘서 정상로딩 시키고 별도로 hide 시키기
-			
-			function isEmpty(param) {
-				  return Object.keys(param).length === 0;
-			}
-
-			// 할일 리스트들 양식대로 불러오기 전에 데이터 존재 여부 체크
-			$.ajax({
-				type : 'get',
-				url : '/Task/TaskAjax',
-				datatype : 'json',
-				success : function(data) {			
-					if(isEmpty(data.lists)){
-						console.log('lists가 데이터베이스에 없음!');
-
-				          $('#actions-by-ajax').lobiList({
-				                actions: {
-				                    load: "/resources/lobilist-master/demo/load.json?v=<%=System.currentTimeMillis()%>",
-				                    insert: 'insert',
-				    				delete: 'delete',
-				    				update: 'update'
-				                },
-				                
-				                afterListRemove: function(){
-				            		console.log("afterListRemove 변화 감지!");
-				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
-				    				console.log("버튼 보여라!!!");
-				    				$("#create_list").css('display', 'inline-block');
-				    				} else {
-				    					console.log("버튼 숨겨라!!!");
-				    					$("#create_list").css('display', 'none');
-				    				}	
-				    			}
-				            });
-					
-					}else{
-						console.log('lists가 데이터베이스에 존재!');					
-						 $('#actions-by-ajax').lobiList({   
-				                afterListRemove: function(){
-				            		console.log("afterListRemove 변화 감지!");
-
-				    				if ($("#actions-by-ajax").find('.lobilist').text() == "") {
-				    				console.log("버튼 보여라!!!");
-				    				$("#create_list").css('display', 'inline-block');
-				    				} else {
-				    				console.log("버튼 숨겨라!!!");
-				    				$("#create_list").css('display', 'none');
-				    				}
-				    			},
-				    			afterItemDelete: function(){
-				    				//ajax 코드 추가 작업진행바 (아이템 삭제시)
-				    				$.ajax({
-				    					type : 'get',
-				    					url : '/Task/selectCount',
-				    					datatype : 'json',
-				    					success : function(data) {
-				    						//console.log('작업진행률 : '+ data.to);
-				    						$('#selector').css('width', data.to + '%');
-
-				    					},
-				    					error : function(error) {
-				    						console.error('selectCount (아이템 삭제)');
-				    					}
-				    				});
-				    				
-				    			},
-				                afterItemAdd: function(){
-				                	//ajax 코드 추가 작업진행바 (아이템 추가시)
-				    				$.ajax({
-				    					type : 'get',
-				    					url : '/Task/selectCount',
-				    					datatype : 'json',
-				    					success : function(data) {
-				    						console.log('작업진행률 : '+ data.to);
-				    						$('#selector').css('width', data.to + '%');
-
-				    					},
-				    					error : function(error) {
-				    						console.error('selectCount (아이템 추가)');
-				    					}
-				    				});
-				                }
-				    			
-				    			
-				    			
-						    });	          
-					}
-
-				},
-				error : function(error) {
-					alert('프로젝트가 없습니다.');
-				}
-			});
-			
-	
-			//ajax 코드 추가 작업진행바 (처음 불러올때)
-			$.ajax({
-				type : 'get',
-				url : '/Task/selectCount',
-				datatype : 'json',
-				success : function(data) {
-					console.log('초기 작업진행률 : '+ data.to);
-					$('#selector').css('width', data.to + '%');
-
-				},
-				error : function(error) {
-					console.error('selectCount (첫 load)');
-				}
-			});
-			
-			
-
-
-			
-			$('#create_btn').click(function (){
-				console.log("버튼 클릭!");
-				 //location.reload(); // 버튼 누르면 새로고침 ... 개선필요...
-				 history.go(0);
-		
-				});
-
-	            
-			});
-		
-		$( "#progress" ).click(function() {
-			  $( "#calendar" ).slideToggle( "slow" );
-			});
-		
-		
-		
-	</script>
 
 
 

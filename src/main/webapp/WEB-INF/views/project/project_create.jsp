@@ -110,10 +110,10 @@
 				}).done(function(resp){
 					result=resp
 				})	
-				if(result="fail"){
+				if(result.equals("fail")){
 					alert("프로젝트는 10개까지만 참여 가능합니다.");
 					return false;
-				}else if(result="success"){
+				}else if(result.equals("success")){
 					return true;
 				}
 			}
