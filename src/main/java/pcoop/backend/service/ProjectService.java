@@ -113,8 +113,8 @@ public class ProjectService {
 		return dao.exitProject(param);
 	}
 	
-	public int deleteProject(int project_seq)throws Exception{
-		return dao.deleteProject(project_seq);
+	public int deleteProject(Map<String,Integer>param)throws Exception{
+		return dao.deleteProject(param);
 	}
 	
 	public String checkLeaderYN(Map<String,Integer>param)throws Exception{
@@ -123,9 +123,13 @@ public class ProjectService {
 	
 	public int updateLeader(int project_seq)throws Exception{
 		Map<String,Object> map= dao.nextLeaderSeq(project_seq);
-		if((map.get("seq")!=null)&&(map.get("member_seq")!=null)) {//리더를 넘겨줄 팀원이 있다면
-			int member_project_seq = (int)map.get("seq");//프로젝트 멤버 시퀀스 
-			int member_seq = (int)map.get("member_seq");//멤버 시퀀스
+		if(map==null) {
+			System.out.println("넘겨줄 팀원 없음.");
+			return 0;
+		}else {
+			
+			int member_project_seq = Integer.parseInt((map.get("SEQ").toString()));//프로젝트 멤버 시퀀스 
+			int member_seq = Integer.parseInt((map.get("MEMBER_SEQ").toString()));//멤버 시퀀스
 				dao.updateLeader(member_project_seq);//멤버 프로젝트 테이블 업데이트
 				
 				Map<String,Integer>param = new HashMap<>();
@@ -134,11 +138,6 @@ public class ProjectService {
 				dao.updateProjectLeader(param);//프로젝트 테이블 업데이트
 				
 			return 1;
-		}else {
-			return 0;
-		}
-		
-			
-		
+		}		
 	}
 }

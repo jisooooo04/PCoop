@@ -285,16 +285,14 @@ public class MemberController {
 		}
 
 		//프로젝트에 속한 현재 인원 수 
-		JsonArray respArray = new JsonArray();
 		JsonObject respObj = new JsonObject(); 
 		for(ProjectDTO dto : project_list) {
 			int project_seq = dto.getSeq();
+			String key = project_seq+"";
 			int countPeople = pservice.countNum(project_seq);
-			respObj.addProperty("project_seq", project_seq);
-			respObj.addProperty("countPeople", countPeople);
-			respArray.add(respObj);
+			respObj.addProperty(key, countPeople);			
 		}
-		model.addAttribute("respArray",respArray);
+		model.addAttribute("respObj",respObj);
 		return "member/mypage";
 	}
 	
@@ -323,13 +321,24 @@ public class MemberController {
 		if(check==0) {//일치하는 정보가 없음.
 			result = "fail";
 		}else if(check==1) {//로그인 정보 일치
-			int delresult = mservice.delmem(seq);
-			
-			if(delresult==1) {
-				result = "success";
-			}else {
-				result = "fail";
+			List<ProjectDTO> plist = mservice.getProjectList(seq);//내가 속한 프로젝트 불러오기
+			for(ProjectDTO dto :plist) {
+				Map<String,Integer>param =new HashMap<>();
+				param.put("mem_seq", seq);
+				param.put("project_seq",dto.getSeq());
+				if(dto.getLeader_seq()==seq) {//내가 리더라면
+					int res = pservice.updateLeader(dto.getSeq());//리더위임
+					if(res==0) {//넘겨줄 팀원 없음	
+						pservice.deleteProject(param);//프로젝트 삭제						
+					}
+					pservice.exitProject(param);//프로젝트 멤버 테이블에서 삭제
+				}else{//리더가 아니라면
+					pservice.exitProject(param);//프로젝트 멤버 테이블에서 삭제
+				}
 			}
+			int delresult = mservice.delmem(seq); //멤버 테이블에서 삭제
+			session.invalidate();//세션 무효화
+				result = "success";
 		}
 		return result;
 	}
