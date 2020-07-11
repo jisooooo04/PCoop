@@ -12,8 +12,27 @@
 .row {
 	margin-top: 10px;
 }
+/* member info 부분 */
+.btns>button {
+	outline:none;
+	margin: 8px;
+	width: 80px;
+	height: 30px;
+	border: 1px solid #5f83ba;
+	background-color: #fff;
+	border-radius: 10px;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: dimgray;
+}
+
+.btns>button:hover {
+	background-color: dimgray;
+	color: white;
+	border: none;
+}
 
 .modifymodal {
+	padding-top:30px;
 	top: 100%;
 	position: fixed;
 	background: #fff;
@@ -26,6 +45,7 @@
 }
 
 .deletemodal {
+	padding:30px;
 	top: 100%;
 	position: fixed;
 	background: #fff;
@@ -37,7 +57,9 @@
 	/* background-image:url("/resources/images/mypage/Colors Of Sky.jpg");  */
 	background-color: #fffefc;
 }
-
+.deletemodal i {
+	color:#fcd703;
+}
 .modal-open {
 	top: 0;
 }
@@ -96,9 +118,10 @@
 .fa-user {
 	margin-right: 5px;
 }
-.fa-star{
+
+.fa-star {
 	margin-right: 5px;
-    color: yellowgreen;
+	color: yellowgreen;
 }
 /* 프로젝트 나가기 모달  */
 .exitProjectBox {
@@ -227,23 +250,25 @@
 										</div>
 										<c:forEach var="i" items="${list}">
 											<div class="box">
-											<c:choose>
-												<c:when test='${i.leader_seq==loginInfo.seq}'>
-													<div><i class="fas fa-star fa-lg"></i>팀장</div>
-												</c:when>
-											</c:choose>
+												<c:choose>
+													<c:when test='${i.leader_seq==loginInfo.seq}'>
+														<div>
+															<i class="fas fa-star fa-lg"></i>팀장
+														</div>
+													</c:when>
+												</c:choose>
 												<div>${i.name}</div>
 												<div>초대 코드 : ${i.code}</div>
 												<div>
-													<i class="fas fa-user fa-lg"></i>
-													/${i.people_num}
+													<i class="fas fa-user fa-lg"></i> /${i.people_num}
 												</div>
 												<div>
 													<button>
 														<a href="../project-main?seq=${i.seq}">프로젝트 바로가기</a>
 													</button>
 													<button>
-														<a href="#" onclick="notice(${i.seq});return false;">프로젝트 나가기</a>
+														<a href="#" onclick="notice(${i.seq});return false;">프로젝트
+															나가기</a>
 													</button>
 												</div>
 											</div>
@@ -345,12 +370,12 @@
 				<div class="col-3"></div>
 			</div>
 			<div class="row">
-				<div class="col-4"></div>
-				<div class="col-4">
+				<div class="col-3"></div>
+				<div class="col-6 btns">
 					<button id="deletecancel">취소</button>
 					<button id="deletesave">확인</button>
 				</div>
-				<div class="col-4"></div>
+				<div class="col-3"></div>
 			</div>
 
 

@@ -140,4 +140,9 @@ public class ProjectService {
 			return 1;
 		}		
 	}
+	
+	public List<ProjectMemberDTO> getMemberList (int project_seq)throws Exception{
+		return dao.getMemberList(project_seq);
+	}
+	
 }

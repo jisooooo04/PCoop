@@ -1,8 +1,5 @@
 package pcoop.backend.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,11 +13,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import pcoop.backend.dto.ChatDTO;
 import pcoop.backend.dto.ChattingDTO;
 import pcoop.backend.dto.DirectoryDTO;
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.dto.ProjectMemberDTO;
 import pcoop.backend.service.ChatService;
 import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.FileService;
@@ -71,7 +68,11 @@ public class HomeController {
 		  //프로젝트 seq로 프로젝트 dto 가져오기
 		  ProjectDTO pdto = pservice.selectBySeq(seq);
 		  session.setAttribute("projectInfo", pdto);  //세션에 pdto담기 
-		  		  
+		  
+		  //프로젝트에 속한 멤버리스트 뽑기
+		  List<ProjectMemberDTO> memberList = pservice.getMemberList(seq); 
+		  model.addAttribute("member_list", memberList);
+		  
 		  int project_seq = pdto.getSeq();
 		  System.out.println("HomeController : 프로젝트 시퀀스는 >> " + project_seq);
 		  
@@ -118,7 +119,7 @@ public class HomeController {
 		  
 		  model.addAttribute("root_seq", root_seq);
 		  model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		  
+		 
 		  
 		  return "project-main";
 	}

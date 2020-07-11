@@ -127,7 +127,7 @@
 
 	<!-- 여기부터 각자 영역 설정 -->
 
-	<div class="container">
+	<div id="container" class="container">
 
 		프로젝트 홈입니다.
 
@@ -172,10 +172,12 @@
 					<div>
 						final project<span>B8v08f</span>
 					</div>
-					<div class="member">
+					<c:forEach var="i" items="${member_list}">
+						<div class="member">
 						<!-- <span class="badge">생성자</span> -->
 						${i.member_name}님
 					</div>
+					</c:forEach>					
 					<div class="person">
 						<i class="fas fa-users"></i>6/8 명
 					</div>

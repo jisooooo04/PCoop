@@ -21,12 +21,10 @@
 			<div>백엔드</div>
 			<div>아두이노</div>
 		</div>
-		<div class="navtitle">
+		<div class="navtitle menu-calendar">
 			<img src="/resources/images/sidebar-left/calendar.png" class=navicon> 캘린더
 		</div>
 		<div class="navcontents">
-			<div>세미 프로젝트</div>
-			<div>파이널 프로젝트</div>
 		</div>
 		<div class="navtitle menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon> 채팅

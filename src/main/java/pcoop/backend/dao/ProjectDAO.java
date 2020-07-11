@@ -92,4 +92,7 @@ public class ProjectDAO {
 		 return mybatis.update("project.updateProjectLeader", param);
 	 }
 	 
+	 public List<ProjectMemberDTO> getMemberList(int project_seq)throws Exception{
+		 return mybatis.selectList("project.getMemberList", project_seq);
+	 }
 }
