@@ -192,7 +192,7 @@ public class ProjectController {
 			 service.exitProject(param);
 			 //멤버 프로젝트 테이블에서 삭제
 			if(result==0) {//넘겨줄 팀원 없음 . 
-				service.deleteProject(project_seq);//프로젝트 삭제
+				service.deleteProject(param);//프로젝트 삭제
 			}
 			
 		  	}else if(leader.contentEquals("n")) {//리더가 아니다.

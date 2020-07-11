@@ -96,7 +96,10 @@
 .fa-user {
 	margin-right: 5px;
 }
-
+.fa-star{
+	margin-right: 5px;
+    color: yellowgreen;
+}
 /* 프로젝트 나가기 모달  */
 .exitProjectBox {
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
@@ -224,10 +227,16 @@
 										</div>
 										<c:forEach var="i" items="${list}">
 											<div class="box">
+											<c:choose>
+												<c:when test='${i.leader_seq==loginInfo.seq}'>
+													<div><i class="fas fa-star fa-lg"></i>팀장</div>
+												</c:when>
+											</c:choose>
 												<div>${i.name}</div>
 												<div>초대 코드 : ${i.code}</div>
 												<div>
-													<i class="fas fa-user fa-lg"></i>/${i.people_num}
+													<i class="fas fa-user fa-lg"></i>
+													/${i.people_num}
 												</div>
 												<div>
 													<button>
@@ -352,6 +361,8 @@
 
 
 	<script>
+	var peopleCount = ${respObj}
+	console.log(${respObj}['9']);
 		/* 회원 정보 수정하기 모달 띄우기 */
 			$("#modifybtn").on("click",function(){
 				$(".modifymodal").addClass('modal-open');
