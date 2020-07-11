@@ -13,7 +13,7 @@
 	
 	
 	<insert id="insertFile">
-		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, #{project_seq}, #{chatting_seq}, #{chat_seq})
+		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, #{project_seq}, #{chatting_num})
 	</insert>
 	
 	

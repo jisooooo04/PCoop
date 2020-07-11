@@ -47,7 +47,7 @@ $(function(){
       $("#input").keydown(function(e){
          if(e.keyCode == 13){  //13번 = 엔터키 누르면,
             
-        	 var d = new Date();
+        	var d = new Date();
  			
  			var week = ["일","월","화","수","목","금","토"];
  			var day = week[d.getDay()];
@@ -56,11 +56,11 @@ $(function(){
  			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
  			var time = d.toLocaleTimeString();
  			
- 			var c_seq = $(".chat_title").attr("id");
+ 			var c_num = $(".chat_title").attr("id");
 			var p_seq = $(".chat_person_num").attr("id");
  			
  			var oriname = "";
- 			var fileCheck = fileCheck = $("#file_select").val();
+ 			var fileCheck = $("#file_select").val();
  			
  			//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
  			if(fileCheck){
@@ -94,7 +94,7 @@ $(function(){
 					var msg = {
 							type: "message",
 							p_seq: p_seq,
-							c_seq: c_seq,
+							c_num: c_num,
 							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
@@ -121,7 +121,7 @@ $(function(){
 					               date: date,
 					               time: time,
 					               p_seq: p_seq,
-					               c_seq: c_seq
+					               c_num: c_num
 					            };
 						
 						ws.send(JSON.stringify(msg));
@@ -144,7 +144,7 @@ $(function(){
 				var msg = {
 			               type: "message",
 			               p_seq: p_seq,
-			               c_seq: c_seq,
+			               c_num: c_num,
 			               text: $("#input").html(),
 			               fulldate: fulldate,
 			               date: date,
@@ -165,7 +165,7 @@ $(function(){
       //전송 버튼
       $(document).on("click", "#send_btn", function(){
 
-			var d = new Date();
+    	  var d = new Date();
 			
 			var week = ["일","월","화","수","목","금","토"];
 			var day = week[d.getDay()];
@@ -174,13 +174,11 @@ $(function(){
 			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
 			var time = d.toLocaleTimeString();
 			
-			
-			var c_seq = $(".chat_title").attr("id");
+			var c_num = $(".chat_title").attr("id");
 			var p_seq = $(".chat_person_num").attr("id");
 			
-			
 			var oriname = "";
-			var fileCheck = fileCheck = $("#file_select").val();
+			var fileCheck = $("#file_select").val();
 			
 			//파일이 첨부됬으면 >> 에이작스로 파일 먼저 업로드하고, 내용 ws으로 보내기!
 			if(fileCheck){
@@ -214,7 +212,7 @@ $(function(){
 					var msg = {
 							type: "message",
 							p_seq: p_seq,
-							c_seq: c_seq,
+							c_num: c_num,
 							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
@@ -241,7 +239,7 @@ $(function(){
 					               date: date,
 					               time: time,
 					               p_seq: p_seq,
-					               c_seq: c_seq
+					               c_num: c_num
 					            };
 						
 						ws.send(JSON.stringify(msg));
@@ -264,7 +262,7 @@ $(function(){
 				var msg = {
 			               type: "message",
 			               p_seq: p_seq,
-			               c_seq: c_seq,
+			               c_num: c_num,
 			               text: $("#input").html(),
 			               fulldate: fulldate,
 			               date: date,
@@ -288,8 +286,8 @@ $(function(){
 		
 		
 		//스크롤 위로 갈 시 이전 데이터 불러오기 - 채팅방 seq랑 오늘로부터 몇일 전 날짜인지(num)보냄
-      	var num = 2;
-      	var c_seq = $(".chat_title").attr("id");
+      	var beforenum = 2;
+      	var c_num = $(".chat_title").attr("id");
 		$("#chat_section").on("scroll", function(){
 			
 			if($("#chat_section").scrollTop() == 0){
@@ -298,8 +296,8 @@ $(function(){
 					url : "lastChat",
 					type : "post",
 					data : {
-						num : num,
-						c_seq : c_seq
+						beforenum : beforenum,
+						c_num : c_num
 					},
 					dataType : "json"
 					
@@ -350,7 +348,7 @@ $(function(){
                
                $(".chat_section").prepend(chat_date_box);  //맨위에 올라가는게 가장 마지막에!
                
-               num = num+1;  //날짜 +1
+               beforenum = beforenum+1;  //날짜 +1
             })
             
          }

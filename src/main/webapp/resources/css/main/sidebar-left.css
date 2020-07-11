@@ -41,6 +41,8 @@
 
 .navcontents {
 	padding-left: 50px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	border-top: 1px solid lightgray;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -50,6 +52,11 @@
 .navicon {
 	width: 25px;
 	padding-right: 5px;
+}
+
+.side_chatting_list{
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 .logon {
