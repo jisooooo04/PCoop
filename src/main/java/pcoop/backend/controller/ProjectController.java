@@ -154,15 +154,15 @@ public class ProjectController {
 	  
 	  
 	  @RequestMapping("accept")
-	  public String accept(int mem_seq,int project_seq,Model model)throws Exception{//참가 수락
+	  public String accept(int mem_seq,int project_seq,String member_name,Model model)throws Exception{//참가 수락
 		 Map<String,Integer>param = new HashMap<>();
 		 param.put("mem_seq", mem_seq);
 		 param.put("project_seq", project_seq);
 		 int result = service.accept(param);
 		 model.addAttribute("seq", project_seq);
 		 
-		 //멤버 추가시, 단체 채팅방에도 멤버 추가
-		 result = cservice.insertMember(project_seq, mem_seq);
+		 //멤버 추가시, 단체 채팅방에도 멤버 추가(+기존 인원수 변경)
+		 result = cservice.insertMainMember(project_seq, mem_seq, member_name);
 		 
 		 return "redirect:goProjectHome";
 	  }

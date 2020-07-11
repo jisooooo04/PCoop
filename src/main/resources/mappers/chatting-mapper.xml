@@ -3,22 +3,35 @@
 <mapper namespace="Chatting">
 	
 	<insert id="createChatting">
-		insert into chatting values(chatting_seq.nextval, #{project_seq}, #{title}, default, #{member_seq}, #{member_name}, sysdate, default)
-	</insert>
-	
-	
-	<insert id="insertMainMember">
-		insert into chatting values(chatting_seq.nextval, #{project_seq}, #{title}, #{member_count}, #{member_seq}, #{member_name}, #{create_date}, default)
+		insert into chatting values(chatting_seq.nextval, #{project_seq}, chatting_num_seq.nextval, #{title}, default, #{member_seq}, #{member_name}, sysdate, default)
 	</insert>
 	
 	
 	<select id="selectChattingList" resultType="pcoop.backend.dto.ChattingDTO">
-		select * from chatting where project_seq=#{project_seq} and member_seq=#{member_seq}
+		select * from chatting where project_seq=#{project_seq} and member_seq=#{member_seq} order by seq
 	</select>
 	
 	
 	<select id="selectChatting" resultType="pcoop.backend.dto.ChattingDTO">
-		select * from chatting where seq=${value}
+		select * from chatting where chatting_num=${value}
 	</select>
+	
+	
+	<select id="selectMainChatting" resultType="pcoop.backend.dto.ChattingDTO">
+		select * from (select * from chatting where project_seq=${value} and type='main') where rownum = 1
+	</select>
+	
+	
+	<update id="updateMainChatting">
+		update chatting set member_count=${member_count} where (project_seq=${project_seq} and type='main')
+	</update>
+	
+	
+	<insert id="insertMainMember">
+		insert into chatting values(chatting_seq.nextval, ${project_seq}, ${chatting_num}, #{title}, ${member_count}, ${member_seq}, #{member_name}, #{create_date}, 'main')
+	</insert>
+	
+	
+	
 	
 </mapper>

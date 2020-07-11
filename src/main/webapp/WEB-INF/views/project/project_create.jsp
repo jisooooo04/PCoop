@@ -98,8 +98,7 @@
 	</div>
 	
 	<script>
-		
-
+	
 	var target = document.getElementById('target');
 	target.addEventListener('submit',function(event){
 				if(${countProject}>=10){
@@ -107,9 +106,7 @@
 					alert("프로젝트 참여는 10개까지만 가능합니다.");
 				}      
         })  
-        
-
-				
+        	
 	</script>
 </body>
 </html>

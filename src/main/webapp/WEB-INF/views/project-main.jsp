@@ -63,6 +63,7 @@ $(function() {
 	for (var i = 0; i < chattingList.length; i++) {
 		var chatting_seq = chattingList[i].chatting_seq;
 		var project_seq = chattingList[i].project_seq;
+		var chatting_num = chattingList[i].chatting_num;
 		var title = chattingList[i].title;
 		var member_count = chattingList[i].member_count;
 		var member_seq = chattingList[i].member_seq;
@@ -70,13 +71,13 @@ $(function() {
 		var create_date = chattingList[i].create_date;
 		var type = chattingList[i].type;
 		
-		
-		var div = $("<div></div>");
+		var div = $("<div class=side_chatting_list></div>");
 		var span = $("<span class=logon>● </span>");
-		var chatting = $("<a class=c_list id='c_seq"+chatting_seq+"'>"+title+"</a>");
+		var chatting = $("<a class=c_list id='c_num"+chatting_num+"'>"+title+"</a>");
 		div.append(span);
 		div.append(chatting);
 		$(".chattingList").append(div);
+				
 	}
 	
 	
@@ -85,8 +86,8 @@ $(function() {
 	$(function() {
 
 		$(".c_list").on("click", function(){
-			var c_seq = $(this).attr("id");
-			$("#container").load("chatting", {c_seq: c_seq});
+			var c_num = $(this).attr("id");
+			$("#container").load("chatting", {c_num: c_num});
 			//$("#modals").load("chat .modals");
 		})
 		

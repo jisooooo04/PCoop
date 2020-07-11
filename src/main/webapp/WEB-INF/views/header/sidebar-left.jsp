@@ -11,7 +11,7 @@
 	<!-- 왼쪽 사이드바 -->
 	<nav id=leftnav>
 		<div class="navhome">
-			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트명</a>
+			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트 홈</a>
 		</div>
 		<div class="navtitle menu-todo">
 			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
@@ -32,20 +32,14 @@
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon> 채팅
 		</div>
 		<div class="navcontents chattingList">
-			<div>
-				<span class=logon>● </span>kh 파이널 5조
-			</div>
-			<div>
-				<span class=logon>● </span>박정수
-			</div>
-			<div>
-				<span class=logon>● </span>김현동
-			</div>
+			
+			
 		</div>
 		<div class="navtitle menu-backup">
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon> 백업
 		</div>
 		<div class="navcontents backup">
+			
 			
 		</div>
 	</nav>

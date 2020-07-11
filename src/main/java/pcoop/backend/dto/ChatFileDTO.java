@@ -8,15 +8,14 @@ public class ChatFileDTO {
 	private String target;
 	private String extension;
 	private int project_seq;
-	private int chatting_seq;
-	private int chat_seq;  //추가로 writer, 날짜, 시간?
+	private int chatting_num;
 	
 	public ChatFileDTO() {
 		super();
 	}
 
 	public ChatFileDTO(int seq, String oriname, String sysname, String filepath, String target, String extension,
-			int project_seq, int chatting_seq, int chat_seq) {
+			int project_seq, int chatting_num) {
 		super();
 		this.seq = seq;
 		this.oriname = oriname;
@@ -25,8 +24,7 @@ public class ChatFileDTO {
 		this.target = target;
 		this.extension = extension;
 		this.project_seq = project_seq;
-		this.chatting_seq = chatting_seq;
-		this.chat_seq = chat_seq;
+		this.chatting_num = chatting_num;
 	}
 
 	public int getSeq() {
@@ -85,20 +83,13 @@ public class ChatFileDTO {
 		this.project_seq = project_seq;
 	}
 
-	public int getChatting_seq() {
-		return chatting_seq;
+	public int getChatting_num() {
+		return chatting_num;
 	}
 
-	public void setChatting_seq(int chatting_seq) {
-		this.chatting_seq = chatting_seq;
+	public void setChatting_num(int chatting_num) {
+		this.chatting_num = chatting_num;
 	}
 
-	public int getChat_seq() {
-		return chat_seq;
-	}
-
-	public void setChat_seq(int chat_seq) {
-		this.chat_seq = chat_seq;
-	}
 	
 }
