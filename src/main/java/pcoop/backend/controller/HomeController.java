@@ -69,9 +69,6 @@ public class HomeController {
 		  ProjectDTO pdto = pservice.selectBySeq(seq);
 		  session.setAttribute("projectInfo", pdto);  //세션에 pdto담기 
 		  
-		  //프로젝트에 속한 멤버리스트 뽑기
-		  List<ProjectMemberDTO> memberList = pservice.getMemberList(seq); 
-		  model.addAttribute("member_list", memberList);
 		  
 		  int project_seq = pdto.getSeq();
 		  System.out.println("HomeController : 프로젝트 시퀀스는 >> " + project_seq);

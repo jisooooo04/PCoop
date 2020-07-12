@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Message.RecipientType;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +33,8 @@ public class ProjectController {
 	@Autowired
 	ChattingService cservice;
 	
+	@Autowired
+	private JavaMailSender mailSender;
 
 	@Autowired
 	HttpSession session;
@@ -55,7 +61,7 @@ public class ProjectController {
 		dto.setPeople_num(people_num);// 인원 수 	
 		
 		model.addAttribute("code", code);
-		
+		model.addAttribute("title", name);
 		//project table insert
 		int result = service.create_project(dto);
 		
@@ -80,8 +86,9 @@ public class ProjectController {
 	}
 	
 	@RequestMapping("project_code")//forward 피하기 위해서 컨트롤러를 두개 만들었다.
-	public String project_code (String code,Model model)throws Exception{
+	public String project_code (String code,String title,Model model)throws Exception{
 		model.addAttribute("code", code);
+		model.addAttribute("title", title);
 		return "project/project_code";
 	}
 	
@@ -149,6 +156,9 @@ public class ProjectController {
 				  model.addAttribute("list", list); 
 				  }
 		 
+		  //프로젝트에 속한 멤버리스트 뽑기
+		  List<ProjectMemberDTO> memberList = service.getMemberList(project_seq); 
+		  model.addAttribute("member_list", memberList);
 		  return "project/project_home";
 	  }
 	  
@@ -201,5 +211,26 @@ public class ProjectController {
 			  
 		  }		  
 		  return "redirect:member/gomypage";
+	  }
+	  
+	  @RequestMapping("ProjectInvite")
+	  public String ProjectInvite (String code,Model model)throws Exception{
+		  model.addAttribute("code", code);
+		  return "project/project_invite";
+	  }
+	  
+	  @ResponseBody
+	  @RequestMapping("sendEmail")
+	  public String sendEmail(String email,String code,String title)throws Exception{
+		  
+			  MimeMessage msg = mailSender.createMimeMessage();
+			  msg.setSubject("PCOOP에서 프로젝트 초대가 도착했습니다.");
+			  msg.setText(title+"프로젝트에서 회원님을 초대하셨습니다. :)"); 
+			  msg.setText("프로젝트의 초대코드는 "+code+" 이며 프로젝트 코드로 검색 하신 뒤 참가 요청을 보내주세요."); 
+			  msg.setRecipient(RecipientType.TO, new InternetAddress(email));
+			  mailSender.send(msg);
+		 
+		  System.out.println(email+code);
+		  return "";		  
 	  }
 }

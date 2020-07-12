@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>PCOOP!</title>
-<jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <style>
@@ -14,10 +13,8 @@
 }
 
 .container {
-	border: 1px solid black;
 	margin: auto;
 	padding: 25px;
-	font-family: 'Noto Sans KR', sans-serif;
 }
 /*<!-- 프로젝트 참가 요청 -->*/
 .joinRequest {
@@ -25,10 +22,10 @@
 	padding: 10px;
 	border-radius: 10px;
 	border: 2px solid #5f83ba;
-	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .joinRequest>div {
+	font-family: 'Noto Sans KR', sans-serif;
 	text-align: center;
 	margin: 6px;
 	font-size: 18px;
@@ -36,6 +33,7 @@
 
 .badge {
 	margin-right: 10px;
+	background-color:#1e74eb;
 }
 
 .joinRequest button {
@@ -64,19 +62,18 @@
 }
 /*<!-- 프로젝트 info -->*/
 .projectInfo {
-	text-align: center;
-	border: 1px solid black;
 	border-radius: 15px;
 	padding: 15px;
 }
 
 .projectInfo>div {
-	margin: 10px;
+	margin-top: 20px;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .projectInfo>div:nth-child(1) {
 	font-size: 35px;
-	font-weight: bold;
+	font-weight: 500;
 }
 
 .projectInfo>div:nth-child(1)>span {
@@ -87,14 +84,15 @@
 }
 
 .member {
-	font-size: 20px;
+	margin-top:10px;
+	font-size: 18px;
 }
 
 .member>span {
-	margin-left: -70px;
 	border: 1px solid #5f83ba;
 	border-radius: 10px;
 	color: #4d70a8;
+	background-color:white;
 }
 
 .person {
@@ -112,14 +110,19 @@
 }
 
 .invite>button {
+	font-family: 'Noto Sans KR', sans-serif;
 	width: 305px;
 	height: 60px;
 	font-weight: 500;
-	background-color: #86d1b4;
+	background-color: #7dc8c9;
 	border: none;
 	border-radius: 15px;
 	font-size: 30px;
 	color: white;
+}
+.fa-paper-plane{
+	color:white;
+	margin-right:15px;
 }
 </style>
 </head>
@@ -127,7 +130,7 @@
 
 	<!-- 여기부터 각자 영역 설정 -->
 
-	<div id="container" class="container">
+	<div id="container" class="container-fluid">
 
 		프로젝트 홈입니다.
 
@@ -172,28 +175,38 @@
 					<div>
 						final project<span>B8v08f</span>
 					</div>
-					<c:forEach var="i" items="${member_list}">
+					<div class="memberBox">
+						<c:forEach var="i" items="${member_list}">
 						<div class="member">
-						<!-- <span class="badge">생성자</span> -->
-						${i.member_name}님
+						${i.member_name}
 					</div>
-					</c:forEach>					
+					</c:forEach>
+					</div>
+										
 					<div class="person">
-						<i class="fas fa-users"></i>6/8 명
+						<i class="fas fa-users"></i>${fn:length(member_list)}/${projectInfo.people_num}명
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="invite">
-				<button>팀원 초대하러 가기 !</button>
+				<button class="inviteBtn"><i class="fas fa-paper-plane"></i>팀원 초대하기</button>
 			</div>
 		</div>
 	</div>
 	<!-- 여기까지 각자 영역 설정 -->
 
-
+	
 	<script>
+	
+		$(function(){
+			$(".memberBox>div:nth-child(1)").append("<span class='badge'>생성자</span>");
+			/* $(".member").append("<button>삭제</button>"); */
+		})
+		$(".inviteBtn").on("click",function(){
+			location.href="ProjectInvite?code=${projectInfo.code}&title=${projectInfo.name}";
+		})
 		
 	</script>
 </body>

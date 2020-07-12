@@ -16,7 +16,7 @@
 .btns>button {
 	outline:none;
 	margin: 8px;
-	width: 80px;
+	width: 70px;
 	height: 30px;
 	border: 1px solid #5f83ba;
 	background-color: #fff;
@@ -298,6 +298,7 @@
 
 	<!-- 수정하기  -->
 	<div class="row modifymodal">
+	<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 
 			<div class="row">
@@ -333,7 +334,7 @@
 
 
 		</div>
-		<div class="col-sm-4"></div>
+		<div class="col-sm-2"></div>
 	</div>
 
 	<!-- 탈퇴 + 프로젝트 나가기   -->
