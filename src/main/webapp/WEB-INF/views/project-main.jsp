@@ -22,6 +22,7 @@
 	
 
 
+<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
 <link href='/resources/css/task/task.css' rel='stylesheet' />
 
 	
@@ -124,6 +125,27 @@ $(function() {
 
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	
+	
+	<!-- Lobi List Default installation-->
+	<script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
+	<script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
+	<script
+		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
+	<!--<script
+		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>-->
+	<script
+		src="/resources/lobilist-master/dist/lobilist.js"></script>
+	<script src="/resources/lobilist-master/lib/lobibox/js/lobibox.min.js"></script>
+	<script
+		src="/resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
+		
+	<!--task.js는 로비리스트 기본 설치 태그 밑에 위치해야 동작! -->
+	<script src='/resources/js/task/task.js'></script>
+<script src='/resources/js/calendar/calendar.js'></script>
+
 
 
 </body>

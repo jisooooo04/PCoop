@@ -1,25 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
 
 
 
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 	
-<style>
-</style>
 
-</head>
-
-<body>
 
 
 
@@ -58,24 +45,25 @@
 	</div>
 
 
+
+
+	<!-- 주간 스케쥴러 관련 모달 -->
+	<jsp:include page="modal.jsp" />
+
+
 	<!-- Lobi List Default installation-->
 	<script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
 	<script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
 	<script
 		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
+	<!--<script
+		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>-->
 	<script
-		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>
-	<script
-		src="/resources/lobilist-master/dist/lobilist.js?v=<%=System.currentTimeMillis()%>"></script>
+		src="/resources/lobilist-master/dist/lobilist.js"></script>
 	<script src="/resources/lobilist-master/lib/lobibox/js/lobibox.min.js"></script>
 	<script
 		src="/resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
-
+		
 	<!--task.js는 로비리스트 기본 설치 태그 밑에 위치해야 동작! -->
 	<script src='/resources/js/task/task.js'></script>
-	<!-- 주간 스케쥴러 관련 모달 -->
-	<jsp:include page="modal.jsp" />
-
-
-</body>
-</html>
+<script src='/resources/js/calendar/calendar.js'></script>
