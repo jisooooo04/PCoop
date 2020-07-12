@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -11,7 +10,7 @@
 <script>
 	$(function() {
 
-		$(".backup").append("<ul id=root></ul>");
+		$(".backup").append("<ul id=dir4 class='root dir'>TEMP</ul>");
 
 		// 디렉토리 가지고 오기
 		var dirlist = ${dirlist};
@@ -25,29 +24,37 @@
 	
 </script>
 <link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+ $(function(){
+	 $("#jsp").load("temp");
+ })
+</script>
 </head>
 <body>
 	<jsp:include page="../header/header.jsp"></jsp:include>
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
 	<section>
-
 		<div id="container">
-		
-			<div class="files">
-			</div>
 
+			
 			<!-- 여기까지 각자 영역 설정 -->
 		</div>
-
 	</section>
 
 	<!-- 디렉토리 우 클릭 시, 나타나는 드롭 다운 메뉴 -->
 	<ul class="contextmenu">
 		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
 		<li class="menu_delete_dir"><a href="#">디렉토리 삭제</a></li>
+	</ul>
 
+	<ul class="contextmenu_container">
+		<li class="menu_upload_file"><a href="#">파일 업로드</a></li>
+		<li class="menu_delete_file"><a href="#">디렉토리 삭제</a></li>
+		<li class="menu_add_dir"><a href="#">하위 디렉토리 추가</a></li>
 	</ul>
 
 	<div class="add_dir">
@@ -57,7 +64,7 @@
 	</div>
 
 	<!-- 디렉토리 삭제 경고 Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+	<div class="modal modal_alert fade" id="exampleModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -79,8 +86,36 @@
 		</div>
 	</div>
 
+	<!-- 파일 추가 Modal -->
+	<div class="modal modal_upload fade" id="exampleModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">FILE UPLOAD</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="uploadFile" name="uploadForm" method="POST" enctype="multipart/form-data">
+						<label for="recipient-name" class="col-form-label">파일 선택</label>
+						<input type="file" name="file" class="form-control" id="selectedFile">
+						<input type="hidden" name="dir_seq">
+						<input type="submit" id="uploadSubmit">
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn upload_file_cancel"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn upload_file">UPLOAD</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
-
 </body>
 </html>

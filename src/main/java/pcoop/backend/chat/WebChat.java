@@ -17,19 +17,21 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
-import pcoop.backend.dao.ChatDAO;
 import pcoop.backend.dto.ChatDTO;
+import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.service.ChatService;
 import pcoop.backend.statics.HttpSessionConfigurator;
 
 @ServerEndpoint(value="/chat", configurator=HttpSessionConfigurator.class)
 public class WebChat {
 	
-	@Autowired
-	private ChatService cservice;
+//	@Autowired
+//	private ChatService cservice;
 	
+	//의존성을 검색해서 집어넣어줌
+	private ChatService cservice = MyApplicationContextAware.getApplicationContext().getBean(ChatService.class);
 	
 	//set : 중복을 방지하고 key가 존재
 	//static을 해놓지 않으면 새로 접속할때마다 set이 매번 새로 만들어지는 것이므로 static으로 설정
@@ -55,26 +57,26 @@ public class WebChat {
 
 	
 	@OnMessage  //메세지가 오면 이 메서드를 실행해줌
-	public void onMessage(Session session, String message) {
+	public void onMessage(String message) {
 		//Session 세션객체 안에는 다른 클래스?에 메세지를 보낼 수 있는 기능이 들어있음
 		//누가보냈는지 = 세션 / 내용=메세지
 		//System.out.println(session.getId() + " : " + message);  //지금은 client id 없으므로 주석처리
 		
-		//String id = (String)this.session.getAttribute("loginInfo");  //세션에서 로그인한 아이디 받아오기
+		System.out.println(message);
+		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 		
 		synchronized(clients) {
 			for(Session client : clients) {
 					Basic basic = client.getBasicRemote();
-			         try {
-			            //basic.sendText(id + " : " + message);  //session.getId() 대신 이젠 세션정보로 id 출력
-			        	 
+			         try {			        	 
 			        	 System.out.println(message);  //jsp에서 잘 넘어왔는지 출력
 			        	 
 			        	 JSONObject jsonObj;
-			        	 jsonObj = (JSONObject)jsonParser.parse(message);// 클라이언트쪽에서 문자열로 넘어온 json오브젝트를 jsonObject로 만들어준다
+			        	 jsonObj = (JSONObject)jsonParser.parse(message); //클라이언트쪽에서 문자열로 넘어온 json오브젝트를 jsonObject로 만들어준다
 			        	 
 			        	 
-			        	 String id = (String)jsonObj.get("id");
+			        	 String id = mdto.getName();
+			        	 jsonObj.put("id", id);  System.out.println(id);
 			        	 String text = (String)jsonObj.get("text");
 			        	 String fullDate = (String)jsonObj.get("fulldate");
 			        	 String date = (String)jsonObj.get("date");  //날짜
@@ -82,14 +84,10 @@ public class WebChat {
 			        	 
 			        	 
 			        	 //DB에 채팅내용 저장
-			        	 ChatDTO cdto = new ChatDTO();
-			        	 cdto.setWriter(id);
-			        	 cdto.setChat(text);
-			        	 cdto.setFull_date(fullDate);
-			        	 cdto.setForm_date(date);
-			        	 cdto.setTime(time);
-			        	 System.out.println("webchat : " + cdto.getChat() + cdto.getWriter());
-			        	 //int result = cservice.insertChat(cdto);
+			        	 ChatDTO cdto = new ChatDTO(0,0,0,id,text,fullDate,date,time,"");
+			        	 
+			        	 int result = cservice.insertChat(cdto);
+			        	 System.out.println(result);
 			        	 
 			        	 basic.sendText(jsonObj.toJSONString());  //jsp로 보내기
 			        	 
@@ -112,6 +110,31 @@ public class WebChat {
 	public void onError(Session session, Throwable t) {
 		clients.remove(session);
 	}
+	
+	
+	
+//	//테스트용!
+//	@OnMessage  //메세지가 오면 이 메서드를 실행해줌
+//	public void onMessage(MultipartFile file) {
+//		
+//		System.out.println(file.getName());
+//		
+//		
+//		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
+//		
+//		synchronized(clients) {
+//			for(Session client : clients) {
+//					Basic basic = client.getBasicRemote();
+//			         try {
+//			        	 
+//			        	 
+//			         } catch (Exception e) {
+//			            e.printStackTrace();
+//			         }
+//			}
+//		}
+//		
+//	}
 	
 	
 }

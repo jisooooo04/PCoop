@@ -24,6 +24,7 @@
 #logo {
 	color: #58C9B9;
 }
+
 #banner {
 	background-image: url(resources/images/index/banner2.jpg);
 }
@@ -37,17 +38,19 @@
 		<div class="inner">
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
-				<!--<a href="generic.html">Generic</a>
-				<a href="elements.html">Elements</a> -->
+				<a href="member/gomypage">mypage</a>
 				<a href="#">협업 구하기</a> 
 				<a href="#">참여 중 프로젝트</a> 
 				<a href="#">프로젝트 소개</a> 
-				<a href="fileList">백업</a> 
+				<a href="Task/task">할 일 목록</a>
+				<a href="project-main">백업</a> 
 				<a href="calendar?project_seq=0">캘린더</a>
 				<a href="chatting">채팅</a>
+
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
 				class="fa fa-bars"></span></a>
+				
 		</div>
 	</header>
 
@@ -63,7 +66,7 @@
 
 			<div class="flex ">
 
-				<div>
+				<div id="signUp">
 					<span class="icon fa-user-plus"></span>
 					<h3>계정 만들기</h3>
 					<p>
@@ -71,7 +74,7 @@
 					</p>
 				</div>
 
-				<div>
+				<div id="project_create">
 					<span class="icon fa-briefcase"></span>
 					<h3>프로젝트 생성</h3>
 					<p>
@@ -90,17 +93,19 @@
 			</div>
 
 			<footer>
-
 				<c:choose>
 					<c:when test="${empty loginInfo}">
-						<a href="member/toEmailView" class="button">Get Started</a>
-					</c:when>
 
-					<c:when test="${not empty loginInfo}">
-						<a href="member/logout" class="button">Logout</a>
+						<a class="button" id="login">login</a>
 
 					</c:when>
+					<c:otherwise>
+						<a class="button" id="logout">${loginInfo.name} logout</a>
+
+					</c:otherwise>
 				</c:choose>
+
+
 			</footer>
 		</div>
 	</section>
@@ -165,5 +170,23 @@
 	<script src="resources/js/util.js"></script>
 	<script src="resources/js/main.js"></script>
 
+	<script>
+		$("#project_create").on("click",function(){
+			location.href="project/project_create";
+		})
+		
+		$("#signUp").on("click",function(){
+			location.href="member/toEmailView";
+		})
+		
+		$("#login").on("click",function(){
+			location.href="member/toLoginView";
+		})
+		$("#logout").on("click",function(){
+			location.href="member/logout";
+		})
+		
+		
+	</script>
 </body>
 </html>

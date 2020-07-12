@@ -1,5 +1,7 @@
 package pcoop.backend.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import pcoop.backend.dto.MemberDTO;
+import pcoop.backend.dto.ProjectDTO;
 
 @Repository
 public class MemberDAO {
@@ -123,6 +126,20 @@ public class MemberDAO {
 	        return sqlSession.selectList("member.member_profile", user_id);
 	    }
 	    
+	  //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
+	    public List<ProjectDTO> getProjectList(int seq)throws Exception{
+	    	List<Integer> project_seq = mybatis.selectList("get_project_seq",seq);
+	    	if(project_seq.size()==0) {//속한 프로젝트가 없을 때 
+	    		List<Integer> templist = new ArrayList<>();
+	    		templist.add(0);
+	    		return mybatis.selectList("Member.get_projectList",templist);
+	    	}else {
+	    		return mybatis.selectList("Member.get_projectList",project_seq);
+	    	}
+	    	
+	    }
 	    
-
+	    public int modify(Map<String,Object>param)throws Exception{
+	    	return mybatis.update("Member.modify",param);
+	    }
 }

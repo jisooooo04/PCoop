@@ -130,8 +130,12 @@ h3{
 .fa-clock{
             float: left;
 }
+.fa-user-edit{
+		float:left
+}
 .dialog__content i{
 padding-right: 10px;
+margin-top:5px;
 }
  .dialog__footer {
      padding: 20px 55px 0 20px;
@@ -229,134 +233,7 @@ margin: 2px;
 
 
  /* 일정 삭제하기 modal */
- .deleteclearfix *:after {
-	 content: '';
-	 clear: both;
-	 display: table;
-}
-* {
-	 box-sizing: border-box;
-}
- .deletemodal {
-	 position: absolute;
-	 top: 0px;
-	 left: 35%;
-	 width: 40%;
-	 height: 40%;
-	 opacity: 1;
-	 transition: opacity 0.5s;
-	 animation: 1s hide infinite;
-	 animation-delay: 0.5s;
-	 z-index:100;
-}
- .deletemodal:target, .deletemodal.force {
-	 transform: translateY(100px);
-	 opacity: 1;
-	 animation: none;
-}
- .deletemodal:target .deleteview, .deletemodal.deleteforce .deleteview {
-	 transition: all 1s eas-in-out;
-	 transform: translateY(0px);
-}
- .deletemodal .deletebackground {
-	 position: absolute;
-	 width: 100%;
-	 height: 100%;
-	 position: absolute;
-	 left: 0px;
-	 top: 0px;
-	 opacity: 0.5;
-}
- .deletemodal .deleteview-container {
-	 padding: 20px;
-}
- .deletemodal .deleteview {
-	 transition: all 1s ease-in-out;
-	 transform: translateY(-100%);
-	 position: relative;
-	 margin: 50px auto;
-	 max-width: 600px;
-	 border: 2px solid #fff;
-	 border-radius: 2px;
-	 background: white;   
-}
- .deletemodal .deleteview .deletecontent {
-	 position: relative;
-	 padding: 10px;
-}
-.deletecontent>p{
-    font-family: 'Nunito', sans-serif;
-    margin-left: 60px;
-    font-weight: bold;
-    color: dimgray;
-}
- .deletemodal .deleteview .deleteheader {
-	 padding: 16px 10px;
-	 border-radius: 3px 3px 0px 0px;
-	 border-bottom: 2px solid #fff;
-     background-color: #7dc8c9;
-}
- .deletemodal .deleteview .deleteheader * {
-	 margin: 0px;
-}
- .deletemodal .deleteview .deleteheader a.deleteclose {
-	 position: absolute;
-	 right: 10px;
-	 top: -5px;
-	 text-decoration: none;
-	 color: #fff;
-	 transform: rotateZ(45deg);
-	 transform-style: preserve-3d;
-}
- .deletemodal .deleteview .deleteheader a.deleteclose:before {
-	 content: '+';
-	 font-size: 28px;
-}
- .deletemodal .deleteview .deleteheader a.deleteclose:hover {
-	 opacity: 0.5;
-}
-.deletefooter{
-    padding-left: 150px;            
-        }
- .deletefooter>a:nth-child(1){
-    font-family: 'Nunito', sans-serif;
-	 margin: 10px;
-	 padding: 10px 20px;
-	 border: 2px solid #fff;
-	 border-radius: 3px;
-	 background: fff;
-	 color: gray;
-	 font-size: 14px;
-	 font-weight: 600;
-	 text-decoration: none;
-	 display: inline-block;     
-}
-.deletefooter>a:nth-child(2){
-     font-family: 'Nunito', sans-serif;
-     margin: 10px;
-	 padding: 10px 20px;
-	 border: 2px solid #fff;
-	 border-radius: 3px;
-	 background: #7dc8c9;
-	 color: white;
-	 font-size: 14px;
-	 font-weight: 600;
-	 text-decoration: none;
-	 display: inline-block;    
-}
-
- .deletebutton:hover {
-     opacity: 70%;
-}
- .deletepull-right {
-	 float: right;
-	 margin-left: 0px;
-}
- @keyframes hide {
-	 0%, 100% {
-		 transform: translateY(-100%);
-	}
-}
+ 
  
  
 /* classes attached to <body> */

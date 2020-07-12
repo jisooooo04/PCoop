@@ -3,6 +3,7 @@ package pcoop.backend.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,12 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import pcoop.backend.dto.MemberDTO;
+import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.MemberService;
 
 @Controller  //컨트롤러 빈 선언
@@ -49,9 +53,6 @@ public class MemberController {
 	@RequestMapping( value = "auth" , method=RequestMethod.POST )
 	public ModelAndView mailSending(HttpServletRequest request, String e_mail, HttpServletResponse response_email) throws Exception {
 
-		
-		
-		
 		//입력 이메일 중복 체크
 		String tomail = request.getParameter("e_mail"); // 받는 사람 이메일
 		session.setAttribute("toemail", tomail); // 회원가입 페이지까지 갈 경우를 대비해 세션 저장
@@ -129,18 +130,25 @@ public class MemberController {
 	//이메일 인증 페이지 맵핑 메소드
 	@RequestMapping("toEmailView")
 	public String email() {
-		System.out.println("이메일 인증 페이지 맵핑 메소드");
-
+		System.out.println("이메일 인증 페이지로 이동");
 		return "member/email";
 	}
-	//이메일 인증 페이지 맵핑 메소드
+	//회원가입 페이지 맵핑 메소드
 	@RequestMapping("toSignup")
 	public String toSignup() {
-		System.out.println("회원가입 페이지 맵핑 메소드");
+		System.out.println("회원가입 페이지로 이동");
 
 		return "member/signupView";
 	}
-
+	
+	@RequestMapping("toLoginView")
+	public String toLogin() {
+		System.out.println("로그인 페이지로 이동");
+		return "member/login";
+	}
+	
+	
+	
 	//이메일로 받은 인증번호를 입력하고 전송 버튼을 누르면 맵핑되는 메소드.
 	//내가 입력한 인증번호와 메일로 입력한 인증번호가 맞는지 확인해서 맞으면 회원가입 페이지로 넘어가고,
 	//틀리면 다시 원래 페이지로 돌아오는 메소드
@@ -241,6 +249,8 @@ public class MemberController {
 		String ip_address = request.getRemoteAddr();
 
 		if(mdto != null) {
+			System.out.println(mdto.getName() +" : "+ mdto.getEmail());
+
 			this.session.setAttribute("loginInfo", mdto); // 로그인시 세션에 회원정보 저장
 			this.session.setAttribute("ip_address", ip_address);
 			return "redirect:/";
@@ -259,4 +269,31 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
+	@RequestMapping("gomypage")
+	public String gomypage (Model model)throws Exception{
+		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		int seq = mdto.getSeq();
+		List<ProjectDTO> projectlist = mservice.getProjectList(seq);
+		model.addAttribute("list", projectlist);
+		model.addAttribute("list_size", projectlist.size());
+		return "member/mypage";
+	}
+	
+	@ResponseBody
+	@RequestMapping("modify")
+	public String modify (String name ,String pw)throws Exception{
+		int seq = ((MemberDTO)session.getAttribute("loginInfo")).getSeq();
+		Map <String,Object> param = new HashMap<>();
+		pw=mservice.getSHA512(pw);
+    	param.put("name", name);
+    	param.put("pw", pw);
+    	param.put("seq", seq);
+		int result = mservice.modify(param);
+		
+		return result+"";
+	}
+	
+	
 }

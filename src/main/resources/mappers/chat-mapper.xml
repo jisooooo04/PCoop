@@ -4,8 +4,19 @@
 	
 	
 	<insert id="insert">
-		insert into chat values(chat_seq.nextval, #{project_seq}, #{chatting_seq}, #{writer}, #{chat}, #{full_date}, #{form_date}, #{time}, #{file_path})
+		insert into chat values(chat_seq.nextval, #{project_seq}, #{chatting_seq}, #{writer}, #{chat}, sysdate, #{form_date}, #{time}, #{file_path})
 	</insert>
 	
+	<select id="selectChatList" resultType="pcoop.backend.dto.ChatDTO">
+		select * from chat where full_date like ${value} order by time
+	</select>
+	
+	<select id="selectLastChat" resultType="pcoop.backend.dto.ChatDTO">
+		select * from chat where full_date like ${value} order by time desc
+	</select>
+	
+	<delete id="delete">
+		delete from chat where seq=#{value}
+	</delete>
 	
 </mapper>
