@@ -164,8 +164,9 @@
 			}).done(function(resp){
 				if(resp==1){
 					alert("참여 신청되었습니다."); 
-					$("#joinbtn").html("참가신청 완료");//색깔 흐릿하게주기
+					$("#joinbtn").html("참가신청 완료");
 					$("#joinbtn").attr("disabled",true);
+					$("#joinbtn").css("opacity","50%");
 				}
 				
 			})
