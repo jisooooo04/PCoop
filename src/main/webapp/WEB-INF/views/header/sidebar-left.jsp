@@ -66,6 +66,7 @@
             $("#leftnav").css("left", "0px");
             $("#mininav").css("display", "none");
             $('section').css("padding-left", "250px");
+            $(".back_btn").css("display", "block");
         })
         
         //사이드바 열렸을때 다시 닫기
@@ -73,12 +74,12 @@
             $("#leftnav").css("left", "-190px");
             $("#mininav").css("display", "block");
             $('section').css("padding-left", "60px");
+            $(".back_btn").css("display", "none");
         })
         
         
 
 		//각 jsp로 이동하는 코드
-
 		//채팅
 		$(document).on("click", ".c_list", function(){
 			var c_num = $(this).attr("id");
@@ -91,15 +92,21 @@
 
 		//백업
 		$(".menu-backup").on("click", function() {
-			//$("#container").load("backup .contents");
 			location.href = "backup";
+			//$("#container").load("backup .contents");
 			//$("#modals").load("backup .modals");
 			$(".root").trigger("click");
 		})
 
-		//to-do-list
+		//to-do리스트
 		$(".menu-todo").on("click", function() {
-			$("#container").load("/Task/task");
+			location.href = "";
+			//$("#container").load("/Task/task");
+		})
+		
+		//캘린더
+		$(".menu-calendar").on("click", function() {
+			location.href = "";
 		})
 
 	})
@@ -112,23 +119,23 @@
 			<img src="/resources/images/sidebar-left/home.png" class=navicon>
 			<a class=project_home>프로젝트 홈</a>
 		</div>
+		
 		<div class="navtitle menu-todo">
 			<img src="/resources/images/sidebar-left/todolist.png" class=navicon>
 			To-do List</a>
 		</div>
 		<div class="navcontents">
-			<div>프론트엔드</div>
-			<div>백엔드</div>
-			<div>아두이노</div>
+		
 		</div>
-		<div class="navtitle">
+		
+		<div class="navtitle menu-calendar">
 			<img src="/resources/images/sidebar-left/calendar.png" class=navicon>
 			캘린더
 		</div>
 		<div class="navcontents">
-			<div>세미 프로젝트</div>
-			<div>파이널 프로젝트</div>
+		
 		</div>
+		
 		<div class="navtitle menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon>
 			채팅

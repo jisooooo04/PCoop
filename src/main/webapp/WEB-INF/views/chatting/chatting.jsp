@@ -120,12 +120,9 @@
 					
 					
 					<div class=icon_box>
-						<img src=resources/images/chatting/smile.png
-							class="input_icon emoticon_icon"> <img
-							src=resources/images/chatting/file.png
-							class="input_icon file_icon"> <img
-							src=resources/images/chatting/code.png
-							class="input_icon code_icon" style="width: 22px; margin-top: 4px">
+						<img src=resources/images/chatting/smile.png class="input_icon emoticon_icon"> 
+						<img src=resources/images/chatting/attatch.png class="input_icon file_icon"> 
+						<img src=resources/images/chatting/code.png	class="input_icon code_icon" style="width: 22px; margin-top: 4px">
 					</div>
 					
 					
