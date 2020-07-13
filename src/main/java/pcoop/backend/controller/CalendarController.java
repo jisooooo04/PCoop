@@ -25,10 +25,11 @@ public class CalendarController {
 	
 	@RequestMapping("calendar")
 	public String Calendar(Model model,int project_seq)throws Exception {//list출력
-	
+
+		System.out.println("캘린더 불러오기");
+		
 		List<CalendarDTO> list = new ArrayList<>();
 		list = Cservice.selectAll(project_seq);
-		
 		JsonArray carr = new JsonArray();
 		
 		for(CalendarDTO c : list) {
@@ -48,6 +49,10 @@ public class CalendarController {
 	@RequestMapping("tempcalendar")
 	@ResponseBody
 	public String tempCalendar(Model model)throws Exception {//list출력
+
+		System.out.println("캘린더 불러오기 0번 프로젝트 값");
+		
+		
 		List<CalendarDTO> list = new ArrayList<>();
 		list = Cservice.selectAll(0);
 		

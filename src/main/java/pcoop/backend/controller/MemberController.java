@@ -79,7 +79,7 @@ public class MemberController {
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; //이메일로 받는 인증코드 부분 (난수)
 
-		String setfrom = "okeydoke2@naver.com";
+		String setfrom = "Pcoop";
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
 				System.getProperty("line.separator")+ //한줄씩 줄간격을 두기위해 작성
@@ -268,6 +268,12 @@ public class MemberController {
 	@RequestMapping("gomypage")
 	public String gomypage (Model model)throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		if(mdto == null) {
+			return "member/login";
+		}
+		//----------로그인하지 않고 마이페이지로 접근할 경우
+
+		
 		int seq = mdto.getSeq();
 		List<ProjectDTO> project_list = mservice.getProjectList(seq); //내가 속한 프로젝트들 
 		model.addAttribute("list", project_list);

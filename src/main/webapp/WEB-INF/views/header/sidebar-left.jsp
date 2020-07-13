@@ -13,15 +13,12 @@
 		<div class="navhome">
 			<img src="/resources/images/sidebar-left/home.png" class=navicon> <a class=project_home>프로젝트 홈</a>
 		</div>
-		<div class="navtitle menu-todo">
+		<div class="navtitle menu-todo" OnClick="location.href ='/Task/task'" style="cursor:pointer;">
 			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
 		</div>
-		<div class="navcontents" >
-			<div>프론트엔드</div>
-			<div>백엔드</div>
-			<div>아두이노</div>
-		</div>
-		<div class="navtitle menu-calendar">
+
+		<div class="navtitle">
+
 			<img src="/resources/images/sidebar-left/calendar.png" class=navicon> 캘린더
 		</div>
 		<div class="navcontents">
