@@ -295,7 +295,7 @@
 												</div>
 												<div>
 													<button>
-														<a href="../project-main?seq=${i.seq}">프로젝트 바로가기</a>
+														<a href="../goProjectHome?seq=${i.seq}">프로젝트 바로가기</a>
 													</button>
 													<button>
 														<a href="#" onclick="notice(${i.seq});return false;">프로젝트

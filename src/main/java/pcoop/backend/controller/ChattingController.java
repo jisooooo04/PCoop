@@ -157,7 +157,10 @@ public class ChattingController {
 		//위에서 지정한 경로가 없을 때 경로를 실제로 새로 만듬
 		File tempFilePath = new File(filepath);  //아래 코드를 사용하려면 File 객체를 생성해야됨
 		if(!tempFilePath.exists()) {
+			System.out.println("해당 경로가 존재하지 않음");
 			tempFilePath.mkdir();  //경로가 없다면 새로 만들어라
+		}else {
+			System.out.println("해당경로 존재함");
 		}
 		
 		//이후 내가 원하는 위치로 바꿈

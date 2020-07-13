@@ -6,7 +6,14 @@
 <meta charset="UTF-8">
 <title>PCOOP!</title>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<<<<<<< HEAD
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<jsp:include page="../header/cdn.jsp"></jsp:include>
+
+=======
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+>>>>>>> 133d0214812688b8b3a5bd8eee677941a5b165ab
 <style>
 * {
 	box-sizing: border-box;
@@ -155,12 +162,19 @@
 	border-radius:10px;
 }
 </style>
+
+
 </head>
 <body>
+	
+	<jsp:include page="../header/header.jsp"></jsp:include>
+	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
 
+
+	<section>
+		<div id="container" class="container-fluid">
 	<!-- 여기부터 각자 영역 설정 -->
 
-	<div id="container" class="container-fluid">
 
 		프로젝트 홈입니다.
 
@@ -184,7 +198,7 @@
 										<div>
 											<button>
 												<a
-													href="accept?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}">수락</a>
+													href="accept?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}&member_name=${i.member_name}">수락</a>
 											</button>
 											<button>
 												<a
@@ -224,10 +238,17 @@
 				<button class="inviteBtn"><i class="fas fa-paper-plane"></i>팀원 초대하기</button>
 			</div>
 		</div>
-	</div>
+
 	<!-- 여기까지 각자 영역 설정 -->
 
+			<!-- 본인영역 끝 -->
+		</div>
+	</section>
 	
+	
+	<script src="resources/js/backup/directory.js"></script>
+	
+
 	<script>
 	
 		$(function(){
