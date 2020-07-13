@@ -43,7 +43,9 @@ public class TaskController {
 	@RequestMapping("/task")
 	public String Task(Model model)throws Exception {
 		List<CalendarDTO> list = new ArrayList<>();
-		int project_seq=0;  // 캘린더 임시 시퀀스
+		//ProjectDTO pdto = (ProjectDTO)session.getAttribute("projectInfo");
+		//int project_seq=pdto.getSeq();
+		int project_seq=0; // 캘린더 임시 시퀀스 : 캘린더 일정 삽입이 프로젝트 시퀀스로 변경될 경우 해당 코드도 변경할 것
 		list = Cservice.selectAll(project_seq);
 		model.addAttribute("list", list);
 		return "Task/task";
@@ -409,7 +411,7 @@ public class TaskController {
 
 	@RequestMapping(value="TaskAjax",produces="application/json;charset=utf8")
 	@ResponseBody
-	public Object TaskAjax(HttpServletRequest request)  throws Exception {
+	public JsonObject TaskAjax(HttpServletRequest request)  throws Exception {
 		System.out.println("TaskAjax 도착 load");
 		//파라미터 이름 보기
 		Enumeration params = request.getParameterNames();
@@ -434,11 +436,9 @@ public class TaskController {
 		String TaskListArr = new Gson().toJson(TaskList);
 		System.out.println("TaskListArr : "+ TaskListArr);
 
-
 		JsonParser jParser = new JsonParser();
 		JsonArray jsonListArray = (JsonArray)jParser.parse(TaskListArr);
 		System.out.println("jsonListArray : "+jsonListArray);
-
 
 		JsonObject returnjson = new JsonObject();
 		returnjson.addProperty("onSingleLine", true); //설정값 넣기
@@ -451,8 +451,7 @@ public class TaskController {
 
 			String list_Id = ListObject.get("id").getAsString();
 			String listTitle = String.valueOf(ListObject.get("title"));// null 오브젝트에 getAsString() 을 사용하면 에러 발생, String.valueOf()를 사용할것
-
-			
+		
 			String defaultStyle = ListObject.get("defaultStyle").getAsString();
 			List<CardDTO> selectlist = lservice.selectCard(list_Id);
 			String CardArr = new Gson().toJson(selectlist);
@@ -472,13 +471,11 @@ public class TaskController {
 					item.addProperty("title", trim_title);  
 				}
 
-
 				String description = String.valueOf(CardObject.get("description"));
 				if(!description.contentEquals("null")) {
 					String trim_description = description.substring(1, description.length()-1); //쌍따옴표 제거
 					item.addProperty("description", trim_description);  
 				}
-
 
 				String dueDate = String.valueOf(CardObject.get("dueDate")); // null 오브젝트에 getAsString() 을 사용하면 에러 발생, String.valueOf()를 사용할것
 				if(!dueDate.contentEquals("null")) {
@@ -488,7 +485,6 @@ public class TaskController {
 				
 				String card_id = CardObject.get("id").getAsString();
 				item.addProperty("id", card_id ); 
-
 
 				String listId = CardObject.get("listId").getAsString();
 				item.addProperty("listId", listId ); 
@@ -500,7 +496,6 @@ public class TaskController {
 				}
 				item.addProperty("done", done ); 
 				//System.out.println("item에 done : "+ done);
-
 
 				items.add(item); // 각 아이템들을 items배열에 담기
 				//System.out.println("items에 item : "+ item);
@@ -528,7 +523,6 @@ public class TaskController {
 		}
 
 		returnjson.add("lists", lists);
-		
 		
 		System.out.println("returnjson : "+returnjson);
 

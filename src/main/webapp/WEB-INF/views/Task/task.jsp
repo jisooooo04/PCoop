@@ -62,8 +62,6 @@
 
 	<section id="box">
 
-
-
 		<div id="wrapper">
 
 
@@ -94,7 +92,7 @@
 			</div>
 			
 			<!--Actions by ajax		-->
-			<div id="actions-by-ajax"></div>
+			<div id="actions-by-ajax" class="u-fancy-scrollbar"></div>
 
 
 	

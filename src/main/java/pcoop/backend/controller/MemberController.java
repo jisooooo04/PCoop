@@ -268,6 +268,12 @@ public class MemberController {
 	@RequestMapping("gomypage")
 	public String gomypage (Model model)throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		if(mdto == null) {
+			return "member/login";
+		}
+		//----------로그인하지 않고 마이페이지로 접근할 경우
+
+		
 		int seq = mdto.getSeq();
 		List<ProjectDTO> project_list = mservice.getProjectList(seq); //내가 속한 프로젝트들 
 		model.addAttribute("list", project_list);
