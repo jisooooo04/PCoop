@@ -33,6 +33,13 @@ $(document).on("contextmenu", ".file", function(event){
 	var left = position.left + 15;
 	var top = position.top + 90;
 	
+	var file_yn = $("#" + id).attr("class").substring(5);
+	
+	if(file_yn == 'text_n')
+		$(".menu_preview_file").css("display", "none");
+	
+	else $(".menu_preview_file").css("display", "block");
+	
 	$(".menu_preview_file").attr("id", id);
 	$(".menu_download_file").attr("id", id);
 	
@@ -90,14 +97,15 @@ $(document).on("click", "#uploadSubmit", function(event){
 			for(var i = 0 ; i < files.length ; i++){
 				
 				var id = "f" + files[i].seq;
-				$(".files").append("<div class=file id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-								
+				
 				if(files[i].text_yn == "Y"){
-					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
-					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
+					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
 				}
-				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
-				$("#" + id).append("<button class=deleteFile id=del_" + id + " type=button>삭제</button>");
+				
+				else 
+					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+
+				
 			}
 			
 
@@ -127,7 +135,6 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 	var form = document.uploadZipForm;
 	form.dir_seq.value = dir_seq;
 
-	
 	// 확장자 체크(.zip 파일만)
 	var name = form.zip.value;
 	extension = name.substring(name.lastIndexOf('.'));
@@ -169,15 +176,12 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 })
 
 
-$(document).on("click", ".readFile", function(){
+$(document).on("click", ".menu_preview_file", function(){
 	
-	var id = this.id.substring(5);
-	$("#read_" + id).hide();
-	$("#close_" + id).show();
-	$(".file-contents").css('display', 'block');
-
+	var id = this.id;
+	var seq = this.id.substring(1);
 	
-	var seq = this.id.substring(6);
+	$(".modal_preview").modal();
 	var pre_extension = $(".file-contents").attr("class").substring("file-contents hljs ".length);
 
 	var data = {
