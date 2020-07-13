@@ -13,8 +13,35 @@
 	margin-top: 10px;
 }
 /* member info 부분 */
+.memInfoTitle {
+	border: 2px solid #5f83ba;
+	margin-top: 37px;
+	/* margin-bottom: 30px; */
+	 margin-bottom: 10px;
+	font-size: 30px;
+	background-color: #5f83ba;
+	color: white;
+	text-align: center;
+}
+
+.fa-id-card {
+	margin-right: 10px;
+}
+
+.memInfo {
+	/* border: 0.5px solid #5f83ba; */
+	padding: 10px;
+}
+
+.memInfo>div {
+	font-size: 20px;
+	margin: 10px;
+	text-align: center;
+	color: dimgray;
+}
+
 .btns>button {
-	outline:none;
+	outline: none;
 	margin: 8px;
 	width: 70px;
 	height: 30px;
@@ -23,6 +50,7 @@
 	border-radius: 10px;
 	font-family: 'Noto Sans KR', sans-serif;
 	color: dimgray;
+	line-height: 10px;
 }
 
 .btns>button:hover {
@@ -32,7 +60,7 @@
 }
 
 .modifymodal {
-	padding-top:30px;
+	padding-top: 30px;
 	top: 100%;
 	position: fixed;
 	background: #fff;
@@ -45,7 +73,7 @@
 }
 
 .deletemodal {
-	padding:30px;
+	padding: 30px;
 	top: 100%;
 	position: fixed;
 	background: #fff;
@@ -54,12 +82,13 @@
 	transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
 	margin: 0;
 	font-family: 'Noto Sans KR', sans-serif;
-	/* background-image:url("/resources/images/mypage/Colors Of Sky.jpg");  */
 	background-color: #fffefc;
 }
+
 .deletemodal i {
-	color:#fcd703;
+	color: #fcd703;
 }
+
 .modal-open {
 	top: 0;
 }
@@ -72,26 +101,20 @@
 	padding: 20px;
 	width: 400px;
 	margin-bottom: 10px;
-	border: 3px solid #5f83ba;
-	border-radius: 15px;
-	font-weight: 600;
+	border: 0.5px solid #5f83ba;
 	color: dimgrey;
-	border-radius: 15px;
-	font-weight: 600;
-	font-weight: 600;
 }
 
 .head {
 	width: 400px;
-	border-radius: 15px;
 	background-color: #5f83ba;
 	font-family: 'Noto Sans KR', sans-serif;
 	font-size: 30px;
 	text-align: center;
-	font-weight: bolder;
 	color: white;
 	margin-bottom: 30px;
 	margin-top: 30px;
+	padding:2px;
 }
 
 .fa-list-ul {
@@ -104,6 +127,7 @@
 	border-radius: 10px;
 	border: none;
 	padding: 6px;
+	outline:none;
 }
 
 .box a {
@@ -119,9 +143,9 @@
 	margin-right: 5px;
 }
 
-.fa-star {
+.fa-crown {
 	margin-right: 5px;
-	color: yellowgreen;
+	color: #f5db33;
 }
 /* 프로젝트 나가기 모달  */
 .exitProjectBox {
@@ -159,6 +183,7 @@
 	border: 0.5px solid #32a6f0;
 	background-color: white;
 	color: #32a6f0;
+	outline:none;
 }
 
 .openModal {
@@ -199,40 +224,46 @@
 				<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 정보-->
 
 				<div class="col-4-sm">
-					<div class="row p-1">
-						<div class="col-12"></div>
+					<div class="memInfoTitle">
+						<i class="far fa-id-card"></i>회원 정보
 					</div>
-					<div class="row">
-
-						<div class="col-4">e-mail</div>
-						<div class="col-5">${loginInfo.email}</div>
-						<div class="col-3"></div>
-					</div>
-					<div class="row">
-
-						<div class="col-4">name</div>
-						<div class="col-5">${loginInfo.name}</div>
-						<div class="col-3"></div>
-					</div>
-					<div class="row">
-						<div class="col-4">password</div>
-						<div class="col-5">
-							<input type="password" readonly value="${loginInfo.pw}">
+					<div class="memInfo">
+						<div class="row p-1">
+							<div class="col-12"></div>
 						</div>
-						<div class="col-3"></div>
-					</div>
-					<div class="row">
-						<div class="col-2"></div>
-						<div class="col-8 btns">
-							<button id="modifybtn">수정</button>
-							<button id="deletebtn">탈퇴</button>
+						<div class="row">
+
+							<div class="col-4">e-mail</div>
+							<div class="col-5">${loginInfo.email}</div>
+							<div class="col-3"></div>
 						</div>
-						<div class="col-2"></div>
+						<div class="row">
+
+							<div class="col-4">name</div>
+							<div class="col-5">${loginInfo.name}</div>
+							<div class="col-3"></div>
+						</div>
+						<div class="row">
+							<div class="col-4">password</div>
+							<div class="col-5">
+								<input type="password" readonly value="${loginInfo.pw}">
+							</div>
+							<div class="col-3"></div>
+						</div>
+						<div class="row">
+							<div class="col-2"></div>
+							<div class="col-8 btns">
+								<button id="modifybtn">수정</button>
+								<button id="deletebtn">탈퇴</button>
+							</div>
+							<div class="col-2"></div>
+						</div>
+
 					</div>
 
 				</div>
 				<!-- ㅡㅡㅡ프로젝트 리스트  -->
-				<div class="col-sm-2"></div>
+				<div class="col-sm-1"></div>
 				<div class="col-sm-6">
 					<div class="row">
 						<c:choose>
@@ -246,14 +277,14 @@
 								<div class="col-sm-12">
 									<div class="wrapper">
 										<div class="head">
-											<i class="fas fa-list-ul"></i>PROJECT LIST
+											<i class="fas fa-list-ul"></i>프로젝트
 										</div>
 										<c:forEach var="i" items="${list}">
 											<div class="box">
 												<c:choose>
 													<c:when test='${i.leader_seq==loginInfo.seq}'>
 														<div>
-															<i class="fas fa-star fa-lg"></i>팀장
+															<i class="fas fa-crown"></i>팀장
 														</div>
 													</c:when>
 												</c:choose>
@@ -298,7 +329,7 @@
 
 	<!-- 수정하기  -->
 	<div class="row modifymodal">
-	<div class="col-sm-2"></div>
+		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 
 			<div class="row">

@@ -21,7 +21,7 @@
 	margin: auto;
 	padding: 10px;
 	border-radius: 10px;
-	border: 2px solid #5f83ba;
+/* 	border: 2px solid #5f83ba; */
 }
 
 .joinRequest>div {
@@ -89,10 +89,12 @@
 }
 
 .member>span {
-	border: 1px solid #5f83ba;
-	border-radius: 10px;
-	color: #4d70a8;
-	background-color:white;
+   	border: 1px solid #5f83ba;
+    border-radius: 10px;
+    color: #4d70a8;
+    background-color: white;
+    line-height: 15px;
+    font-size: 15px;
 }
 
 .person {
@@ -110,6 +112,7 @@
 }
 
 .invite>button {
+	outline:none;
 	font-family: 'Noto Sans KR', sans-serif;
 	width: 305px;
 	height: 60px;
@@ -120,9 +123,36 @@
 	font-size: 30px;
 	color: white;
 }
+.invite>button:hover{
+	background-color:white;
+	color:#7dc8c9;
+	border:1px solid #7dc8c9;
+	border-radius:15px;
+}
+.invite>button:hover>.fa-paper-plane{
+	color:#7dc8c9;
+}
 .fa-paper-plane{
 	color:white;
 	margin-right:15px;
+}
+/* 멤버 삭제하기 (강퇴) 버튼 */
+.memdel{
+	width: 60px;
+    height: 30px;
+    border: none;
+    background: #7dc8c9;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+    margin-left: 10px;
+    outline:none;
+}
+.memdel:hover{
+	background-color:white;
+	color:#7dc8c9;
+	border:1px solid #7dc8c9;
+	border-radius:10px;
 }
 </style>
 </head>
@@ -176,9 +206,9 @@
 						final project<span>B8v08f</span>
 					</div>
 					<div class="memberBox">
-						<c:forEach var="i" items="${member_list}">
-						<div class="member">
-						${i.member_name}
+						<c:forEach var="i" items="${member_list}" varStatus="status">
+						<div class="member m${status.count}" id='${i.seq}'>
+						${i.member_name} ${i.member_email}
 					</div>
 					</c:forEach>
 					</div>
@@ -202,7 +232,16 @@
 	
 		$(function(){
 			$(".memberBox>div:nth-child(1)").append("<span class='badge'>생성자</span>");
-			/* $(".member").append("<button>삭제</button>"); */
+			
+			for(var i=0;i<${fn:length(member_list)};i++){
+				$(".m"+(i+2)).append("<button class='memdel'>삭제</button>");
+			}
+			
+			$(".memdel").on("click",function(){
+				var project_mem_seq = $(".memdel").closest("div").attr('id');
+				alert(project_mem_seq);
+			})
+			
 		})
 		$(".inviteBtn").on("click",function(){
 			location.href="ProjectInvite?code=${projectInfo.code}&title=${projectInfo.name}";

@@ -172,7 +172,7 @@ public class ProjectController {
 		 model.addAttribute("seq", project_seq);
 		 
 		 //멤버 추가시, 단체 채팅방에도 멤버 추가(+기존 인원수 변경)
-		 result = cservice.insertMainMember(project_seq, mem_seq, member_name);
+		// result = cservice.insertMainMember(project_seq, mem_seq, member_name);
 		 
 		 return "redirect:goProjectHome";
 	  }
