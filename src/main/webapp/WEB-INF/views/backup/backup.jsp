@@ -5,6 +5,10 @@
 
 	<div class="backup-path"></div>
 	<div class="backup-btns">
+		<div class="menu_back_dir">
+			<i class="fas fa-arrow-circle-left"></i>
+			<button type=button class=btn_back_dir>뒤로가기</button>
+		</div>
 		<div class="menu_add_dir">
 			<i class="fas fa-plus-circle"></i>
 			<button type=button class=btn_add_dir>ADD DIRECTORY</button>
@@ -45,7 +49,7 @@
 
 	<ul class="file_context">
 		<li class="menu_preview_file"><a href="#">미리 보기</a></li>
-		<li class="menu_download_zip"><a href="#">DOWNLOAD</a></li>
+		<li class="menu_delete_file"><a href="#">삭제</a></li>
 	</ul>
 
 	<div class="add_dir">

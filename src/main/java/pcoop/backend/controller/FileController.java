@@ -71,6 +71,14 @@ public class FileController {
 
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		return "backup/fileList";
+		
+	}
+	
+	@RequestMapping("getParentDirSeq")
+	@ResponseBody
+	public String getParentDirSeq(int dir_seq) {
+		int back_dir_seq = fservice.getParentSeqBySeq(dir_seq);
+		return Integer.toString(back_dir_seq);
 	}
 
 	@RequestMapping(value = "getDirAndFileList", produces = "application/text; charset=utf8")
