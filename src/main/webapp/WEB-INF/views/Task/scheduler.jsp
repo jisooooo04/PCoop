@@ -10,8 +10,6 @@
 <title>Insert title here</title>
 
 
-<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
-<script src='/resources/js/calendar/calendar.js'></script>
 
 </head>
 <body>

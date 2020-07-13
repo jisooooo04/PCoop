@@ -119,14 +119,15 @@
 			<img src="/resources/images/sidebar-left/home.png" class=navicon>
 			<a class=project_home>프로젝트 홈</a>
 		</div>
-		
-		<div class="navtitle menu-todo">
-			<img src="/resources/images/sidebar-left/todolist.png" class=navicon>
-			To-do List</a>
+
+		<div class="navtitle menu-todo" OnClick="location.href ='/Task/task'" style="cursor:pointer;">
+			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
 		</div>
 		<div class="navcontents">
-		
+
 		</div>
+		
+		
 		
 		<div class="navtitle menu-calendar">
 			<img src="/resources/images/sidebar-left/calendar.png" class=navicon>
@@ -136,11 +137,15 @@
 		
 		</div>
 		
+		
 		<div class="navtitle menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon>
 			채팅
 		</div>
-		<div class="navcontents chattingList"></div>
+		<div class="navcontents chattingList">
+		</div>
+		
+		
 		<div class="navtitle menu-backup">
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon>
 			백업

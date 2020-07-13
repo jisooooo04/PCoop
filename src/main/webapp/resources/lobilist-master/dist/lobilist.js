@@ -6,7 +6,7 @@
  * @version 1.0.0
  * @licence MIT
  */
-$(function () {
+$(function () { 
 
 	var StorageLocal = function () {
 		var STORAGE_KEY = 'lobilist';
@@ -1961,4 +1961,4 @@ console.log("지우고 나서");
 			 */
 			titleChange: null
 	};
-});
+}); 

@@ -72,8 +72,8 @@ public class ProjectDAO {
 		 return mybatis.delete("project.exitProject", param);
 	 }
 	 
-	 public int deleteProject(int project_seq)throws Exception{
-		 return mybatis.delete("project.deleteProject", project_seq);
+	 public int deleteProject(Map<String,Integer>param)throws Exception{
+		 return mybatis.delete("project.deleteProject", param);
 	 }
 	 
 	 public String checkLeaderYN(Map<String,Integer>param)throws Exception{
@@ -92,4 +92,7 @@ public class ProjectDAO {
 		 return mybatis.update("project.updateProjectLeader", param);
 	 }
 	 
+	 public List<ProjectMemberDTO> getMemberList(int project_seq)throws Exception{
+		 return mybatis.selectList("project.getMemberList", project_seq);
+	 }
 }
