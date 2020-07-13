@@ -8,17 +8,7 @@
 <meta charset="UTF-8">
 <jsp:include page="header/cdn.jsp"></jsp:include>
 
-<!-- Lobi List Default installation-->
-<link rel="stylesheet"
-	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
-<link rel="stylesheet"
-	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet"
-	href="/resources/lobilist-master/dist/lobilist.min.css">
-<link rel="stylesheet"
-	href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
-<link rel="stylesheet"
-	href="/resources/lobilist-master/lib/highlight/github.css">
+
 	
 
 
@@ -98,9 +88,6 @@ $(function() {
 		})
 		
 		
-		$(".menu-todo").on("click", function(){
-			$("#container").load("/Task/task");
-		})
 		
 	})
 </script>

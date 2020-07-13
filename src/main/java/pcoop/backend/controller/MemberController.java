@@ -79,7 +79,7 @@ public class MemberController {
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; //이메일로 받는 인증코드 부분 (난수)
 
-		String setfrom = "okeydoke2@naver.com";
+		String setfrom = "Pcoop";
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
 				System.getProperty("line.separator")+ //한줄씩 줄간격을 두기위해 작성

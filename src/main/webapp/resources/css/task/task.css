@@ -18,6 +18,8 @@ body {
 #todoListBox {
 	margin: 10px;
 	overflow: hidden;
+	width: 100%;
+	height: 100%;
 }
 
 
@@ -27,10 +29,6 @@ body {
 	margin: 0 auto;
 }
 
-#todoListBox {
-	width: 100%;
-	height: 100%;
-}
 
 #calendarBox {
 	margin-top: 100px;
@@ -41,7 +39,7 @@ body {
 
 #actions-by-ajax {
 
-	height: 100%;
+	height: 90%;
 	overflow-y: hidden;
 }
 #progress{
