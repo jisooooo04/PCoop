@@ -190,8 +190,9 @@ public class TaskController {
 			System.out.println(name + " : " +request.getParameter(name));
 		}
 		System.out.println("----------------------------");
-
-
+if(request.getParameter("id").contentEquals("NaN")) {
+System.out.println("도움말 리스트 화면에서 삭제");
+}else{
 		Map<String, Object> param = new HashMap<>();
 		param.put("listId", request.getParameter("id")); 
 
@@ -206,7 +207,7 @@ public class TaskController {
 		if(result2>0) {
 			System.out.println("해당 리스트 삭제");
 		}
-
+}
 	}
 
 

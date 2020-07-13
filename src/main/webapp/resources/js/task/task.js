@@ -1,9 +1,13 @@
 /**
- * 
+ * 로비리스트 기본설치 명령어 모아두기 
+ * <script
+		src="/resources/lobilist-master/dist/lobilist.js?v=<%=System.currentTimeMillis()%>"></script>
+	
  */
 
 
 $(function() {
+
 
 
 
@@ -138,3 +142,5 @@ $( "#toggle_btn" ).click(function() {
 	$("#toggle_i").toggleClass("glyphicon-arrow-up");
 
 });
+
+

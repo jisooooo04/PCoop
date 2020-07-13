@@ -54,6 +54,7 @@
 
 
 
+
 	<!-- Header -->
 	<jsp:include page="../header/header.jsp"></jsp:include>
 	<!-- 왼쪽 사이드바 -->
@@ -112,14 +113,21 @@
 
 
 
+
+
+	<!-- 주간 스케쥴러 관련 모달 -->
+	<jsp:include page="modal.jsp" />
+
+
 	<!-- Lobi List Default installation-->
 	<script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
 	<script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
 
 	<script
 		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
-	<script
-		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>
+	<!--<script
+		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>-->
+	<script src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>
 
 	<script
 		src="/resources/lobilist-master/dist/lobilist.js?v=<%=System.currentTimeMillis()%>"></script>
