@@ -1,11 +1,13 @@
 @charset "UTF-8";
-@import "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600";
+
+@import
+	"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600";
+
 * {
-		font-size: 100%;
-		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
-			box-sizing: border-box;
-		
-	}
+	font-size: 100%;
+	font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+	box-sizing: border-box;
+}
 /* 왼쪽 네비바 설정 */
 #leftnav {
 	position: fixed;
@@ -35,7 +37,7 @@
 	font-weight: 600;
 }
 
-.project_home, .navtitle:hover {
+.project_home, .navtitle, .navicon:hover {
 	cursor: pointer;
 }
 
@@ -54,7 +56,7 @@
 	padding-right: 5px;
 }
 
-.side_chatting_list{
+.side_chatting_list {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
@@ -62,5 +64,50 @@
 .logon {
 	color: limegreen;
 } /* 채팅 온라인 초록불 */
+.c_list:hover {
+	cursor: porinter
+}
 
-.c_list:hover{cursor:porinter}
+
+
+/* 미니 네비 */
+#mininav {
+	position: fixed;
+	padding-top: 50px;
+	width: 60px;
+	height: 100%;
+	border-right: 1px solid lightgray;
+	background-color: #fafafa;
+	z-index: 15;
+	display: none;
+}
+
+.back_btn {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	bottom: 15px;
+	left: 195px;
+	display: none;
+}
+
+.back_btn:hover {
+	cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+	#leftnav {
+		left: -190px;
+	}
+	#mininav {
+		display: block;
+	}
+
+	/* 메인 섹션 */
+	section {
+		padding-left: 60px;
+	}
+	.back_btn {
+		display: block;
+	}
+}

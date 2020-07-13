@@ -5,9 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>PCOOP!</title>
-<jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<jsp:include page="../header/cdn.jsp"></jsp:include>
+
 <style>
 	.wrapper{
             margin: auto;
@@ -46,11 +48,19 @@
             color: #5f83ba;
         }
 </style>
+
+
 </head>
 <body>
+	
+	<jsp:include page="../header/header.jsp"></jsp:include>
+	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
+
+	<section>
+		<div id="container">
+			<!-- 본인영역 추가 -->
 
 			<!-- 여기부터 각자 영역 설정 -->
-
 			<div class="wrapper">
 
 			프로젝트 홈입니다.
@@ -62,10 +72,15 @@
 							<c:otherwise>
 								<div> <span class="badge badge-primary">New</span>${fn:length(list)}개의 프로젝트 참여 요청이 있습니다.</div>
 								<c:forEach var ="i" items="${list}">
-									 <div><i class="fas fa-user"></i>${i.member_name}/${i.member_email}님</div>
-									<div><button>
-										<a href="accept?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}&member_name=${i.member_name}">수락</a>
-									</button><button><a href="refuse?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}">거절</a></button></div>
+									<div><i class="fas fa-user"></i>${i.member_name}/${i.member_email}님</div>
+									<div>
+										<button>
+											<a href="accept?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}&member_name=${i.member_name}">수락</a>
+										</button>
+										<button>
+											<a href="refuse?mem_seq=${i.member_seq}&project_seq=${projectInfo.seq}">거절</a>
+										</button>
+									</div>
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>
@@ -75,9 +90,12 @@
 				</div>
 			<!-- 여기까지 각자 영역 설정 -->
 
+			<!-- 본인영역 끝 -->
+		</div>
+	</section>
 	
-	<script>
-		
-	</script>
+	
+	<script src="resources/js/backup/directory.js"></script>
+	
 </body>
 </html>
