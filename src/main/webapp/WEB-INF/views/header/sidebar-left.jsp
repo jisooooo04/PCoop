@@ -9,7 +9,7 @@
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <script>
 	$(function() {
-		
+				
 		var root_name = '${projectInfo.name}';
 		
 		$.ajax({
@@ -23,14 +23,16 @@
 			
 				//var root_seq = data.root_seq;
 				
-				$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
-
+				$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b><a href=backup?dir_seq=" +
+						root_seq + ">"+ root_name + "</a></b></ul>");
+				
 				// 디렉토리 가지고 오기
 				var dirlist = JSON.parse(response.dirlist);
 				for (var i = 0; i < dirlist.length; i++) {
 					var name = dirlist[i].name;
 					var parent = ".root";
-					$(parent).append("<li class=dir id=dir" + dirlist[i].seq + ">" + name + "</li>");
+					$(parent).append("<li id=dir" + dirlist[i].seq
+							+ "><a href=backup?dir_seq=" + dirlist[i].seq + ">"+ name + "</a></li>");
 				}
 
 				//채팅 목록 list 불러와서 왼쪽 사이드바에 뿌려주기
@@ -88,14 +90,6 @@
 		
 		$(document).on("click", ".minichat", function(){
 			location.href = "chatting?c_num=" + mainChatting;
-		})
-
-		//백업
-		$(".menu-backup").on("click", function() {
-			location.href = "backup";
-			//$("#container").load("backup .contents");
-			//$("#modals").load("backup .modals");
-			$(".root").trigger("click");
 		})
 
 		//to-do리스트

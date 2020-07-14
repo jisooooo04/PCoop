@@ -211,8 +211,6 @@ public class ProjectController {
 	}
 
 
-
-
 	
 	// 왼쪽 사이드바에 뿌리는거 에이작스
 	@ResponseBody
@@ -282,7 +280,6 @@ public class ProjectController {
 		  return result+""; //참여 신청 보내기 
 	  }
 	 
-	  
 	  
 	  @RequestMapping("accept")
 	  public String accept(int mem_seq,int project_seq,String member_name,Model model)throws Exception{//참가 수락

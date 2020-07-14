@@ -22,12 +22,18 @@ function printDirList(dirlist){
 
 function getDirAndFileList(dir_seq){
 	
-	var root_seq = $(".root").attr("id").substring(3);
+	var id = "dir" + dir_seq;
+	
+	$(".menu_upload_file").attr("id", id);
+	$(".menu_upload_zip").attr("id", id);
+	$(".menu_add_dir").attr("id", id);
+	$(".menu_delete_dir").attr("id", id);
+	$(".menu_back_dir").attr("id", id);
+	$(".menu_rename_dir").attr("id", id);
 
-
-	if(root_seq == dir_seq)
-		$(".menu_back_dir").hide();
-	else $(".menu_back_dir").show();
+	$(".btn_add_dir").attr("id", id);
+	$(".btn_back_dir").attr("id", id);
+	$(".btn_upload").attr("id", id);
 	
 	var data = {
 			dir_seq: dir_seq
@@ -44,7 +50,11 @@ function getDirAndFileList(dir_seq){
 
 			var data = JSON.parse(data);
 			var path = data.path;
-
+			var root_seq = data.root_seq;
+			
+			if(root_seq == dir_seq)
+				$(".menu_back_dir").hide();
+			else $(".menu_back_dir").show();
 
 			path = path.substring(path.indexOf('_') + 1, path.length);
 			path = path.replace(/\//g, "　<i class='fas fa-chevron-right'></i>　")
@@ -77,6 +87,8 @@ function getDirAndFileList(dir_seq){
 		}
 	});
 }
+
+
 //디렉토리 - 클릭 - 디렉토리 내 파일 리스트
 $(document).on("click", ".dir", function(event){
 
@@ -343,7 +355,7 @@ $(document).on("click", ".menu_rename_dir", function(event){
 	var id = this.id;
 	var left = $(".dirs>#" + id).offset().left;
 	var top = $(".dirs>#" + id).offset().top + 70;
-	var dir_name = $("#" + id + ".dir").text();
+	var dir_name = $("#" + id + ".dir").tekRdxt();
 
 	console.log(dir_name);
 	$("#dir_rename").val(dir_name);

@@ -130,11 +130,11 @@ public class MemberController {
 		System.out.println("이메일 인증 페이지로 이동");
 		return "member/email";
 	}
+	
 	//회원가입 페이지 맵핑 메소드
 	@RequestMapping("toSignup")
 	public String toSignup() {
 		System.out.println("회원가입 페이지로 이동");
-
 		return "member/signupView";
 	}
 	
