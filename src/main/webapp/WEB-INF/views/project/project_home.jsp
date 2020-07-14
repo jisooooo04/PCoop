@@ -154,6 +154,14 @@
 	border:1px solid #7dc8c9;
 	border-radius:10px;
 }
+.proejctFooter{
+	border:1px solid red;
+}
+.proejctFooter>img{
+	max-width:100%;
+	height:auto;
+	overflow:auto;
+}
 </style>
 </head>
 <body>
@@ -223,6 +231,12 @@
 			<div class="invite">
 				<button class="inviteBtn"><i class="fas fa-paper-plane"></i>팀원 초대하기</button>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 proejctFooter">
+				<img src="/resources/images/project/projectHomeFooter.png">
+			</div>
+				
 		</div>
 	</div>
 	<!-- 여기까지 각자 영역 설정 -->
