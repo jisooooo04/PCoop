@@ -11,13 +11,14 @@ body {overflow-y: hidden; overflow-x: hidden;}
 	width: 80%;
 	position: fixed;
 	z-index: 100;
-	bottom: 45px;
-	background-color: rgba(255, 255, 255, 0.9);
+	bottom: 20px;
+	background-color: rgba(255, 255, 255, 0.1);
 
 }
 
 #todoListBox {
-	margin: 10px 0px 0px 10px;
+	padding-top: 10px;
+	padding-left: 10px;
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
@@ -38,7 +39,7 @@ body {overflow-y: hidden; overflow-x: hidden;}
 }
 
 #actions-by-ajax {
-	height: 95%;
+	height: 99%;
 	overflow-y: hidden;
 }
 
@@ -73,13 +74,13 @@ body {overflow-y: hidden; overflow-x: hidden;}
 /*스크롤 버튼 숨기기*/
 .u-fancy-scrollbar::-webkit-scrollbar-button {
     display: block;
-    height: 4px;
-    width: 4px;
+    height: 0px;
+    width: 0px;
 }
 .lobilist::-webkit-scrollbar-button {
     display: block;
-    height: 4px;
-    width: 4px;
+    height: 0px;
+    width: 0px;
 }
 
 /*스크롤 트랙 회색으로*/
