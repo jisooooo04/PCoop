@@ -6,14 +6,12 @@
 <meta charset="UTF-8">
 <title>PCOOP!</title>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<<<<<<< HEAD
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 
-=======
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
->>>>>>> 133d0214812688b8b3a5bd8eee677941a5b165ab
+
 <style>
 * {
 	box-sizing: border-box;

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../header/cdn.jsp"></jsp:include>
+ 
 <script>
 	$(function() {
 		
@@ -99,10 +99,10 @@
 		})
 
 		//to-do리스트
-		$(".menu-todo").on("click", function() {
-			location.href = "";
+		//$(".menu-todo").on("click", function() {
+
 			//$("#container").load("/Task/task");
-		})
+		//})
 		
 		//캘린더
 		$(".menu-calendar").on("click", function() {
@@ -175,6 +175,7 @@
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon>
 		</div>
 	</nav>
+
 
 </body>
 </html>
