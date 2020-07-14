@@ -336,24 +336,30 @@ $(document).on("click", "#dir_name", function(event){
 })
 
 //디렉토리 이름 변경 버튼 - 입력 창
-$(document).on("click", ".menu_rename_dir", function(){
+$(document).on("click", ".menu_rename_dir", function(event){
+
+	event.stopPropagation();
 
 	var id = this.id;
 	var left = $(".dirs>#" + id).offset().left;
 	var top = $(".dirs>#" + id).offset().top + 70;
-	var dir_name = $("#" + id).text();
+	var dir_name = $("#" + id + ".dir").text();
 
+	console.log(dir_name);
 	$("#dir_rename").val(dir_name);
+	
 	$(".rename_dir").css({
 		"left": left,
 		"top": top
-	}).show();
+	});
+	
 
 	$(".contextmenu").hide();
 	$(".contextmenu_container").hide();
 	$(".add_dir").hide();
 	$(".upload_context").hide();
 
+	$(".rename_dir").css("display", "block");
 
 })
 

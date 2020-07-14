@@ -115,8 +115,7 @@ public class FileController {
 		data.addProperty("path", path);
 		data.addProperty("dirArr", new Gson().toJson(dirArr));
 		data.addProperty("fileArr", new Gson().toJson(fileArr));
-		System.out.println(dirArr);
-		System.out.println(fileArr);
+
 
 		return new Gson().toJson(data);
 	}
