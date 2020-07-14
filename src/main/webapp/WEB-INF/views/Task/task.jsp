@@ -22,7 +22,7 @@
 	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
 <link rel="stylesheet"
 	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
-<!-- lib/bootstrap/css/bootstrap.min.css 폰트 축소 원인-->
+<!-- lib/bootstrap/css/bootstrap.min.css 폰트 축소 원인 body의 font-size:16px로 고정-->
 <link rel="stylesheet"
 	href="/resources/lobilist-master/dist/lobilist.min.css">
 <link rel="stylesheet"
