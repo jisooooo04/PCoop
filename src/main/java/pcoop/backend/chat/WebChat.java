@@ -88,6 +88,7 @@ public class WebChat {
 			        	 
 			        	 //파일인지 텍스트인지 구분
 			        	 String text = "";
+			        	 String file_date_form = "";
 			        	 int nextFileSeq = 0;
 			        	 
 			        	 if(jsonObj.containsKey("file")) {
@@ -103,6 +104,7 @@ public class WebChat {
 			        		 String filepath = (String)jsonObj.get("filepath");
 			        		 String target = (String)jsonObj.get("target");
 			        		 String extension = (String)jsonObj.get("extension");
+			        		 file_date_form = (String)jsonObj.get("file_date_form");
 			        		 
 			        		 
 			        		 //이미지 일때 이미지로 보여주기

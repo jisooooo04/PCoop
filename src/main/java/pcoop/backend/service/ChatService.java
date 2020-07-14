@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import pcoop.backend.dao.ChatDAO;
 import pcoop.backend.dto.ChatDTO;
+import pcoop.backend.dto.ChattingDTO;
 
 @Service
 public class ChatService {
@@ -46,8 +47,8 @@ public class ChatService {
 	}
 	
 	
-	
-	//-----------------채팅으로 파일 보낼때
-	
+	public List<ChatDTO> selectFileList(int chatting_num) {
+		return cdao.selectFileList(chatting_num);
+	}
 	
 }

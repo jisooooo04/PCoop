@@ -104,6 +104,12 @@ public class ChattingController {
 		model.addAttribute("yesterdayChat", yesterdayChat);
 		
 		
+		//파일리스트 불러오기
+		List<ChatDTO> fileList = cservice.selectFileList(chatting_num);
+		model.addAttribute("fileList", fileList);
+		System.out.println("full_date : " + fileList.get(0).getFull_date());
+		
+		
 		return "chatting/chatting";
 	}
 	
@@ -203,6 +209,7 @@ public class ChattingController {
 		sos.flush();
 		
 	}
+	
 	
 	
 }
