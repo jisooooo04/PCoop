@@ -23,15 +23,13 @@
 	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
 <link rel="stylesheet"
 	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
+<!-- lib/bootstrap/css/bootstrap.min.css 폰트 축소 원인-->
 <link rel="stylesheet"
 	href="/resources/lobilist-master/dist/lobilist.min.css">
 <link rel="stylesheet"
-	href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
-<link rel="stylesheet"
 	href="/resources/lobilist-master/lib/highlight/github.css">
-<!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
-<link rel="stylesheet" href="/resources/css/task/task.css?after">
 
+<link rel="stylesheet" href="/resources/css/task/task.css?after">
 
 </head>
 
