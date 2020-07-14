@@ -17,40 +17,49 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-<script src="resources/js/chatting/chatting.js"></script>
+
 
 </head>
 
 <body>
+	<!-- Header -->
+	<jsp:include page="../header/header.jsp"></jsp:include>
+	<!-- 왼쪽 사이드바 -->
+	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
+	
+	<section>
 
-	<div id=contextmenu>
-		<div class="c_menu delete_chat">삭제</div>
-		<div class="c_menu reply_chat">답장</div>
-		<div class="c_menu copy_chat">복사</div>
-		<div class="c_menu deliver_chat">전달</div>
-		<div class="c_menu post_chat">공지</div>
-	</div>
-
+		<div id="container">
 			<!-- 여기부터 각자 영역 설정 -->
+			
+			<!-- 우클릭 메뉴 -->
+			<div id=contextmenu>
+				<div class="c_menu delete_chat">삭제</div>
+				<div class="c_menu reply_chat">답장</div>
+				<div class="c_menu copy_chat">복사</div>
+				<div class="c_menu deliver_chat">전달</div>
+				<div class="c_menu post_chat">공지</div>
+			</div>
+
 
 			<!-- 채팅 타이틀 -->
 			<div class="chat_title_section">
 			
-				<div class=chat_title id="${c_seq}">${chattingInfo[0].title}</div>
+				<div class=chat_title id="${c_num}">${chattingInfo[0].title}</div>
 				<div class=chat_person_num id="${p_seq}">
 					<img src="resources/images/chatting/user.png" class=chat_person_img>${chattingInfo[0].member_count}
 				</div>
 				
-				<c:forEach var="i" items="${chattingInfo}">
-					<div class=chat_people>
+				<div class=chat_people>
+					<c:forEach var="i" items="${chattingInfo}">
 						<div class=chat_person>
 							<div class=participant>
 								<img src=resources/images/chatting/profile.png class=participant_img>
 							</div>
 							${i.member_name }
 						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</div>
 				
 			</div>
 
@@ -111,12 +120,9 @@
 					
 					
 					<div class=icon_box>
-						<img src=resources/images/chatting/smile.png
-							class="input_icon emoticon_icon"> <img
-							src=resources/images/chatting/file.png
-							class="input_icon file_icon"> <img
-							src=resources/images/chatting/code.png
-							class="input_icon code_icon" style="width: 22px; margin-top: 4px">
+						<img src=resources/images/chatting/smile.png class="input_icon emoticon_icon"> 
+						<img src=resources/images/chatting/attatch.png class="input_icon file_icon"> 
+						<img src=resources/images/chatting/code.png	class="input_icon code_icon" style="width: 22px; margin-top: 4px">
 					</div>
 					
 					
@@ -147,7 +153,13 @@
 			
 			
 			<!-- 여기까지 각자 영역 설정 -->
-		
+		</div>
+	
+	</section>
+	
+	
+	<script src="resources/js/chatting/chatting.js"></script>
+	
 </body>
 </html>
 

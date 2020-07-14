@@ -8,6 +8,15 @@
 <meta charset="UTF-8">
 <jsp:include page="header/cdn.jsp"></jsp:include>
 
+
+	
+
+
+<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
+<link href='/resources/css/task/task.css' rel='stylesheet' />
+
+	
+
 <link rel="stylesheet" href="resources/css/backup/filelist.css?after" />
 <link rel="stylesheet" href="resources/css/chatting/chatting.css?after" />
 
@@ -19,6 +28,8 @@
 	hljs.initHighlightingOnLoad();
 </script>
 
+
+
 <script>
 
 var root_seq = ${root_seq};
@@ -26,10 +37,10 @@ var root_name = '${projectInfo.name}';
 
 $(function() {
 	
+	
 	//바로 projectHome 로드되도록 설정
 	$("#container").load("goProjectHome");  //리퀘스트매핑
 	
-	//왼쪽 사이드바 backup에 루트 디렉토리 추가
 	$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
 	
 	// 디렉토리 가지고 오기
@@ -43,6 +54,7 @@ $(function() {
 	for (var i = 0; i < chattingList.length; i++) {
 		var chatting_seq = chattingList[i].chatting_seq;
 		var project_seq = chattingList[i].project_seq;
+		var chatting_num = chattingList[i].chatting_num;
 		var title = chattingList[i].title;
 		var member_count = chattingList[i].member_count;
 		var member_seq = chattingList[i].member_seq;
@@ -50,23 +62,23 @@ $(function() {
 		var create_date = chattingList[i].create_date;
 		var type = chattingList[i].type;
 		
-		
-		var div = $("<div></div>");
+		var div = $("<div class=side_chatting_list></div>");
 		var span = $("<span class=logon>● </span>");
-		var chatting = $("<a class=c_list id='c_seq"+chatting_seq+"'>"+title+"</a>");
+		var chatting = $("<a class=c_list id='c_num"+chatting_num+"'>"+title+"</a>");
 		div.append(span);
 		div.append(chatting);
 		$(".chattingList").append(div);
+				
 	}
 	
+	
 })
-</script>
-<script>
+
 	$(function() {
 
 		$(".c_list").on("click", function(){
-			var c_seq = $(this).attr("id");
-			$("#container").load("chatting", {c_seq: c_seq});
+			var c_num = $(this).attr("id");
+			$("#container").load("chatting", {c_num: c_num});
 			//$("#modals").load("chat .modals");
 		})
 		
@@ -75,6 +87,8 @@ $(function() {
 			$("#modals").load("backup .modals");
 			$(".root").trigger("click");
 		})
+		
+		
 		
 	})
 </script>
@@ -95,10 +109,31 @@ $(function() {
 
 	<div id="modals"></div>
 
-	
-	<script src="resources/js/chatting/chatting.js"></script>
+
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	
+	
+	<!-- Lobi List Default installation-->
+	<script src="/resources/lobilist-master/lib/jquery/jquery.min.js"></script>
+	<script src="/resources/lobilist-master/lib/jquery/jquery-ui.min.js"></script>
+	<script
+		src="/resources/lobilist-master/lib/jquery/jquery.ui.touch-punch-improved.js"></script>
+	<!--<script
+		src="/resources/lobilist-master/lib/bootstrap/js/bootstrap.min.js"></script>-->
+	<script
+		src="/resources/lobilist-master/dist/lobilist.js"></script>
+	<script src="/resources/lobilist-master/lib/lobibox/js/lobibox.min.js"></script>
+	<script
+		src="/resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
+		
+	<!--task.js는 로비리스트 기본 설치 태그 밑에 위치해야 동작! -->
+	<script src='/resources/js/task/task.js'></script>
+<script src='/resources/js/calendar/calendar.js'></script>
+
+
 
 </body>
 </html>

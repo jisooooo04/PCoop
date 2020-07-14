@@ -1,8 +1,5 @@
 package pcoop.backend.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,11 +13,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import pcoop.backend.dto.ChatDTO;
 import pcoop.backend.dto.ChattingDTO;
 import pcoop.backend.dto.DirectoryDTO;
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.dto.ProjectMemberDTO;
 import pcoop.backend.service.ChatService;
 import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.FileService;
@@ -71,7 +68,8 @@ public class HomeController {
 		  //프로젝트 seq로 프로젝트 dto 가져오기
 		  ProjectDTO pdto = pservice.selectBySeq(seq);
 		  session.setAttribute("projectInfo", pdto);  //세션에 pdto담기 
-		  		  
+		  
+		  
 		  int project_seq = pdto.getSeq();
 		  System.out.println("HomeController : 프로젝트 시퀀스는 >> " + project_seq);
 		  
@@ -81,7 +79,7 @@ public class HomeController {
 		  int member_seq = mdto.getSeq();
 		  
 		  
-		  //내가 속한 채팅방 목록 가져오기
+		  //해당 프로젝트 안에서 내가 속한 채팅방 목록 가져오기
 		  List<ChattingDTO> chattingList = ctservice.selectChattingList(project_seq, member_seq);
 		  JsonArray chattingArray = new JsonArray();
 		  
@@ -89,6 +87,7 @@ public class HomeController {
 			  JsonObject json = new JsonObject();
 			  json.addProperty("chatting_seq", cdto.getSeq());
 			  json.addProperty("project_seq", cdto.getProject_seq());
+			  json.addProperty("chatting_num", cdto.getChatting_num());
 			  json.addProperty("title", cdto.getTitle());
 			  json.addProperty("member_count", cdto.getMember_count());
 			  json.addProperty("member_seq", cdto.getMember_seq());
@@ -117,7 +116,7 @@ public class HomeController {
 		  
 		  model.addAttribute("root_seq", root_seq);
 		  model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		  
+		 
 		  
 		  return "project-main";
 	}

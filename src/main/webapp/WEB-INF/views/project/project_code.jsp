@@ -4,8 +4,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
-<script src='/resources/js/calendar/calendar.js'></script>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet"
@@ -97,7 +95,7 @@
            <div class="col-12 animate__animated animate__fadeInDownBig">
                   <h2>프로젝트 생성 완료!</h2>
                 <div>프로젝트 코드는 ${code}입니다.</div>
-                <button><a href="">팀원 초대하러 가기</a></button>
+                <button><a href="ProjectInvite?code=${code}&title=${title}">팀원 초대하러 가기</a></button>
            </div>
        </div>
    </div>

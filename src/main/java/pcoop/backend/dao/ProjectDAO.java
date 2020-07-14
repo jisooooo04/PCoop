@@ -36,16 +36,16 @@ public class ProjectDAO {
 		return mybatis.selectOne("project.searchByCode",code);
 	}
 	
-	 public String joinCheck(Map<String,Integer> param )throws Exception{
-	    	return mybatis.selectOne("project.joinCheck", param);
+	 public String joinYNCheck(Map<String,Integer> param )throws Exception{
+	    	return mybatis.selectOne("project.joinYNCheck", param);
 	    }
 	 
 	 public ProjectDTO selectBySeq(int seq)throws Exception{
 		 return mybatis.selectOne("project.selectBySeq", seq);
 	 }
 	 
-	 public List<ProjectMemberDTO> joinYNCheck (int project_seq)throws Exception{
-	 	return mybatis.selectList("project.joinYNcheck", project_seq);
+	 public List<ProjectMemberDTO> joinCheck (int project_seq)throws Exception{
+	 	return mybatis.selectList("project.joincheck", project_seq);
 	 }
 	 
 	 public int accept (Map<String,Integer>param)throws Exception{
@@ -68,4 +68,31 @@ public class ProjectDAO {
 		 return mybatis.selectOne("project.countProject", mem_seq);
 	 }
 	 
+	 public int exitProject(Map<String,Integer>param)throws Exception{
+		 return mybatis.delete("project.exitProject", param);
+	 }
+	 
+	 public int deleteProject(Map<String,Integer>param)throws Exception{
+		 return mybatis.delete("project.deleteProject", param);
+	 }
+	 
+	 public String checkLeaderYN(Map<String,Integer>param)throws Exception{
+		 return mybatis.selectOne("project.checkLeaderYN", param);
+	 }
+	 
+	 public Map<String,Object> nextLeaderSeq(int project_seq)throws Exception{
+		 return mybatis.selectOne("project.nextLeaderSeq", project_seq);
+	 }
+	 
+	 public int updateLeader(int nextLeaderSeq)throws Exception{
+		 return mybatis.update("project.updateLeader", nextLeaderSeq);
+	 }
+	 
+	 public int updateProjectLeader(Map<String,Integer>param)throws Exception{
+		 return mybatis.update("project.updateProjectLeader", param);
+	 }
+	 
+	 public List<ProjectMemberDTO> getMemberList(int project_seq)throws Exception{
+		 return mybatis.selectList("project.getMemberList", project_seq);
+	 }
 }

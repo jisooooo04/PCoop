@@ -72,17 +72,16 @@ public class WebChat {
 			        	 JSONObject jsonObj;
 			        	 jsonObj = (JSONObject)jsonParser.parse(message); //클라이언트쪽에서 문자열로 넘어온 json오브젝트를 jsonObject로 만들어준다
 			        	 
-			        	 
 			        	 //json으로 넘어온 정보들을 cdto에 저장하기 위해 String 변수로 변환해 임시 저장
 			        	 String nickname = mdto.getName();
 			        	 String fullDate = (String)jsonObj.get("fulldate");
 			        	 String date = (String)jsonObj.get("date");  //날짜
 			        	 String time = (String)jsonObj.get("time");  //시간
 			        	 
-			        	 String p_seq = (String)jsonObj.get("p_seq");
-			        	 String c_seq = (String)jsonObj.get("c_seq");
-			        	 int project_seq = Integer.parseInt(p_seq.substring(5));
-			        	 int chatting_seq = Integer.parseInt(c_seq.substring(5));
+			        	 String p_seq = (String)jsonObj.get("p_seq");  //p_seq+project_seq 문자열
+			        	 String c_num = (String)jsonObj.get("c_num");  //c_seq+chatting_seq 문자열
+			        	 int project_seq = Integer.parseInt(p_seq.substring(5));  //실제 seq
+			        	 int chatting_num = Integer.parseInt(c_num.substring(5));  //실제 seq
 			        	 
 			        	 jsonObj.put("nickname", nickname);
 			        	 
@@ -98,7 +97,7 @@ public class WebChat {
 			        		 nextFileSeq = presentFileSeq + 1;
 			        		 
 			        		 String oriname = (String)jsonObj.get("file");
-			        		 text = "<a href='fileDownload?presentFileSeq="+presentFileSeq+"'>" + oriname + "</a>";
+			        		 text = "<a href='fileDownload?presentFileSeq="+nextFileSeq+"'>" + oriname + "</a>";
 			        		 
 			        		 String sysname = (String)jsonObj.get("sysname");
 			        		 String filepath = (String)jsonObj.get("filepath");
@@ -112,7 +111,8 @@ public class WebChat {
 			        		 //}
 			        		 
 			        		 
-			        		 ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, target, extension, project_seq, chatting_seq, 0);
+			        		 //chatFile 테이블에 file 정보 저장
+			        		 ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, target, extension, project_seq, chatting_num);
 			        		 int result = fservice.insertFile(fdto);
 			        		 
 			        		 
@@ -126,11 +126,11 @@ public class WebChat {
 			        	 
 			        	 
 			        	 // file / text 공통 수행
-			        	 ChatDTO cdto = new ChatDTO(0,project_seq,chatting_seq,nickname,text,fullDate,date,time,nextFileSeq);
+			        	 ChatDTO cdto = new ChatDTO(0,project_seq,chatting_num,nickname,text,fullDate,date,time,nextFileSeq);
 			        	 
-			        	 //chat DB에 채팅내용 저장  (seq, pj_seq, chatting_seq, ... , file_path)
+			        	 //chat DB에 채팅내용 저장  (seq, pj_seq, chatting_num, ... , file_seq)
 			        	 int result = cservice.insertChat(cdto);
-			        	 System.out.println(result);
+			        	 System.out.println("chat insert 여부 : " + result);
 			        	 
 			        	 
 			        	 //DB에 가장 최근에 입력된 챗의 seq값 불러오기 (chat div에 id 부여하는 용도)

@@ -3,6 +3,7 @@ package pcoop.backend.dto;
 public class ChattingDTO {
 	private int seq;
 	private int project_seq;
+	private int chatting_num;
 	private String title;
 	private int member_count;
 	private int member_seq;
@@ -14,11 +15,12 @@ public class ChattingDTO {
 		super();
 	}
 
-	public ChattingDTO(int seq, int project_seq, String title, int member_count, int member_seq, String member_name,
+	public ChattingDTO(int seq, int project_seq, int chatting_num, String title, int member_count, int member_seq, String member_name,
 			String create_date, String type) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
+		this.chatting_num = chatting_num;
 		this.title = title;
 		this.member_count = member_count;
 		this.member_seq = member_seq;
@@ -34,13 +36,21 @@ public class ChattingDTO {
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-
+	
 	public int getProject_seq() {
 		return project_seq;
 	}
-
+	
 	public void setProject_seq(int project_seq) {
 		this.project_seq = project_seq;
+	}
+	
+	public int getChatting_num() {
+		return chatting_num;
+	}
+
+	public void setChatting_num(int chatting_num) {
+		this.chatting_num = chatting_num;
 	}
 
 	public String getTitle() {

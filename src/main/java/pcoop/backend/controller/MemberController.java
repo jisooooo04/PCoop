@@ -79,26 +79,17 @@ public class MemberController {
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; //이메일로 받는 인증코드 부분 (난수)
 
-		String setfrom = "okeydoke2@naver.com";
+		String setfrom = "Pcoop";
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
-
 				System.getProperty("line.separator")+ //한줄씩 줄간격을 두기위해 작성
-
 				System.getProperty("line.separator")+
-
 				"안녕하세요 회원님 저희 P-Coop 홈페이지를 찾아주셔서 감사합니다"
-
         +System.getProperty("line.separator")+
-
         System.getProperty("line.separator")+
-
         " 인증번호는 " +dice+ " 입니다. "
-
         +System.getProperty("line.separator")+
-
         System.getProperty("line.separator")+
-
         "받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
 
 
@@ -178,10 +169,8 @@ public class MemberController {
 			//만약 인증번호가 같다면 이메일을 회원가입 페이지로 같이 넘겨서 이메일을
 			//한번더 입력할 필요가 없게 한다.
 
-
 			mv.addObject("tomail",session.getAttribute("tomail"));//세션에서 인증용으로 입력한 메일주소 불러오기
 			System.out.println(session.getAttribute("tomail"));
-
 
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
@@ -189,7 +178,6 @@ public class MemberController {
 			out_equals.flush();
 
 			return mv;
-
 
 		}else if (email_injeung != dice) {
 
@@ -280,6 +268,12 @@ public class MemberController {
 	@RequestMapping("gomypage")
 	public String gomypage (Model model)throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		if(mdto == null) {
+			return "member/login";
+		}
+		//----------로그인하지 않고 마이페이지로 접근할 경우
+
+		
 		int seq = mdto.getSeq();
 		List<ProjectDTO> project_list = mservice.getProjectList(seq); //내가 속한 프로젝트들 
 		model.addAttribute("list", project_list);
@@ -297,16 +291,14 @@ public class MemberController {
 		}
 
 		//프로젝트에 속한 현재 인원 수 
-		JsonArray respArray = new JsonArray();
 		JsonObject respObj = new JsonObject(); 
 		for(ProjectDTO dto : project_list) {
 			int project_seq = dto.getSeq();
+			String key = project_seq+"";
 			int countPeople = pservice.countNum(project_seq);
-			respObj.addProperty("project_seq", project_seq);
-			respObj.addProperty("countPeople", countPeople);
-			respArray.add(respObj);
+			respObj.addProperty(key, countPeople);			
 		}
-		model.addAttribute("respArray",respArray);
+		model.addAttribute("respObj",respObj);
 		return "member/mypage";
 	}
 	
@@ -335,13 +327,24 @@ public class MemberController {
 		if(check==0) {//일치하는 정보가 없음.
 			result = "fail";
 		}else if(check==1) {//로그인 정보 일치
-			int delresult = mservice.delmem(seq);
-			
-			if(delresult==1) {
-				result = "success";
-			}else {
-				result = "fail";
+			List<ProjectDTO> plist = mservice.getProjectList(seq);//내가 속한 프로젝트 불러오기
+			for(ProjectDTO dto :plist) {
+				Map<String,Integer>param =new HashMap<>();
+				param.put("mem_seq", seq);
+				param.put("project_seq",dto.getSeq());
+				if(dto.getLeader_seq()==seq) {//내가 리더라면
+					int res = pservice.updateLeader(dto.getSeq());//리더위임
+					if(res==0) {//넘겨줄 팀원 없음	
+						pservice.deleteProject(param);//프로젝트 삭제						
+					}
+					pservice.exitProject(param);//프로젝트 멤버 테이블에서 삭제
+				}else{//리더가 아니라면
+					pservice.exitProject(param);//프로젝트 멤버 테이블에서 삭제
+				}
 			}
+			int delresult = mservice.delmem(seq); //멤버 테이블에서 삭제
+			session.invalidate();//세션 무효화
+				result = "success";
 		}
 		return result;
 	}

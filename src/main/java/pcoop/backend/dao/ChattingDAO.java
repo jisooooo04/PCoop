@@ -21,8 +21,23 @@ public class ChattingDAO {
 	}
 	
 	
+	public List<ChattingDTO> selectChattingList(Map<String, Integer> map) {
+		return mybatis.selectList("Chatting.selectChattingList", map);
+	}
+	
+	
+	public List<ChattingDTO> selectChatting(int chatting_num) {
+		return mybatis.selectList("Chatting.selectChatting", chatting_num);
+	}
+	
+	
 	public ChattingDTO selectMainChatting(int project_seq) {
 		return mybatis.selectOne("Chatting.selectMainChatting", project_seq);
+	}
+	
+	
+	public int updateMainChatting(Map<String, Integer> map) {
+		return mybatis.update("Chatting.updateMainChatting", map);
 	}
 	
 	
@@ -30,19 +45,5 @@ public class ChattingDAO {
 		return mybatis.insert("Chatting.insertMainMember", cdto);
 	}
 	
-	
-	public List<ChattingDTO> selectChattingList(int project_seq, int member_seq) {
-		
-		Map<String, Integer> map = new HashMap<>();
-		map.put("project_seq", project_seq);
-		map.put("member_seq", member_seq);
-		
-		return mybatis.selectList("Chatting.selectChattingList", map);
-	}
-	
-	
-	public List<ChattingDTO> selectChatting(int seq) {
-		return mybatis.selectList("Chatting.selectChatting", seq);
-	}
 	
 }

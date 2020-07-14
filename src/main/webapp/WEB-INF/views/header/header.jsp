@@ -7,33 +7,35 @@
 <title>Document</title>
 <link rel="stylesheet" href="/resources/css/main/header.css?after" />
 <link rel="stylesheet" href="/resources/css/main/sidebar-left.css?after" />
+
 <script>
-            $(function(){
-            	
-            	//왼쪽 네비 메뉴 클릭
-                $(".navcontents").hide();
-                $(document).on("click", ".navtitle", function(){
-                    var selectIndex = ($(this).index()-1)/2;
+$(function(){
+	
+	//왼쪽 네비 메뉴 클릭
+    $(".navcontents").hide();
+    $(document).on("click", ".navtitle", function(){
+        var selectIndex = ($(this).index()-1)/2;
 
-                    $(".navcontents").each(function(index, item){
-                        if(index == selectIndex){
-                            $(item).slideToggle(300);
-                        }
-                    })
-                })
+        $(".navcontents").each(function(index, item){
+            if(index == selectIndex){
+                $(item).slideToggle(300);
+            }
+        })
+    })
 
-                //오른쪽 네비 열기
-                $(".header_sidebar").on("click", function(){
-                    $("#rightnav").animate({right:0}, 300);
-                })
-                
-                //오른쪽 네비 닫기
-                $(".close_r_nav").on("click", function(){
-                    $("#rightnav").animate({right:-250}, 300);
-                })
-                
-            })
-        </script>
+    //오른쪽 네비 열기
+    $(".header_sidebar").on("click", function(){
+        $("#rightnav").animate({right:0}, 300);
+    })
+    
+    //오른쪽 네비 닫기
+    $(".close_r_nav").on("click", function(){
+        $("#rightnav").animate({right:-250}, 300);
+    })
+    
+})
+</script>
+
 </head>
 
 <body>

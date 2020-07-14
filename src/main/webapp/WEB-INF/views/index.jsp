@@ -45,6 +45,7 @@
 				<a href="Task/task">할 일 목록</a>
 				<a href="calendar/calendar?project_seq=0">캘린더</a>
 				<a href="chatting">채팅</a>
+				<a href="community">커뮤니티</a>
 
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
