@@ -71,12 +71,21 @@ public class FileController {
 
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		return "backup/fileList";
+		
+	}
+	
+	@RequestMapping("getParentDirSeq")
+	@ResponseBody
+	public String getParentDirSeq(int dir_seq) {
+		int back_dir_seq = fservice.getParentSeqBySeq(dir_seq);
+		return Integer.toString(back_dir_seq);
 	}
 
 	@RequestMapping(value = "getDirAndFileList", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String getDirAndFileList(int dir_seq) {
-
+		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+		int root_seq = fservice.getRootDirSeq(project.getSeq());
 		String path = fservice.getDirPathBySeq(dir_seq);
 		List<DirectoryDTO> dirList = fservice.getDirList(dir_seq);
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
@@ -104,11 +113,11 @@ public class FileController {
 		}
 
 		JsonObject data = new JsonObject();
+		data.addProperty("root_seq", root_seq);
 		data.addProperty("path", path);
 		data.addProperty("dirArr", new Gson().toJson(dirArr));
 		data.addProperty("fileArr", new Gson().toJson(fileArr));
-		System.out.println(dirArr);
-		System.out.println(fileArr);
+
 
 		return new Gson().toJson(data);
 	}

@@ -7,15 +7,30 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<jsp:include page="../header/cdn.jsp" />
 
-
-
+<!--Error: Bootstrap dropdown require Popper.js -- 상단부에 있어야 리스트 색 변경시 에러가 안남 -->
 <script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
-	
-<style>
-</style>
+
+<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
+
+<!-- Lobi List Default installation-->
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="/resources/lobilist-master/dist/lobilist.min.css">
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/lobibox/css/lobibox.min.css">
+<link rel="stylesheet"
+	href="/resources/lobilist-master/lib/highlight/github.css">
+<!--<link rel="stylesheet" href="resources/lobilist-master/demo/demo.css">-->
+<link rel="stylesheet" href="/resources/css/task/task.css?after">
 
 </head>
 
@@ -72,10 +87,13 @@
 		src="/resources/lobilist-master/lib/highlight/highlight.pack.js"></script>
 
 	<!--task.js는 로비리스트 기본 설치 태그 밑에 위치해야 동작! -->
-	<script src='/resources/js/task/task.js'></script>
-	<!-- 주간 스케쥴러 관련 모달 -->
-	<jsp:include page="modal.jsp" />
+	<script src="/resources/js/task/task.js"></script>
+<script src='/resources/js/calendar/calendar.js'></script>
+
+
 
 
 </body>
+	<!-- 주간 스케쥴러 관련 모달 -->
+	<jsp:include page="modal.jsp" />
 </html>

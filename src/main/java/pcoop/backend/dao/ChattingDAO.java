@@ -42,7 +42,6 @@ public class ChattingDAO {
 	
 	
 	public int insertMainMember(ChattingDTO cdto) {
-		System.out.println("ChattingDAO : create_date="+cdto.getCreate_date());
 		return mybatis.insert("Chatting.insertMainMember", cdto);
 	}
 	
