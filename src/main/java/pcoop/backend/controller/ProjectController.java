@@ -340,7 +340,7 @@ public class ProjectController {
 	  @ResponseBody
 	  @RequestMapping("sendEmail")
 	  public String sendEmail(String email,String code,String title)throws Exception{
-		  
+		  System.out.println(email+code);
 			  MimeMessage msg = mailSender.createMimeMessage();
 			  msg.setSubject("PCOOP에서 프로젝트 초대가 도착했습니다.");
 			  msg.setText(title+"프로젝트에서 회원님을 초대하셨습니다. :)"); 
@@ -348,7 +348,7 @@ public class ProjectController {
 			  msg.setRecipient(RecipientType.TO, new InternetAddress(email));
 			  mailSender.send(msg);
 		 
-		  System.out.println(email+code);
+		  
 		  return "";		  
 	  }
 	  
