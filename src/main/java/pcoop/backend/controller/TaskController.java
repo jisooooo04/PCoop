@@ -44,9 +44,9 @@ public class TaskController {
 	@RequestMapping("/task")
 	public String Task(Model model)throws Exception {
 		List<CalendarDTO> list = new ArrayList<>();
-	//	ProjectDTO pdto = (ProjectDTO)session.getAttribute("projectInfo");
-	//	int project_seq=pdto.getSeq();
-		int project_seq=0; // 캘린더 임시 시퀀스 : 캘린더 일정 삽입이 프로젝트 시퀀스로 변경될 경우 해당 코드도 변경할 것
+		ProjectDTO pdto = (ProjectDTO)session.getAttribute("projectInfo");
+		int project_seq=pdto.getSeq();
+		//int project_seq=0; // 캘린더 임시 시퀀스 : 캘린더 일정 삽입이 프로젝트 시퀀스로 변경될 경우 해당 코드도 변경할 것
 		list = Cservice.selectAll(project_seq);
 		model.addAttribute("list", list);
 		return "Task/task";

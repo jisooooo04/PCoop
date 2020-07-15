@@ -17,7 +17,18 @@
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel="stylesheet" href="../../resources/css/member/sighup.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
 
+
+	window.onload = function() {
+		
+		$("#back").on("click",function(){
+			location.href="/member/toEmailView";
+		})
+
+
+	}
+</script>
 </head>
 <body>
 
@@ -31,7 +42,7 @@
 				<input type="text" name="email_injeung" placeholder="인증번호 입력"  class="in" />
 			<br><br>
                 <button type="submit" id="signup">인증번호 전송</button><br>
-                <button type="button">돌아가기</button><br>
+                <button type="button" id="back">돌아가기</button><br>
 			</form>
 		</div>
 		
