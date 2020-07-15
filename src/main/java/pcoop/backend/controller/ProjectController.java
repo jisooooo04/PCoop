@@ -351,4 +351,12 @@ public class ProjectController {
 		  
 		  return "";		  
 	  }
+	  
+	  
+	  @RequestMapping("ProjectMemberDelete")//강퇴 기능 
+	  public String ProjectMemberDelete (int project_mem_seq,Model model)throws Exception{
+		  service.ProjectMemberDelete(project_mem_seq);
+		  model.addAttribute("seq", ((ProjectDTO)session.getAttribute("projectInfo")).getSeq());
+		  return "redirect:goProjectHome";
+	  }
 }

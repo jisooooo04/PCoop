@@ -75,12 +75,7 @@
 	</div>
 	
 	<script>
-	
-	/* $(function(){
-		.ajaxStart(function(){
-			$("#lodingImg").show();
-		})
-	}) */
+
 	$(".btn").on("click",function(){
 		var email=$("input").val();
 		if(email==''){

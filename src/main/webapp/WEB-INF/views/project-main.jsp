@@ -39,7 +39,7 @@ $(function() {
 	
 	
 	//바로 projectHome 로드되도록 설정
-	$("#container").load("goProjectHome");  //리퀘스트매핑
+	//$("#container").load("goProjectHome");  //리퀘스트매핑
 	
 	$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b>" + root_name + "</b></ul>");
 	

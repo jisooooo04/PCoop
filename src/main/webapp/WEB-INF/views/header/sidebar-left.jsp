@@ -100,7 +100,12 @@
 		
 		//캘린더
 		$(".menu-calendar").on("click", function() {
-			location.href = "";
+			location.href = "../calendar/calendar?project_seq=${projectInfo.seq}";
+		})
+		
+		//project-home
+		$(".menu-home").on("click", function() {
+			location.href = "../goProjectHome?seq=${projectInfo.seq}";
 		})
 
 	})
@@ -109,7 +114,7 @@
 <body>
 	<!-- 왼쪽 사이드바 -->
 	<nav id=leftnav>
-		<div class="navhome">
+		<div class="navhome menu-home">
 			<img src="/resources/images/sidebar-left/home.png" class=navicon>
 			<a class=project_home>프로젝트 홈</a>
 		</div>

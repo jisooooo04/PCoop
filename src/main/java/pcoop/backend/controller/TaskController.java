@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,9 +44,9 @@ public class TaskController {
 	@RequestMapping("/task")
 	public String Task(Model model)throws Exception {
 		List<CalendarDTO> list = new ArrayList<>();
-		//ProjectDTO pdto = (ProjectDTO)session.getAttribute("projectInfo");
-		//int project_seq=pdto.getSeq();
-		int project_seq=0; // 캘린더 임시 시퀀스 : 캘린더 일정 삽입이 프로젝트 시퀀스로 변경될 경우 해당 코드도 변경할 것
+		ProjectDTO pdto = (ProjectDTO)session.getAttribute("projectInfo");
+		int project_seq=pdto.getSeq();
+		//int project_seq=0; // 캘린더 임시 시퀀스 : 캘린더 일정 삽입이 프로젝트 시퀀스로 변경될 경우 해당 코드도 변경할 것
 		list = Cservice.selectAll(project_seq);
 		model.addAttribute("list", list);
 		return "Task/task";
@@ -409,7 +410,6 @@ System.out.println("도움말 리스트 화면에서 삭제");
 
 	
 	
-
 	@RequestMapping(value="TaskAjax",produces="application/json;charset=utf8")
 	@ResponseBody
 	public JsonObject TaskAjax(HttpServletRequest request)  throws Exception {
@@ -423,114 +423,18 @@ System.out.println("도움말 리스트 화면에서 삭제");
 		}
 		System.out.println("----------------------------");
 
-		
-		// listgroup에 포함된 list 조회
-		// 넘겨받은 seq를 list테이블의 listgroup_seq과 같은지 조회
-		// request.getParameter("seq") 가 null이면 모든 리스트 조회
-		// 세션에 프로젝트dto , 이름은 projectInfo
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 		Map<String, Object> param = new HashMap<>();
-//if(pdto != null) {
 		param.put("project_seq", pdto.getSeq()); // project_seq 받아오기
-//}
-		List<ListDTO> TaskList = lservice.selectList(param);
-		String TaskListArr = new Gson().toJson(TaskList);
-		System.out.println("TaskListArr : "+ TaskListArr);
-
-		JsonParser jParser = new JsonParser();
-		JsonArray jsonListArray = (JsonArray)jParser.parse(TaskListArr);
-		System.out.println("jsonListArray : "+jsonListArray);
-
-		JsonObject returnjson = new JsonObject();
-		returnjson.addProperty("onSingleLine", true); //설정값 넣기
-		JsonArray lists = new JsonArray(); // 리스트들이 들어갈 곳
-
-		for(int j = 0;j<jsonListArray.size();j++) {
-			JsonObject ListObject = (JsonObject) jsonListArray.get(j); //jsonArray의 첫번째 값 꺼내기
-
-			//System.out.print(j+" 번째 Listobject : "+ListObject);	
-
-			String list_Id = ListObject.get("id").getAsString();
-			String listTitle = String.valueOf(ListObject.get("title"));// null 오브젝트에 getAsString() 을 사용하면 에러 발생, String.valueOf()를 사용할것
 		
-			String defaultStyle = ListObject.get("defaultStyle").getAsString();
-			List<CardDTO> selectlist = lservice.selectCard(list_Id);
-			String CardArr = new Gson().toJson(selectlist);
-
-			// 문자열 쪼개기! 파싱!
-			JsonArray jsonCardArray = (JsonArray)jParser.parse(CardArr);
-			JsonObject list = new JsonObject();	
-			JsonArray items = new JsonArray(); //리스트안의 작업들(아이템들)이 들어갈돗
-			for(int i = 0;i<jsonCardArray.size();i++) {
-				JsonObject item = new JsonObject(); //개별 작업(아이템): 배열로 넣어야 하기 때문에 반복문 안에서 생성
-				JsonObject CardObject = (JsonObject) jsonCardArray.get(i); //jsonArray의 첫번째 값 꺼내기
-				String id = String.valueOf(CardObject.get("id"));
-				String title = String.valueOf(CardObject.get("title"));
-
-				if(!title.contentEquals("null")) {
-					String trim_title = title.substring(1, title.length()-1); //쌍따옴표 제거
-					item.addProperty("title", trim_title);  
-				}
-
-				String description = String.valueOf(CardObject.get("description"));
-				if(!description.contentEquals("null")) {
-					String trim_description = description.substring(1, description.length()-1); //쌍따옴표 제거
-					item.addProperty("description", trim_description);  
-				}
-
-				String dueDate = String.valueOf(CardObject.get("dueDate")); // null 오브젝트에 getAsString() 을 사용하면 에러 발생, String.valueOf()를 사용할것
-				if(!dueDate.contentEquals("null")) {
-					String trim_dueDate = dueDate.substring(1, dueDate.length()-10); //쌍따옴표 제거	
-					item.addProperty("dueDate", trim_dueDate );  //시간 없이 날짜만 출력?
-				}
-				
-				String card_id = CardObject.get("id").getAsString();
-				item.addProperty("id", card_id ); 
-
-				String listId = CardObject.get("listId").getAsString();
-				item.addProperty("listId", listId ); 
-//				System.out.println("item에 listId : "+ listId);
-
-				boolean done = false;
-				if(CardObject.get("done").getAsString().equals("true")){
-					done = true;
-				}
-				item.addProperty("done", done ); 
-				//System.out.println("item에 done : "+ done);
-
-				items.add(item); // 각 아이템들을 items배열에 담기
-				//System.out.println("items에 item : "+ item);
-
-			}
-
-			list.addProperty("id", list_Id);
-//			System.out.println("list에 id : "+ list_Id);
-
-			if(!listTitle.contentEquals("null")) {
-				String trim_listTitle = listTitle.substring(1, listTitle.length()-1); //쌍따옴표 제거
-				list.addProperty("title", trim_listTitle);  
-			}
-//			System.out.println("list에 title : "+ listTitle);
-
-			list.addProperty("defaultStyle", defaultStyle); //리스트 색상 일단 고정
-//			System.out.println("list에 defaultStyle : " + defaultStyle);
-
-			list.add("items", items);
-//			System.out.println("list에 items : "+ items);
-
-			lists.add(list);
-//			System.out.println("lists에 list : "+ list);
-
-		}
-
-		returnjson.add("lists", lists);
+		JsonObject returnjson = lservice.load(param);
 		
-		System.out.println("returnjson : "+returnjson);
 
 		return returnjson;
 	}
 
 	
+	@Transactional("txManager")
 	@ResponseBody
 	@RequestMapping("selectCount")
 	public JsonObject countdone(Model model) throws Exception {
