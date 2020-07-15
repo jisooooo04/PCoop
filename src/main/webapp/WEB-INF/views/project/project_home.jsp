@@ -64,11 +64,13 @@
 .projectInfo {
 	border-radius: 15px;
 	padding: 15px;
+	text-align:center;
 }
 
 .projectInfo>div {
 	margin-top: 20px;
 	font-family: 'Noto Sans KR', sans-serif;
+	margin-bottom:50px;
 }
 
 .projectInfo>div:nth-child(1) {
@@ -143,7 +145,7 @@
     border: none;
     background: #7dc8c9;
     color: white;
-    font-size: 18px;
+    font-size: 22px;
     border-radius: 10px;
     margin-left: 10px;
     outline:none;
@@ -155,11 +157,11 @@
 	border-radius:10px;
 }
 .proejctFooter{
-	border:1px solid red;
+	margin-top:200px;
+	padding-left:150px;
 }
 .proejctFooter>img{
 	max-width:100%;
-	height:auto;
 	overflow:auto;
 }
 </style>
@@ -227,13 +229,19 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<c:choose>
+			<c:when test="${loginInfo.seq==projectInfo.leader_seq}">
+				<!-- 조장이라면 팀원 초대하기 버튼 보이게  -->
+				<div class="row">
 			<div class="invite">
 				<button class="inviteBtn"><i class="fas fa-paper-plane"></i>팀원 초대하기</button>
 			</div>
 		</div>
+			</c:when>
+		</c:choose>
+		
 		<div class="row">
-			<div class="col-sm-12 proejctFooter">
+			<div class="col-12 proejctFooter d-md-none d-lg-block">
 				<img src="/resources/images/project/projectHomeFooter.png">
 			</div>
 				
@@ -247,9 +255,12 @@
 		$(function(){
 			$(".memberBox>div:nth-child(1)").append("<span class='badge'>생성자</span>");
 			
-			for(var i=0;i<${fn:length(member_list)};i++){
-				$(".m"+(i+2)).append("<button class='memdel'>삭제</button>");
+			if(${loginInfo.seq}==${projectInfo.leader_seq}){
+				for(var i=0;i<${fn:length(member_list)};i++){
+					$(".m"+(i+2)).append("<button class='memdel'>삭제</button>");
+				}
 			}
+		
 			
 			$(".memdel").on("click",function(){
 				var project_mem_seq = $(".memdel").closest("div").attr('id');

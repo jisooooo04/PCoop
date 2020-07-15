@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pcoop.backend.dao.ProjectDAO;
 import pcoop.backend.dto.ProjectDTO;
@@ -121,6 +122,7 @@ public class ProjectService {
 		return dao.checkLeaderYN(param);
 	}
 	
+	@Transactional("txManager")
 	public int updateLeader(int project_seq)throws Exception{
 		Map<String,Object> map= dao.nextLeaderSeq(project_seq);
 		if(map==null) {
