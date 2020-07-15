@@ -279,12 +279,13 @@
 				for(var i=0;i<${fn:length(member_list)};i++){
 					$(".m"+(i+2)).append("<button class='memdel'>삭제</button>");
 				}
-			}
+			};
 		
 			
 			$(".memdel").on("click",function(){
 				var project_mem_seq = $(".memdel").closest("div").attr('id');
 				var result=confirm("팀원을 프로젝트에서 삭제하시겠습니까?");
+				
 				if(result){
 					$.ajax({
 						url:"ProjectMemberDelete",
@@ -294,12 +295,15 @@
 						type:"post"
 					})	
 				}
-			})
+			});
 			
-		})
-		$(".inviteBtn").on("click",function(){
-			location.href="ProjectInvite?code=${projectInfo.code}&title=${projectInfo.name}";
-		})
+			$(".inviteBtn").on("click",function(){
+				alert("zz");
+				location.href="ProjectInvite?code=${projectInfo.code}&title=${projectInfo.name}";
+			});
+			
+		});
+		
 		
 	</script>
 </body>

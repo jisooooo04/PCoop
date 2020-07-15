@@ -100,7 +100,7 @@
 		
 		//캘린더
 		$(".menu-calendar").on("click", function() {
-			location.href = "";
+			location.href = "../calendar/calendar?project_seq=${projectInfo.seq}";
 		})
 
 	})

@@ -102,10 +102,10 @@ public class ChattingController {
 		String sysdateminus = "sysdate-1";
 		List<ChatDTO> yesterdayChat = cservice.selectChatList(sysdateminus, chatting_num);
 		model.addAttribute("yesterdayChat", yesterdayChat);
-		
-		
+				
 		//파일리스트 불러오기
 		List<ChatDTO> fileList = cservice.selectFileList(chatting_num);
+		System.out.println(fileList);
 		model.addAttribute("fileList", fileList);
 		System.out.println("full_date : " + fileList.get(0).getFull_date());
 		
