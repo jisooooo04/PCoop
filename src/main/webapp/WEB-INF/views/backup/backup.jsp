@@ -27,8 +27,42 @@
 	<section>
 
 		<div id="container">
+
 			<!-- 여기부터 각자 영역 설정 -->
 			<div class="contents">
+
+				<div aria-live="polite" aria-atomic="true"
+					style="position: fixed; min-height: 200px;">
+					<!-- Position it -->
+					<div style="position: fixed; top: 55; right: 0;">
+						<!-- 업로딩 알림 토스트 -->
+						<div class="toast uploading" role="alert" aria-live="assertive"
+							aria-atomic="true">
+							<div class="toast-header">
+								<strong class="mr-auto">PCOOP</strong> <small>uploading...</small>
+								<button type="button" class="ml-2 mb-1 close"
+									data-dismiss="toast" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="toast-body">업로드한 파일을 압축 해제 중입니다. 잠시 기다려 주세요.</div>
+						</div>
+
+
+						<!-- 업로드 완료 알림 토스트 -->
+						<div class="toast uploaded" role="alert" aria-live="assertive"
+							aria-atomic="true">
+							<div class="toast-header">
+								<strong class="mr-auto">PCOOP</strong> <small>uploaded</small>
+								<button type="button" class="ml-2 mb-1 close"
+									data-dismiss="toast" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="toast-body">압축 해제가 완료되었습니다.</div>
+						</div>
+					</div>
+				</div>
 
 				<div class="backup-path"></div>
 				<div class="backup-btns">
@@ -226,14 +260,12 @@
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
 	<script>
-		$(function(){
+		$(function() {
 			$(".backup").css("display", "block");
-			var root_seq = ${root_seq};
-			var dir_seq = ${dir_seq};
-			
+			var root_seq = "${root_seq}";
+			var dir_seq = "${dir_seq}";
 			getDirAndFileList(dir_seq);
 		})
-		
 	</script>
 
 </body>

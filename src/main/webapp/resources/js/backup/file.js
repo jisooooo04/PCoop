@@ -135,9 +135,13 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 	var form = document.uploadZipForm;
 	form.dir_seq.value = dir_seq;
 
+	var dir_name = form.zip_dir.value;
+
 	// 확장자 체크(.zip 파일만)
 	var name = form.zip.value;
 	extension = name.substring(name.lastIndexOf('.'));
+
+	var checkDupl;
 
 	if(extension != '.zip'){
 		alert(".zip 파일만 가능합니다.");
@@ -147,10 +151,12 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 	else{
 
 		var data = new FormData(form);
+		$(".modal_upload_zip").modal('hide');
 
 		$.ajax({
-			url: "uploadZip",
+			url: "checkDirNameDupl",
 			type: "POST",
+			async: false,
 			enctype: 'multipart/form-data',
 			data: data,
 			processData: false,
@@ -158,25 +164,49 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 			cache: false,
 			timeout: 600000,
 			success: function (data) {
+				checkDupl = data;
 
-				if(data == "dupl"){
+				if(checkDupl == "dupl"){
 					alert("디렉토리 이름 중복");
 					form.zip_dir.value = "";
 				}
-				
-				else{
-					
-					
-					alert("업로드 완료!");
-					
-				}
 
-			},
-			error: function (e) {
-				console.log("ERROR : ", e);
-				alert("fail");
 			}
 		});
+
+		if(checkDupl != "dupl"){
+
+			$(".uploading").toast({ autohide: false });
+			$(".uploading").toast('show');
+
+			$.ajax({
+				url: "uploadZip",
+				type: "POST",
+				enctype: 'multipart/form-data',
+				data: data,
+				processData: false,
+				contentType: false,
+				cache: false,
+				timeout: 600000,
+				success: function (data) {
+
+					var data = JSON.parse(data);
+					var zip_dir_seq = data.zip_dir_seq;
+					$(".uploaded").toast({ autohide: false });
+					$(".uploaded").toast('show');
+					
+					$(".dirs").append("<div class=dir id=dir" + zip_dir_seq + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + dir_name + "</div>")
+
+
+				},
+				error: function (e) {
+					alert("용량이 너무 큽니다.");
+					console.log("ERROR : ", e);
+					alert("fail");
+				}
+			});
+
+		}
 
 	}
 
@@ -235,7 +265,7 @@ $(document).on("click", ".menu_delete_file", function(){
 			var files = JSON.parse(data);
 
 			for(var i = 0 ; i < files.length ; i++){
-				
+
 				var id = "f" + files[i].seq;
 
 				if(files[i].text_yn == "Y"){
