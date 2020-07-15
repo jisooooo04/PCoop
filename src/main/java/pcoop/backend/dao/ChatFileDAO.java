@@ -1,5 +1,7 @@
 package pcoop.backend.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,7 +27,6 @@ public class ChatFileDAO {
 	public int insertFile(ChatFileDTO fdto) {
 		return mybatis.insert("ChatFile.insertFile", fdto);
 	}
-	
-	
+		
 	
 }
