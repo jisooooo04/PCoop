@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +62,37 @@
 					</c:forEach>
 				</div>
 				
+				<img src=resources/images/chatting/file.png class=open_file_btn>
 			</div>
+
+
+			<!-- 오른쪽 파일리스트 섹션 -->
+			<div class=file_list_section>
+				<div class=file_header>
+					<img src=resources/images/chatting/backright.png class=close_file_btn>파일
+				</div>
+
+				<div class=file_contents id=file_contents_section>
+					<c:forEach var="i" items="${fileList}">
+						<div class=file_list>
+							<div class=file_img_box>
+								<img src="resources/images/chatting/pdf.png" class=file_img>
+							</div>
+							<div class=file_info_box>
+								<div class=file_name id="${i.seq}">${i.chat }</div>
+								<div class=file_date>${fn:substring(fn:replace(i.full_date, '-', '/'), 0, 10) }</div>
+								<div class=file_writer>${i.writer }</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+
+				<div class=file_input>
+					<div></div>
+				</div>
+			</div>
+			<!-- 파일리스트 섹션 끝 -->
+
 
 			<!-- 채팅창 -->
 			<div class="chat_section" id=chat_section>

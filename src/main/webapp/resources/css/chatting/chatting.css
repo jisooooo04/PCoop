@@ -295,3 +295,95 @@ section {
             .participant_img{
                 width: 100%;
             }
+
+            
+                        /* 오른쪽 파일리스트 버튼 */
+            .open_file_btn{
+                width: 28px;
+                right: 13px;
+                top: 11px;
+                position: absolute;
+            }
+            .open_file_btn:hover{cursor: pointer;}
+            
+            .close_file_btn{
+                width: 28px;
+                position: absolute;
+                left: 15px;
+                top: 12px;
+            }
+            .close_file_btn:hover{cursor: pointer;}
+            
+            
+            /* 파일리스트 섹션 */
+            .file_list_section{
+                border-left: 1px solid lightgray;
+                position: absolute;
+                top: 50px;
+                bottom: 0px;
+                right: -400px;
+                width: 400px;
+                background-color: white;
+                z-index: 5;
+            }
+            .file_header{
+                height: 50px;
+                border-bottom: 1px solid lightgray;
+                text-align: center;
+                line-height: 50px;
+                font-weight: 600;
+                font-size: 18px;
+                color: dimgray;
+            }
+            .file_contents{
+                position: absolute;
+                top: 50px;
+                bottom: 130px;
+                width: 400px;
+                overflow-y: auto;
+            }
+            .file_input{
+                position: absolute;
+                bottom: 0px;
+                border-top: 1px solid lightgray;
+                height: 130px;
+                width: 400px;
+            }
+            
+            
+            /* 파일 목록 박스 */
+            .file_list{
+                border: 1px solid lightgray;
+                width: 350px;
+                margin: 20px;
+                overflow: hidden;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            .file_img_box{
+                float: left;
+                width: 50px;
+                height: 70px;
+                padding-top: 8px;
+            }
+            .file_info_box{
+                float: left;
+                margin-left: 10px;
+            }
+            .file_img{
+                width: 100%;
+            }
+            .file_name{
+                font-weight: 600;
+                color: black;
+            }
+            .file_date{
+                margin-top: -2px;
+                margin-bottom: 3px;
+                font-size: 14px;
+                color: gray;
+            }
+            .file_writer{
+                font-size: 15px;
+                font-weight: 600;
+            }
