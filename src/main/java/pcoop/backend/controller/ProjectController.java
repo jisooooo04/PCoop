@@ -351,4 +351,11 @@ public class ProjectController {
 		  System.out.println(email+code);
 		  return "";		  
 	  }
+	  
+	  @ResponseBody
+	  @RequestMapping("ProejctMemberDelete")//강퇴 기능 
+	  public String ProjectMemberDelete (int project_mem_seq)throws Exception{
+		  service.ProjectMemberDelete(project_mem_seq);
+		  return "";
+	  }
 }

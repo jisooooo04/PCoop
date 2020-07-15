@@ -32,6 +32,14 @@ document.getElementById("signup").onsubmit = function() {
 		return false
 	}
 
+    var pw1 = document.getElementById("password_1").value;
+    var regexpw1= /.{4,20}/;
+    var resultpw1 = regexpw1.test(pw1);
+    if(!resultpw1){
+        alert("비밀번호는 공백문자를 제외하고 4글자 이상 20글자 이하로 입력하세요")
+        return false
+    }
+	
 	return true
 
 }
@@ -48,7 +56,6 @@ $('.pw').focusout(function () {
 			$("#alert-success").css('display', 'inline-block');
 			$("#alert-danger").css('display', 'none');
 		} else {
-			alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
 			$("#alert-success").css('display', 'none');
 			$("#alert-danger").css('display', 'inline-block');
 		}
