@@ -267,6 +267,7 @@ public class MemberController {
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
 	@RequestMapping("gomypage")
 	public String gomypage (Model model)throws Exception{
+		System.out.println("mypage");
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		if(mdto == null) {
 			return "member/login";
@@ -298,6 +299,8 @@ public class MemberController {
 			int countPeople = pservice.countNum(project_seq);
 			respObj.addProperty(key, countPeople);			
 		}
+		respObj.toString();
+		System.out.println(respObj);
 		model.addAttribute("respObj",respObj);
 		return "member/mypage";
 	}

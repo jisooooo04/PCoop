@@ -184,7 +184,7 @@
 		            		contents : $("#message-text").val(),
 		            		writer : '${loginInfo.name}',
 		            		color : color,
-		            		poject_seq:0
+		            		project_seq:'${projectInfo.seq}'
 		            	}
 		            }).done(function(resp){
 		           		resp=JSON.parse(resp);
@@ -242,7 +242,7 @@
 		          			contents: $("#Editmessage-text").val(),
 		          			writer:'${loginInfo.name}',
 		          			color: Editcolor,
-		          			project_seq:0
+		          			project_seq:'${projectInfo.seq}'
 		        			}		
 		        		}).done(function(resp){	
 		        	       

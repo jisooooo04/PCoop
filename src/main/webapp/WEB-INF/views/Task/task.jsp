@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
 <!--Error: Bootstrap dropdown require Popper.js -- 상단부에 있어야 리스트 색 변경시 에러가 안남 -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
@@ -32,20 +31,16 @@
 
 </head>
 
-
 <body>
 
-				
 	<!-- Header -->
 	<jsp:include page="../header/header.jsp"></jsp:include>
 	<jsp:include page="../header/sidebar-left.jsp"></jsp:include>
-
 	
 	<section id="box">
 		<div id="container">
 		
 			<div id="wrapper">
-
 	
 				<!-- 주간 스케줄러 -->
 				<jsp:include page="scheduler.jsp"></jsp:include>
