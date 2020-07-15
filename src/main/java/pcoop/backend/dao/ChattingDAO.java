@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import pcoop.backend.dto.ChatFileDTO;
 import pcoop.backend.dto.ChattingDTO;
 
 @Repository
@@ -45,5 +46,6 @@ public class ChattingDAO {
 		return mybatis.insert("Chatting.insertMainMember", cdto);
 	}
 	
+		
 	
 }

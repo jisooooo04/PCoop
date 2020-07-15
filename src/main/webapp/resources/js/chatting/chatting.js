@@ -1,15 +1,16 @@
 $(function(){
       updateScroll();
+      updateFileScroll();
       
       var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
       
       ws.onmessage = function(e){
          
          var msg = JSON.parse(e.data);
-         
+                  
          var chat_seq = msg.seq;
          var nickname = msg.nickname;
-         var text = msg.text;
+         var text = msg.text.replace(/\n/g,"<br>");
          var date = msg.date;
          var time = msg.time;
          
@@ -39,7 +40,44 @@ $(function(){
          
          $(".chat_section").append(chat_box);
          
+         
+         //파일리스트에 뿌리기
+         var file_date_form = msg.file_date_form;  //파일리스트 출력용 날짜
+         
+         if(file_date_form != null){
+        	 
+        	 var file_img_box = $("<div class=file_img_box>");
+             var file_img = $("<img src='resources/images/chatting/pdf.png' class=file_img>");
+             file_img_box.append(file_img);
+             
+             var file_info_box = $("<div class=file_info_box>");
+             var file_name = $("<div class=file_name id="+chat_seq+">");
+             var file_date = $("<div class=file_date>");
+             var file_writer = $("<div class=file_writer>");
+             
+             file_name.append(text);
+             file_date.append(file_date_form);
+             file_writer.append(nickname)
+             
+             file_info_box.append(file_name);
+             file_info_box.append(file_date);
+             file_info_box.append(file_writer);
+             
+             var file_list = $("<div class=file_list>");
+             file_list.append(file_img_box);
+             file_list.append(file_info_box);
+             
+             $(".file_contents").append(file_list);
+        	 
+         }
+         
+         
          updateScroll();
+         updateFileScroll();
+         
+         //페이지 로딩 후 추가된 동적 태그들에도 코드 형식 적용하기
+         hljs.initHighlighting.called = false; 
+         hljs.initHighlighting();
          
       }
       
@@ -54,6 +92,11 @@ $(function(){
  			
  			var fulldate = d.toLocaleString();
  			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
+ 			var mm = d.getMonth()+1;
+ 			var dd = d.getDate();
+ 			if(mm < 10){ mm = "0"+mm; }
+ 		    if(dd < 10){ dd = "0"+dd; }
+ 			var file_date_form = d.getFullYear()+"/"+mm+"/"+dd;
  			var time = d.toLocaleTimeString();
  			
  			var c_num = $(".chat_title").attr("id");
@@ -98,6 +141,7 @@ $(function(){
 							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
+							file_date_form: file_date_form,
 							time: time,  //이 아래부터 file 내용
 							sysname: sysname,
 							filepath: filepath,
@@ -172,6 +216,11 @@ $(function(){
 			
 			var fulldate = d.toLocaleString();
 			var date = d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+day+"요일";
+			var mm = d.getMonth()+1;
+ 			var dd = d.getDate();
+ 			if(mm < 10){ mm = "0"+mm; }
+ 		    if(dd < 10){ dd = "0"+dd; }
+ 			var file_date_form = d.getFullYear()+"/"+mm+"/"+dd;
 			var time = d.toLocaleTimeString();
 			
 			var c_num = $(".chat_title").attr("id");
@@ -216,6 +265,7 @@ $(function(){
 							file: oriname,  //key를 text 대신 file이라고 보냄!! 근데 file이라는 이름 자체가 안가게되면 어떻게 되지?
 							fulldate: fulldate,
 							date: date,
+							file_date_form: file_date_form,
 							time: time,  //이 아래부터 file 내용
 							sysname: sysname,
 							filepath: filepath,
@@ -280,6 +330,11 @@ $(function(){
 		
 		function updateScroll(){
 			var element = document.getElementById("chat_section");
+			element.scrollTop = element.scrollHeight;
+		}
+      
+        function updateFileScroll(){
+			var element = document.getElementById("file_contents_section");
 			element.scrollTop = element.scrollHeight;
 		}
 		
@@ -399,6 +454,9 @@ $(function(){
 			}).done(function(response) {
 
 				if (response == 1) {
+					
+					//파일이면 파일리스트의 file_name에 chat_seq와 동일한 id를 부여했기 때문에 parent의 parent 요소를 삭제하는게 동일
+					
 					//id가 chat_id인 애를 화면에서 삭제!
 					$("#" + chat_id).parent().parent().remove();
 					alert("삭제되었습니다.");
@@ -410,6 +468,18 @@ $(function(){
 		$(".copy_chat").on("click", function() {
 			//id가 chat_id 인 애의 내용을 가져와서 복사함
 
+			
+			//파일이면(a태그 존재)
+			
+			
+			
+			//이모티콘이면(img태그 존재)
+			
+			
+			//코드면(pre태그 존재)
+			
+			
+			
 			var contents = $("#" + chat_id).html();
 			$("#copy_box").val(contents);
 
@@ -435,7 +505,7 @@ $(function(){
 		})
 
 		//코드 편집기 열기
-		var code_index = 1;
+		var code_index = 1;  // 1=코드편집기 없는 상태
 		$(".code_icon").on("click", function() {
 			if ($("#input").html().indexOf("</pre>") == -1) { //이 코드가 없다면
 				
@@ -443,6 +513,8 @@ $(function(){
 				
 				//$("#input>.pre").css("display","block");
 				//$("#input>.pre>.code_editor").css("display","block");
+				
+				code_index = -1;
 				
 			} else if (code_index == 1) {
 				//$("#input>.pre").css("display","block");
@@ -453,8 +525,8 @@ $(function(){
 				pre.append(code);
 				$("#input").append(pre);
 				
-				code_index = code_index * -1;
-				} else {
+				code_index = -1;
+			} else {
 					//$("#input>.pre").css("display","none");
 					//$("#input>.pre>.code_editor").css("display","none");
 					//$("#input>.pre>.code_editor").html("");
@@ -462,7 +534,7 @@ $(function(){
 					$("#input>.pre").remove();
 					$("#input>.pre>.code_editor").remove();
 					
-					code_index = code_index * -1;
+					code_index = 1;
 					}
 			})
 			
@@ -500,6 +572,38 @@ $(function(){
 			$(".chat_people").toggle();
 		})
 		
+		
+		
+		//오른쪽 파일 리스트 열기
+		var fileListVisible = 1;  //1=안보이는거
+        $(".open_file_btn").on("click", function(){
+        	if(fileListVisible == 1){
+        		$(".file_list_section").animate({right:0}, 400);
+        		fileListVisible = -1;
+        	}else if(fileListVisible == -1){
+        		$(".file_list_section").animate({right:-400}, 400);
+        		fileListVisible = 1;
+        	}
+        	
+        })
+        
+        //오른쪽 파일 리스트 닫기
+        $(".close_file_btn").on("click", function(){
+        	$(".file_list_section").animate({right:-400}, 400);
+        	fileListVisible = 1;
+        })
+		
+        
+        
+        //입력창에 붙여넣기 이벤트 발생했을 때 (span, a 태그 등 제거하기)
+        $("#input").bind('paste', function(e) {
+        	event.preventDefault();
+        	
+        	var pastedData = event.clipboardData ||  window.clipboardData;
+        	var textData = pastedData.getData('Text');
+        	
+        	window.document.execCommand('insertHTML', false,  textData);
+        });
 		
 		//이모티콘박스 이외 부분 클릭시 이모티콘박스 닫히기 추가하기!!!
 
