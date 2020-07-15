@@ -58,7 +58,6 @@ public class CalendarController {
 		JsonObject respObj = new JsonObject();
 		respObj.addProperty("seq", Sseq);
 		/* respObj.addProperty("result", result); */
-		System.out.println(dto.getProject_seq());
 		return new Gson().toJson(respObj);
 	}
 	

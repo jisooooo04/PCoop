@@ -184,9 +184,6 @@
 		<div id="container" class="container-fluid">
 	<!-- 여기부터 각자 영역 설정 -->
 
-
-		프로젝트 홈입니다.
-
 		<c:choose>
 			<c:when test="${loginInfo.seq==projectInfo.leader_seq}">
 				<!-- 조장이라면  -->
@@ -242,17 +239,17 @@
 				</div>
 			</div>
 		</div>
-		<c:choose>
+		<%-- <c:choose>
 			<c:when test="${loginInfo.seq==projectInfo.leader_seq}">
-				<!-- 조장이라면 팀원 초대하기 버튼 보이게  -->
+				<!-- 조장이라면 팀원 초대하기 버튼 보이게  --> --%>
 				<div class="row">
 			<div class="invite">
 				<button class="inviteBtn"><i class="fas fa-paper-plane"></i>팀원 초대하기</button>
 			</div>
 		</div>
 
-			</c:when>
-		</c:choose>
+		<%-- 	</c:when>
+		</c:choose> --%>
 		
 		<div class="row">
 			<div class="col-12 proejctFooter d-md-none d-lg-block">
@@ -273,9 +270,9 @@
 	<script>
 	
 		$(function(){
-			$(".memberBox>div:nth-child(1)").append("<span class='badge'>생성자</span>");
+			$(".memberBox>div:nth-child(1)").append("<span class='badge'>팀장</span>");
 			
-			if(${loginInfo.seq}==${projectInfo.leader_seq}){
+			if((${loginInfo.seq}==${projectInfo.leader_seq})){
 				for(var i=0;i<${fn:length(member_list)};i++){
 					$(".m"+(i+2)).append("<button class='memdel'>삭제</button>");
 				}
@@ -286,19 +283,19 @@
 				var project_mem_seq = $(".memdel").closest("div").attr('id');
 				var result=confirm("팀원을 프로젝트에서 삭제하시겠습니까?");
 				
-				if(result){
-					$.ajax({
-						url:"ProjectMemberDelete",
-						data:{
-							project_mem_seq=project_mem_seq
-						},
-						type:"post"
-					})	
+				if(result){	
+					/* $.ajax({
+					url:"ProjectMemberDelete",
+					data:{
+						project_mem_seq:project_mem_seq
+					},
+					type:"post"
+				})	 */
+						location.href="ProjectMemberDelete?project_mem_seq="+project_mem_seq;	
 				}
 			});
 			
 			$(".inviteBtn").on("click",function(){
-				alert("zz");
 				location.href="ProjectInvite?code=${projectInfo.code}&title=${projectInfo.name}";
 			});
 			
