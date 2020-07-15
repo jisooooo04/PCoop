@@ -212,7 +212,6 @@
 		$("#signUp").on("click", function() {
 			location.href = "member/toEmailView";
 		})
-
 		$("#login").on("click", function() {
 			location.href = "member/toLoginView";
 		})

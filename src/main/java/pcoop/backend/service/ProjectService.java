@@ -147,4 +147,8 @@ public class ProjectService {
 		return dao.getMemberList(project_seq);
 	}
 	
+	public int ProjectMemberDelete (int project_member_seq)throws Exception{
+		return dao.ProjectMemberDelete(project_member_seq);
+	}
+	
 }

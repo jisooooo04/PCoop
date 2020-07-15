@@ -34,7 +34,7 @@ public class FileService {
 	@Autowired
 	private FileDAO fdao;
 
-	@Transactional
+	@Transactional("txManager")
 	public int createProjectBackup(int seq, String name) {
 		this.createProjectBackuptoDrive(seq, name);
 		return this.createProjectBackuptoDB(seq, name);

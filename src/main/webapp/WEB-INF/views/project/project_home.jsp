@@ -150,7 +150,6 @@
     border: none;
     background: #7dc8c9;
     color: white;
-    font-size: 22px;
     border-radius: 10px;
     margin-left: 10px;
     outline:none;
@@ -160,10 +159,12 @@
 	color:#7dc8c9;
 	border:1px solid #7dc8c9;
 	border-radius:10px;
+	outline:none;
 }
+/* 제일 하단 이미지 넣는 부분 */
 .proejctFooter{
 	margin-top:200px;
-	padding-left:150px;
+	padding-left:50px;
 }
 .proejctFooter>img{
 	max-width:100%;
@@ -225,7 +226,7 @@
 			<div class="col-sm-12">
 				<div class="projectInfo">
 					<div>
-						final project<span>B8v08f</span>
+						${projectInfo.name}<span>${projectInfo.code}</span>
 					</div>
 					<div class="memberBox">
 						<c:forEach var="i" items="${member_list}" varStatus="status">
@@ -283,7 +284,16 @@
 			
 			$(".memdel").on("click",function(){
 				var project_mem_seq = $(".memdel").closest("div").attr('id');
-				alert(project_mem_seq);
+				var result=confirm("팀원을 프로젝트에서 삭제하시겠습니까?");
+				if(result){
+					$.ajax({
+						url:"ProjectMemberDelete",
+						data:{
+							project_mem_seq=project_mem_seq
+						},
+						type:"post"
+					})	
+				}
 			})
 			
 		})
