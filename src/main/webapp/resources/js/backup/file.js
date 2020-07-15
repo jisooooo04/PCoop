@@ -163,6 +163,13 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 					alert("디렉토리 이름 중복");
 					form.zip_dir.value = "";
 				}
+				
+				else{
+					
+					
+					alert("업로드 완료!");
+					
+				}
 
 			},
 			error: function (e) {

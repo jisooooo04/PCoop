@@ -205,15 +205,14 @@ article{
 				<article>
 					<header>
 						<h3>
-							단체 대화, 개인 대화, 주제별로<br> 구분된 <span id="logo">업무 메신저</span>를 이용하세요!
+							팀원들과 공유하는 <span id="logo">백업 드라이브</span>
 						</h3>
 					</header>
 					<p>
-						같은 기능을 전담하는 사람들끼리 따로 채팅방을 생성하세요!<br />
-						기능별, 개인별로 <span id="logo">대화 목적을 나누어</span> 프로젝트의 흐름을 효율적으로 파악할 수 있습니다.<br />
-						대화 도중 주고받았던 <span id="logo">파일 목록</span>을 따로 보여 드려요.<br />
-						부분적으로 보내 주는 코드 텍스트를 알아보기 쉽게!<br />
-						<span id="logo">언어별로 하이라이팅</span>하여 보여 드릴게요.
+						드라이브에  팀원들과 공유해야 하는 <span id="logo">파일들을 백업</span>하세요.<br>
+							파일뿐만 아니라 <span id="logo">.zip 파일</span>을 업로드하면 <span id="logo">자동으로 압축 해제</span>해 줍니다.<br>
+							업로드된 파일이 <span id="logo">텍스트 파일</span>이라면 <span id="logo">미리 보기</span> 기능을 제공합니다.<br>
+							언어별로 자동으로 <span id="logo">하이라이팅된 소스 코드</span>를 볼 수 있습니다.
 					</p>
 				</article>
 				<article>
