@@ -324,7 +324,7 @@ $(document).on("click", ".delete_dir", function(){
 		data: data,
 		success: function(data){
 
-			$("#dir" + seq).remove();
+			$("#dir" + seq + ".dir").remove();
 			$(".root").remove();
 
 			var data = JSON.parse(data);
@@ -337,6 +337,11 @@ $(document).on("click", ".delete_dir", function(){
 
 			$("#dir" + seq + ".dir").remove();
 
+		},
+		error: function (e) {
+			alert("이미 삭제된 디렉토리입니다.");
+			console.log("ERROR : ", e);
+			alert("fail");
 		}
 	});
 
@@ -357,7 +362,6 @@ $(document).on("click", ".menu_rename_dir", function(event){
 	var top = $(".dirs>#" + id).offset().top + 70;
 	var dir_name = $("#" + id + ".dir").tekRdxt();
 
-	console.log(dir_name);
 	$("#dir_rename").val(dir_name);
 	
 	$(".rename_dir").css({
@@ -396,6 +400,11 @@ $(document).on("click", "#ok_rename_dir", function(){
 			if(data != -1)
 				$("#" + id).html("<b>" + rename + "</b>");
 			else alert("디렉토리 이름 중복");
+		},
+		error: function (e) {
+			alert("이미 삭제된 디렉토리입니다.");
+			console.log("ERROR : ", e);
+			alert("fail");
 		}
 	});
 
