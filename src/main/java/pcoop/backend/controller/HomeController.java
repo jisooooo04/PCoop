@@ -77,8 +77,7 @@ public class HomeController {
 		  //세션에서 member_seq 가져오기
 		  MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		  int member_seq = mdto.getSeq();
-		  
-		  
+
 		  //해당 프로젝트 안에서 내가 속한 채팅방 목록 가져오기
 		  List<ChattingDTO> chattingList = ctservice.selectChattingList(project_seq, member_seq);
 		  JsonArray chattingArray = new JsonArray();
