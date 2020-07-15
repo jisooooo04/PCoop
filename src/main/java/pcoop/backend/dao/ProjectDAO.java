@@ -95,4 +95,8 @@ public class ProjectDAO {
 	 public List<ProjectMemberDTO> getMemberList(int project_seq)throws Exception{
 		 return mybatis.selectList("project.getMemberList", project_seq);
 	 }
+	 
+	 public int ProjectMemberDelete (int project_member_seq)throws Exception{
+		 return mybatis.delete("ProjectMemberDelete", project_member_seq);
+	 }
 }

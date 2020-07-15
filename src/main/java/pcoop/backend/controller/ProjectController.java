@@ -211,8 +211,6 @@ public class ProjectController {
 	}
 
 
-
-
 	
 	// 왼쪽 사이드바에 뿌리는거 에이작스
 	@ResponseBody
@@ -283,7 +281,6 @@ public class ProjectController {
 	  }
 	 
 	  
-	  
 	  @RequestMapping("accept")
 	  public String accept(int mem_seq,int project_seq,String member_name,Model model)throws Exception{//참가 수락
 		 Map<String,Integer>param = new HashMap<>();
@@ -353,5 +350,12 @@ public class ProjectController {
 		 
 		  System.out.println(email+code);
 		  return "";		  
+	  }
+	  
+	  @ResponseBody
+	  @RequestMapping("ProejctMemberDelete")//강퇴 기능 
+	  public String ProjectMemberDelete (int project_mem_seq)throws Exception{
+		  service.ProjectMemberDelete(project_mem_seq);
+		  return "";
 	  }
 }
