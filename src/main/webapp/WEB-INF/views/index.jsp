@@ -18,7 +18,13 @@
 <link rel="stylesheet" href="resources/css/main/main.css?after" />
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <link rel="stylesheet" href="resources/css/chatting/chatting.css?after" />
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/agate.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+	hljs.initHighlightingOnLoad();
+</script>
 
 <script src="https://kit.fontawesome.com/8f6ea3bf70.js"
 	crossorigin="anonymous"></script>
@@ -32,9 +38,18 @@
 #banner {
 	background-image: url(resources/images/index/banner2.jpg);
 }
-.chat_box, .time{
+
+.chat_box, .time {
 	float: left;
 	text-align: left;
+}
+
+.code_editor {
+	width: auto;
+}
+
+article>p{
+	font-size: 13px;
 }
 </style>
 
@@ -121,29 +136,43 @@
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
 			<div class="flex flex-2">
-				<article data-aos="fade-right">
-
+				<article>
 					<header>
 						<h3>
-							단체 대화, 개인 대화, 주제별로<br/>채팅을 구분해 보세요!
+							단체 대화, 개인 대화, 주제별로<br />채팅을 구분해 보세요!
 						</h3>
 					</header>
 					<p>
-						Morbi in sem quis dui placerat ornare. Pellentesquenisi<br />euismod
-						in, pharetra a, ultricies in diam sed arcu. Cras<br />consequat
-						egestas augue vulputate.
+						같은 기능을 전담하는 사람들끼리 따로 채팅방을 생성하세요!<br />
+						기능별, 개인별로 대화 목적을 나누어 프로젝트의 흐름을 효율적으로 파악할 수 있습니다.<br />
+						대화 도중 주고받았던 파일 목록을 따로 보여 드려요.<br />
+						부분적으로 보내 주는 코드 텍스트를 알아보기 쉽게!<br />
+						언어별로 하이라이팅하여 보여 드릴게요.
 					</p>
-
 				</article>
 				<article>
 					<div class=chat_box>
-						<div class=profile>
+						<div class=profile data-aos="fade-left" data-aos-delay="300">
 							<img src=resources/images/chatting/profile.png class=profile_img>
 						</div>
-						<div class=chat_box_in>
-							<div class=name>PCOOP</div>
-							<div class=chat>채팅 기능 소스 코드 파일 좀 보내 주실래요?</div>
+						<div class=chat_box_in data-aos="fade-left" data-aos-delay="300">
+							<div class=name>철수</div>
+							<div class=chat>수정하신 소스 코드 부분 보내 주실래요?</div>
 							<div class=time>오전 10:19:44</div>
+						</div>
+						<br/>
+						<div class=profile data-aos="fade-right" data-aos-delay="550">
+							<img src=resources/images/chatting/profile.png class=profile_img>
+						</div>
+						<div class="chat_box_in" data-aos="fade-right"
+							data-aos-delay="550">
+							<div class=name>영희</div>
+							<div class=chat>
+								<div class="image">
+									<img src="resources/images/index/precode.PNG" alt="Pic 02" />
+								</div>
+							</div>
+							<div class=time>오전 11:20:26</div>
 						</div>
 					</div>
 				</article>

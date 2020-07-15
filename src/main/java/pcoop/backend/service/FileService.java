@@ -34,7 +34,7 @@ public class FileService {
 	@Autowired
 	private FileDAO fdao;
 
-	@Transactional
+	@Transactional("txManager")
 	public int createProjectBackup(int seq, String name) {
 		this.createProjectBackuptoDrive(seq, name);
 		return this.createProjectBackuptoDB(seq, name);
@@ -62,7 +62,7 @@ public class FileService {
 	}
 
 	// 드라이브에 디렉토리 생성 후, path 리턴
-	@Transactional
+	@Transactional("txManager")
 	public String makeDirToDrive(int parent_seq, String name) {
 
 		String rootDir = session.getServletContext().getRealPath("upload/backup");
@@ -102,7 +102,7 @@ public class FileService {
 	}
 
 	// 디렉토리 이름 변경 
-	@Transactional
+	@Transactional("txManager")
 	public int renameDirectory(int seq, String rename) {
 
 		int result = -1;
@@ -131,7 +131,7 @@ public class FileService {
 	}
 
 	// 디렉토리 이름 변경 from DB
-	@Transactional
+	@Transactional("txManager")
 	public int renameDirectoryFromDB(int seq, String rename, String repath) {
 		return fdao.renameDirectory(seq, rename, repath);
 	}
@@ -174,7 +174,7 @@ public class FileService {
 	}
 
 	// 디렉토리 삭제
-	@Transactional
+	@Transactional("txManager")
 	public void deleteDirectory(int seq, String path) {
 		String dir_path = this.getDirPathBySeq(seq);
 		this.deleteDirFromDrive(path);
@@ -282,7 +282,7 @@ public class FileService {
 	}
 
 	// DB에 새로운 파일 추가하고 seq 넘기기
-	@Transactional
+	@Transactional("txManager")
 	public void uploadFile(int dir_seq, MultipartFile file, String rename) throws Exception {
 
 		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
@@ -330,7 +330,7 @@ public class FileService {
 	}
 
 	// 파일 업로드 - .zip - 압축 해제
-	@Transactional
+	@Transactional("txManager")
 	public void unzip(int project_seq, int dir_seq, MultipartFile zip, String zip_dir) throws Exception {
 
 		String path = this.makeDirToDrive(dir_seq, zip_dir);
@@ -473,7 +473,7 @@ public class FileService {
 	}
 
 	// 파일명 중복 확인 후, rename
-	@Transactional
+	@Transactional("txManager")
 	public String renameDuplFile(int dir_seq, MultipartFile file) {
 
 		String name = file.getOriginalFilename();
@@ -533,7 +533,7 @@ public class FileService {
 	}
 
 	// DB 목록에서 파일 지우기
-	@Transactional
+	@Transactional("txManager")
 	public void deleteFileFromDB(int seq) {
 		fdao.deleteFile(seq);
 	}
@@ -565,7 +565,7 @@ public class FileService {
 		ori_dir.renameTo(new_dir);
 	}
 
-	@Transactional
+	@Transactional("txManager")
 	public int renameFileFromDB(int seq, String rename) {
 
 		String path = this.getFilePathBySeq(seq);
