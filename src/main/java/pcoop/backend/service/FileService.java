@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import pcoop.backend.dao.FileDAO;
@@ -33,6 +34,7 @@ public class FileService {
 	@Autowired
 	private FileDAO fdao;
 
+	@Transactional
 	public int createProjectBackup(int seq, String name) {
 		this.createProjectBackuptoDrive(seq, name);
 		return this.createProjectBackuptoDB(seq, name);
@@ -60,6 +62,7 @@ public class FileService {
 	}
 
 	// 드라이브에 디렉토리 생성 후, path 리턴
+	@Transactional
 	public String makeDirToDrive(int parent_seq, String name) {
 
 		String rootDir = session.getServletContext().getRealPath("upload/backup");
@@ -99,6 +102,7 @@ public class FileService {
 	}
 
 	// 디렉토리 이름 변경 
+	@Transactional
 	public int renameDirectory(int seq, String rename) {
 
 		int result = -1;
@@ -127,6 +131,7 @@ public class FileService {
 	}
 
 	// 디렉토리 이름 변경 from DB
+	@Transactional
 	public int renameDirectoryFromDB(int seq, String rename, String repath) {
 		return fdao.renameDirectory(seq, rename, repath);
 	}
@@ -169,6 +174,7 @@ public class FileService {
 	}
 
 	// 디렉토리 삭제
+	@Transactional
 	public void deleteDirectory(int seq, String path) {
 		String dir_path = this.getDirPathBySeq(seq);
 		this.deleteDirFromDrive(path);
@@ -200,7 +206,7 @@ public class FileService {
 			if(flist[i].isFile()) {
 				flist[i].delete();
 			}else {
-				deleteDirRecursiveFromDrive(flist[i].getPath()); //재귀 함수 호출
+				deleteDirRecursiveFromDrive(flist[i].getPath()); // 재귀 함수 호출
 			}
 
 			flist[i].delete();
@@ -276,6 +282,7 @@ public class FileService {
 	}
 
 	// DB에 새로운 파일 추가하고 seq 넘기기
+	@Transactional
 	public void uploadFile(int dir_seq, MultipartFile file, String rename) throws Exception {
 
 		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
@@ -299,6 +306,7 @@ public class FileService {
 
 	}
 
+	@Transactional
 	public void uploadFile(int dir_seq, File file, String rename) throws Exception {
 
 		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
@@ -322,6 +330,7 @@ public class FileService {
 	}
 
 	// 파일 업로드 - .zip - 압축 해제
+	@Transactional
 	public void unzip(int project_seq, int dir_seq, MultipartFile zip, String zip_dir) throws Exception {
 
 		String path = this.makeDirToDrive(dir_seq, zip_dir);
@@ -417,10 +426,6 @@ public class FileService {
 							String name = makeDirPath.substring(makeDirPath.lastIndexOf('/') + 1);
 							String p_path = makeDirPath.substring(0, makeDirPath.lastIndexOf('/'));
 							int p_seq = fdao.getDirSeqByPath(p_path);
-							
-							System.out.println("name : " + name);
-							System.out.println("p_path : " + p_path);
-							System.out.println("seq : " + p_seq);
 							this.insertDirectory(makeDirPath, name, project_seq, p_seq);
 						}
 						
@@ -468,6 +473,7 @@ public class FileService {
 	}
 
 	// 파일명 중복 확인 후, rename
+	@Transactional
 	public String renameDuplFile(int dir_seq, MultipartFile file) {
 
 		String name = file.getOriginalFilename();
@@ -527,6 +533,7 @@ public class FileService {
 	}
 
 	// DB 목록에서 파일 지우기
+	@Transactional
 	public void deleteFileFromDB(int seq) {
 		fdao.deleteFile(seq);
 	}
@@ -558,6 +565,7 @@ public class FileService {
 		ori_dir.renameTo(new_dir);
 	}
 
+	@Transactional
 	public int renameFileFromDB(int seq, String rename) {
 
 		String path = this.getFilePathBySeq(seq);
