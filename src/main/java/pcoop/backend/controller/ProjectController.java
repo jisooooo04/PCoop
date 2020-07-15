@@ -74,6 +74,7 @@ public class ProjectController {
 
 
 		model.addAttribute("title", name);
+		model.addAttribute("project_seq", seq);//프로젝트 바로가기를 위해 넣음.
 		//project table insert
 		int result = service.create_project(dto);
 
@@ -98,10 +99,11 @@ public class ProjectController {
 	}
 	
 	@RequestMapping("project_code")//forward 피하기 위해서 컨트롤러를 두개 만들었다.
-	public String project_code (String code,String title,Model model)throws Exception{
+	public String project_code (String code,String title,int project_seq,Model model)throws Exception{
 
 		model.addAttribute("code", code);
 		model.addAttribute("title", title);
+		model.addAttribute("project_seq", project_seq);//프로젝트 바로가기
 		return "project/project_code";
 	}
 
@@ -359,4 +361,5 @@ public class ProjectController {
 		  model.addAttribute("seq", ((ProjectDTO)session.getAttribute("projectInfo")).getSeq());
 		  return "redirect:goProjectHome";
 	  }
+	  
 }
