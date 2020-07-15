@@ -117,6 +117,11 @@
 	delete from files where path like #{value}
 </delete>
 
+<!-- 특정 디렉토리 내 모든 파일 지우기 -->
+<delete id="deleteDirsByDirPath">
+	delete from directory where path like #{value}
+</delete>
+
 <!-- 파일 삭제 -->
 <delete id="deleteFile">
 	delete from files where seq = ${value}

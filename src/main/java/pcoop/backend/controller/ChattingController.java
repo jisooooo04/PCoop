@@ -107,7 +107,6 @@ public class ChattingController {
 		List<ChatDTO> fileList = cservice.selectFileList(chatting_num);
 		System.out.println(fileList);
 		model.addAttribute("fileList", fileList);
-		System.out.println("full_date : " + fileList.get(0).getFull_date());
 		
 		
 		return "chatting/chatting";
