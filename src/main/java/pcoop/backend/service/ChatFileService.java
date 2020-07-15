@@ -20,7 +20,7 @@ public class ChatFileService {
 	}
 	
 	
-	public int selectPresentSeq() {
+	public ChatFileDTO selectPresentSeq() {
 		return fdao.selectPresentSeq();
 	}
 	

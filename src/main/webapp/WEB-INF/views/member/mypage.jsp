@@ -291,7 +291,8 @@
 												<div>${i.name}</div>
 												<div>초대 코드 : ${i.code}</div>
 												<div>
-													<i class="fas fa-user fa-lg"></i> /${i.people_num}
+													<i class="fas fa-user fa-lg ${i.seq}"></i>
+													/${i.people_num}
 												</div>
 												<div>
 													<button>
@@ -420,9 +421,9 @@
 	<script>
 			$(function(){
 				var data=${respObj};
-				console.log(${respObj});
-				console.log(data);
-				console.log(JSON.parse(data));
+				console.log(${respObj}['118'])
+				console.log(data['118']);
+				
 			})
 		/* 회원 정보 수정하기 모달 띄우기 */
 			$("#modifybtn").on("click",function(){

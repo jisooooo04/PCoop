@@ -150,23 +150,35 @@ public class ChattingController {
 		//if(!(extension.contentEquals("jpg")||extension.contentEquals("png"))) {
 		//	return "warning";  //전송할 수 없는 파일입니다. 라는 안내메세지 띄우기
 		//}
-		
-		//경로 설정
-		String filepath = session.getServletContext().getRealPath("upload/chat");
-		System.out.println("filePath : " + filepath);
-		
 		//저장 이름 설정
-		String sysname = System.currentTimeMillis() + "_" + oriname;
-		System.out.println("systemFileName : " + sysname);
+				String sysname = System.currentTimeMillis() + "_" + oriname;
+				System.out.println("systemFileName : " + sysname);
+				
+				// 경로 설정 1단계
+			      String filepathUpload = session.getServletContext().getRealPath("upload");
+
+			      // 위에서 지정한 경로가 없을 때 경로를 실제로 새로 만듬
+			      File tempFilePath1 = new File(filepathUpload); // 아래 코드를 사용하려면 File 객체를 생성해야됨
+			      if (!tempFilePath1.exists()) {
+			         System.out.println("upload 경로가 존재하지 않음");
+			         tempFilePath1.mkdir(); // 경로가 없다면 새로 만들어라
+			      } else {
+			         System.out.println("upload 경로 존재함");
+			      }
+
+			      // 실제 최종 경로
+			      String filepath = session.getServletContext().getRealPath("upload/chat");
+			      System.out.println("filePath : " + filepath);
+
+			      // 위에서 지정한 경로가 없을 때 경로를 실제로 새로 만듬
+			      File tempFilePath2 = new File(filepath); // 아래 코드를 사용하려면 File 객체를 생성해야됨
+			      if (!tempFilePath2.exists()) {
+			         System.out.println("upload/chat 경로가 존재하지 않음");
+			         tempFilePath2.mkdir(); // 경로가 없다면 새로 만들어라
+			      } else {
+			         System.out.println("upload/chat 경로 존재함");
+			      }
 		
-		//위에서 지정한 경로가 없을 때 경로를 실제로 새로 만듬
-		File tempFilePath = new File(filepath);  //아래 코드를 사용하려면 File 객체를 생성해야됨
-		if(!tempFilePath.exists()) {
-			System.out.println("해당 경로가 존재하지 않음");
-			tempFilePath.mkdir();  //경로가 없다면 새로 만들어라
-		}else {
-			System.out.println("해당경로 존재함");
-		}
 		
 		//이후 내가 원하는 위치로 바꿈
 		File target = new File(filepath + "/" + sysname);  //저장하고자 하는 경로
