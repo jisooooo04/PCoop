@@ -13,6 +13,7 @@ body {overflow-y: hidden; overflow-x: hidden;}
 	z-index: 100;
 	bottom: 20px;
 	background-color: rgba(255, 255, 255, 0.1);
+    zoom: 0.77;
 
 }
 
@@ -99,4 +100,8 @@ body {overflow-y: hidden; overflow-x: hidden;}
 .lobilist::-webkit-scrollbar-thumb {
    background: rgba(125,200,201,0.5);
   
+}
+
+.fc-header-toolbar{
+	 zoom: 0.5;
 }
