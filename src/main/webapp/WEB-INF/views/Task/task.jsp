@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 
 
-
 <!--Error: Bootstrap dropdown require Popper.js -- 상단부에 있어야 리스트 색 변경시 에러가 안남 -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
@@ -23,7 +22,7 @@
 	href="/resources/lobilist-master/lib/jquery/jquery-ui.min.css" />
 <link rel="stylesheet"
 	href="/resources/lobilist-master/lib/bootstrap/css/bootstrap.min.css" />
-<!-- lib/bootstrap/css/bootstrap.min.css 폰트 축소 원인-->
+<!-- lib/bootstrap/css/bootstrap.min.css 폰트 축소 원인 body의 font-size:16px로 고정-->
 <link rel="stylesheet"
 	href="/resources/lobilist-master/dist/lobilist.min.css">
 <link rel="stylesheet"
@@ -58,7 +57,7 @@
 							<i id="toggle_i" class="glyphicon glyphicon-arrow-down"></i>
 						</button>
 						
-					<div id="selector" class="progress-bar progress-bar-striped active"
+					<div id="selector" class="progress-bar progress-bar-striped  bg-info active"
 						role="progressbar" aria-valuenow="60" aria-valuemin="0"
 						aria-valuemax="100" style="width:${bar}%">
 						<span class="sr-only">45% Complete</span>

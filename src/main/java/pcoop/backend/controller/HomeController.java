@@ -13,12 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import pcoop.backend.dto.ChattingDTO;
 import pcoop.backend.dto.DirectoryDTO;
 import pcoop.backend.dto.FileDTO;
-import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
-import pcoop.backend.dto.ProjectMemberDTO;
 import pcoop.backend.service.ChatService;
 import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.FileService;
@@ -100,6 +97,5 @@ public class HomeController {
 		  session.removeAttribute("projectInfo"); //프로젝트 세션만 삭제하기
 		  return "redirect:/";
 	  }
-	    
 
 }

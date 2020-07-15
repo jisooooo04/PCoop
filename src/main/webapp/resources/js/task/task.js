@@ -95,7 +95,6 @@ $(function() {
 					name: 'ProjectName default'
 
 
-
 				});	          
 			}
 
