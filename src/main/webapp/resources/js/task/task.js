@@ -131,8 +131,8 @@ $(function() {
 
 	});
 
-
 });
+
 
 $( "#toggle_btn" ).click(function() {
 	$( "#calendarBox" ).slideToggle( "slow" );
