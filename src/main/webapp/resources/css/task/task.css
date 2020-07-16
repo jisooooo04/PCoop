@@ -65,7 +65,6 @@ body {overflow-y: hidden; overflow-x: hidden;}
 /*리스트 y 스크롤 */
 .lobilist {
     -webkit-overflow-scrolling: touch;
-    zoom: 0.77;
 }
 .lobilist::-webkit-scrollbar {
     height: 8px;
