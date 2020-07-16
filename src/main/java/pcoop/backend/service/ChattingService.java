@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pcoop.backend.dao.ChattingDAO;
 import pcoop.backend.dao.MemberDAO;
@@ -52,6 +53,7 @@ public class ChattingService {
 	}
 	
 	
+	@Transactional("txManager")
 	//기본채팅방에 멤버 추가
 	public int insertMainMember(int project_seq, int mb_seq, String mb_name) throws Exception {
 		
