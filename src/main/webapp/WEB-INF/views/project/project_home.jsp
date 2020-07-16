@@ -286,7 +286,7 @@
 						<c:forEach var="i" items="${HomechattingList}">
 							<div class="HomeChatBox">
 							<span>${i.title}</span>
-							<button><a href=''>채팅 바로가기</button>
+							<button><a href='chatting?c_num=c_num${i.chatting_num}'>채팅 바로가기</a></button>
 							</div>
 						</c:forEach>
 					</div>
@@ -311,10 +311,10 @@
 			</div> -->
 				
 		</div> 
+		<div class="footer"></div> 
 	</div>
-	<!-- <div class="footer"></div> -->
+	 
 	</section>
-	<footer>dd</footer>
 	
 	<script src="resources/js/backup/directory.js"></script>
 	
