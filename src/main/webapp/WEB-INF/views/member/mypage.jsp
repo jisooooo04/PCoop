@@ -420,6 +420,7 @@
 
 	<script>
 			$(function(){
+				 
 				var data=${respObj};
 				console.log(${respObj}['118'])
 				console.log(data['118']);
