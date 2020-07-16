@@ -348,7 +348,7 @@ $(document).on("click", ".delete_dir", function(){
 	});
 
 })
-// 디렉토리 추가, 디렉토리 이름 변경에서 이름 입력 창 누르면 html 클릭(모든 창 끄는 기능) 이벤트로 같이 발생함
+// 디렉토리 추가, 디렉토리 이름 변경에서 이름 입력 창 누르면 html 클릭(모든 창 끄는 기능) 이벤트도 같이 발생함
 // 그래서 이벤트 버블링 방지해 줌
 $(document).on("click", "#dir_name", function(event){
 	event.stopPropagation();

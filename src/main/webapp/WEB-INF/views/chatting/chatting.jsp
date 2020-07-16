@@ -71,7 +71,8 @@
 				</div>
 
 				<div class=file_contents id=file_contents_section>
-					<c:forEach var="i" begin="0" step="1" end="${fn:length(fileList)-1}">
+					<c:if test="${!empty fileList}">
+						<c:forEach var="i" begin="0" step="1" end="${fn:length(fileList)-1}">
 						<div class=file_list>
 							<div class=file_img_box>
 								<img src="${extensionList[i] }" class=file_img>
@@ -83,6 +84,7 @@
 							</div>
 						</div>
 					</c:forEach>
+					</c:if>
 				</div>
 
 				<div class=file_input>
