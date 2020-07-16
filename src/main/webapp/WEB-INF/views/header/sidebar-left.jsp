@@ -23,7 +23,7 @@
 			
 				//var root_seq = data.root_seq;
 				
-				$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b><a href=backup?dir_seq=" +
+				$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b><a href=/backup?dir_seq=" +
 						root_seq + ">"+ root_name + "</a></b></ul>");
 				
 				// 디렉토리 가지고 오기
@@ -32,7 +32,7 @@
 					var name = dirlist[i].name;
 					var parent = ".root";
 					$(parent).append("<li id=dir" + dirlist[i].seq
-							+ "><a href=backup?dir_seq=" + dirlist[i].seq + ">"+ name + "</a></li>");
+							+ "><a href=/backup?dir_seq=" + dirlist[i].seq + ">"+ name + "</a></li>");
 				}
 
 				//채팅 목록 list 불러와서 왼쪽 사이드바에 뿌려주기
@@ -85,11 +85,11 @@
 		//채팅
 		$(document).on("click", ".c_list", function(){
 			var c_num = $(this).attr("id");
-			location.href = "chatting?c_num=" + c_num;
+			location.href = "/chatting?c_num=" + c_num;
 		});
 		
 		$(document).on("click", ".minichat", function(){
-			location.href = "chatting?c_num=" + mainChatting;
+			location.href = "/chatting?c_num=" + mainChatting;
 		})
 
 		//to-do리스트
