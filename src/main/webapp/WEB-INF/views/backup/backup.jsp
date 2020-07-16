@@ -27,8 +27,42 @@
 	<section>
 
 		<div id="container">
+
 			<!-- 여기부터 각자 영역 설정 -->
 			<div class="contents">
+
+				<div aria-live="polite" aria-atomic="true"
+					style="position: fixed; min-height: 200px;">
+					<!-- Position it -->
+					<div style="position: fixed; top: 55; right: 0;">
+						<!-- 업로딩 알림 토스트 -->
+						<div class="toast uploading" role="alert" aria-live="assertive"
+							aria-atomic="true">
+							<div class="toast-header">
+								<strong class="mr-auto">PCOOP</strong> <small>uploading...</small>
+								<button type="button" class="ml-2 mb-1 close"
+									data-dismiss="toast" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="toast-body">업로드한 파일을 압축 해제 중입니다. 잠시 기다려 주세요.</div>
+						</div>
+
+
+						<!-- 업로드 완료 알림 토스트 -->
+						<div class="toast uploaded" role="alert" aria-live="assertive"
+							aria-atomic="true">
+							<div class="toast-header">
+								<strong class="mr-auto">PCOOP</strong> <small>uploaded</small>
+								<button type="button" class="ml-2 mb-1 close"
+									data-dismiss="toast" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="toast-body">압축 해제가 완료되었습니다.</div>
+						</div>
+					</div>
+				</div>
 
 				<div class="backup-path"></div>
 				<div class="backup-btns">
@@ -135,20 +169,23 @@
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<div class="modal-body">
-								<form action="uploadFile" name="uploadForm" method="POST"
-									enctype="multipart/form-data">
+							<form action="uploadFile" name="uploadForm" method="POST"
+								enctype="multipart/form-data">
+								<div class="modal-body">
+
 									<label for="recipient-name" class="col-form-label">파일
 										선택</label> <input type="file" name="file" class="form-control"
 										id="selectedFile"> <input type="hidden" name="dir_seq">
-									<input type="submit" id="uploadSubmit">
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn upload_file_cancel"
-									data-dismiss="modal">Close</button>
-								<button type="button" class="btn upload_file">UPLOAD</button>
-							</div>
+
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn upload_file_cancel"
+										data-dismiss="modal">Close</button>
+									<input type="submit" id="uploadSubmit" class="btn upload_file"
+										value=UPLOAD>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -166,22 +203,24 @@
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<div class="modal-body">
-								<form action="uploadZip" name="uploadZipForm" method="POST"
-									enctype="multipart/form-data">
+							<form action="uploadZip" name="uploadZipForm" method="POST"
+								enctype="multipart/form-data">
+								<div class="modal-body">
+
 									<label for="recipient-name" class="col-form-label">.zip
 										파일 선택</label> <input type="file" name="zip" class="form-control"
 										id="selectedFiles"> <label id=zipname>압축 해제할
 										디렉토리 이름 설정</label><input type="text" name=zip_dir> <input
-										type="hidden" name="dir_seq"> <input type="submit"
-										id="uploadZipSubmit">
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn upload_zip_cancel"
-									data-dismiss="modal">Close</button>
-								<button type="button" class="btn upload_zip">UPLOAD</button>
-							</div>
+										type="hidden" name="dir_seq">
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn upload_zip_cancel"
+										data-dismiss="modal">Close</button>
+									<input type="submit" id="uploadZipSubmit"
+										class="btn upload_zip" value=UPLOAD>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -221,14 +260,12 @@
 	<script src="resources/js/backup/directory.js"></script>
 	<script src="resources/js/backup/file.js"></script>
 	<script>
-		$(function(){
+		$(function() {
 			$(".backup").css("display", "block");
-			var root_seq = ${root_seq};
-			var dir_seq = ${dir_seq};
-			
+			var root_seq = "${root_seq}";
+			var dir_seq = "${dir_seq}";
 			getDirAndFileList(dir_seq);
 		})
-		
 	</script>
 
 </body>

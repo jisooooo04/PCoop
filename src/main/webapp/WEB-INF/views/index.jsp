@@ -51,6 +51,11 @@
 article>p{
 	font-size: 13px;
 }
+
+article{
+	 margin: auto;
+}
+
 </style>
 
 
@@ -61,10 +66,8 @@ article>p{
 		<div class="inner">
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
-				<a href="member/gomypage">마이 페이지</a> <a href="#">협업 구하기</a> <a
-					href="#">참여 중 프로젝트</a> <a href="#">프로젝트 소개</a> <a href="Task/task">할
-					일 목록</a> <a href="calendar/calendar?project_seq=0">캘린더</a> <a
-					href="chatting">채팅</a> <a href="community">커뮤니티</a>
+				<a href="member/gomypage">마이 페이지</a> <a
+					href="#">참여 중 프로젝트</a> <a href="#">협업 구하기</a> <a href="community">커뮤니티</a>
 
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
@@ -139,15 +142,15 @@ article>p{
 				<article>
 					<header>
 						<h3>
-							단체 대화, 개인 대화, 주제별로<br />채팅을 구분해 보세요!
+							단체 대화, 개인 대화, 주제별로<br> 구분된 <span id="logo">업무 메신저</span>를 이용하세요!
 						</h3>
 					</header>
 					<p>
 						같은 기능을 전담하는 사람들끼리 따로 채팅방을 생성하세요!<br />
-						기능별, 개인별로 대화 목적을 나누어 프로젝트의 흐름을 효율적으로 파악할 수 있습니다.<br />
-						대화 도중 주고받았던 파일 목록을 따로 보여 드려요.<br />
+						기능별, 개인별로 <span id="logo">대화 목적을 나누어</span> 프로젝트의 흐름을 효율적으로 파악할 수 있습니다.<br />
+						대화 도중 주고받았던 <span id="logo">파일 목록</span>을 따로 보여 드려요.<br />
 						부분적으로 보내 주는 코드 텍스트를 알아보기 쉽게!<br />
-						언어별로 하이라이팅하여 보여 드릴게요.
+						<span id="logo">언어별로 하이라이팅</span>하여 보여 드릴게요.
 					</p>
 				</article>
 				<article>
@@ -176,38 +179,49 @@ article>p{
 						</div>
 					</div>
 				</article>
-				<br />
-				<article>
-					<div class="image round">
-						<img src="resources/images/index/pic02.jpg" alt="Pic 02" />
+				<br>
+				<br>
+				<article data-aos="fade-right" data-aos-delay="700">
+					<div class="image">
+						<img src="resources/images/index/todo.PNG" alt="Pic 02" />
+						<img src="resources/images/index/todo2.PNG" alt="Pic 02" />
 					</div>
+				</article>
+
+				<article>
 					<header>
 						<h3>
-							Sed feugiat<br /> tempus adipicsing
+							칸반 스타일의 <br /><span id="logo">To-do List</span>!
 						</h3>
 					</header>
 					<p>
-						Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis
-						auctor, ultrices ut, elementum vulputate, nunc<br /> blandit
-						ellenste egestagus commodo.
+						할 일이 정리가 안 되시나요?<br>
+						담당한 업무들을 <span id="logo">하나의 카드</span>로 묶어 간편하게 관리해 보세요.<br>
+						완료된 업무는 <span id="logo">체크</span>!<br>
+						프로젝트 전체 진행 과정을 진행 바의 게이지를 통해 시각적으로 점검할 수 있습니다.<br>
+						<span id="logo">드래그 앤 드롭</span>으로 보다 쉽고 빠르게 업무를 조정해 보세요.
 					</p>
-
 				</article>
 				<article>
-					<div class="image round">
-						<img src="resources/images/index/pic02.jpg" alt="Pic 02" />
-					</div>
 					<header>
 						<h3>
-							Sed feugiat<br /> tempus adipicsing
+							팀원들과 공유하는 <span id="logo">백업 드라이브</span>
 						</h3>
 					</header>
 					<p>
-						Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis
-						auctor, ultrices ut, elementum vulputate, nunc<br /> blandit
-						ellenste egestagus commodo.
+						드라이브에  팀원들과 공유해야 하는 <span id="logo">파일들을 백업</span>하세요.<br>
+							파일뿐만 아니라 <span id="logo">.zip 파일</span>을 업로드하면 <span id="logo">자동으로 압축 해제</span>해 줍니다.<br>
+							업로드된 파일이 <span id="logo">텍스트 파일</span>이라면 <span id="logo">미리 보기</span> 기능을 제공합니다.<br>
+							언어별로 자동으로 <span id="logo">하이라이팅된 소스 코드</span>를 볼 수 있습니다.
 					</p>
-
+				</article>
+				<article>
+					<div class="image">
+						<img src="resources/images/index/backup.png" alt="Pic 02" />
+					</div>
+					<div class="image preview">
+						<img src="resources/images/index/preview.png" alt="Pic 02" />
+					</div>
 				</article>
 			</div>
 		</div>

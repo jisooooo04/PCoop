@@ -148,6 +148,11 @@ public class FileDAO {
 		return mybatis.selectList("Backup.getFileListByDirSeq", dir_seq);
 
 	}
+	
+	// 특정 디렉토리 내 모든 디렉토리 지우기
+	public int deleteDirsByDirPath(String dir_path) {
+		return mybatis.delete("Backup.deleteDirsByDirPath", dir_path + "%");
+	}
 
 	// 특정 디렉토리 내 모든 파일 지우기
 	public int deleteFilesByDirPath(String dir_path) {

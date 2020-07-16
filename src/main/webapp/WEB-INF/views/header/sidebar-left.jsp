@@ -13,7 +13,7 @@
 		var root_name = '${projectInfo.name}';
 		
 		$.ajax({
-			url: "leftsidebar",
+			url: "/leftsidebar",
 			type: "post",
 			dataType: "json",
 			success: function(response){

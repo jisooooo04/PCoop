@@ -200,6 +200,8 @@ $(document).on("contextmenu", ".dirs>.dir", function(event){
 
 //Hide contextmenu:
 $(document).click(function(event){
+	
+	console.log("컨테이너 클릭");
 
 	$(".contextmenu").hide();
 	$(".contextmenu_container").hide();
@@ -324,7 +326,7 @@ $(document).on("click", ".delete_dir", function(){
 		data: data,
 		success: function(data){
 
-			$("#dir" + seq).remove();
+			$("#dir" + seq + ".dir").remove();
 			$(".root").remove();
 
 			var data = JSON.parse(data);
@@ -337,14 +339,25 @@ $(document).on("click", ".delete_dir", function(){
 
 			$("#dir" + seq + ".dir").remove();
 
+		},
+		error: function (e) {
+			alert("이미 삭제된 디렉토리입니다.");
+			console.log("ERROR : ", e);
+			alert("fail");
 		}
 	});
 
 })
-
+// 디렉토리 추가, 디렉토리 이름 변경에서 이름 입력 창 누르면 html 클릭(모든 창 끄는 기능) 이벤트로 같이 발생함
+// 그래서 이벤트 버블링 방지해 줌
 $(document).on("click", "#dir_name", function(event){
 	event.stopPropagation();
 	$(".add_dir").show();
+})
+
+$(document).on("click", "#dir_rename", function(event){
+	event.stopPropagation();
+	$(".rename_dir").show();
 })
 
 //디렉토리 이름 변경 버튼 - 입력 창
@@ -355,15 +368,14 @@ $(document).on("click", ".menu_rename_dir", function(event){
 	var id = this.id;
 	var left = $(".dirs>#" + id).offset().left;
 	var top = $(".dirs>#" + id).offset().top + 70;
-	var dir_name = $("#" + id + ".dir").tekRdxt();
+	var dir_name = $("#" + id + ".dir").text();
 
-	console.log(dir_name);
 	$("#dir_rename").val(dir_name);
 	
 	$(".rename_dir").css({
 		"left": left,
 		"top": top
-	});
+	}).show();
 	
 
 	$(".contextmenu").hide();
@@ -371,7 +383,6 @@ $(document).on("click", ".menu_rename_dir", function(event){
 	$(".add_dir").hide();
 	$(".upload_context").hide();
 
-	$(".rename_dir").css("display", "block");
 
 })
 
@@ -394,8 +405,13 @@ $(document).on("click", "#ok_rename_dir", function(){
 		success: function(data){
 
 			if(data != -1)
-				$("#" + id).html("<b>" + rename + "</b>");
+				$("#" + id + ".dir").html(rename);
 			else alert("디렉토리 이름 중복");
+		},
+		error: function (e) {
+			alert("이미 삭제된 디렉토리입니다.");
+			console.log("ERROR : ", e);
+			alert("fail");
 		}
 	});
 
