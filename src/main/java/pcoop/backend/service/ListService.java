@@ -1,5 +1,6 @@
 package pcoop.backend.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -119,8 +120,28 @@ public class ListService {
 		return returnjson;
 	}
 
-	public int insert (CardDTO cdto) {
-		return ldao.insert(cdto);
+	public Map<String, Object> insert (CardDTO cdto) {
+		
+		int result = ldao.insert(cdto);
+		
+		System.out.println("insert 결과 : "+result);
+		Boolean success = false;
+		if(result>0) {
+			success = true;
+		}else {
+			success = false;
+		}
+
+		//		System.out.println("List<BoardDTO> list의 사이즈 : "+list.size());
+		//클라이언트는 JSON으로 받는게 좋음 : List<BoardDTO>를 JSON으로
+		Map<String, Object> cardMap = new HashMap<>();
+		cardMap.put("id", cdto.getId());
+		cardMap.put("title", cdto.getTitle());
+		cardMap.put("done", cdto.getDone());
+		cardMap.put("listId", cdto.getListId());
+		cardMap.put("success", success);
+		return cardMap;
+		
 	}
 	public int delete (Map<String, Object> param) {
 		return ldao.delete(param);
@@ -165,9 +186,24 @@ public class ListService {
 		return ldao.listIndexUpdate(param);
 	}
 	
-	public int selectCount(Map<String, Object> param){
-		return ldao.selectCount(param);
+	@Transactional("txManager")
+	public JsonObject selectCount(Map<String, Object> param){
+		
+		int allcount =  ldao.selectCount(param);
+		int truecount =  ldao.trueCount(param);
+		
+		//System.out.println("프로젝트의 총 Task_card 수: "+allcount);
+		//System.out.println("완료된 Task_card 수: "+truecount);
+		//System.out.println("진행률 : "+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
+		int count = (int) Math.round(((double) truecount / (double) allcount) * 100);
+
+		String to = Integer.toString(count);
+		JsonObject json = new JsonObject();	
+		json.addProperty("to", to );
+		
+		return json;
 	}
+	
 	public int trueCount(Map<String, Object> param){
 		return ldao.trueCount(param);
 	}

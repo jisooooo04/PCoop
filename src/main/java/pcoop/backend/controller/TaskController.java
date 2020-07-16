@@ -12,15 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import pcoop.backend.dto.CalendarDTO;
 import pcoop.backend.dto.CardDTO;
@@ -306,9 +302,6 @@ System.out.println("도움말 리스트 화면에서 삭제");
 		}
 		System.out.println("----------------------------");
 
-
-		CardDTO cdto = new CardDTO();
-
 		//Map<String, Object> param = new HashMap<>();
 
 		//param.put("listId", request.getParameter("listId")); 
@@ -318,6 +311,8 @@ System.out.println("도움말 리스트 화면에서 삭제");
 			failCardMap.put("success", false);
 			return failCardMap;
 		}
+		
+		CardDTO cdto = new CardDTO();
 		cdto.setListId(Integer.parseInt(request.getParameter("listId")));
 		cdto.setTitle(request.getParameter("title"));
 		cdto.setDescription(request.getParameter("description"));
@@ -326,23 +321,8 @@ System.out.println("도움말 리스트 화면에서 삭제");
 		ProjectDTO pdto = (ProjectDTO) session.getAttribute("projectInfo");
 		cdto.setProject_seq(pdto.getSeq());
 		
-		int result = lservice.insert(cdto);
-		System.out.println("insert 결과 : "+result);
-		Boolean success = false;
-		if(result>0) {
-			success = true;
-		}else {
-			success = false;
-		}
-
-		//		System.out.println("List<BoardDTO> list의 사이즈 : "+list.size());
-		//클라이언트는 JSON으로 받는게 좋음 : List<BoardDTO>를 JSON으로
-		Map<String, Object> cardMap = new HashMap<>();
-		cardMap.put("id", cdto.getId());
-		cardMap.put("title", cdto.getTitle());
-		cardMap.put("done", cdto.getDone());
-		cardMap.put("listId", cdto.getListId());
-		cardMap.put("success", success);
+		Map<String, Object> cardMap = lservice.insert(cdto);
+		
 		return cardMap;
 
 	}
@@ -434,7 +414,7 @@ System.out.println("도움말 리스트 화면에서 삭제");
 	}
 
 	
-	@Transactional("txManager")
+
 	@ResponseBody
 	@RequestMapping("selectCount")
 	public JsonObject countdone(Model model) throws Exception {
@@ -443,21 +423,9 @@ System.out.println("도움말 리스트 화면에서 삭제");
 		Map<String, Object> param = new HashMap<>();
 		param.put("project_seq", pdto.getSeq() ); //세션에서 project_seq 가져오기
 		
-		JsonObject json = new JsonObject();	
-		
-		int allcount =  lservice.selectCount(param);
-		int truecount =  lservice.trueCount(param);
-		
-		System.out.println("프로젝트의 총 Task_card 수: "+allcount);
-		System.out.println("완료된 Task_card 수: "+truecount);
-		System.out.println("진행률 : "+Math.round(((double) truecount / (double) allcount) * 100)+ "%");
-		int count = (int) Math.round(((double) truecount / (double) allcount) * 100);
+		// 계산 식은 lservice.selectCount 로 이동
+		JsonObject json =  lservice.selectCount(param);
 
-		String to = Integer.toString(count);
-
-		
-		model.addAttribute("to",to);
-		json.addProperty("to", to );
 		
 		return json;
 		

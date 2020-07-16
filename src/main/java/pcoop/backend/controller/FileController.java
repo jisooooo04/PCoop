@@ -32,7 +32,7 @@ public class FileController {
 	HttpSession session;
 	@Autowired
 	FileService fservice;
-	
+
 	@RequestMapping("fileList")
 	public String fileList(Model model) {
 
@@ -71,9 +71,9 @@ public class FileController {
 
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
 		return "backup/fileList";
-		
+
 	}
-	
+
 	@RequestMapping("getParentDirSeq")
 	@ResponseBody
 	public String getParentDirSeq(int dir_seq) {
@@ -91,7 +91,7 @@ public class FileController {
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
-		
+
 		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
 			json.addProperty("seq", dto.getSeq());
@@ -122,6 +122,7 @@ public class FileController {
 		return new Gson().toJson(data);
 	}
 
+
 	@RequestMapping(value = "addDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String addDirectory(int parent_seq, String name) {
@@ -132,19 +133,19 @@ public class FileController {
 		// 프로젝트의 루트 디렉토리 seq 가져옴
 		int root_seq = fservice.getRootDirSeq(project.getSeq());
 		JsonArray dirArr = new JsonArray();
-		
+
 		// 디렉토리 이름 중복 확인
 		int checkDupl = fservice.checkDuplDirName(parent_seq, name);
 
 		// 중복이 아니라면
 		if(checkDupl == 0) {
-			
+
 			// 드라이브에 디렉토리 생성
 			String path = fservice.makeDirToDrive(parent_seq, name);
 			// DB에 디렉토리 insert
 			fservice.insertDirectory(path, name, project.getSeq(), parent_seq);
 			int newDirSeq = fservice.getDirSeqByName(name, parent_seq);
-			
+
 			// 업데이트된 리스트 보내기
 			List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
 
@@ -155,15 +156,15 @@ public class FileController {
 				json.addProperty("path", dto.getPath());
 				dirArr.add(json);
 			}
-			
+
 			data.addProperty("seq", newDirSeq);
 			data.addProperty("dirlist", new Gson().toJson(dirArr));
 
 		}
-		
+
 		data.addProperty("checkDupl", checkDupl);
 		return new Gson().toJson(data);
-		
+
 	}
 
 	@RequestMapping(value = "deleteDirectory", produces = "application/text; charset=utf8")
@@ -196,15 +197,15 @@ public class FileController {
 	public int renameDir(int seq, String rename) {
 
 		int result = -1;
-		
+
 		int parent_seq = fservice.getParentSeqBySeq(seq);
 		int duplCheck = fservice.checkDuplDirName(parent_seq, rename);
-		
+
 		if(duplCheck == 0) {
 			result = fservice.renameDirectory(seq, rename);
-			
+
 		}
-		
+
 		return result;
 	}
 
@@ -236,18 +237,32 @@ public class FileController {
 		return new Gson().toJson(fileArr);
 
 	}
-	
+
+	@RequestMapping(value = "checkDirNameDupl", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String checkDirNameDupl(int dir_seq, String zip_dir) {
+		String result = "";
+
+		// 압축 해제할 디렉토리 이름 중복 체크
+		int checkDupl = fservice.checkDuplDirName(dir_seq, zip_dir);
+		// 이름 중복일 경우
+		if(checkDupl != 0) {
+			result = "dupl";
+		}
+		
+		return result;
+	}
+
 	@RequestMapping("uploadZip")
 	@ResponseBody
 	public String uploadZip(int dir_seq, String zip_dir, MultipartFile zip) throws Exception {
-		
+
 		String result = "";
 		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+		JsonObject json = new JsonObject();
 
-		System.out.println(dir_seq + " : " + zip_dir + " : " + zip);
 		// 압축 해제할 디렉토리 이름 중복 체크
 		int checkDupl = fservice.checkDuplDirName(dir_seq, zip_dir);
-		
 		// 이름 중복일 경우
 		if(checkDupl != 0) {
 			result = "dupl";
@@ -255,9 +270,13 @@ public class FileController {
 
 		else {
 			fservice.unzip(project.getSeq(), dir_seq, zip, zip_dir);
+			int zip_dir_seq = fservice.getDirSeqByName(zip_dir, dir_seq);
+			json.addProperty("zip_dir_seq", zip_dir_seq);
 		}
-		
-		return result;
+
+
+		json.addProperty("result", result);
+		return new Gson().toJson(json);
 	}
 
 	@RequestMapping("downloadFile")
@@ -327,15 +346,15 @@ public class FileController {
 		System.out.println(json);
 		return new Gson().toJson(json);
 	}
-	
+
 	@RequestMapping("renameFile")
 	@ResponseBody
 	public int renameFile(int seq, String rename) throws Exception {
-		
+
 		int result = -1;
-		
+
 		result = fservice.renameFile(seq, rename);
-		
+
 		return result;
 	}
 
@@ -354,27 +373,27 @@ public class FileController {
 	//		}
 	//	}
 
-//	@RequestMapping("project-main")
-//	public String projectMain(Model model) {
-//		
-//		// 프로젝트의 루트 디렉토리 seq 가져옴
-//		int root_seq = fservice.getRootDirSeq(project_seq);
-//		
-//		// DB에서 목록 가져올 때
-//		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
-//		JsonArray dirArr = new JsonArray();
-//		JsonArray fileArr = new JsonArray();
-//
-//		for(DirectoryDTO dto : dirList) {
-//			JsonObject json = new JsonObject();
-//			json.addProperty("seq", dto.getSeq());
-//			json.addProperty("name", dto.getName());
-//			json.addProperty("path", dto.getPath());
-//			dirArr.add(json);
-//		}
-//		
-//		model.addAttribute("dirlist", new Gson().toJson(dirArr));
-//		return "project-main";
-//	}
+	//	@RequestMapping("project-main")
+	//	public String projectMain(Model model) {
+	//		
+	//		// 프로젝트의 루트 디렉토리 seq 가져옴
+	//		int root_seq = fservice.getRootDirSeq(project_seq);
+	//		
+	//		// DB에서 목록 가져올 때
+	//		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
+	//		JsonArray dirArr = new JsonArray();
+	//		JsonArray fileArr = new JsonArray();
+	//
+	//		for(DirectoryDTO dto : dirList) {
+	//			JsonObject json = new JsonObject();
+	//			json.addProperty("seq", dto.getSeq());
+	//			json.addProperty("name", dto.getName());
+	//			json.addProperty("path", dto.getPath());
+	//			dirArr.add(json);
+	//		}
+	//		
+	//		model.addAttribute("dirlist", new Gson().toJson(dirArr));
+	//		return "project-main";
+	//	}
 
 }

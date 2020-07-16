@@ -32,8 +32,8 @@
 	<!-- MultipartResolver -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="20485760" />
-		<beans:property name="maxInMemorySize" value="20485760" />
+		<beans:property name="maxUploadSize" value="52428800" />
+		<beans:property name="maxInMemorySize" value="52428800" />
 	</beans:bean>
 	
 	<context:component-scan base-package="pcoop.backend" />

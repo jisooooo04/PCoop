@@ -177,8 +177,10 @@ public class FileService {
 	@Transactional("txManager")
 	public void deleteDirectory(int seq, String path) {
 		String dir_path = this.getDirPathBySeq(seq);
+		System.out.println(dir_path);
 		this.deleteDirFromDrive(path);
 		this.deleteDirectoryFromDB(path);
+		fdao.deleteDirsByDirPath(dir_path);
 		fdao.deleteFilesByDirPath(dir_path);
 	}
 
