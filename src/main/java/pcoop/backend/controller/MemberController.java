@@ -296,8 +296,11 @@ public class MemberController {
 			int project_seq = dto.getSeq();
 			String key = project_seq+"";
 			int countPeople = pservice.countNum(project_seq);
-			respObj.addProperty(key, countPeople);			
+			respObj.addProperty(key, countPeople+"");			
 		}
+
+		System.out.println(respObj);
+
 		model.addAttribute("respObj",respObj);
 		return "member/mypage";
 	}

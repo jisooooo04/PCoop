@@ -460,6 +460,7 @@ section {
 
 
 	<script>
+
 			$(function(){
 
 				for(var i=0;i<${list_size};i++){//json으로 보낸 현재 팀원 수 after로 넣어주기.
@@ -470,6 +471,7 @@ section {
 
 				
 			})
+
 		/* 회원 정보 수정하기 모달 띄우기 */
 			$("#modifybtn").on("click",function(){
 				$(".modifymodal").addClass('modal-open');

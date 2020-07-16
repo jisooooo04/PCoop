@@ -23,6 +23,13 @@
 </head>
 
 <body>
+	
+	<!-- 우클릭 메뉴 -->
+	<div id=contextmenu>
+		<div class="c_menu delete_chat">삭제</div>
+		<div class="c_menu copy_chat">복사</div>
+	</div>
+	
 	<!-- Header -->
 	<jsp:include page="../header/header.jsp"></jsp:include>
 	<!-- 왼쪽 사이드바 -->
@@ -33,16 +40,7 @@
 		<div id="container">
 			<!-- 여기부터 각자 영역 설정 -->
 			
-			<!-- 우클릭 메뉴 -->
-			<div id=contextmenu>
-				<div class="c_menu delete_chat">삭제</div>
-				<div class="c_menu reply_chat">답장</div>
-				<div class="c_menu copy_chat">복사</div>
-				<div class="c_menu deliver_chat">전달</div>
-				<div class="c_menu post_chat">공지</div>
-			</div>
-
-
+			
 			<!-- 채팅 타이틀 -->
 			<div class="chat_title_section">
 			
@@ -62,7 +60,7 @@
 					</c:forEach>
 				</div>
 				
-				<img src=resources/images/chatting/file.png class=open_file_btn>
+				<img src=resources/images/chatting/filelist.png class=open_file_btn>
 			</div>
 
 
@@ -73,15 +71,15 @@
 				</div>
 
 				<div class=file_contents id=file_contents_section>
-					<c:forEach var="i" items="${fileList}">
+					<c:forEach var="i" begin="0" step="1" end="${fn:length(fileList)-1}">
 						<div class=file_list>
 							<div class=file_img_box>
-								<img src="resources/images/chatting/pdf.png" class=file_img>
+								<img src="${extensionList[i] }" class=file_img>
 							</div>
 							<div class=file_info_box>
-								<div class=file_name id="${i.seq}">${i.chat }</div>
-								<div class=file_date>${fn:substring(fn:replace(i.full_date, '-', '/'), 0, 10) }</div>
-								<div class=file_writer>${i.writer }</div>
+								<div class=file_name id="${fileList[i].seq}">${fileList[i].chat }</div>
+								<div class=file_date>${fn:substring(fn:replace(fileList[i].full_date, '-', '/'), 0, 10) }</div>
+								<div class=file_writer>${fileList[i].writer }</div>
 							</div>
 						</div>
 					</c:forEach>
