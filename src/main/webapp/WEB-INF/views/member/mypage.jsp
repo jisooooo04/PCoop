@@ -9,6 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
+* {
+	box-sizing: border-box;
+}
+
 .row {
 	margin-top: 10px;
 }
@@ -17,7 +21,7 @@
 	border: 2px solid #5f83ba;
 	margin-top: 37px;
 	/* margin-bottom: 30px; */
-	 margin-bottom: 10px;
+	margin-bottom: 10px;
 	font-size: 30px;
 	background-color: #5f83ba;
 	color: white;
@@ -114,7 +118,7 @@
 	color: white;
 	margin-bottom: 30px;
 	margin-top: 30px;
-	padding:2px;
+	padding: 2px;
 }
 
 .fa-list-ul {
@@ -127,7 +131,7 @@
 	border-radius: 10px;
 	border: none;
 	padding: 6px;
-	outline:none;
+	outline: none;
 }
 
 .box a {
@@ -183,11 +187,53 @@
 	border: 0.5px solid #32a6f0;
 	background-color: white;
 	color: #32a6f0;
-	outline:none;
+	outline: none;
 }
 
 .openModal {
 	top: 20%;
+}
+/* 헤더 설정 */
+header {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background-color: #7dc8c9;
+	color: white;
+	line-height: 50px;
+	text-align: center;
+	width: 100%;
+	height: 50px;
+}
+
+.logo {
+	float: left;
+	width: 150px;
+}
+
+.header_menu_list {
+	width: 100%;
+}
+
+.header_menu {
+	float: right;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.header_sidebar {
+	width: 45px;
+	float: right;
+	padding-top: 10px;
+	padding-right: 15px;
+}
+
+.logo, .header_menu, .header_sidebar:hover {
+	cursor: pointer;
+}
+
+section {
+	margin-top: 50px;
 }
 </style>
 </head>
@@ -195,29 +241,24 @@
 
 	<div class="container">
 		<header>
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="#">Navbar</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarNav" aria-controls="navbarNav"
-					aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav">
-						<li class="nav-item active"><a class="nav-link" href="/">Home
-								<span class="sr-only">(current)</span>
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Features</a>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="#">Pricing</a>
-						</li>
-						<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
+			<!-- 로고 -->
+			<div class="logo">
+				<b>P</b>COOP!
+			</div>
 
+			<!-- 메뉴 -->
+			<div class="row">
+				<div class="d-md-block d-none header_menu_list">
+					<div class="header_menu">로그아웃</div>
+					<div class="header_menu">커뮤니티</div>
+					<div class="header_menu">협업 구하기</div>
+				</div>
+				<div class="d-md-none d-block header_menu_list">
+					<img src=menu.png class=header_sidebar>
+				</div>
+			</div>
 		</header>
+
 		<section>
 
 			<div class="row">
@@ -279,7 +320,7 @@
 										<div class="head">
 											<i class="fas fa-list-ul"></i>프로젝트
 										</div>
-										<c:forEach var="i" items="${list}">
+										<c:forEach var="i" items="${list}" varStatus="status">
 											<div class="box">
 												<c:choose>
 													<c:when test='${i.leader_seq==loginInfo.seq}'>
@@ -291,8 +332,8 @@
 												<div>${i.name}</div>
 												<div>초대 코드 : ${i.code}</div>
 												<div>
-													<i class="fas fa-user fa-lg ${i.seq}"></i>
-													/${i.people_num}
+													<i class="fas fa-user fa-lg user${status.count}"
+														id='${i.seq}'></i> /${i.people_num}
 												</div>
 												<div>
 													<button>
@@ -420,10 +461,13 @@
 
 	<script>
 			$(function(){
-				 
-				var data=${respObj};
-				console.log(${respObj}['118'])
-				console.log(data['118']);
+
+				for(var i=0;i<${list_size};i++){//json으로 보낸 현재 팀원 수 after로 넣어주기.
+					var count = i+1;
+					var id = $('.user'+count).attr('id');
+					$('.user'+count).after(${respObj}[id]);
+				}
+
 				
 			})
 		/* 회원 정보 수정하기 모달 띄우기 */
@@ -508,7 +552,10 @@
             
             })  
     }
-     
+    
+	$('header>.logo').on("click",function(){
+		location.href='/';
+	})
 		</script>
 
 

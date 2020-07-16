@@ -16,10 +16,10 @@
 * {
 	box-sizing: border-box;
 }
-
-.container {
+.container-fluid{
 	margin: auto;
 	padding: 25px;
+	background-color:white;
 }
 /*<!-- 프로젝트 참가 요청 -->*/
 .joinRequest {
@@ -69,7 +69,8 @@
 .projectInfo {
 	border-radius: 15px;
 	padding: 15px;
-	text-align:center;
+	margin-left:50px;
+	margin-top: 20px;
 }
 
 .projectInfo>div {
@@ -161,15 +162,55 @@
 	border-radius:10px;
 	outline:none;
 }
+/* 채팅방 리스트 */
+.HomechattingList{
+	margin-top:60px;
+}
+.HomechattingList>div:nth-child(1){
+	margin-left:20px;
+	margin-bottom:30px;
+	font-size:25px;
+}
+.HomechattingList>div{
+	font-family: 'Noto Sans KR', sans-serif;	
+}
+.fa-comments{
+	margin-right:10px;
+	color:#7dc8c9;
+}
+.HomeChatBox{
+	margin: 20px;
+}
+.HomeChatBox>span{
+	font-size:20px;
+}
+.HomeChatBox>button{
+	padding:0;
+	width:150px;
+	height:30px;
+	border:1px solid #7dc8c9;
+	border-radius:10px;
+	background-color:white;
+	outline:none;
+}
+.HomeChatBox>button>a{
+	font-size:15px;
+	color:dimgray;
+	display:block;
+	text-decoration:none;
+	width:100%;
+	height:100%;
+	line-height: 2;
+}
 /* 제일 하단 이미지 넣는 부분 */
-.proejctFooter{
+/* .proejctFooter{
 	margin-top:200px;
 	padding-left:50px;
 }
 .proejctFooter>img{
 	max-width:100%;
 	overflow:auto;
-}
+} */
 </style>
 
 
@@ -220,7 +261,7 @@
 			</c:when>
 		</c:choose>
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-5">
 				<div class="projectInfo">
 					<div>
 						${projectInfo.name}<span>${projectInfo.code}</span>
@@ -238,31 +279,42 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-sm-7">
+				<div class="HomechattingList">
+					<div><i class="far fa-comments fa-lg"></i>${loginInfo.name}님이 속한 채팅방</div>
+					<div>
+						<c:forEach var="i" items="${HomechattingList}">
+							<div class="HomeChatBox">
+							<span>${i.title}</span>
+							<button><a href=''>채팅 바로가기</button>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
 		</div>
-		<%-- <c:choose>
+		 <c:choose>
 			<c:when test="${loginInfo.seq==projectInfo.leader_seq}">
-				<!-- 조장이라면 팀원 초대하기 버튼 보이게  --> --%>
+				<!-- 조장이라면 팀원 초대하기 버튼 보이게  --> 
 				<div class="row">
 			<div class="invite">
 				<button class="inviteBtn"><i class="fas fa-paper-plane"></i>팀원 초대하기</button>
 			</div>
 		</div>
 
-		<%-- 	</c:when>
-		</c:choose> --%>
+		 	</c:when>
+		</c:choose> 
 		
-		<div class="row">
-			<div class="col-12 proejctFooter d-md-none d-lg-block">
+		 <div class="row footer">
+			<!-- <div class="col-12 proejctFooter d-md-none d-lg-block">
 				<img src="/resources/images/project/projectHomeFooter.png">
-			</div>
+			</div> -->
 				
-		</div>
+		</div> 
 	</div>
-
-
-
+	<!-- <div class="footer"></div> -->
 	</section>
-	
+	<footer>dd</footer>
 	
 	<script src="resources/js/backup/directory.js"></script>
 	
