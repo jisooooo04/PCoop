@@ -19,7 +19,7 @@ public class ChatFileDAO {
 	}
 	
 	
-	public int selectPresentSeq() {
+	public ChatFileDTO selectPresentSeq() {
 		return mybatis.selectOne("ChatFile.selectPresentSeq");
 	}
 	

@@ -94,7 +94,12 @@ public class WebChat {
 			        	 if(jsonObj.containsKey("file")) {
 			        		 System.out.println("WebChat으로 넘어온 json은 파일을 가지고 있습니다.");
 			        		 
-			        		 int presentFileSeq = fservice.selectPresentSeq();  //chat 테이블에 넣을 file_seq 불러옴
+			        		 int presentFileSeq = 0;  //chat 테이블에 넣을 file_seq 불러옴
+			        		 if(fservice.selectPresentSeq()!=null) {
+			        			 presentFileSeq=fservice.selectPresentSeq().getSeq();
+			        		 }
+			        		
+			        		
 			        		 nextFileSeq = presentFileSeq + 1;
 			        		 
 			        		 String oriname = (String)jsonObj.get("file");
@@ -114,9 +119,10 @@ public class WebChat {
 			        		 
 			        		 
 			        		 //chatFile 테이블에 file 정보 저장
+			        		 System.out.println(oriname+":"+sysname+":"+filepath+":"+target+":"+extension+":"+project_seq+":"+chatting_num);
 			        		 ChatFileDTO fdto = new ChatFileDTO(0, oriname, sysname, filepath, target, extension, project_seq, chatting_num);
 			        		 int result = fservice.insertFile(fdto);
-			        		 
+
 			        		 
 			        		 jsonObj.put("text", text);  //json에 file 키만 넘어왔으므로 text키에 file명을 넣어줌
 			        		 
