@@ -50,7 +50,6 @@ body {overflow-y: hidden; overflow-x: hidden;}
 }
 
 
-
 /*스크롤바 꾸미기 (구버전IE에서는 색상만 적용)*/
 /* actions-by-ajax 부분에 걸린 .u-fancy-scrollbar */
 .u-fancy-scrollbar {
@@ -98,7 +97,6 @@ body {overflow-y: hidden; overflow-x: hidden;}
 }
 .lobilist::-webkit-scrollbar-thumb {
    background: rgba(125,200,201,0.5);
-  
 }
 
 .fc-header-toolbar{
