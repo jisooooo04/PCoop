@@ -7,13 +7,13 @@
 	</select>
 	
 	
-	<select id="selectPresentSeq" resultType="int">
+	<select id="selectPresentSeq" resultType="pcoop.backend.dto.ChatFileDTO">
 		select seq from (select * from chat_file order by seq desc) where ROWNUM = 1
 	</select>
 	
 	
 	<insert id="insertFile">
-		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, #{project_seq}, #{chatting_num})
+		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, ${project_seq}, ${chatting_num})
 	</insert>
 	
 	
