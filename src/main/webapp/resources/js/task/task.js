@@ -135,7 +135,7 @@ $(function() {
 });
 
 $( "#toggle_btn" ).click(function() {
-	$( "#calendar" ).slideToggle( "slow" );
+	$( "#calendarBox" ).slideToggle( "slow" );
 	//glyphicon glyphicon-arrow-up
 	$("#toggle_i").toggleClass("glyphicon-arrow-down");
 	$("#toggle_i").toggleClass("glyphicon-arrow-up");
