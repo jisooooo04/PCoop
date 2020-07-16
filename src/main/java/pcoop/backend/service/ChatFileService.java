@@ -41,7 +41,7 @@ public class ChatFileService {
 		// 파일리스트의 확장자만 리스트로 불러오기
 		List<String> extensionList = fdao.selectExtension(chatting_num);
 		// 확장자 모음
-		String extensionArr[] = new String[] {"css","doc","gif","html","java","jpg","js","pdf","php","png","ppt","ps","sql","txt","xls","xml","zip"};
+		String extensionArr[] = new String[] {"css","docx","gif","html","java","jpg","js","pdf","php","png","ppt","ps","sql","txt","xls","xml","zip"};
 		
 		for(int i=0; i<extensionList.size(); i++) {
 			extensionImg.add(i, "resources/images/chatting/file.png");
