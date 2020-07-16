@@ -52,7 +52,7 @@ $(function(){
 			<div class="d-md-block d-none header_menu_list">
 				<div class="header_menu">menu3</div>
 				<div class="header_menu">menu2</div>
-				<div class="header_menu">menu1</div>
+				<div class="header_menu" OnClick="location.href ='/member/gomypage'">mypage</div>
 			</div>
 			<div class="d-md-none d-block header_menu_list">
 				<span class="fa fa-bars header_sidebar"></span>

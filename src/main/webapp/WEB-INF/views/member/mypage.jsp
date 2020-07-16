@@ -418,12 +418,7 @@
 
 
 	<script>
-			$(function(){
-				var data=${respObj};
-				console.log(${respObj});
-				console.log(data);
-				console.log(JSON.parse(data));
-			})
+
 		/* 회원 정보 수정하기 모달 띄우기 */
 			$("#modifybtn").on("click",function(){
 				$(".modifymodal").addClass('modal-open');
