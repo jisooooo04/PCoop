@@ -17,5 +17,14 @@
 	</insert>
 	
 	
+	<select id="selectExtension" resultType="String">
+		select extension from chat_file where chatting_num = #{value} order by seq
+	</select>
+	
+	
+	<delete id="deleteFile">
+		delete from chat_file where seq = (select file_seq from chat where seq = #{value})
+	</delete>
+	
 	
 </mapper>

@@ -27,6 +27,14 @@ public class ChatFileDAO {
 	public int insertFile(ChatFileDTO fdto) {
 		return mybatis.insert("ChatFile.insertFile", fdto);
 	}
-		
 	
+	
+	public List<String> selectExtension(int chatting_num) {
+		return mybatis.selectList("ChatFile.selectExtension", chatting_num);
+	}
+	
+	
+	public int deleteFile(int chat_seq) {
+		return mybatis.delete("ChatFile.deleteFile", chat_seq);
+	}
 }
