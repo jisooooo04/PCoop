@@ -264,7 +264,10 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
+=======
 		<!-- 추가!! -->
+>>>>>>> 44d0196476726e69f8a6581dcef135291e7847f4
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
