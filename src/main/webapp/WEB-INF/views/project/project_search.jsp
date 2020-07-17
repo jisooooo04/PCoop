@@ -11,12 +11,16 @@
 	*{
         box-sizing: border-box;
     }
+    .container{
+    	position:relative;
+    	top:50px;
+    }
      h2{
         text-align-last: center;
         font-family: 'Noto Sans KR', sans-serif; 
         margin-top: 110px;
-        margin-bottom: 20px;
-        color: darkslategrey;
+        margin-bottom: 50px;
+        color: #507f80;
     }
     .searchbox{
         width: 380px;
@@ -26,7 +30,7 @@
     input{
         width: 300px;
         height: 50px;
-        border: 2px solid #1994d1;
+        border: 2px solid #7dc8c9;
         border-radius: 15px;
         font-family: 'Noto Sans KR', sans-serif; 
     }
@@ -37,7 +41,7 @@
         width: 70px;
         float: right;
         padding-top: 10px;
-        color: #1994d1;
+        color: #7dc8c9;
     }
     .fa-search{
         width: 100%;
@@ -49,9 +53,6 @@
     #box{
         padding: 10px;
         width: 400px;
-        /* border: 2px solid #1994d1; */
-        /* border-radius: 10px; */
-
         font-family: 'Noto Sans KR', sans-serif; 
         margin: auto;
         font-size: 20px;
@@ -113,7 +114,7 @@
 						if(resp[2]==resp[3]){
 							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><p><i class='fas fa-exclamation-circle'></i>인원수 초과</p><div><button id='joinbtn' style='opacity:20%;' disabled>프로젝트 참여하기</button></div>");
 						}else{
-							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><div><button id='joinbtn'>프로젝트 참여하기</button></div>");
+							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><div><button id='joinbtn'>프로젝트 참여  신청 하기</button></div>");
 						}
 					}
 					

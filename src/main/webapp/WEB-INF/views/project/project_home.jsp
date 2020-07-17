@@ -18,7 +18,7 @@
 }
 
 .container-fluid {
-	padding-left: 150px;
+	/* padding-left: 150px; */
 }
 /*<!-- 프로젝트 참가 요청 -->*/
 .joinRequest {
@@ -110,7 +110,7 @@
 
 .fa-users {
 	margin-right: 10px;
-	color: #4d70a8;
+	color: #7dc8c9;
 }
 
 .invite {
@@ -168,6 +168,7 @@
 /* 채팅방 리스트 */
 .HomechattingList {
 	margin-top: 60px;
+	margin-left: 25px;
 }
 
 .HomechattingList>div:nth-child(1) {
@@ -203,7 +204,12 @@
 	outline: none;
 	margin-left: 10px;
 }
-
+.HomeChatBox>button:hover{
+	background-color:#7dc8c9;
+}
+.HomeChatBox>button>a:hover{
+	color:white;
+}
 .HomeChatBox>button>a {
 	font-size: 15px;
 	color: dimgray;
@@ -214,14 +220,10 @@
 	line-height: 2;
 }
 /* 제일 하단 이미지 넣는 부분 */
-/* .proejctFooter{
-	margin-top:200px;
-	padding-left:50px;
+.footer{
+	padding:100px;
+	background-color:#7dc8c9;
 }
-.proejctFooter>img{
-	max-width:100%;
-	overflow:auto;
-} */
 </style>
 
 
@@ -272,7 +274,8 @@
 				</c:when>
 			</c:choose>
 			<div class="row">
-				<div class="col-sm-5">
+			<div class="col-md-1"></div>
+				<div class="col-md-5">
 					<div class="projectInfo">
 						<div>
 							${projectInfo.name}<span>${projectInfo.code}</span>
@@ -289,7 +292,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-7">
+				<div class="col-md-4">
 					<div class="HomechattingList">
 						<div>
 							<i class="far fa-comments fa-lg"></i>${loginInfo.name}님이 속한 채팅방
@@ -306,33 +309,32 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-2"></div>
 			</div>
 			<c:choose>
 				<c:when test="${loginInfo.seq==projectInfo.leader_seq}">
 					<!-- 조장이라면 팀원 초대하기 버튼 보이게  -->
 					<div class="row">
-						<div class="col-4">
+						<div class="col-md-4 col-1">
 							
 						</div>
-					<div class="col-8">
+						<div class="col-md-4 col-11">
 						<div class="invite">
 								<button class="inviteBtn">
 									<i class="fas fa-paper-plane"></i>팀원 초대하기
 								</button>
 							</div>
-					</div>
+						</div>
+						<div class="col-md-4 d-none d-md-block"></div>
 					</div>
 
 				</c:when>
 			</c:choose>
 
-			<div class="row footer">
-				<!-- <div class="col-12 proejctFooter d-md-none d-lg-block">
-				<img src="/resources/images/project/projectHomeFooter.png">
-			</div> -->
-
+			<div class="row">
+				<!-- <div class="col-12 footer"></div> -->
 			</div>
-			<div class="footer"></div>
+			
 		</div>
 
 	</section>
