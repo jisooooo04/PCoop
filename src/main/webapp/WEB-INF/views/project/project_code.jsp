@@ -77,76 +77,13 @@ h2 {
 a:hover {
 	text-decoration: none;
 }
-/* 헤더 설정 */
-header {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	background-color: #7dc8c9;
-	color: white;
-	line-height: 50px;
-	text-align: center;
-	width: 100%;
-	height: 50px;
-}
 
-.logo {
-	float: left;
-	width: 150px;
-}
-
-.header_menu_list {
-	width: 100%;
-}
-
-.header_menu {
-	float: right;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.header_sidebar {
-	width: 45px;
-	float: right;
-	padding-top: 10px;
-	padding-right: 15px;
-}
-
-.logo, .header_menu, .header_sidebar:hover {
-	cursor: pointer;
-}
-
-section {
-	margin-top: 50px;
-}
 </style>
 </head>
 <body>
-	<%-- <!-- Header -->
-	<jsp:include page="../header/header.jsp"></jsp:include>
-	<!-- 왼쪽 사이드바 -->
-	<jsp:include page="../header/sidebar-left.jsp"></jsp:include> --%>
-
-	<header>
-		<!-- 로고 -->
-		<div class="logo" href="">
-			<b>P</b>COOP!
-		</div>
-
-		<!-- 메뉴 -->
-		<div class="row">
-			<div class="d-md-block d-none header_menu_list">
-				<div class="header_menu">로그아웃</div>
-				<div class="header_menu">커뮤니티</div>
-				<div class="header_menu">협업 구하기</div>
-			</div>
-			<div class="d-md-none d-block header_menu_list">
-				<img src=menu.png class=header_sidebar>
-			</div>
-		</div>
 
 
-	</header>
+	<jsp:include page="../header/board-header.jsp"></jsp:include>
 	<div class="container">
 		<div class="row">
 			<div class="col-12 animate__animated animate__fadeInDownBig">
@@ -161,10 +98,6 @@ section {
 			</div>
 		</div>
 	</div>
-	<script>
-	$('header>.logo').on("click",function(){
-		location.href='/';
-	})
-	</script>
+
 </body>
 </html>

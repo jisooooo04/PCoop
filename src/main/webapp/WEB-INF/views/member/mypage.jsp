@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+0.<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -94,7 +94,7 @@
 }
 
 .modal-open {
-	top: 0;
+	top: 50;
 }
 /* 프로젝트 리스트  */
 .box {
@@ -193,71 +193,12 @@
 .openModal {
 	top: 20%;
 }
-/* 헤더 설정 */
-header {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	background-color: #7dc8c9;
-	color: white;
-	line-height: 50px;
-	text-align: center;
-	width: 100%;
-	height: 50px;
-}
 
-.logo {
-	float: left;
-	width: 150px;
-}
-
-.header_menu_list {
-	width: 100%;
-}
-
-.header_menu {
-	float: right;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.header_sidebar {
-	width: 45px;
-	float: right;
-	padding-top: 10px;
-	padding-right: 15px;
-}
-
-.logo, .header_menu, .header_sidebar:hover {
-	cursor: pointer;
-}
-
-section {
-	margin-top: 50px;
-}
 </style>
 </head>
 <body>
-
+	<jsp:include page="../header/board-header.jsp"></jsp:include>
 	<div class="container">
-		<header>
-			<!-- 로고 -->
-			<div class="logo">
-				<b>P</b>COOP!
-			</div>
-
-			<!-- 메뉴 -->
-			<div class="row">
-				<div class="d-md-block d-none header_menu_list">
-					<div class="header_menu">로그아웃</div>
-					<div class="header_menu">커뮤니티</div>
-					<div class="header_menu">협업 구하기</div>
-				</div>
-				<div class="d-md-none d-block header_menu_list">
-					<img src=menu.png class=header_sidebar>
-				</div>
-			</div>
-		</header>
 
 		<section>
 
@@ -429,7 +370,7 @@ section {
 					<i class="fas fa-exclamation-triangle"></i>프로젝트의 리더(생성자)인 경우 리더를 다른
 					팀원에게 넘겨주어야 합니다.
 				</div>
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 			</div>
 			<div class="row">
 				<div class="col-2"></div>
@@ -468,6 +409,8 @@ section {
 					var id = $('.user'+count).attr('id');
 					$('.user'+count).after(${respObj}[id]);
 				}
+				
+				$("#logout").css("line-height",'2');
 
 				
 			})
@@ -555,9 +498,6 @@ section {
             })  
     }
     
-	$('header>.logo').on("click",function(){
-		location.href='/';
-	})
 		</script>
 
 
