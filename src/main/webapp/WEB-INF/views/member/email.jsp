@@ -27,11 +27,30 @@
 
 	window.onload = function() {
 		
+		/**
+		 * 중복서브밋 방지
+		 * 
+		 * @returns {Boolean}
+		 */
+		var doubleSubmitFlag = false;
+		function doubleSubmitCheck(){
+		    if(doubleSubmitFlag){
+		        return doubleSubmitFlag;
+		    }else{
+		        doubleSubmitFlag = true;
+		        return false;
+		    }
+		}
+
+
 		$("#back").on("click",function(){
 			location.href="/";
 		})
 
 		document.getElementById("auth_form").onsubmit = function() {
+			
+			if(doubleSubmitCheck()) return false;
+
 			var e_mail = document.getElementById("e_mail").value;
 
 			if (e_mail == "") {
