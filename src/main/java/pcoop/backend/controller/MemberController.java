@@ -150,51 +150,36 @@ public class MemberController {
 	//틀리면 다시 원래 페이지로 돌아오는 메소드
 	@RequestMapping(value = "join_injeung.do{dice}", method = RequestMethod.POST)
 	public ModelAndView join_injeung(String email_injeung, @PathVariable String dice, HttpServletResponse response_equals) throws IOException {
-
 		System.out.println("마지막 : email_injeung : "+email_injeung);      
 		System.out.println("마지막 : dice : "+dice);     
-
 		//페이지이동과 자료를 동시에 하기위해 ModelAndView를 사용해서 이동할 페이지와 자료를 담음
-
 		ModelAndView mv = new ModelAndView();     
 		mv.setViewName("/member/join.do");  
 		mv.addObject("e_mail",email_injeung);
 
 		if (email_injeung.equals(dice)) {
 			//인증번호가 일치할 경우 인증번호가 맞다는 창을 출력하고 회원가입창으로 이동함
-
 			mv.setViewName("member/join");
 			mv.addObject("e_mail",email_injeung);
 			//만약 인증번호가 같다면 이메일을 회원가입 페이지로 같이 넘겨서 이메일을
 			//한번더 입력할 필요가 없게 한다.
-
 			mv.addObject("tomail",session.getAttribute("tomail"));//세션에서 인증용으로 입력한 메일주소 불러오기
 			System.out.println(session.getAttribute("tomail"));
-
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
 			out_equals.println("<script>alert('인증번호가 일치하였습니다. 회원가입창으로 이동합니다.');</script>");
 			out_equals.flush();
-
 			return mv;
 
 		}else if (email_injeung != dice) {
-
-
 			ModelAndView mv2 = new ModelAndView(); 
-
 			mv2.setViewName("member/email_injeung");
-
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
 			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
 			out_equals.flush();
-
-
 			return mv2;
-
 		}    
-
 		return mv;
 	}
 
