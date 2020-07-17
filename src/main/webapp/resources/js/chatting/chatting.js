@@ -2,7 +2,7 @@ $(function(){
       updateScroll();
       updateFileScroll();
       
-      var ws = new WebSocket("ws://localhost/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
+      var ws = new WebSocket("ws://192.168.60.18/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
       
       ws.onmessage = function(e){
          
@@ -10,7 +10,7 @@ $(function(){
                   
          var chat_seq = msg.seq;
          var nickname = msg.nickname;
-         var text = msg.text.replace(/\n/g,"<br>");
+         var text = msg.text;
          var date = msg.date;
          var time = msg.time;
          
@@ -42,12 +42,23 @@ $(function(){
          
          
          //파일리스트에 뿌리기
+         var extension = msg.extension;
+         var array = ['css','doc','gif','html','java','jpg','pdf','php','png','ppt','ps','sql','txt','xls','xml','zip'];
+         var file_img = $("<img src='resources/images/chatting/file.png' class=file_img>");;
+
+         for(var i = 0; i < array.length; i++) {
+        	 if(extension == array[i]){
+        		 file_img = $("<img src='resources/images/chatting/"+extension+".png' class=file_img>");
+        		 break;
+        	 }
+         }
+         
          var file_date_form = msg.file_date_form;  //파일리스트 출력용 날짜
          
          if(file_date_form != null){
         	 
         	 var file_img_box = $("<div class=file_img_box>");
-             var file_img = $("<img src='resources/images/chatting/pdf.png' class=file_img>");
+             //var file_img = $("<img src='resources/images/chatting/pdf.png' class=file_img>");
              file_img_box.append(file_img);
              
              var file_info_box = $("<div class=file_info_box>");
@@ -509,7 +520,7 @@ $(function(){
 		$(".code_icon").on("click", function() {
 			if ($("#input").html().indexOf("</pre>") == -1) { //이 코드가 없다면
 				
-				$("#input").append("<pre class=pre><code class='code_editor hljs' style='overflow-x: hidden'></code></pre>");
+				$("#input").append("<pre class=pre><code class='code_editor hljs' style='overflow-x: hidden' contenteditable=true></code></pre>");
 				
 				//$("#input>.pre").css("display","block");
 				//$("#input>.pre>.code_editor").css("display","block");
@@ -576,12 +587,23 @@ $(function(){
 		
 		//오른쪽 파일 리스트 열기
 		var fileListVisible = 1;  //1=안보이는거
-        $(".open_file_btn").on("click", function(){
+		$(document).on("click", ".open_file_btn", function() {
         	if(fileListVisible == 1){
         		$(".file_list_section").animate({right:0}, 400);
+        		
+        		$(".chat_section").animate({paddingRight:400}, 400);
+                $(".chat_input_section").animate({paddingRight:410}, 400);
+                $("#send_btn").animate({right:410}, 400);
+        		
         		fileListVisible = -1;
+        		
         	}else if(fileListVisible == -1){
         		$(".file_list_section").animate({right:-400}, 400);
+        		
+        		$(".chat_section").animate({paddingRight:15}, 400);
+                $(".chat_input_section").animate({paddingRight:10}, 400);
+                $("#send_btn").animate({right: 10}, 400);
+        		
         		fileListVisible = 1;
         	}
         	
@@ -590,6 +612,11 @@ $(function(){
         //오른쪽 파일 리스트 닫기
         $(".close_file_btn").on("click", function(){
         	$(".file_list_section").animate({right:-400}, 400);
+        	
+        	$(".chat_section").animate({paddingRight:15}, 400);
+            $(".chat_input_section").animate({paddingRight:10}, 400);
+            $("#send_btn").animate({right: 10}, 400);
+        	
         	fileListVisible = 1;
         })
 		
@@ -600,7 +627,7 @@ $(function(){
         	event.preventDefault();
         	
         	var pastedData = event.clipboardData ||  window.clipboardData;
-        	var textData = pastedData.getData('Text');
+        	var textData = pastedData.getData('Text').replace(/\r\n/gi, '<br>');
         	
         	window.document.execCommand('insertHTML', false,  textData);
         });

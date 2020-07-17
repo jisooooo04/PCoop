@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+0.<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -9,6 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
+* {
+	box-sizing: border-box;
+}
+
 .row {
 	margin-top: 10px;
 }
@@ -17,7 +21,7 @@
 	border: 2px solid #5f83ba;
 	margin-top: 37px;
 	/* margin-bottom: 30px; */
-	 margin-bottom: 10px;
+	margin-bottom: 10px;
 	font-size: 30px;
 	background-color: #5f83ba;
 	color: white;
@@ -90,7 +94,7 @@
 }
 
 .modal-open {
-	top: 0;
+	top: 50;
 }
 /* 프로젝트 리스트  */
 .box {
@@ -114,7 +118,7 @@
 	color: white;
 	margin-bottom: 30px;
 	margin-top: 30px;
-	padding:2px;
+	padding: 2px;
 }
 
 .fa-list-ul {
@@ -127,7 +131,7 @@
 	border-radius: 10px;
 	border: none;
 	padding: 6px;
-	outline:none;
+	outline: none;
 }
 
 .box a {
@@ -183,41 +187,19 @@
 	border: 0.5px solid #32a6f0;
 	background-color: white;
 	color: #32a6f0;
-	outline:none;
+	outline: none;
 }
 
 .openModal {
 	top: 20%;
 }
+
 </style>
 </head>
 <body>
-
+	<jsp:include page="../header/board-header.jsp"></jsp:include>
 	<div class="container">
-		<header>
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="#">Navbar</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarNav" aria-controls="navbarNav"
-					aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav">
-						<li class="nav-item active"><a class="nav-link" href="/">Home
-								<span class="sr-only">(current)</span>
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Features</a>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="#">Pricing</a>
-						</li>
-						<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
 
-		</header>
 		<section>
 
 			<div class="row">
@@ -279,7 +261,7 @@
 										<div class="head">
 											<i class="fas fa-list-ul"></i>프로젝트
 										</div>
-										<c:forEach var="i" items="${list}">
+										<c:forEach var="i" items="${list}" varStatus="status">
 											<div class="box">
 												<c:choose>
 													<c:when test='${i.leader_seq==loginInfo.seq}'>
@@ -291,7 +273,8 @@
 												<div>${i.name}</div>
 												<div>초대 코드 : ${i.code}</div>
 												<div>
-													<i class="fas fa-user fa-lg"></i> /${i.people_num}
+													<i class="fas fa-user fa-lg user${status.count}"
+														id='${i.seq}'></i> /${i.people_num}
 												</div>
 												<div>
 													<button>
@@ -387,7 +370,7 @@
 					<i class="fas fa-exclamation-triangle"></i>프로젝트의 리더(생성자)인 경우 리더를 다른
 					팀원에게 넘겨주어야 합니다.
 				</div>
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 			</div>
 			<div class="row">
 				<div class="col-2"></div>
@@ -418,12 +401,20 @@
 
 
 	<script>
+
 			$(function(){
-				var data=${respObj};
-				console.log(${respObj});
-				console.log(data);
-				console.log(JSON.parse(data));
+
+				for(var i=0;i<${list_size};i++){//json으로 보낸 현재 팀원 수 after로 넣어주기.
+					var count = i+1;
+					var id = $('.user'+count).attr('id');
+					$('.user'+count).after(${respObj}[id]);
+				}
+				
+				$("#logout").css("line-height",'2');
+
+				
 			})
+
 		/* 회원 정보 수정하기 모달 띄우기 */
 			$("#modifybtn").on("click",function(){
 				$(".modifymodal").addClass('modal-open');
@@ -506,7 +497,7 @@
             
             })  
     }
-     
+    
 		</script>
 
 

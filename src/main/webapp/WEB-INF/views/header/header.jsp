@@ -50,9 +50,9 @@ $(function(){
 		<!-- 메뉴 -->
 		<div class="row">
 			<div class="d-md-block d-none header_menu_list">
-				<div class="header_menu">menu3</div>
-				<div class="header_menu">menu2</div>
-				<div class="header_menu">menu1</div>
+				<div class="header_menu">커뮤니티</div>
+				<div class="header_menu">로그아웃</div>
+				<div class="header_menu" OnClick="location.href ='/member/gomypage'">마이 페이지</div>
 			</div>
 			<div class="d-md-none d-block header_menu_list">
 				<span class="fa fa-bars header_sidebar"></span>
@@ -65,9 +65,9 @@ $(function(){
 	<nav id=rightnav>
 		<span class="fa fa-times close_r_nav"></span>
 		<!--  <img src="resources/images/header/close.png" class=close_r_nav>-->
-		<div class=r_navmenu>menu1</div>
-		<div class=r_navmenu>menu2</div>
-		<div class=r_navmenu>menu3</div>
+		<div class=r_navmenu>마이 페이지</div>
+		<div class=r_navmenu>로그아웃</div>
+		<div class=r_navmenu>커뮤니티</div>
 	</nav>
 
 </body>

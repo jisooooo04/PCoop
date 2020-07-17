@@ -14,7 +14,7 @@
      h2{
         text-align-last: center;
         font-family: 'Noto Sans KR', sans-serif; 
-        margin-top: 50px;
+        margin-top: 110px;
         margin-bottom: 20px;
         color: darkslategrey;
     }
@@ -78,33 +78,11 @@
         margin-right: 5px;
          color: red;
     }
+   
 </style>
 </head>
 <body>
-		<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNav" aria-controls="navbarNav"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/">Home
-							<span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Features</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Pricing</a>
-					</li>
-					<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-
-	</header>
+		<jsp:include page="../header/board-header.jsp"></jsp:include>
 	
 		 <div class="container">
 		  <h2>공유받은 초대코드로 프로젝트를 검색해보세요 :)</h2>
@@ -173,6 +151,8 @@
 			
 			
 		})
+		
+
 	</script>
 
 </body>

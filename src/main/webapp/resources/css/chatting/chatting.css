@@ -377,6 +377,9 @@ section {
                 font-weight: 600;
                 color: black;
             }
+            .file_name>a{
+            	color: black;
+            }
             .file_date{
                 margin-top: -2px;
                 margin-bottom: 3px;

@@ -74,11 +74,11 @@ function getDirAndFileList(dir_seq){
 				var id = "f" + files[i].seq;
 
 				if(files[i].text_yn == "Y"){
-					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+					$(".files").append("<div class='file text_y' id=" + id + "><a href=downloadFile?seq=" + files[i].seq + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
 				}
 
 				else 
-					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+					$(".files").append("<div class='file text_n' id=" + id + "><a href=downloadFile?seq=" + files[i].seq + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
 
 
 			}
@@ -200,7 +200,7 @@ $(document).on("contextmenu", ".dirs>.dir", function(event){
 
 //Hide contextmenu:
 $(document).click(function(event){
-
+	
 	$(".contextmenu").hide();
 	$(".contextmenu_container").hide();
 	$(".upload_context").hide();
@@ -278,8 +278,7 @@ $(document).on("click", "#ok", function(){
 				$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
 				// 디렉토리 가지고 오기
 				printDirList(dirlist);
-				$(".dirs").append("<div class=dir id=dir" + seq + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + name + "</div>")
-
+				getDirAndFileList(parent_seq);
 
 			}
 			else alert("디렉토리명 중복");
@@ -324,7 +323,6 @@ $(document).on("click", ".delete_dir", function(){
 		data: data,
 		success: function(data){
 
-			$("#dir" + seq + ".dir").remove();
 			$(".root").remove();
 
 			var data = JSON.parse(data);
@@ -335,21 +333,27 @@ $(document).on("click", ".delete_dir", function(){
 			var dirlist = JSON.parse(data.dirlist);
 			printDirList(dirlist);
 
-			$("#dir" + seq + ".dir").remove();
+			var parent_seq = data.parent_seq;
+			getDirAndFileList(parent_seq);
 
 		},
 		error: function (e) {
 			alert("이미 삭제된 디렉토리입니다.");
 			console.log("ERROR : ", e);
-			alert("fail");
 		}
 	});
 
 })
-
+// 디렉토리 추가, 디렉토리 이름 변경에서 이름 입력 창 누르면 html 클릭(모든 창 끄는 기능) 이벤트도 같이 발생함
+// 그래서 이벤트 버블링 방지해 줌
 $(document).on("click", "#dir_name", function(event){
 	event.stopPropagation();
 	$(".add_dir").show();
+})
+
+$(document).on("click", "#dir_rename", function(event){
+	event.stopPropagation();
+	$(".rename_dir").show();
 })
 
 //디렉토리 이름 변경 버튼 - 입력 창
@@ -360,14 +364,14 @@ $(document).on("click", ".menu_rename_dir", function(event){
 	var id = this.id;
 	var left = $(".dirs>#" + id).offset().left;
 	var top = $(".dirs>#" + id).offset().top + 70;
-	var dir_name = $("#" + id + ".dir").tekRdxt();
+	var dir_name = $("#" + id + ".dir").text();
 
 	$("#dir_rename").val(dir_name);
 	
 	$(".rename_dir").css({
 		"left": left,
 		"top": top
-	});
+	}).show();
 	
 
 	$(".contextmenu").hide();
@@ -375,7 +379,6 @@ $(document).on("click", ".menu_rename_dir", function(event){
 	$(".add_dir").hide();
 	$(".upload_context").hide();
 
-	$(".rename_dir").css("display", "block");
 
 })
 
@@ -397,8 +400,9 @@ $(document).on("click", "#ok_rename_dir", function(){
 		data: data,
 		success: function(data){
 
-			if(data != -1)
-				$("#" + id).html("<b>" + rename + "</b>");
+			if(data != -1){
+				$("#" + id + ".dir").html(rename);
+			}
 			else alert("디렉토리 이름 중복");
 		},
 		error: function (e) {

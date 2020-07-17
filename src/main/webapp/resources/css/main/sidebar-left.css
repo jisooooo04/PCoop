@@ -108,3 +108,22 @@
 		padding-left: 60px;
 	}
 }
+
+#root>ul{
+	padding-left: 0px;
+}
+
+ul{
+	list-style: none;
+	margin-left: 0;
+	padding-left: 10px;
+}
+
+a {
+	color: black;
+}
+
+a:hover{
+	text-decoration: none;
+	
+}

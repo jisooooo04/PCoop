@@ -8,6 +8,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <title>PCOOP!</title>
 <style>
+*{
+	box-sizing:border-box;
+}
 .wrapper {
 	padding: 30px;
 }
@@ -21,6 +24,7 @@
 	font-size: 30px;
 	font-weight: 500;
 	color: #474a49;
+	margin-top: 100px;
 }
 
 .wrapper input {
@@ -52,10 +56,14 @@
 	z-index:100;
 	display :none;
 }
+
 </style>
 </head>
 <body>
+
+<jsp:include page="../header/board-header.jsp"></jsp:include>
 	<div class="container">
+		
 		<div class="row">
 			<div class="col-12">
 				<div class="wrapper">
@@ -109,7 +117,7 @@
 		}
 	})
 		
-		
+
 	</script>
 </body>
 </html>

@@ -792,7 +792,7 @@ $(function () {
 				$('<button>', {
 					type: 'button',
 					'class': 'btn-link btn-show-form',
-					'html': 'Add new'
+					'html': 'Add card'
 				}).click(function () {
 					me._resetForm();
 					me.$form.removeClass('hide');
