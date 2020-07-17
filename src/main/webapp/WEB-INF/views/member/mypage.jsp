@@ -422,6 +422,7 @@
 			})
 			$("#modifycancel").on("click",function(){
 				$(".modifymodal").removeClass('modal-open');
+				
 			})
 		/* 	회원정보 수정 저장 버튼 클릭 */
 			$("#save").on("click",function(){
@@ -439,6 +440,10 @@
 						if(resp==1){
 							alert("저장되었습니다.")
 							$(".modifymodal").removeClass('modal-open');
+							 setTimeout(function() {
+								 location.href="gomypage"
+					            	}, 500);
+							
 						}
 					}) 
 				}else{
