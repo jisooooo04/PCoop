@@ -95,8 +95,15 @@
 	select * from files order by 1
 </select>
 
+<!-- 삭제 로그 존재하는지 확인 -->
+<select id="isDeleted" resultType="int">
+	select count(*) from log where type = #{type} and backup_seq = ${seq} and status = 'delete'
+</select>
 
-
+<!-- 삭제된 로그의 부모 디렉토리 리턴 -->
+<select id="selectParentSeqByDeleteLog" resultType="int">
+	select parent_seq from log where type = #{type} and backup_seq = ${seq} and status = 'delete'
+</select>
 
 
 <!-- [INSERT] -->
@@ -118,22 +125,22 @@
 
 <!-- 디렉토리 add 로그 생성 -->
 <insert id="insertAddDirLog">
-	insert into log values(log_seq.nextval, 'directory', ${seq}, 'add', sysdate, #{member_name})
+	insert into log values(log_seq.nextval, 'directory', ${seq}, ${parent_seq}, 'add', sysdate, #{member_name})
 </insert>
 
 <!-- 디렉토리 delete 로그 생성 -->
 <insert id="insertDelDirLog">
-	insert into log values(log_seq.nextval, 'directory', ${seq}, 'delete', sysdate, #{member_name})
+	insert into log values(log_seq.nextval, 'directory', ${seq}, ${parent_seq}, 'delete', sysdate, #{member_name})
 </insert>
 
 <!-- 파일 add 로그 생성 -->
 <insert id="insertAddFileLog">
-	insert into log values(log_seq.nextval, 'file', ${seq}, 'add', sysdate, #{member_name})
+	insert into log values(log_seq.nextval, 'file', ${seq}, ${dir_seq}, 'add', sysdate, #{member_name})
 </insert>
 
 <!-- 파일  delete 로그 생성 -->
 <insert id="insertDelFileLog">
-	insert into log values(log_seq.nextval, 'file', ${seq}, 'delete', sysdate, #{member_name})
+	insert into log values(log_seq.nextval, 'file', ${seq}, ${dir_seq}, 'delete', sysdate, #{member_name})
 </insert>
 
 <!-- [DELETE] -->

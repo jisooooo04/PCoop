@@ -124,6 +124,35 @@ public class FileController {
 		return new Gson().toJson(data);
 	}
 
+	@RequestMapping(value = "checkExists")
+	@ResponseBody
+	@Transactional("txManager")
+	public int checkExists(String type, int seq) {
+
+		// 삭제됐는지 확인, 안 됐으면 리턴 0
+		// 됐으면 상위 디렉토리 seq 리턴
+		int isDeleted = fservice.checkDeleteLog(type, seq);
+		int dir_seq = 0;
+		
+		// 삭제 안 됐으면 리턴 0
+		if(isDeleted == 0)
+			return 0;
+		
+		// 삭제됐으면 상위 디렉토리 찾아서 seq 리턴
+		else {
+			
+			while(isDeleted > 0) {
+				System.out.println(seq);
+				dir_seq = fservice.getParentSeqByDeleteLog(type, seq);
+				isDeleted = fservice.checkDeleteLog(type, dir_seq);
+				seq = dir_seq;
+			}
+			
+			return seq;
+
+		}
+		
+	}
 
 	@RequestMapping(value = "addDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -179,7 +208,7 @@ public class FileController {
 
 		int parent_seq = fservice.getParentSeqBySeq(seq);
 		String path = fservice.getDirPathBySeq(seq);
-		fservice.deleteDirectory(seq, path, member.getName());
+		fservice.deleteDirectory(seq, parent_seq, path, member.getName());
 		
 		// 업데이트된 리스트 보내기
 		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
@@ -325,7 +354,7 @@ public class FileController {
 	public String delete(int dir_seq, int seq) {
 
 		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
-		fservice.deleteFile(seq, member.getName());
+		fservice.deleteFile(seq, dir_seq, member.getName());
 
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray fileArr = new JsonArray();

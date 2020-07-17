@@ -23,7 +23,7 @@
 			
 				//var root_seq = data.root_seq;
 				
-				$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b><a href=/backup?dir_seq=" +
+				$(".backup").append("<ul id=dir" + root_seq + " class='root'><b><a href=/backup?dir_seq=" +
 						root_seq + ">"+ root_name + "</a></b></ul>");
 				
 				// 디렉토리 가지고 오기

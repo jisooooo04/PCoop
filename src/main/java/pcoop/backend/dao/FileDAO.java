@@ -70,7 +70,26 @@ public class FileDAO {
 		return mybatis.selectOne("Backup.checkDuplDirName", values);
 	}
 
+	// 디렉토리나 파일이 삭제됐는지 로그 체크
+	public int checkDeleteLog(String type, int seq) {
 
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("type", type);
+		values.put("seq", seq);
+
+		// 삭제됐는지 확인
+		// 삭제됐으면 1, 안 됐으면 0 리턴
+		return mybatis.selectOne("Backup.isDeleted", values);
+
+	}
+	
+	// 삭제된 디렉토리나 파일의 상위 디렉토리 리턴
+	public int seleteParentSeqByDeleteLog(String type, int seq) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("type", type);
+		values.put("seq", seq);
+		return mybatis.selectOne("Backup.selectParentSeqByDeleteLog", values);
+	}
 
 	// 디렉토리 insert
 	public int insertDirectory(String path, String name, int project_seq, int parent_seq) {
@@ -83,9 +102,10 @@ public class FileDAO {
 	}
 
 	// 디렉토리 add log
-	public int insertAddDirLog(int seq, String member_name) {
+	public int insertAddDirLog(int seq, int parent_seq, String member_name) {
 		HashMap<String, Object> values = new HashMap<>();
 		values.put("seq", seq);
+		values.put("parent_seq", parent_seq);
 		values.put("member_name", member_name);
 		return mybatis.insert("insertAddDirLog", values);
 	}
@@ -101,9 +121,10 @@ public class FileDAO {
 	}
 
 	// 디렉토리 delete log
-	public int insertDelDirLog(int seq, String member_name) {
+	public int insertDelDirLog(int seq, int parent_seq, String member_name) {
 		HashMap<String, Object> values = new HashMap<>();
 		values.put("seq", seq);
+		values.put("parent_seq", parent_seq);
 		values.put("member_name", member_name);
 		return mybatis.insert("insertDelDirLog", values);
 	}
@@ -214,9 +235,10 @@ public class FileDAO {
 	}
 
 	// 파일 add log
-	public int insertAddFileLog(int seq, String member_name) {
+	public int insertAddFileLog(int seq, int dir_seq, String member_name) {
 		HashMap<String, Object> values = new HashMap<>();
 		values.put("seq", seq);
+		values.put("dir_seq", dir_seq);
 		values.put("member_name", member_name);
 		return mybatis.insert("insertAddFileLog", values);
 	}
@@ -226,9 +248,10 @@ public class FileDAO {
 		return mybatis.delete("Backup.deleteFile", seq);
 	}
 
-	public int insertDelFileLog(int seq, String member_name) {
+	public int insertDelFileLog(int seq, int dir_seq, String member_name) {
 		HashMap<String, Object> values = new HashMap<>();
 		values.put("seq", seq);
+		values.put("dir_seq", dir_seq);
 		values.put("member_name", member_name);
 		return mybatis.insert("Backup.insertDelFileLog", values);
 	}

@@ -61,6 +61,16 @@ public class FileService {
 	public int getRootDirSeq(int project_seq) {
 		return fdao.getRootDirSeq(project_seq);
 	}
+	
+	// 삭제됐으면 리턴 1, 안 됐으면 0 리턴
+	public int checkDeleteLog(String type, int seq) {
+		return fdao.checkDeleteLog(type, seq);
+	}
+	
+	// 삭제된 디렉토리나 파일의 상위 디렉토리 찾아서 리턴
+	public int getParentSeqByDeleteLog(String type, int seq) {
+		return fdao.seleteParentSeqByDeleteLog(type, seq);
+	}
 
 	// 드라이브에 디렉토리 생성 후, path 리턴
 	@Transactional("txManager")
@@ -84,13 +94,13 @@ public class FileService {
 		fdao.insertDirectory(path, name, project_seq, parent_seq);
 		int newDirSeq = this.getDirSeqByName(name, parent_seq);
 		// DB에 로그 insert
-		return this.insertAddDirLog(newDirSeq, member_name);
+		return this.insertAddDirLog(newDirSeq, parent_seq, member_name);
 
 	}
 
 	// 디렉토리 add log
-	public int insertAddDirLog(int seq, String member_name) {
-		return fdao.insertAddDirLog(seq, member_name);
+	public int insertAddDirLog(int seq, int parent_seq, String member_name) {
+		return fdao.insertAddDirLog(seq, parent_seq, member_name);
 	}
 
 	// 이름으로 디렉토리 seq 검색
@@ -202,23 +212,24 @@ public class FileService {
 
 	// 디렉토리 삭제
 	@Transactional("txManager")
-	public void deleteDirectory(int seq, String path, String member_name) {
+	public void deleteDirectory(int seq, int parent_seq, String path, String member_name) {
 		String dir_path = this.getDirPathBySeq(seq);
 		System.out.println(dir_path);
 		this.deleteDirFromDrive(path);
 		this.deleteDirectoryFromDB(path);
-		this.insertDelDirLog(seq, member_name);
+		this.insertDelDirLog(seq, parent_seq, member_name);
 
 		List<DirectoryDTO> dirs = this.getDirListByPath(path);
 
 		for(DirectoryDTO dir : dirs) {
-			this.insertDelDirLog(dir.getSeq(), member_name);
+			int p_seq = this.getParentSeqBySeq(dir.getSeq());
+			this.insertDelDirLog(dir.getSeq(), p_seq, member_name);
 		}
 
 		List<FileDTO> files = this.getFileListByPath(path);
 
 		for(FileDTO file : files) {
-			this.insertDelFileLog(file.getSeq(), member_name);
+			this.insertDelFileLog(file.getSeq(), file.getDirectory_seq(), member_name);
 		}
 
 		fdao.deleteDirsByDirPath(dir_path);
@@ -231,8 +242,8 @@ public class FileService {
 	}
 
 	// 디렉토리 delete log
-	public int insertDelDirLog(int seq, String member_name) {
-		return fdao.insertDelDirLog(seq, member_name);
+	public int insertDelDirLog(int seq, int parent_seq, String member_name) {
+		return fdao.insertDelDirLog(seq, parent_seq, member_name);
 	}
 
 	// 드라이브에서 특정 디렉토리 삭제하기
@@ -330,8 +341,8 @@ public class FileService {
 	}
 
 	// 파일 upload log
-	public int insertAddFileLog(int seq, String member_name) {
-		return fdao.insertAddFileLog(seq, member_name);
+	public int insertAddFileLog(int seq, int dir_seq, String member_name) {
+		return fdao.insertAddFileLog(seq, dir_seq, member_name);
 	}
 
 	// DB에 새로운 파일 추가
@@ -359,7 +370,7 @@ public class FileService {
 
 		// 파일 upload log
 		int file_seq = this.getFileSeq(dir_seq, name);
-		this.insertAddFileLog(file_seq, member.getName());
+		this.insertAddFileLog(file_seq, dir_seq, member.getName());
 
 	}
 
@@ -386,7 +397,7 @@ public class FileService {
 		fdao.insertFile(project_seq, dir_seq, dir_path, name, extension, path, uploader, text_yn);
 		// 파일 upload log
 		int file_seq = this.getFileSeq(dir_seq, name);
-		this.insertAddFileLog(file_seq, member_name);
+		this.insertAddFileLog(file_seq, dir_seq, member_name);
 	}
 
 	// 파일 업로드 - .zip - 압축 해제
@@ -459,7 +470,7 @@ public class FileService {
 
 				fdao.insertDirectory(dirPath + "/" + filename.substring(0, filename.length() - 1), name, project_seq, parent_seq);
 				int newDirSeq = this.getDirSeqByName(name, parent_seq);
-				this.insertAddDirLog(newDirSeq, member_name);
+				this.insertAddDirLog(newDirSeq, parent_seq, member_name);
 			} else {
 
 				// 파일이면 파일 만들기
@@ -582,10 +593,10 @@ public class FileService {
 
 	// 파일 지우기
 	@Transactional("txManager")
-	public void deleteFile(int seq, String member_name) {
+	public void deleteFile(int seq, int dir_seq, String member_name) {
 		this.deleteFileFromDrive(seq);
 		this.deleteFileFromDB(seq);
-		this.insertDelFileLog(seq, member_name);
+		this.insertDelFileLog(seq, dir_seq, member_name);
 	}
 
 	// 드라이브에서 파일 지우기
@@ -602,8 +613,8 @@ public class FileService {
 	}
 
 	// 파일 delete 로그
-	public int insertDelFileLog(int seq, String member_name) {
-		return fdao.insertDelFileLog(seq, member_name);
+	public int insertDelFileLog(int seq, int dir_seq, String member_name) {
+		return fdao.insertDelFileLog(seq, dir_seq, member_name);
 	}
 
 	// 파일 이름 변경
