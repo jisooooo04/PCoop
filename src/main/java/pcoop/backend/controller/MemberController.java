@@ -257,7 +257,7 @@ public class MemberController {
 			return "member/login";
 		}
 		//----------로그인하지 않고 마이페이지로 접근할 경우
-
+		
 		
 		
 		int seq = mdto.getSeq();
@@ -266,11 +266,11 @@ public class MemberController {
 		model.addAttribute("list_size", project_list.size());
 		//----------내가 속한 모든 프로젝트 뽑기
 		
-		MemberDTO updateMdto = mservice.getmemInfo(seq);
-//		System.out.println("mdto실행됨");
-//		model.addAttribute("mdto", updateMdto);
-		session.removeAttribute("loginInfo");
-		session.setAttribute("loginInfo", updateMdto);
+//		MemberDTO updateMdto = mservice.getmemInfo(seq);
+//
+//		session.removeAttribute("loginInfo");
+//		session.setAttribute("loginInfo", updateMdto);
+
 		
 		int peopleNum = 0;
 		
@@ -306,6 +306,10 @@ public class MemberController {
     	param.put("name", name);
     	param.put("pw", pw);
     	param.put("seq", seq);
+    	
+    	((MemberDTO)session.getAttribute("loginInfo")).setName(name);
+    	((MemberDTO)session.getAttribute("loginInfo")).setPw(pw);
+    	
 		int result = mservice.modify(param);
 		
 		return result+"";
