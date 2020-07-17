@@ -292,7 +292,7 @@ public class ProjectController {
 		 model.addAttribute("seq", project_seq);
 		 
 		 //멤버 추가시, 단체 채팅방에도 멤버 추가(+기존 인원수 변경)
-		result = ctservice.insertMainMember(project_seq, mem_seq, member_name);
+		 result = ctservice.insertMainMember(project_seq, mem_seq, member_name);
 		 
 		 return "redirect:goProjectHome";
 	  }
@@ -317,19 +317,22 @@ public class ProjectController {
 		  String leader = service.checkLeaderYN(param);
 		  //리더인지 아닌지부터 검사
 		  if(leader.contentEquals("y")) {
-			 int result = service.updateLeader(project_seq);
-			//다른 팀원에게 리더 넘겨주기.
-			 service.exitProject(param);
-			 //멤버 프로젝트 테이블에서 삭제
-			if(result==0) {//넘겨줄 팀원 없음 . 
-				service.deleteProject(param);//프로젝트 삭제
-			}
-			
-		  	}else if(leader.contentEquals("n")) {//리더가 아니다.
+			  int result = service.updateLeader(project_seq);
+			  //다른 팀원에게 리더 넘겨주기.
 			  service.exitProject(param);
-			 // 멤버 프로젝트에서 삭제하기.
-			  
-		  }		  
+			  //멤버 프로젝트 테이블에서 삭제
+			  if(result==0) {//넘겨줄 팀원 없음 . 
+				  service.deleteProject(param);//프로젝트 삭제
+				  }
+		  }else if(leader.contentEquals("n")) {//리더가 아니다.
+				  service.exitProject(param);
+				  // 멤버 프로젝트에서 삭제하기.
+		  }
+		  
+		  
+		  //프로젝트 나갈 시 채팅방에서도 삭제
+		  int result = ctservice.deleteProjectMember(mem_seq, project_seq);
+		  
 		  return "redirect:member/gomypage";
 	  }
 	  
@@ -357,8 +360,19 @@ public class ProjectController {
 	  
 	  @RequestMapping("ProjectMemberDelete")//강퇴 기능 
 	  public String ProjectMemberDelete (int project_mem_seq,Model model)throws Exception{
+		  
+		  int project_seq = ((ProjectDTO)session.getAttribute("projectInfo")).getSeq();
+		  
+		  //project_member_seq로 member_seq 받아오기
+		  int member_seq = service.selectMemberSeq(project_mem_seq);
+		  
+		  //프로젝트 강퇴시 채팅방에서 먼저 삭제
+		  int result = ctservice.deleteProjectMember(member_seq, project_seq);
+		  
+		  //채팅 삭제 이후 project_member 테이블에서 해당 회원 삭제
 		  service.ProjectMemberDelete(project_mem_seq);
-		  model.addAttribute("seq", ((ProjectDTO)session.getAttribute("projectInfo")).getSeq());
+		  model.addAttribute("seq", project_seq);
+		  
 		  return "redirect:goProjectHome";
 	  }
 	  

@@ -67,7 +67,7 @@ article{
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
 				<a href="member/gomypage">마이 페이지</a> <a
-					href="#">참여 중 프로젝트</a> <a href="#">협업 구하기</a> <a href="community">커뮤니티</a>
+					href="#">참여 중 프로젝트</a> <a href="#">협업 구하기</a> <a href="#">커뮤니티</a>
 
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span

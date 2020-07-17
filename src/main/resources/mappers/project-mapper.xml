@@ -106,6 +106,10 @@
 	<delete id="ProjectMemberDelete">
 		delete from project_member where seq=${value}
 	</delete>
+	
+	<select id="selectMemberSeq" resultType="Integer">
+		select member_seq from project_member where seq=#{value}
+	</select>
 </mapper>
 
 

@@ -32,5 +32,30 @@
 	</insert>
 	
 	
+	<select id="projectBelongChatting" resultType="pcoop.backend.dto.ChattingDTO">
+		select chatting_num from chatting where project_seq=#{project_seq} and member_seq=#{member_seq}
+	</select>
+	
+	
+	<update id="minusChattingCount">
+		update chatting set member_count=member_count-1 where chatting_num=#{value}
+	</update>
+	
+	
+	<delete id="deleteProjectMember">
+		delete from chatting where project_seq=#{project_seq} and member_seq=#{member_seq}
+	</delete>
+	
+	
+	<select id="memberBelongChatting" resultType="pcoop.backend.dto.ChattingDTO">
+		select chatting_num from chatting where member_seq=#{value}
+	</select>
+	
+	
+	<delete id="deleteMemberout">
+		delete from chatting where member_seq=#{value}
+	</delete>
+	
+	
 	
 </mapper>
