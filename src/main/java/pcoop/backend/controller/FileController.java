@@ -171,9 +171,10 @@ public class FileController {
 	@ResponseBody
 	public String deleteDirectory(int seq, int root_seq) {
 
+		int parent_seq = fservice.getParentSeqBySeq(seq);
 		String path = fservice.getDirPathBySeq(seq);
 		fservice.deleteDirectory(seq, path);
-
+		
 		// 업데이트된 리스트 보내기
 		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
 		JsonArray dirArr = new JsonArray();
@@ -189,6 +190,8 @@ public class FileController {
 
 		JsonObject json = new JsonObject();
 		json.addProperty("dirlist", new Gson().toJson(dirArr));
+		json.addProperty("parent_seq", parent_seq);
+
 		return new Gson().toJson(json);
 	}
 
