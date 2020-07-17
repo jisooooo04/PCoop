@@ -1,4 +1,4 @@
-0.<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,18 +12,21 @@
 * {
 	box-sizing: border-box;
 }
+.container{
+	margin-top:130px;
+}
 
 .row {
 	margin-top: 10px;
 }
 /* member info 부분 */
 .memInfoTitle {
-	border: 2px solid #5f83ba;
+	border: 2px solid #7dc8c9;
 	margin-top: 37px;
 	/* margin-bottom: 30px; */
 	margin-bottom: 10px;
 	font-size: 30px;
-	background-color: #5f83ba;
+	background-color: #7dc8c9;
 	color: white;
 	text-align: center;
 }
@@ -49,7 +52,7 @@
 	margin: 8px;
 	width: 70px;
 	height: 30px;
-	border: 1px solid #5f83ba;
+	border: 1px solid #7dc8c9;
 	background-color: #fff;
 	border-radius: 10px;
 	font-family: 'Noto Sans KR', sans-serif;
@@ -94,7 +97,7 @@
 }
 
 .modal-open {
-	top: 50;
+	top: 10%;
 }
 /* 프로젝트 리스트  */
 .box {
@@ -105,13 +108,13 @@
 	padding: 20px;
 	width: 400px;
 	margin-bottom: 10px;
-	border: 0.5px solid #5f83ba;
+	border: 0.5px solid #7dc8c9;
 	color: dimgrey;
 }
 
 .head {
 	width: 400px;
-	background-color: #5f83ba;
+	background-color: #7dc8c9;
 	font-family: 'Noto Sans KR', sans-serif;
 	font-size: 30px;
 	text-align: center;
@@ -127,7 +130,7 @@
 
 .box button {
 	margin: 5px;
-	background-color: #5f83ba;
+	background-color: #7dc8c9;
 	border-radius: 10px;
 	border: none;
 	padding: 6px;
@@ -184,9 +187,9 @@
 	margin: 5px;
 	width: 80px;
 	border-radius: 15px;
-	border: 0.5px solid #32a6f0;
+	border: 0.5px solid #7dc8c9;
 	background-color: white;
-	color: #32a6f0;
+	color: #7dc8c9;
 	outline: none;
 }
 
@@ -198,10 +201,10 @@
 </head>
 <body>
 	<jsp:include page="../header/board-header.jsp"></jsp:include>
-	<div class="container">
+	
 
 		<section>
-
+			<div class="container">
 			<div class="row">
 				<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 정보-->
 
@@ -297,11 +300,10 @@
 				</div>
 
 			</div>
-		</section>
-		<!--프로젝트 나가기   -->
+			<!--프로젝트 나가기   -->
 		<div class="exitProjectBox">
 			<div>프로젝트를 나가시겠습니까?</div>
-			<div>회원님이 프로젝트의 팀장(프로젝트 생성자)일 경우에는 팀원 중 한명이 프로젝트의 팀장이 됩니다.</div>
+			<div>회원님이 프로젝트의 팀장(생성자)인 경우 다른 팀원이 팀장이 됩니다.</div>
 			<div>팀원들이 모두 프로젝트에서 나간다면 프로젝트는 자동으로 삭제됩니다.</div>
 			<div>
 				<button>취소</button>
@@ -367,8 +369,7 @@
 			<div class="row">
 				<div class="col-2"></div>
 				<div class="col-10">
-					<i class="fas fa-exclamation-triangle"></i>프로젝트의 리더(생성자)인 경우 리더를 다른
-					팀원에게 넘겨주어야 합니다.
+					<i class="fas fa-exclamation-triangle"></i>프로젝트의 팀장(생성자)인 경우 다른 팀원이 팀장이 됩니다.
 				</div>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 			</div>
@@ -398,6 +399,8 @@
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
+		</section>
+		
 
 
 	<script>
@@ -408,11 +411,7 @@
 					var count = i+1;
 					var id = $('.user'+count).attr('id');
 					$('.user'+count).after(${respObj}[id]);
-				}
-				
-				$("#logout").css("line-height",'2');
-
-				
+				}	
 			})
 
 		/* 회원 정보 수정하기 모달 띄우기 */
