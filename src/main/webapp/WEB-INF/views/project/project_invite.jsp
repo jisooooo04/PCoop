@@ -23,7 +23,7 @@
 .wrapper>div:nth-child(1) {
 	font-size: 30px;
 	font-weight: 500;
-	color: #474a49;
+	color: #507f80;
 	margin-top: 100px;
 }
 
@@ -32,7 +32,7 @@
 	width: 300px;
 	height: 40px;
 	border-radius: 10px;
-	border: 1px solid #6caae0;
+	border: 1px solid #7dc8c9;
 }
 
 .wrapper button {
@@ -40,7 +40,7 @@
 	height: 40px;
 	border: none;
 	color: white;
-	background-color: #6caae0;
+	background-color: #7dc8c9;
 	border-radius: 10px;
 	outline: none;
 	margin-top: -5px;
