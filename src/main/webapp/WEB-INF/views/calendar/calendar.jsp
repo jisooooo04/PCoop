@@ -12,19 +12,6 @@
   document.addEventListener('DOMContentLoaded', function() {
 	
     var calendarEl = document.getElementById('calendar');
-
-
-	/* var json;
-	
-	$.ajax({
-		url : "tempcalendar",
-		type: "post",
-		success: function(data){
-			json = JSON.parse(data);
-			console.log(json);
-		}		
-	});
-	 */
 	
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	displayEventTime:false,//제목에 시간 같이 display 안되게 설정하는
@@ -34,7 +21,6 @@
         center: 'title',
         right: 'dayGridMonth,dayGridWeek,dayGridDay'
       },
-     /*  initialDate: '2020-06-12', */
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
@@ -176,6 +162,10 @@
         var end =$('#modal_date_end').val(); 
         var color = $('input[type=radio][name=color]:checked').val();
  		
+       if(end==''){
+    	   end=start
+       }
+        
         if(title==''){
         	alert("제목은 필수 입력값 입니다!");
         	
@@ -186,7 +176,7 @@
             	data:{
             		title : title,
             		start_date : start,
-            		end_date: end,
+            		end_date:end,
             		contents : $("#message-text").val(),
             		writer : '${loginInfo.name}',
             		color : color,

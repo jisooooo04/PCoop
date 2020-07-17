@@ -11,12 +11,16 @@
 	*{
         box-sizing: border-box;
     }
+    .container{
+    	position:relative;
+    	top:50px;
+    }
      h2{
         text-align-last: center;
         font-family: 'Noto Sans KR', sans-serif; 
         margin-top: 110px;
-        margin-bottom: 20px;
-        color: darkslategrey;
+        margin-bottom: 50px;
+        color: #507f80;
     }
     .searchbox{
         width: 380px;
@@ -26,7 +30,7 @@
     input{
         width: 300px;
         height: 50px;
-        border: 2px solid #1994d1;
+        border: 2px solid #7dc8c9;
         border-radius: 15px;
         font-family: 'Noto Sans KR', sans-serif; 
     }
@@ -37,7 +41,7 @@
         width: 70px;
         float: right;
         padding-top: 10px;
-        color: #1994d1;
+        color: #7dc8c9;
     }
     .fa-search{
         width: 100%;
@@ -49,9 +53,6 @@
     #box{
         padding: 10px;
         width: 400px;
-        /* border: 2px solid #1994d1; */
-        /* border-radius: 10px; */
-
         font-family: 'Noto Sans KR', sans-serif; 
         margin: auto;
         font-size: 20px;
@@ -78,71 +79,11 @@
         margin-right: 5px;
          color: red;
     }
-    /* 헤더 설정 */
-header {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	background-color: #7dc8c9;
-	color: white;
-	line-height: 50px;
-	text-align: center;
-	width: 100%;
-	height: 50px;
-}
-
-.logo {
-	float: left;
-	width: 150px;
-}
-
-.header_menu_list {
-	width: 100%;
-}
-
-.header_menu {
-	float: right;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.header_sidebar {
-	width: 45px;
-	float: right;
-	padding-top: 10px;
-	padding-right: 15px;
-}
-
-.logo, .header_menu, .header_sidebar:hover {
-	cursor: pointer;
-}
-
-section {
-	margin-top: 50px;
-}
+   
 </style>
 </head>
 <body>
-		<header>
-			<!-- 로고 -->
-			<div class="logo" >
-				<b>P</b>COOP!
-			</div>
-
-			<!-- 메뉴 -->
-			<div class="row">
-				<div class="d-md-block d-none header_menu_list">
-					<div class="header_menu">로그아웃</div>
-					<div class="header_menu">커뮤니티</div>
-					<div class="header_menu">협업 구하기</div>
-				</div>
-				<div class="d-md-none d-block header_menu_list">
-					<img src=menu.png class=header_sidebar>
-				</div>
-			</div>
-
-
-		</header>
+		<jsp:include page="../header/board-header.jsp"></jsp:include>
 	
 		 <div class="container">
 		  <h2>공유받은 초대코드로 프로젝트를 검색해보세요 :)</h2>
@@ -173,7 +114,7 @@ section {
 						if(resp[2]==resp[3]){
 							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><p><i class='fas fa-exclamation-circle'></i>인원수 초과</p><div><button id='joinbtn' style='opacity:20%;' disabled>프로젝트 참여하기</button></div>");
 						}else{
-							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><div><button id='joinbtn'>프로젝트 참여하기</button></div>");
+							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><div><button id='joinbtn'>프로젝트 참여  신청 하기</button></div>");
 						}
 					}
 					
@@ -212,9 +153,7 @@ section {
 			
 		})
 		
-		$('header>.logo').on("click",function(){
-		location.href='/';
-		})
+
 	</script>
 
 </body>

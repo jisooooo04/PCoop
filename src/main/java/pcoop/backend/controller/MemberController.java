@@ -311,7 +311,7 @@ public class MemberController {
 	
 	@ResponseBody
 	@RequestMapping(value ="delmem",produces="application/gson;charset=utf8")
-	public String delmem(int seq,String pw)throws Exception{
+	public String delmem(int seq,String pw)throws Exception{//회원 탈퇴 
 		Map<String , Object> map = new HashMap<>();
 		map.put("seq", seq); // seq 값 세션에서?
 		map.put("pw", mservice.getSHA512(pw));

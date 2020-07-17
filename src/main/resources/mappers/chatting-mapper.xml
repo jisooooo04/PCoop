@@ -28,7 +28,7 @@
 	
 	
 	<insert id="insertMainMember">
-		insert into chatting values(chatting_seq.nextval, ${project_seq}, ${chatting_num}, #{title}, ${member_count}, ${member_seq}, #{member_name}, #{create_date}, 'main')
+		insert into chatting values(chatting_seq.nextval, ${project_seq}, ${chatting_num}, #{title}, ${member_count}, ${member_seq}, #{member_name}, sysdate, 'main')
 	</insert>
 	
 	
