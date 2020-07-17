@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="pcoop.backend.aspect.LogAdvisor" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/aspect/LogAdvisor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="227" x="1037" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="pcoop.backend.chat.MyApplicationContextAware" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/chat/MyApplicationContextAware.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="252" x="2025" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="pcoop.backend.chat.WebChat" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/chat/WebChat.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="223" x="3340" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="pcoop.backend.controller.CalendarController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/CalendarController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="174" x="3096" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="pcoop.backend.controller.CommunityController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/CommunityController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="170" x="3035" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="pcoop.backend.controller.MemberController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/MemberController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="351" width="397" x="948" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="pcoop.backend.controller.ProjectController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/ProjectController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="232" x="1386" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="pcoop.backend.controller.TaskController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/TaskController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="256" x="3645" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="pcoop.backend.controller.ChattingController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/ChattingController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="221" x="3605" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="pcoop.backend.controller.FileController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/FileController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="221" x="212" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="pcoop.backend.controller.ExceptionController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/ExceptionController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="260" x="287" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="pcoop.backend.controller.HomeController" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/controller/HomeController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="142" x="587" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="pcoop.backend.dao.CalendarDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/CalendarDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="182" x="3096" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="pcoop.backend.dao.ChatDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/ChatDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="224" x="3318" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="pcoop.backend.dao.CommunityDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/CommunityDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="185" x="2808" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="pcoop.backend.dao.ChatFileDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/ChatFileDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="181" x="4009" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="pcoop.backend.dao.ProjectDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/ProjectDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="477" width="244" x="690" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="pcoop.backend.dao.MemberDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/MemberDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="279" x="1346" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="pcoop.backend.dao.FileDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/FileDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="567" width="302" x="296" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="pcoop.backend.dao.ChattingDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/ChattingDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="307" x="1770" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="pcoop.backend.dao.ListDAO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dao/ListDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="244" x="3727" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="pcoop.backend.dto.CalendarDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/CalendarDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="531" width="309" x="3299" y="2483"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="pcoop.backend.dto.MemberDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/MemberDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="351" width="197" x="1470" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="pcoop.backend.dto.ProjectDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/ProjectDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="189" x="690" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="pcoop.backend.dto.CardDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/CardDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="513" width="241" x="3992" y="2483"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="pcoop.backend.dto.ChatDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/ChatDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="585" width="285" x="3339" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="pcoop.backend.dto.ChatFileDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/ChatFileDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="531" width="287" x="4211" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="pcoop.backend.dto.ProjectMemberDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/ProjectMemberDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="531" width="320" x="1110" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="pcoop.backend.dto.ListDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/ListDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="190" x="3687" y="2483"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="pcoop.backend.dto.DirectoryDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/DirectoryDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="423" width="231" x="583" y="2483"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="pcoop.backend.dto.CommunityDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/CommunityDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="639" width="346" x="2689" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="pcoop.backend.dto.ChattingDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/ChattingDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="585" width="285" x="2119" y="1804"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="pcoop.backend.dto.FileDTO" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/dto/FileDTO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="639" width="350" x="193" y="2483"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="pcoop.backend.service.FileService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/FileService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="837" width="291" x="296" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="pcoop.backend.service.CalendarService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/CalendarService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="182" x="3096" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="pcoop.backend.service.ListService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/ListService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="242" x="3706" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="pcoop.backend.service.ChatFileService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/ChatFileService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="181" x="4232" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="pcoop.backend.service.MemberService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/MemberService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="279" x="948" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="pcoop.backend.service.MailService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/MailService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="206" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="pcoop.backend.service.ChattingService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/ChattingService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="236" x="1728" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="pcoop.backend.service.CommunityService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/CommunityService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="185" x="2829" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="pcoop.backend.service.ProjectService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/ProjectService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="239" x="669" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="pcoop.backend.service.ChatService" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/service/ChatService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="223" x="3340" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="pcoop.backend.statics.HttpSessionConfigurator" project="PCoop" 
+    file="/PCoop/src/main/java/pcoop/backend/statics/HttpSessionConfigurator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="451" x="2317" y="446"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="45">    
+    <bendpoint x="1315" y="446"/>    
+    <bendpoint x="1315" y="927"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <association id="46">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="47" name="cdao"/>      
+      <multiplicity id="48" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="49">    
+    <bendpoint x="1697" y="446"/>    
+    <bendpoint x="1697" y="927"/>    
+    <bendpoint x="1697" y="1804"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
+  <dependency id="50">    
+    <bendpoint x="4443" y="446"/>    
+    <bendpoint x="4443" y="927"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <dependency id="51">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="52">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <dependency id="53">    
+    <bendpoint x="638" y="446"/>    
+    <bendpoint x="638" y="927"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="54">    
+    <bendpoint x="4201" y="446"/>    
+    <bendpoint x="4220" y="927"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <association id="55">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="56" name="ctservice"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="58">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <dependency id="59">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="33"/>  
+  </dependency>  
+  <dependency id="60">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <association id="61">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="62" name="fservice"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="64">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <dependency id="65">    
+    <bendpoint x="265" y="1804"/>    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="33"/>  
+  </dependency>  
+  <association id="66">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="67" name="fdao"/>      
+      <multiplicity id="68" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="69">    
+    <bendpoint x="1676" y="446"/>    
+    <bendpoint x="1676" y="927"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <dependency id="70">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
+  <dependency id="71">    
+    <bendpoint x="3614" y="446"/>    
+    <bendpoint x="3614" y="927"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <association id="72">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="73" name="mdao"/>      
+      <multiplicity id="74" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="75">    
+    <bendpoint x="3044" y="446"/>    
+    <bendpoint x="3044" y="927"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="31"/>  
+  </dependency>  
+  <association id="76">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="77" name="mservice"/>      
+      <multiplicity id="78" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="79">    
+    <bendpoint x="3023" y="927"/>    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="31"/>  
+  </dependency>  
+  <association id="80">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="81" name="ctservice"/>      
+      <multiplicity id="82" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="83">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <association id="84">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="85" name="fdao"/>      
+      <multiplicity id="86" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="87">    
+    <bendpoint x="964" y="927"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <dependency id="88">    
+    <bendpoint x="2798" y="446"/>    
+    <bendpoint x="1739" y="927"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <dependency id="89">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="90">    
+    <bendpoint x="3065" y="927"/>    
+    <bendpoint x="3065" y="1804"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="91">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <association id="92">    
+    <bendpoint x="484" y="446"/>    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="93" name="fservice"/>      
+      <multiplicity id="94" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="95">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="96">    
+    <bendpoint x="628" y="1804"/>    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
+  <dependency id="97">    
+    <bendpoint x="2107" y="927"/>    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <association id="98">    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="99" name="cmdao"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="101">    
+    <end type="SOURCE" refId="43" navigable="false">      
+      <attribute id="102" name="fdao"/>      
+      <multiplicity id="103" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="104">    
+    <bendpoint x="4001" y="1804"/>    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <dependency id="105">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="29"/>  
+  </dependency>  
+  <association id="106">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="107" name="fservice"/>      
+      <multiplicity id="108" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="109">    
+    <bendpoint x="3065" y="446"/>    
+    <bendpoint x="2777" y="927"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <dependency id="110">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="31"/>  
+  </dependency>  
+  <dependency id="111">    
+    <bendpoint x="3675" y="927"/>    
+    <bendpoint x="3675" y="1804"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="29"/>  
+  </dependency>  
+  <dependency id="112">    
+    <bendpoint x="4241" y="927"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <association id="113">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="114" name="service"/>      
+      <multiplicity id="115" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="116">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="117" name="fservice"/>      
+      <multiplicity id="118" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="119">    
+    <bendpoint x="265" y="927"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="120">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <association id="121">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="122" name="cservice"/>      
+      <multiplicity id="123" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="124">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="125" name="ctservice"/>      
+      <multiplicity id="126" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="127">    
+    <bendpoint x="596" y="446"/>    
+    <bendpoint x="617" y="927"/>    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <association id="128">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="129" name="cservice"/>      
+      <multiplicity id="130" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="131">    
+    <bendpoint x="3978" y="927"/>    
+    <bendpoint x="4022" y="1804"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <dependency id="132">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="44"/>  
+  </dependency>  
+  <association id="133">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="134" name="cservice"/>      
+      <multiplicity id="135" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="137" name="pservice"/>      
+      <multiplicity id="138" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="139">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="140" name="pservice"/>      
+      <multiplicity id="141" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="142">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="143" name="mdao"/>      
+      <multiplicity id="144" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="145">    
+    <end type="SOURCE" refId="43" navigable="false">      
+      <attribute id="146" name="cdao"/>      
+      <multiplicity id="147" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="148">    
+    <bendpoint x="659" y="927"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <association id="149">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="150" name="lservice"/>      
+      <multiplicity id="151" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="152">    
+    <bendpoint x="3308" y="1804"/>    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="153">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <association id="154">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="155" name="fservice"/>      
+      <multiplicity id="156" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="157">    
+    <bendpoint x="1655" y="446"/>    
+    <bendpoint x="1655" y="927"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <dependency id="158">    
+    <bendpoint x="1294" y="927"/>    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <dependency id="159">    
+    <bendpoint x="1994" y="446"/>    
+    <bendpoint x="2128" y="927"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <dependency id="160">    
+    <bendpoint x="463" y="446"/>    
+    <bendpoint x="244" y="927"/>    
+    <bendpoint x="244" y="1804"/>    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
+  <dependency id="161">    
+    <bendpoint x="181" y="446"/>    
+    <bendpoint x="181" y="927"/>    
+    <bendpoint x="181" y="1804"/>    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="33"/>  
+  </dependency>  
+  <association id="162">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="163" name="cmservice"/>      
+      <multiplicity id="164" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="165">    
+    <bendpoint x="617" y="446"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="166" name="fservice"/>      
+      <multiplicity id="167" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="168">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="169" name="Cdao"/>      
+      <multiplicity id="170" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="171">    
+    <bendpoint x="3593" y="446"/>    
+    <bendpoint x="3593" y="927"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <dependency id="172">    
+    <bendpoint x="1257" y="446"/>    
+    <bendpoint x="1006" y="927"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="173">    
+    <bendpoint x="3696" y="1804"/>    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="29"/>  
+  </dependency>  
+  <association id="174">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="175" name="Cservice"/>      
+      <multiplicity id="176" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="177">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="178" name="ldao"/>      
+      <multiplicity id="179" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="180">    
+    <bendpoint x="3572" y="927"/>    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <dependency id="181">    
+    <bendpoint x="2176" y="927"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="182">    
+    <bendpoint x="3654" y="927"/>    
+    <bendpoint x="3654" y="1804"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="183">    
+    <bendpoint x="1718" y="927"/>    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <dependency id="184">    
+    <bendpoint x="202" y="927"/>    
+    <bendpoint x="202" y="1804"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="33"/>  
+  </dependency>  
+  <association id="185">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="186" name="dao"/>      
+      <multiplicity id="187" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="188">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <association id="189">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="190" name="Cservice"/>      
+      <multiplicity id="191" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="192">    
+    <bendpoint x="985" y="927"/>    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="193">    
+    <bendpoint x="223" y="927"/>    
+    <bendpoint x="223" y="1804"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
+  <dependency id="194">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
