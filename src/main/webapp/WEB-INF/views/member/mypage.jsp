@@ -208,7 +208,7 @@
 			<div class="row">
 				<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 정보-->
 
-				<div class="col-4-sm">
+				<div class="col-5">
 					<div class="memInfoTitle">
 						<i class="far fa-id-card"></i>회원 정보
 					</div>
@@ -248,8 +248,8 @@
 
 				</div>
 				<!-- ㅡㅡㅡ프로젝트 리스트  -->
-				<div class="col-sm-1"></div>
-				<div class="col-sm-6">
+				<div class="col-1"></div>
+				<div class="col-6">
 					<div class="row">
 						<c:choose>
 							<c:when test='${list_size ==0}'>

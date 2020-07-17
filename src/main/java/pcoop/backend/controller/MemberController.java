@@ -30,6 +30,7 @@ import com.google.gson.JsonObject;
 
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.MemberService;
 import pcoop.backend.service.ProjectService;
 
@@ -42,8 +43,12 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mservice; //서비스를 호출하기 위해 의존성을 주입
+	
 	@Autowired 
 	private ProjectService pservice;
+	
+	@Autowired 
+	private ChattingService ctservice;
 	
 	@Autowired
 	private HttpSession session; // 입력한 이메일주소 저장용 
@@ -334,6 +339,11 @@ public class MemberController {
 			session.invalidate();//세션 무효화
 				result = "success";
 		}
+		
+		
+		//회원 탈퇴시 채팅방에서도 나가기
+		int chattingOut = ctservice.deleteMemberout(seq);
+		
 		return result;
 	}
 	
