@@ -110,7 +110,7 @@ ul{
 	color: #f9c00c;
 }
 
-.file>.icon{
+.file .icon{
 	color: #4F86C6;
 }
 
@@ -124,17 +124,17 @@ ul{
 	padding-left: 25px;
 }
 
-.menu_add_dir, .menu_upload{
+.menu_add_dir, .menu_upload, .menu_back_dir{
 	cursor: pointer;
 	float: left;
 }
 
-.btn_upload, .btn_add_dir{
+.btn_upload, .btn_add_dir, .btn_back_dir{
 	border: none;
 	background: none;
 	margin-right: 10px;
 }
 
-.btn_upload:focus, .btn_add_dir:focus{
+.btn_upload:focus, .btn_add_dir:focus, .btn_back_dir:focus{
 	outline: none;
 }

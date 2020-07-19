@@ -31,7 +31,7 @@
 				<br><br>
 				
 				<input type="text" name="name" id="name" placeholder="이름"  class="in" />
-				<input type="password" name="pw" id="password_1"  placeholder="비밀번호" class="in pw" />
+				<input type="password" name="pw" id="password_1"  placeholder="비밀번호 (4~20글자)" class="in pw" />
 				<input type="password" id="password_2"  placeholder="비밀번호 확인" class="in pw" />
 				<br>
 	<span id="alert-success" style="display: none;">

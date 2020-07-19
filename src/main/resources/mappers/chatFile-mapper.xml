@@ -7,14 +7,24 @@
 	</select>
 	
 	
-	<select id="selectPresentSeq" resultType="int">
+	<select id="selectPresentSeq" resultType="pcoop.backend.dto.ChatFileDTO">
 		select seq from (select * from chat_file order by seq desc) where ROWNUM = 1
 	</select>
 	
 	
 	<insert id="insertFile">
-		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, #{project_seq}, #{chatting_num})
+		insert into chat_file values(chat_file_seq.nextval, #{oriname}, #{sysname}, #{filepath}, #{target}, #{extension}, ${project_seq}, ${chatting_num})
 	</insert>
+	
+	
+	<select id="selectExtension" resultType="String">
+		select extension from chat_file where chatting_num = #{value} order by seq
+	</select>
+	
+	
+	<delete id="deleteFile">
+		delete from chat_file where seq = (select file_seq from chat where seq = #{value})
+	</delete>
 	
 	
 </mapper>

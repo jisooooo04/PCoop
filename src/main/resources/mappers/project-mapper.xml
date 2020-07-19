@@ -98,6 +98,18 @@
 	<update id="updateProjectLeader">
 		update project set leader_seq=${nextProjectLeader} where seq=${project_seq}
 	</update>
+	
+	<select id="getMemberList" resultType="pcoop.backend.dto.ProjectMemberDTO">
+		select * from project_member where project_seq=${value} and join_yn='y' order by seq
+	</select>
+	
+	<delete id="ProjectMemberDelete">
+		delete from project_member where seq=${value}
+	</delete>
+	
+	<select id="selectMemberSeq" resultType="Integer">
+		select member_seq from project_member where seq=#{value}
+	</select>
 </mapper>
 
 

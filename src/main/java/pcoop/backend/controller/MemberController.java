@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.service.ChattingService;
 import pcoop.backend.service.MemberService;
 import pcoop.backend.service.ProjectService;
 
@@ -43,8 +43,12 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mservice; //서비스를 호출하기 위해 의존성을 주입
+	
 	@Autowired 
 	private ProjectService pservice;
+	
+	@Autowired 
+	private ChattingService ctservice;
 	
 	@Autowired
 	private HttpSession session; // 입력한 이메일주소 저장용 
@@ -79,7 +83,7 @@ public class MemberController {
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; //이메일로 받는 인증코드 부분 (난수)
 
-		String setfrom = "okeydoke2@naver.com";
+		String setfrom = "Pcoop";
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
 				System.getProperty("line.separator")+ //한줄씩 줄간격을 두기위해 작성
@@ -130,11 +134,11 @@ public class MemberController {
 		System.out.println("이메일 인증 페이지로 이동");
 		return "member/email";
 	}
+	
 	//회원가입 페이지 맵핑 메소드
 	@RequestMapping("toSignup")
 	public String toSignup() {
 		System.out.println("회원가입 페이지로 이동");
-
 		return "member/signupView";
 	}
 	
@@ -151,51 +155,36 @@ public class MemberController {
 	//틀리면 다시 원래 페이지로 돌아오는 메소드
 	@RequestMapping(value = "join_injeung.do{dice}", method = RequestMethod.POST)
 	public ModelAndView join_injeung(String email_injeung, @PathVariable String dice, HttpServletResponse response_equals) throws IOException {
-
 		System.out.println("마지막 : email_injeung : "+email_injeung);      
 		System.out.println("마지막 : dice : "+dice);     
-
 		//페이지이동과 자료를 동시에 하기위해 ModelAndView를 사용해서 이동할 페이지와 자료를 담음
-
 		ModelAndView mv = new ModelAndView();     
 		mv.setViewName("/member/join.do");  
 		mv.addObject("e_mail",email_injeung);
 
 		if (email_injeung.equals(dice)) {
 			//인증번호가 일치할 경우 인증번호가 맞다는 창을 출력하고 회원가입창으로 이동함
-
 			mv.setViewName("member/join");
 			mv.addObject("e_mail",email_injeung);
 			//만약 인증번호가 같다면 이메일을 회원가입 페이지로 같이 넘겨서 이메일을
 			//한번더 입력할 필요가 없게 한다.
-
 			mv.addObject("tomail",session.getAttribute("tomail"));//세션에서 인증용으로 입력한 메일주소 불러오기
 			System.out.println(session.getAttribute("tomail"));
-
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
 			out_equals.println("<script>alert('인증번호가 일치하였습니다. 회원가입창으로 이동합니다.');</script>");
 			out_equals.flush();
-
 			return mv;
 
 		}else if (email_injeung != dice) {
-
-
 			ModelAndView mv2 = new ModelAndView(); 
-
 			mv2.setViewName("member/email_injeung");
-
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
 			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
 			out_equals.flush();
-
-
 			return mv2;
-
 		}    
-
 		return mv;
 	}
 
@@ -267,7 +256,15 @@ public class MemberController {
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
 	@RequestMapping("gomypage")
 	public String gomypage (Model model)throws Exception{
+		System.out.println("mypage");
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
+		if(mdto == null) {
+			return "member/login";
+		}
+		//----------로그인하지 않고 마이페이지로 접근할 경우
+		
+		
+		
 		int seq = mdto.getSeq();
 		List<ProjectDTO> project_list = mservice.getProjectList(seq); //내가 속한 프로젝트들 
 		model.addAttribute("list", project_list);
@@ -275,6 +272,12 @@ public class MemberController {
 		//----------내가 속한 모든 프로젝트 뽑기
 		
 		System.out.println(project_list.size());
+//		MemberDTO updateMdto = mservice.getmemInfo(seq);
+//
+//		session.removeAttribute("loginInfo");
+//		session.setAttribute("loginInfo", updateMdto);
+
+		
 		int peopleNum = 0;
 		
 		//----------내가 리더인 프로젝트들의 다음 조원들 뽑기
@@ -291,8 +294,11 @@ public class MemberController {
 			int project_seq = dto.getSeq();
 			String key = project_seq+"";
 			int countPeople = pservice.countNum(project_seq);
-			respObj.addProperty(key, countPeople);			
+			respObj.addProperty(key, countPeople+"");			
 		}
+
+		System.out.println(respObj);
+
 		model.addAttribute("respObj",respObj);
 		return "member/mypage";
 	}
@@ -306,14 +312,18 @@ public class MemberController {
     	param.put("name", name);
     	param.put("pw", pw);
     	param.put("seq", seq);
-		int result = mservice.modify(param);
+    	
+    	((MemberDTO)session.getAttribute("loginInfo")).setName(name);
+    	((MemberDTO)session.getAttribute("loginInfo")).setPw(pw);//session에 update하기.
+    	
+		int result = mservice.modify(param);//db에 update하기. 
 		
 		return result+"";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value ="delmem",produces="application/gson;charset=utf8")
-	public String delmem(int seq,String pw)throws Exception{
+	public String delmem(int seq,String pw)throws Exception{//회원 탈퇴 
 		Map<String , Object> map = new HashMap<>();
 		map.put("seq", seq); // seq 값 세션에서?
 		map.put("pw", mservice.getSHA512(pw));
@@ -341,6 +351,11 @@ public class MemberController {
 			session.invalidate();//세션 무효화
 				result = "success";
 		}
+		
+		
+		//회원 탈퇴시 채팅방에서도 나가기
+		int chattingOut = ctservice.deleteMemberout(seq);
+		
 		return result;
 	}
 	

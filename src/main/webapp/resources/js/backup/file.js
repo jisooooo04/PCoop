@@ -4,18 +4,18 @@
  */
 
 
-// 디렉토리 - 우 클릭 - 드롭다운 메뉴
+//디렉토리 - 우 클릭 - 드롭다운 메뉴
 
 $(document).on("contextmenu", "#container", function(e){
-	
+
 	var x = e.pageX;
 	var y = e.pageY;
-	
+
 	$(".contextmenu_container").css({
 		"left": x,
 		"top": y
 	}).show();
-	
+
 	$(".upload_context").hide();
 	$(".contextmenu").hide();
 	$(".add_dir").hide();
@@ -26,101 +26,109 @@ $(document).on("contextmenu", "#container", function(e){
 })
 
 $(document).on("contextmenu", ".file", function(event){
-	
+
 
 	event.stopPropagation();
 	var id = this.id;
 	var position = $("#" + id).offset();
 	var left = position.left + 15;
 	var top = position.top + 90;
-	
+
+	var file_yn = $("#" + id).attr("class").substring(5);
+
+	if(file_yn == 'text_n')
+		$(".menu_preview_file").css("display", "none");
+
+	else $(".menu_preview_file").css("display", "block");
+
 	$(".menu_preview_file").attr("id", id);
-	$(".menu_download_file").attr("id", id);
-	
+	$(".menu_delete_file").attr("id", id);
+
 	$(".file_context").css({
 		left: left,
 		top: top
 	}).show();
-	
+
 	$(".upload_context").hide();
 	$(".contextmenu").hide();
 	$(".contextmenu_container").hide();
 	$(".add_dir").hide();
 	$(".rename_dir").hide();
-	
+
 	return false;
 })
 
 $(document).on("click", ".menu_preview_file", function(){
 	var seq = $(".menu_preview_file").attr("id").substring(1);
-	
+
 })
 
-// 파일 선택 Modal
+//파일 선택 Modal
 $(document).on("click", ".menu_upload_file", function(event){
 	$(".upload_context").hide();
 	$(".modal_upload").modal();
 })
 
-// 파일 upload - 폼 데이터 ajax 전송
+//파일 upload - 폼 데이터 ajax 전송
 $(document).on("click", "#uploadSubmit", function(event){
-	
+
 	// 기본으로 정의된 이벤트를 작동하지 못하게 막음
 	// submit을 막음
 	event.preventDefault();
 	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
 	var form = document.uploadForm;
 	form.dir_seq.value = dir_seq;
-		
+
 	var data = new FormData(form);
 
-    $.ajax({
-    	url: "uploadFile",
-        type: "POST",
-        enctype: 'multipart/form-data',
-        data: data,
-        processData: false,
-        contentType: false,
-        cache: false,
-        timeout: 600000,
-        success: function (data) {
-        	$(".modal_upload").modal('hide');
-        	$(".file").remove();
+	$.ajax({
+		url: "uploadFile",
+		type: "POST",
+		enctype: 'multipart/form-data',
+		data: data,
+		processData: false,
+		contentType: false,
+		cache: false,
+		timeout: 600000,
+		success: function (data) {
+			$(".modal_upload").modal('hide');
+			$(".file").remove();
 			var files = JSON.parse(data);
 
 			for(var i = 0 ; i < files.length ; i++){
-				
-				var id = "f" + files[i].seq;
-				$(".files").append("<div class=file id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-								
-				if(files[i].text_yn == "Y"){
-					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
-					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
-				}
-				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
-				$("#" + id).append("<button class=deleteFile id=del_" + id + " type=button>삭제</button>");
-			}
-			
 
-			
-        },
-        error: function (e) {
-            console.log("ERROR : ", e);
-            alert("용량이 너무 큽니다.");
-        }
-    });
-    
+				var id = "f" + files[i].seq;
+
+				if(files[i].text_yn == "Y"){
+					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				}
+
+				else 
+					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+
+
+			}
+
+
+
+		},
+		error: function (e) {
+			console.log("ERROR : ", e);
+			alert("용량이 너무 큽니다.");
+		}
+	});
+
 })
 
-// .zip 파일 선택 Modal
+//.zip 파일 선택 Modal
 $(document).on("click", ".menu_upload_zip", function(){
 	$(".upload_context").hide();
 	$(".modal_upload_zip").modal();
 })
 
-// upload .zip
+//upload .zip
 $(document).on("click", "#uploadZipSubmit", function(event){
-	
+
 	// 기본으로 정의된 이벤트를 작동하지 못하게 막음
 	// submit을 막음
 	event.preventDefault();
@@ -128,74 +136,107 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 	var form = document.uploadZipForm;
 	form.dir_seq.value = dir_seq;
 
-	
+	var dir_name = form.zip_dir.value;
+
 	// 확장자 체크(.zip 파일만)
 	var name = form.zip.value;
 	extension = name.substring(name.lastIndexOf('.'));
-	
+
+	var checkDupl;
+
 	if(extension != '.zip'){
 		alert(".zip 파일만 가능합니다.");
 		form.zip.value = "";
 	}
-	
-	else{
-		
-		var data = new FormData(form);
-		
-		$.ajax({
-	    	url: "uploadZip",
-	        type: "POST",
-	        enctype: 'multipart/form-data',
-	        data: data,
-	        processData: false,
-	        contentType: false,
-	        cache: false,
-	        timeout: 600000,
-	        success: function (data) {
-	        	
-	        	if(data == "dupl"){
-	        		alert("디렉토리 이름 중복");
-	        		form.zip_dir.value = "";
-	        	}
 
-	        },
-	        error: function (e) {
-	            console.log("ERROR : ", e);
-	            alert("fail");
-	        }
-	    });
-		
+	else{
+
+		var data = new FormData(form);
+		$(".modal_upload_zip").modal('hide');
+
+		$.ajax({
+			url: "checkDirNameDupl",
+			type: "POST",
+			async: false,
+			enctype: 'multipart/form-data',
+			data: data,
+			processData: false,
+			contentType: false,
+			cache: false,
+			timeout: 600000,
+			success: function (data) {
+				checkDupl = data;
+
+				if(checkDupl == "dupl"){
+					alert("디렉토리 이름 중복");
+					form.zip_dir.value = "";
+				}
+
+			}
+		});
+
+		if(checkDupl != "dupl"){
+
+			$(".uploading").toast({ autohide: false });
+			$(".uploading").toast('show');
+
+			$.ajax({
+				url: "uploadZip",
+				type: "POST",
+				enctype: 'multipart/form-data',
+				data: data,
+				processData: false,
+				contentType: false,
+				cache: false,
+				timeout: 600000,
+				success: function (data) {
+
+					var data = JSON.parse(data);
+					var zip_dir_seq = data.zip_dir_seq;
+					$(".uploaded").toast({ autohide: false });
+					$(".uploaded").toast('show');
+					
+					$(".dirs").append("<div class=dir id=dir" + zip_dir_seq + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + dir_name + "</div>")
+
+
+				},
+				error: function (e) {
+					alert("용량이 너무 큽니다.");
+					console.log("ERROR : ", e);
+					alert("fail");
+				}
+			});
+
+		}
+
 	}
-	
+
 })
 
 
-$(document).on("click", ".readFile", function(){
-	
-	var id = this.id.substring(5);
-	$("#read_" + id).hide();
-	$("#close_" + id).show();
-	$(".file-contents").css('display', 'block');
+$(document).on("click", ".menu_preview_file", function(){
 
-	
-	var seq = this.id.substring(6);
+	var id = this.id;
+	var seq = this.id.substring(1);
+
+	$(".modal_preview").modal();
 	var pre_extension = $(".file-contents").attr("class").substring("file-contents hljs ".length);
 
 	var data = {
 			seq : seq
 	};
-	
+
 	$.ajax({
 		url: "readFile",
 		type: "POST",
 		data: data,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function(data){
-			
+
 			var data = JSON.parse(data);
 			var text = data.text;
 			var extension = data.extension;
-			
+
 			$(".file-contents").removeClass(pre_extension);
 			$(".file-contents").addClass(extension);
 			$(".file-contents").text(data.text);
@@ -203,44 +244,38 @@ $(document).on("click", ".readFile", function(){
 			hljs.initHighlighting();
 		}
 	})
-	
+
 })
 
-$(document).on("click", ".closeFile", function(){
-	$(".readFile").show();
-	$(".closeFile").hide();
-	$(".file-contents").css('display', 'none');
-})
 
-$(document).on("click", ".deleteFile", function(){
+$(document).on("click", ".menu_delete_file", function(){
 
-	var seq = this.id.substring(5);
+	var seq = this.id.substring(1);
 	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
-	console.log(dir_seq);
 
 	var data = { dir_seq: dir_seq,
 			seq : seq };
-	
+
 	$.ajax({
 		url: "deleteFile",
 		type: "POST",
 		data: data,
 		success: function(data){
 			$(".modal_upload").modal('hide');
-        	$(".file").remove();
+			$(".file").remove();
 			var files = JSON.parse(data);
 
 			for(var i = 0 ; i < files.length ; i++){
+
 				var id = "f" + files[i].seq;
-				$(".files").append("<div class=file id=" + id + "><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-				
-//				if(files[i].text_yn == "Y"){
-//					$("#" + id).append("<button class=readFile id=read_" + id + " type=button>미리 보기</button>");
-//					$("#" + id).append("<button class=closeFile id=close_" + id + " type=button style='display: none;'>닫기</button>");
-//				}
-//				$("#" + id).append("<button class=renameFile id=rename_file_" + id + " type=button>이름 변경</button>");
-//				$("#" + id).append("<button class=deleteFile id=btn_" + id + " type=button>삭제</button>");
-				
+
+				if(files[i].text_yn == "Y"){
+					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+				}
+
+				else 
+					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+
 			}
 
 		}
@@ -248,35 +283,35 @@ $(document).on("click", ".deleteFile", function(){
 
 })
 
-// 파일 이름 변경 클릭 - 입력 창
+//파일 이름 변경 클릭 - 입력 창
 $(document).on("click", ".renameFile", function(){
-	
+
 	var fid = this.id.substring(12);
 	$(".ok_rename_file").attr("id", fid);
 	var left = $("#" + fid).offset().left;
 	var top = $("#" + fid).offset().top + 30;
-	
+
 	$(".rename_file").css({
 		"left" : left,
 		"top" : top
 	}).show();
-	
+
 })
 
 
-// 파일 이름 변경
+//파일 이름 변경
 $(document).on("click", ".ok_rename_file", function(){
-	
+
 	var id = this.id;
 	var rename = $("#file_rename").val();
 	var seq = id.substring(1);
-	
+
 	console.log(id + " : " + seq);
 	var data = {
 			seq: seq,
 			rename: rename
 	};
-	
+
 	$.ajax({
 		url: "renameFile",
 		type: "POST",
@@ -288,12 +323,12 @@ $(document).on("click", ".ok_rename_file", function(){
 			else alert("디렉토리 이름 중복");
 		}
 	});
-	
+
 	$(".rename_dir").hide();
-	
+
 })
 
-// 파일 이름 변경 취소
+//파일 이름 변경 취소
 $(document).on("click", ".cancel_rename_file", function(){
 	$(".rename_file").hide();
 })

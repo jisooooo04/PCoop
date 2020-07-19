@@ -44,6 +44,21 @@
 	select * from directory where parent_seq = ${value} order by 1
 </select>
 
+<!-- 디렉토리의 모든 하위 디렉토리 리스트 -->
+<select id="getDirListByPath" resultType="pcoop.backend.dto.DirectoryDTO">
+	select * from directory where path like #{value} order by 1
+</select>
+
+<!-- 파일 seq 가져오기 -->
+<select id="getFileSeqByName" resultType="int">
+	select seq from files where directory_seq = ${directory_seq} and name = #{name}
+</select>
+
+<!-- 디렉토리의 모든 하위 파일 리스트 -->
+<select id="getFileListByPath" resultType="pcoop.backend.dto.FileDTO">
+	select * from files where path like #{value} order by 1
+</select>
+
 <!-- 파일 이름 가져오기 -->
 <select id="getFileNameBySeq" resultType="String">
 	select name from files where seq = ${value}
@@ -80,8 +95,15 @@
 	select * from files order by 1
 </select>
 
+<!-- 삭제 로그 존재하는지 확인 -->
+<select id="isDeleted" resultType="int">
+	select count(*) from log where type = #{type} and backup_seq = ${seq} and status = 'delete'
+</select>
 
-
+<!-- 삭제된 로그의 부모 디렉토리 리턴 -->
+<select id="selectParentSeqByDeleteLog" resultType="int">
+	select parent_seq from log where type = #{type} and backup_seq = ${seq} and status = 'delete'
+</select>
 
 
 <!-- [INSERT] -->
@@ -101,9 +123,25 @@
 	insert into files values(files_seq.nextval, ${project_seq}, ${directory_seq}, #{directory_path}, #{name}, #{extension, jdbcType=VARCHAR}, #{path}, sysdate, #{uploader}, #{text_yn})
 </insert>
 
+<!-- 디렉토리 add 로그 생성 -->
+<insert id="insertAddDirLog">
+	insert into log values(log_seq.nextval, 'directory', ${seq}, ${parent_seq}, 'add', sysdate, #{member_name})
+</insert>
 
+<!-- 디렉토리 delete 로그 생성 -->
+<insert id="insertDelDirLog">
+	insert into log values(log_seq.nextval, 'directory', ${seq}, ${parent_seq}, 'delete', sysdate, #{member_name})
+</insert>
 
+<!-- 파일 add 로그 생성 -->
+<insert id="insertAddFileLog">
+	insert into log values(log_seq.nextval, 'file', ${seq}, ${dir_seq}, 'add', sysdate, #{member_name})
+</insert>
 
+<!-- 파일  delete 로그 생성 -->
+<insert id="insertDelFileLog">
+	insert into log values(log_seq.nextval, 'file', ${seq}, ${dir_seq}, 'delete', sysdate, #{member_name})
+</insert>
 
 <!-- [DELETE] -->
 
@@ -115,6 +153,11 @@
 <!-- 특정 디렉토리 내 모든 파일 지우기 -->
 <delete id="deleteFilesByDirPath">
 	delete from files where path like #{value}
+</delete>
+
+<!-- 특정 디렉토리 내 모든 디렉토리 지우기 -->
+<delete id="deleteDirsByDirPath">
+	delete from directory where path like #{value}
 </delete>
 
 <!-- 파일 삭제 -->

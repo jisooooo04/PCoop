@@ -10,8 +10,6 @@
 <title>Insert title here</title>
 
 
-<link href='/resources/css/calendar/calendar.css?after' rel='stylesheet' />
-<script src='/resources/js/calendar/calendar.js'></script>
 
 </head>
 <body>
@@ -51,7 +49,8 @@
 		          }
 		          var arg_time = date_to_str(arg.start); //내가 클릭한 날짜
 		    	//modal 띄우기 
-		        $("#myModal").modal(); 
+		        //$("#myModal").modal(); 
+		          $("#myModal").modal("show");
 		        $("#modal_date_start").val(arg_time);
 		    	//일정 끝나는 시간이 시작시간보다 빠르면 바꿔주는 이벤트 - 시작시간 선택 후 끝나는 시간 선택 했을 때
 		    	$("#modal_date_end").focusout(function(){
@@ -185,7 +184,7 @@
 		            		contents : $("#message-text").val(),
 		            		writer : '${loginInfo.name}',
 		            		color : color,
-		            		poject_seq:0
+		            		project_seq:'${projectInfo.seq}'
 		            	}
 		            }).done(function(resp){
 		           		resp=JSON.parse(resp);
@@ -243,7 +242,7 @@
 		          			contents: $("#Editmessage-text").val(),
 		          			writer:'${loginInfo.name}',
 		          			color: Editcolor,
-		          			project_seq:0
+		          			project_seq:'${projectInfo.seq}'
 		        			}		
 		        		}).done(function(resp){	
 		        	       

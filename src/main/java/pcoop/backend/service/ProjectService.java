@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pcoop.backend.dao.ProjectDAO;
 import pcoop.backend.dto.ProjectDTO;
@@ -121,6 +122,7 @@ public class ProjectService {
 		return dao.checkLeaderYN(param);
 	}
 	
+	@Transactional("txManager")
 	public int updateLeader(int project_seq)throws Exception{
 		Map<String,Object> map= dao.nextLeaderSeq(project_seq);
 		if(map==null) {
@@ -140,4 +142,18 @@ public class ProjectService {
 			return 1;
 		}		
 	}
+	
+	public List<ProjectMemberDTO> getMemberList (int project_seq)throws Exception{
+		return dao.getMemberList(project_seq);
+	}
+	
+	public int ProjectMemberDelete (int project_member_seq)throws Exception{
+		return dao.ProjectMemberDelete(project_member_seq);
+	}
+	
+	//project_member_seq로 member_seq 조회하기(프로젝트 강퇴시 채팅 삭제할때 member_seq 필요해서 사용)
+	public int selectMemberSeq (int project_member_seq) {
+		return dao.selectMemberSeq(project_member_seq);
+	}
+	
 }

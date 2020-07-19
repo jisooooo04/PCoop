@@ -1,25 +1,30 @@
 
-body {
+
+body {overflow-y: hidden; overflow-x: hidden;}
+#container{ overflow-y: hidden; overflow-x: hidden; }
+#box{
+	
 	overflow-y: hidden;
-	overflow-x: hidden;
 }
 
 #wrapper {
-	width: 1100px;
+	width: 80%;
 	position: fixed;
-	z-index: 10;
-	bottom: 10px;
-	left: 25%;
-	background-color: rgba(255, 255, 255, 0.9);
-	zoom:0.9;
-	
+	z-index: 100;
+	bottom: 20px;
+	background-color: rgba(255, 255, 255, 0.1);
+    zoom: 0.77;
+
 }
 
 #todoListBox {
-	margin: 10px;
+	padding-top: 10px;
+	padding-left: 10px;
 	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	 overflow-x: hidden;
 }
-
 
 
 #calendar {
@@ -27,24 +32,73 @@ body {
 	margin: 0 auto;
 }
 
-#todoListBox {
-	width: 100%;
-	height: 100%;
-}
 
 #calendarBox {
 	margin-top: 100px;
-	width: 1100px;
+	/*width: 1100px;*/
 	margin: 0 auto;
-	
 }
 
 #actions-by-ajax {
-
-	height: 100%;
+	height: 99%;
 	overflow-y: hidden;
 }
+
 #progress{
 	width: 1100px;
 	margin: auto;
+}
+
+
+/*스크롤바 꾸미기 (구버전IE에서는 색상만 적용)*/
+/* actions-by-ajax 부분에 걸린 .u-fancy-scrollbar */
+.u-fancy-scrollbar {
+
+	 overflow-x: hidden;
+}
+.u-fancy-scrollbar::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+
+}
+/*리스트 y 스크롤 */
+.lobilist {
+    -webkit-overflow-scrolling: touch;
+}
+.lobilist::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+/*스크롤 버튼 숨기기*/
+.u-fancy-scrollbar::-webkit-scrollbar-button {
+    display: block;
+    height: 0px;
+    width: 0px;
+}
+.lobilist::-webkit-scrollbar-button {
+    display: block;
+    height: 0px;
+    width: 0px;
+}
+
+/*스크롤 트랙 회색으로*/
+#actions-by-ajax::-webkit-scrollbar-track-piece {
+    background: rgba(0,0,0,.15);
+}
+.lobilist::-webkit-scrollbar-track-piece {
+    background: rgba(0,0,0,.15);
+}
+
+
+/*스크롤thumb을 민트색으로! */
+#actions-by-ajax::-webkit-scrollbar-thumb {
+    background: rgba(125,200,201,0.5);
+}
+.lobilist::-webkit-scrollbar-thumb {
+   background: rgba(125,200,201,0.5);
+}
+
+.fc-header-toolbar{
+	 zoom: 0.5;
 }

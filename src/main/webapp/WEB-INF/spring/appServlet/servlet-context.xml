@@ -3,14 +3,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+
+	<tx:annotation-driven/>
+
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -24,12 +31,47 @@
 	<!-- MultipartResolver -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="20485760" />
-		<beans:property name="maxInMemorySize" value="20485760" />
+		<beans:property name="maxUploadSize" value="52428800" />
+		<beans:property name="maxInMemorySize" value="52428800" />
 	</beans:bean>
 	
 	<context:component-scan base-package="pcoop.backend" />
 	
+		<!-- aop:around로 성능체크 
+	<beans:bean id="perfaop" class="pcoop.backend.aspect.LogAdvisor" />
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* pcoop.backend.controller.*.*(..))"
+			id="perfCheck" />
+		<aop:aspect ref="perfaop">
+			<aop:around method="aroundTest" pointcut-ref="perfCheck" />
+		</aop:aspect>
+	</aop:config>-->
+
+	<!-- aop:around로 로그인체크 : 프로젝트 컨트롤러 이용은 멤버정보가 세션에 있어야함--> 
+	<beans:bean id="logincheckaop"
+		class="pcoop.backend.aspect.LogAdvisor" />
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* pcoop.backend.controller.ProjectController.*(..))"
+			id="logincheck" />
+		<aop:aspect ref="logincheckaop">
+			<aop:around method="loginCheck" pointcut-ref="logincheck" />
+		</aop:aspect>
+	</aop:config>
 	
-	
+		<!-- aop:around로 프로젝트체크 : 할일/리스트/캘린더/채팅은 프로젝트가세션에 있어야함 -->
+	<beans:bean id="projectcheckaop"
+		class="pcoop.backend.aspect.LogAdvisor" />
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* pcoop.backend.controller.TaskController.*(..))  ||
+			 execution(* pcoop.backend.controller.ChattingController.*(..))  ||
+			 execution(* pcoop.backend.controller.CalendarController.*(..))  ||
+			 execution(* pcoop.backend.controller.FileController.*(..))"
+			id="projectCheck" />
+		<aop:aspect ref="projectcheckaop">
+			<aop:around method="projectCheck" pointcut-ref="projectCheck" />
+		</aop:aspect>
+	</aop:config>
 </beans:beans>

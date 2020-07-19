@@ -127,4 +127,7 @@ public class MemberService {
     	return mdao.SelectMyProjectSeq(seq);
     }
    
+    public MemberDTO getmemInfo (int seq)throws Exception{
+    	return mdao.getmemInfo(seq);
+    }
 }

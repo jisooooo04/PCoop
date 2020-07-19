@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pcoop.backend.dao.ChattingDAO;
 import pcoop.backend.dao.MemberDAO;
@@ -52,6 +53,7 @@ public class ChattingService {
 	}
 	
 	
+	@Transactional("txManager")
 	//기본채팅방에 멤버 추가
 	public int insertMainMember(int project_seq, int mb_seq, String mb_name) throws Exception {
 		
@@ -81,6 +83,44 @@ public class ChattingService {
 		
 		return insert;
 	}
+	
+	
+	//프로젝트 강퇴, 나갈 시 채팅방에서 삭제
+	public int deleteProjectMember(int member_seq, int project_seq) {
 		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("member_seq", member_seq);
+		map.put("project_seq", project_seq);
+		
+		// 인원수 변경
+		// 1)기존 팀원들 채팅방 인원수 변경하기 위해 탈퇴하고자 하는 member가 참여하고있는 채팅 목록(num)을 리스트로 받아옴
+		List<ChattingDTO> chatting_num = cdao.projectBelongChatting(map);
+		
+		// 2)위에서 불러온 채팅방 num 리스트로 해당 채팅방의 인원수를 모두 변경
+		int update = cdao.minusChattingCount(chatting_num);
+		
+		
+		//이후 chatting 테이블에서 해당 멤버 삭제
+		int delete = cdao.deleteProjectMember(map);
+		
+		return delete;
+	}
+	
+	
+	//회원 탈퇴시 해당 회원이 참여하고 있는 모든 프로젝트의 채팅방에서 인원수 변경 및 회원 삭제
+	public int deleteMemberout(int member_seq) {
+		
+		//해당 회원이 참여하고 있는 채팅방 목록 불러오기 (chatting_num)
+		List<ChattingDTO> chatting_num = cdao.memberBelongChatting(member_seq);
+		
+		//해당 채팅방 목록의 인원수 -1 감소
+		int update = cdao.minusChattingCount(chatting_num);
+		
+		//이후 chatting 테이블에서 해당 회원이 참가하고 있는 행 모두 삭제
+		int delete = cdao.deleteMemberout(member_seq);
+		
+		return delete;
+	}
+	
 	
 }

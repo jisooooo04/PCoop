@@ -10,11 +10,6 @@
 <!-- Jquery -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-<!--Error: Bootstrap dropdown require Popper.js -- 상단부에 있어야 할일리스트 색 변경시 에러가 안남 -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
@@ -25,8 +20,6 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
 	integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
 	crossorigin="anonymous"></script>
-
-
 
 
 <!-- 아이콘 -->
@@ -43,6 +36,9 @@
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- 스크롤 액션 AOS  -->
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
 
 </head>
 </html>

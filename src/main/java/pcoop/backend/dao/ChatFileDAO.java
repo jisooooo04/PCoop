@@ -1,5 +1,7 @@
 package pcoop.backend.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,7 @@ public class ChatFileDAO {
 	}
 	
 	
-	public int selectPresentSeq() {
+	public ChatFileDTO selectPresentSeq() {
 		return mybatis.selectOne("ChatFile.selectPresentSeq");
 	}
 	
@@ -27,5 +29,12 @@ public class ChatFileDAO {
 	}
 	
 	
+	public List<String> selectExtension(int chatting_num) {
+		return mybatis.selectList("ChatFile.selectExtension", chatting_num);
+	}
 	
+	
+	public int deleteFile(int chat_seq) {
+		return mybatis.delete("ChatFile.deleteFile", chat_seq);
+	}
 }

@@ -25,10 +25,11 @@ public class CalendarController {
 	
 	@RequestMapping("calendar")
 	public String Calendar(Model model,int project_seq)throws Exception {//list출력
-	
+
+		System.out.println("캘린더 불러오기");
+		
 		List<CalendarDTO> list = new ArrayList<>();
 		list = Cservice.selectAll(project_seq);
-		
 		JsonArray carr = new JsonArray();
 		
 		for(CalendarDTO c : list) {
@@ -45,28 +46,7 @@ public class CalendarController {
 		return "calendar/calendar";
 	}
 	
-	@RequestMapping("tempcalendar")
-	@ResponseBody
-	public String tempCalendar(Model model)throws Exception {//list출력
-		List<CalendarDTO> list = new ArrayList<>();
-		list = Cservice.selectAll(0);
-		
-		JsonArray carr = new JsonArray();
-		
-		for(CalendarDTO c : list) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", c.getSeq());
-			json.addProperty("title", c.getTitle());
-			json.addProperty("start_date", c.getStart_date());
-			json.addProperty("end_date", c.getEnd_date());
-			json.addProperty("color", c.getColor());
-			carr.add(json);
-		}
-		
-		System.out.println(carr);
-		model.addAttribute("list", list);
-		return new Gson().toJson(carr);
-	}
+	
 	
 	@ResponseBody
 	@RequestMapping("addEvent")
@@ -78,7 +58,6 @@ public class CalendarController {
 		JsonObject respObj = new JsonObject();
 		respObj.addProperty("seq", Sseq);
 		/* respObj.addProperty("result", result); */
-		
 		return new Gson().toJson(respObj);
 	}
 	

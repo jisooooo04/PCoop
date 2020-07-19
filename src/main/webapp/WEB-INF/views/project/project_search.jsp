@@ -11,12 +11,16 @@
 	*{
         box-sizing: border-box;
     }
+    .container{
+    	position:relative;
+    	top:50px;
+    }
      h2{
         text-align-last: center;
         font-family: 'Noto Sans KR', sans-serif; 
-        margin-top: 50px;
-        margin-bottom: 20px;
-        color: darkslategrey;
+        margin-top: 110px;
+        margin-bottom: 50px;
+        color: #507f80;
     }
     .searchbox{
         width: 380px;
@@ -26,7 +30,7 @@
     input{
         width: 300px;
         height: 50px;
-        border: 2px solid #1994d1;
+        border: 2px solid #7dc8c9;
         border-radius: 15px;
         font-family: 'Noto Sans KR', sans-serif; 
     }
@@ -37,7 +41,7 @@
         width: 70px;
         float: right;
         padding-top: 10px;
-        color: #1994d1;
+        color: #7dc8c9;
     }
     .fa-search{
         width: 100%;
@@ -49,9 +53,6 @@
     #box{
         padding: 10px;
         width: 400px;
-        /* border: 2px solid #1994d1; */
-        /* border-radius: 10px; */
-
         font-family: 'Noto Sans KR', sans-serif; 
         margin: auto;
         font-size: 20px;
@@ -78,33 +79,11 @@
         margin-right: 5px;
          color: red;
     }
+   
 </style>
 </head>
 <body>
-		<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNav" aria-controls="navbarNav"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/">Home
-							<span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Features</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Pricing</a>
-					</li>
-					<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-
-	</header>
+		<jsp:include page="../header/board-header.jsp"></jsp:include>
 	
 		 <div class="container">
 		  <h2>공유받은 초대코드로 프로젝트를 검색해보세요 :)</h2>
@@ -135,7 +114,7 @@
 						if(resp[2]==resp[3]){
 							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><p><i class='fas fa-exclamation-circle'></i>인원수 초과</p><div><button id='joinbtn' style='opacity:20%;' disabled>프로젝트 참여하기</button></div>");
 						}else{
-							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><div><button id='joinbtn'>프로젝트 참여하기</button></div>");
+							$("#box").append("<div>"+resp[0].name+"</div><div><i class='fas fa-users'></i>"+resp[2]+"/"+resp[3]+"</div><div><button id='joinbtn'>프로젝트 참여  신청 하기</button></div>");
 						}
 					}
 					
@@ -164,14 +143,17 @@
 			}).done(function(resp){
 				if(resp==1){
 					alert("참여 신청되었습니다."); 
-					$("#joinbtn").html("참가신청 완료");//색깔 흐릿하게주기
+					$("#joinbtn").html("참가신청 완료");
 					$("#joinbtn").attr("disabled",true);
+					$("#joinbtn").css("opacity","50%");
 				}
 				
 			})
 			
 			
 		})
+		
+
 	</script>
 
 </body>

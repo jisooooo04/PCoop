@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import pcoop.backend.dto.ChatDTO;
+import pcoop.backend.dto.ChattingDTO;
 
 @Repository
 public class ChatDAO {
@@ -42,5 +43,10 @@ public class ChatDAO {
 	public int selectChatSeq(){
 		
 		return mybatis.selectOne("Chat.selectChatSeq");
+	}
+	
+	
+	public List<ChatDTO> selectFileList(int chatting_num) {
+		return mybatis.selectList("Chat.selectFileList", chatting_num);
 	}
 }

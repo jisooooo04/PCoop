@@ -16,6 +16,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="resources/css/main/main.css?after" />
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="resources/css/chatting/chatting.css?after" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/agate.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+	hljs.initHighlightingOnLoad();
+</script>
+
 <script src="https://kit.fontawesome.com/8f6ea3bf70.js"
 	crossorigin="anonymous"></script>
 </head>
@@ -28,6 +38,24 @@
 #banner {
 	background-image: url(resources/images/index/banner2.jpg);
 }
+
+.chat_box, .time {
+	float: left;
+	text-align: left;
+}
+
+.code_editor {
+	width: auto;
+}
+
+article>p{
+	font-size: 13px;
+}
+
+article{
+	 margin: auto;
+}
+
 </style>
 
 
@@ -38,18 +66,16 @@
 		<div class="inner">
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
-				<a href="member/gomypage">MY PAGE</a>
-				<a href="goCoopBoard">협업 구하기</a> 
-				<a href="#">참여 중 프로젝트</a> 
-				<a href="#">프로젝트 소개</a> 
-				<a href="Task/task">할 일 목록</a>
-				<a href="calendar/calendar?project_seq=0">캘린더</a>
-				<a href="chatting">채팅</a>
-
+					<a href="member/gomypage">마이 페이지</a>
+					<a href="#">Q&A</a> 
+					
+					<c:if test="${loginInfo != null}">
+					<a href="member/logout">로그아웃</a>
+					</c:if>
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
 				class="fa fa-bars"></span></a>
-				
+
 		</div>
 	</header>
 
@@ -65,13 +91,15 @@
 
 			<div class="flex ">
 
-				<div id="signUp">
-					<span class="icon fa-user-plus"></span>
-					<h3>계정 만들기</h3>
-					<p>
-						프로젝트를 시작하기 위해<br> PCOOP 계정을 만드세요.
-					</p>
-				</div>
+				<c:if test="${loginInfo == null}">
+					<div id="signUp">
+						<span class="icon fa-user-plus"></span>
+						<h3>계정 만들기</h3>
+						<p>
+							프로젝트를 시작하기 위해<br> PCOOP 계정을 만드세요.
+						</p>
+					</div>
+				</c:if>
 
 				<div id="project_create">
 					<span class="icon fa-briefcase"></span>
@@ -115,40 +143,88 @@
 		<div class="inner">
 			<div class="flex flex-2">
 				<article>
-					<div class="image round">
-						<img src="resources/images/index/pic01.jpg" alt="Pic 01" />
-					</div>
 					<header>
 						<h3>
-							Lorem ipsum<br /> dolor amet nullam
+							단체 대화, 개인 대화, 주제별로<br> 구분된 <span id="logo">업무 메신저</span>를 이용하세요!
 						</h3>
 					</header>
 					<p>
-						Morbi in sem quis dui placerat ornare. Pellentesquenisi<br />euismod
-						in, pharetra a, ultricies in diam sed arcu. Cras<br />consequat
-						egestas augue vulputate.
+						같은 기능을 전담하는 사람들끼리 따로 채팅방을 생성하세요!<br />
+						기능별, 개인별로 <span id="logo">대화 목적을 나누어</span> 프로젝트의 흐름을 효율적으로 파악할 수 있습니다.<br />
+						대화 도중 주고받았던 <span id="logo">파일 목록</span>을 따로 보여 드려요.<br />
+						부분적으로 보내 주는 코드 텍스트를 알아보기 쉽게!<br />
+						<span id="logo">언어별로 하이라이팅</span>하여 보여 드릴게요.
 					</p>
-					<footer>
-						<a href="#" class="button">Learn More</a>
-					</footer>
 				</article>
 				<article>
-					<div class="image round">
-						<img src="resources/images/index/pic02.jpg" alt="Pic 02" />
+					<div class=chat_box>
+						<div class=profile data-aos="fade-left" data-aos-delay="300">
+							<img src=resources/images/chatting/profile.png class=profile_img>
+						</div>
+						<div class=chat_box_in data-aos="fade-left" data-aos-delay="300">
+							<div class=name>철수</div>
+							<div class=chat>수정하신 소스 코드 부분 보내 주실래요?</div>
+							<div class=time>오전 10:19:44</div>
+						</div>
+						<br/>
+						<div class=profile data-aos="fade-right" data-aos-delay="550">
+							<img src=resources/images/chatting/profile.png class=profile_img>
+						</div>
+						<div class="chat_box_in" data-aos="fade-right"
+							data-aos-delay="550">
+							<div class=name>영희</div>
+							<div class=chat>
+								<div class="image">
+									<img src="resources/images/index/precode.PNG" alt="Pic 02" />
+								</div>
+							</div>
+							<div class=time>오전 11:20:26</div>
+						</div>
 					</div>
+				</article>
+				<br>
+				<br>
+				<article data-aos="fade-right" data-aos-delay="700">
+					<div class="image">
+						<img src="resources/images/index/todo.PNG" alt="Pic 02" />
+						<img src="resources/images/index/todo2.PNG" alt="Pic 02" />
+					</div>
+				</article>
+
+				<article>
 					<header>
 						<h3>
-							Sed feugiat<br /> tempus adipicsing
+							칸반 스타일의 <br /><span id="logo">To-do List</span>!
 						</h3>
 					</header>
 					<p>
-						Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis
-						auctor, ultrices ut, elementum vulputate, nunc<br /> blandit
-						ellenste egestagus commodo.
+						할 일이 정리가 안 되시나요?<br>
+						담당한 업무들을 <span id="logo">하나의 카드</span>로 묶어 간편하게 관리해 보세요.<br>
+						완료된 업무는 <span id="logo">체크</span>!<br>
+						프로젝트 전체 진행 과정을 진행 바의 게이지를 통해 시각적으로 점검할 수 있습니다.<br>
+						<span id="logo">드래그 앤 드롭</span>으로 보다 쉽고 빠르게 업무를 조정해 보세요.
 					</p>
-					<footer>
-						<a href="#" class="button">Learn More</a>
-					</footer>
+				</article>
+				<article>
+					<header>
+						<h3>
+							팀원들과 공유하는 <span id="logo">백업 드라이브</span>
+						</h3>
+					</header>
+					<p>
+						드라이브에  팀원들과 공유해야 하는 <span id="logo">파일들을 백업</span>하세요.<br>
+							파일뿐만 아니라 <span id="logo">.zip 파일</span>을 업로드하면 <span id="logo">자동으로 압축 해제</span>해 줍니다.<br>
+							업로드된 파일이 <span id="logo">텍스트 파일</span>이라면 <span id="logo">미리 보기</span> 기능을 제공합니다.<br>
+							언어별로 자동으로 <span id="logo">하이라이팅된 소스 코드</span>를 볼 수 있습니다.
+					</p>
+				</article>
+				<article>
+					<div class="image">
+						<img src="resources/images/index/backup.png" alt="Pic 02" />
+					</div>
+					<div class="image preview">
+						<img src="resources/images/index/preview.png" alt="Pic 02" />
+					</div>
 				</article>
 			</div>
 		</div>
@@ -168,26 +244,27 @@
 	<script src="resources/js/skel.min.js"></script>
 	<script src="resources/js/util.js"></script>
 	<script src="resources/js/main.js"></script>
-
+	<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 	<script>
-		$("#project_create").on("click",function(){
-			location.href="project_create";
-		})
-		$("#project_join").on("click",function(){
-			location.href="project_join";
-		})
-		$("#signUp").on("click",function(){
-			location.href="member/toEmailView";
-		})
-		
-		$("#login").on("click",function(){
-			location.href="member/toLoginView";
-		})
-		$("#logout").on("click",function(){
-			location.href="member/logout";
-		})
-		
-		
+		AOS.init();
 	</script>
+	<script>
+		$("#project_create").on("click", function() {
+			location.href = "project_create";
+		})
+		$("#project_join").on("click", function() {
+			location.href = "project_join";
+		})
+		$("#signUp").on("click", function() {
+			location.href = "member/toEmailView";
+		})
+		$("#login").on("click", function() {
+			location.href = "member/toLoginView";
+		})
+		$("#logout").on("click", function() {
+			location.href = "member/logout";
+		})
+	</script>
+
 </body>
 </html>
