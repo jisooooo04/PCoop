@@ -64,7 +64,7 @@ $(function(){
 	<!-- 오른쪽 사이드바 -->
 	<nav id=rightnav>
 		<span class="fa fa-times close_r_nav"></span>
-		<!--  <img src="resources/images/header/close.png" class=close_r_nav>-->
+		<img src="resources/images/header/close.png" class=close_r_nav>
 		<div class=r_navmenu>마이 페이지</div>
 		<div class=r_navmenu>로그아웃</div>
 		<div class=r_navmenu>커뮤니티</div>

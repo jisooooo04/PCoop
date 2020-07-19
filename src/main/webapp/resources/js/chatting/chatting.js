@@ -2,7 +2,7 @@ $(function(){
       updateScroll();
       updateFileScroll();
       
-      var ws = new WebSocket("ws://172.30.1.8/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
+      var ws = new WebSocket("ws://192.168.200.125/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
       
       ws.onmessage = function(e){
          
