@@ -24,7 +24,7 @@
 	</select>
 	
 	<select id="selectFileList" resultType="pcoop.backend.dto.ChatDTO">
-		select * from chat where chatting_num=#{value} and file_seq > 0
+		select * from chat where chatting_num=#{value} and file_seq > 0 order by seq
 	</select>
 	
 </mapper>

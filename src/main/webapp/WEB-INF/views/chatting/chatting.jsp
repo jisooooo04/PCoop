@@ -83,7 +83,7 @@
 								<div class=file_writer>${fileList[i].writer }</div>
 							</div>
 						</div>
-					</c:forEach>
+						</c:forEach>
 					</c:if>
 				</div>
 
@@ -140,6 +140,13 @@
 
 			</div>
 
+
+			
+			<!-- 파일 첨부될 시 -->
+			<div class=file_box readOnly>
+				<button class=file_upload_box readOnly></button>
+				<button class=file_delete>X</button>
+			</div>
 
 			<!-- 채팅 입력창 -->
 			<div class="chat_input_section">
