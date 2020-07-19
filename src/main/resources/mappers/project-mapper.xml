@@ -100,7 +100,7 @@
 	</update>
 	
 	<select id="getMemberList" resultType="pcoop.backend.dto.ProjectMemberDTO">
-		select * from project_member where project_seq=${value} order by seq
+		select * from project_member where project_seq=${value} and join_yn='y' order by seq
 	</select>
 	
 	<delete id="ProjectMemberDelete">

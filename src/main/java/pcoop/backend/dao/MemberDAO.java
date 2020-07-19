@@ -159,5 +159,8 @@ public class MemberDAO {
 	        return mybatis.selectOne("Member.selectName", member_seq);
 	    }
 	    
+	    public MemberDTO getmemInfo (int seq)  throws Exception{
+	    	return mybatis.selectOne("Member.getMemInfo",seq);
+	    }
 	    
 }
