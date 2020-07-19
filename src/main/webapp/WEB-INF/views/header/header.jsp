@@ -14,7 +14,7 @@ $(function(){
 	//왼쪽 네비 메뉴 클릭
     $(".navcontents").hide();
     $(document).on("click", ".navtitle", function(){
-        var selectIndex = ($(this).index()-1)/2;
+        var selectIndex = ($(this).index()-3)/2;
 
         $(".navcontents").each(function(index, item){
             if(index == selectIndex){

@@ -426,3 +426,37 @@ section {
 	text-decoration: underline;
 }
 
+
+/* 파일 첨부됬을때 생기는 파일박스 */
+.file_box {
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	float: left;
+	padding: 5px;
+	position: absolute;
+	bottom: 135px;
+	left: 10px;
+	background-color: white;
+	display: none;
+}
+
+.file_upload_box {
+	border: 0px solid black;
+	background-color: white;
+	color: dodgerblue;
+}
+
+.file_upload_box:hover {
+	cursor: default;
+}
+
+.file_delete {
+	margin-left: 5px;
+	float: right;
+	color: lightgray;
+	border: 0px solid;
+	background-color: white;
+}
+
+/* copy_box */
+
