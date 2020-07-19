@@ -66,15 +66,13 @@ article{
 		<div class="inner">
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
-					<a href="member/gomypage">마이 페이지</a> 
-					<!-- <a href="#">참여 중 프로젝트</a> 
-				
-					<a href="community">커뮤니티</a> -->
+					<a href="member/gomypage">마이 페이지</a>
+					<a href="#">커뮤니티</a>
+					<a href="#">Q&A</a> 
+					
 					<c:if test="${loginInfo != null}">
 					<a href="member/logout">로그아웃</a>
 					</c:if>
-						
-
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span
 				class="fa fa-bars"></span></a>
