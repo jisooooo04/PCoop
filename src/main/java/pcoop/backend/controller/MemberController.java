@@ -313,9 +313,9 @@ public class MemberController {
     	param.put("seq", seq);
     	
     	((MemberDTO)session.getAttribute("loginInfo")).setName(name);
-    	((MemberDTO)session.getAttribute("loginInfo")).setPw(pw);
+    	((MemberDTO)session.getAttribute("loginInfo")).setPw(pw);//session에 update하기.
     	
-		int result = mservice.modify(param);
+		int result = mservice.modify(param);//db에 update하기. 
 		
 		return result+"";
 	}
