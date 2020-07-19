@@ -142,7 +142,7 @@ $(function () {
 			 * @private
 			 */
 			_init: function () {
-//				console.log('_init 함수 동작'); // 추가 코드
+				console.log('_init 함수 동작'); // 추가 코드
 				var me = this;
 				me.suppressEvents();
 				if (!me.$options.id) {
@@ -163,6 +163,8 @@ $(function () {
 				if (me.$options.defaultStyle) {
 					me.$el.addClass(me.$options.defaultStyle);
 				}
+			
+				//console.log('me._createHeader();');
 				me.$header = me._createHeader();
 				me.$title = me._createTitle();
 				me.$body = me._createBody();
@@ -193,8 +195,7 @@ $(function () {
 			saveProperty: function (property, value) {
 				var me = this;
 				if (!me.isStateful()){
-					console.error("saveProperty 에러?");
-
+					console.error("saveProperty 에러가 무슨 의미?");
 					console.error("object is not stateful");
 					return false;
 				}
@@ -216,11 +217,17 @@ $(function () {
 			addItem: function (item, errorCallback) {
 				console.log("addItem 기능 시작 ");
 				var me = this;
+
 				if (me._triggerEvent('beforeItemAdd', [me, item]) === false) {
+
 					return me;
 				}
+				
+			
 
 				item = me._processItemData(item);
+				console.log(JSON.stringify(item));
+
 				if (me.$globalOptions.actions.insert) {
 
 					console.log("addItem insert 기능 ajax 동작 : "+ JSON.stringify(item));
@@ -238,11 +245,13 @@ $(function () {
 						if (res.success) { //res.success 조건 발생 안함
 							console.log('res.success : '+res.success);
 							item.id = res.id;
-							console.log('item.id : '+item.id);
+							console.log('추가되는 item.id : '+item.id);
 							me._addItemToList(item);
 						} else {
+							alert('도움말의 변경사항은 저장되지 않습니다.\n + 버튼으로 새 리스트를 생성한 후 작업해주세요!');
+
 							if (errorCallback && typeof errorCallback === 'function') {
-								errorCallback(res)
+								errorCallback(res);
 							}
 						}
 					});
@@ -330,6 +339,10 @@ $(function () {
 								errorCallback(res)
 							}
 						}
+						
+						//아이템 삭제시 작업진행도도 반영
+
+						
 					});
 				} else {
 					me._removeItemFromList(item);
@@ -367,8 +380,12 @@ $(function () {
 			 * @returns {List}
 			 */
 			startTitleEditing: function () {
+
+				console.log('startTitleEditing')    
 				var me = this;
 				var input = me._createInput();
+
+				console.log('input : '+input)   //추가 코드
 				me.$title.attr('data-old-title', me.$title.html());
 				input.val(me.$title.html());
 				input.insertAfter(me.$title);
@@ -376,8 +393,7 @@ $(function () {
 				me.$header.addClass('title-editing');
 				input[0].focus();
 				input[0].select();
-
-				console.log('startTitleEditing')          
+      
 
 
 				return me;
@@ -400,26 +416,47 @@ $(function () {
 				$input.remove();
 				me.$header.removeClass('title-editing');
 
-				console.log('finishTitleEditing'); // 이름변경 코드
 				console.log(oldTitle, $input.val()); // 이름변경 코드
+				console.log(oldTitle); // 이름변경 코드
 
 				var listId = me.getId();
-				console.log('listId : '+listId); // 이름변경 코드
+				console.log('이름수정 listId : '+listId); // 이름변경 코드
+				console.log(me); // 이름변경 코드
 
-				//리스트 아이디 검색
-				//리스트가 검색되지 않으면 생성 (id 만 존재)
+				//console.log(me.parent().find('.lobilist-wrapper').length); // 이름변경 코드
+
+				
+				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
+				if(oldTitle ==''){
+					console.log('리스트 추가 동작 ');
+					
+					$.ajax({
+						url:"/Task/listAddAjax",
+						type:"get",
+						data:{
+							title : $input.val()
+						},
+						success : function(data) {
+							console.log('DB 리스트아이디 : '+data.listSeqCurrval);
+							listId = data.listSeqCurrval;
+							me.setId(data.listSeqCurrval); // 될까?
+
+						}
+					})
+					// 리스트 추가 후 진짜 DB의 아이디 가져오기 -> listId에 덮어쓰기?
+				}else{
+					console.log('리스트 수정 동작');
+							//이름 변경 ajax 코드 추가
 				$.ajax({
-					url:"/Task/finishTitleEditingAjax",
+					url:"/Task/titleChangeAjax",
 					type:"get",
 					data:{
 						listId : listId,
 						title : $input.val()
 					}
 				})
-
-
-				me._triggerEvent('titleChange', [me, oldTitle, $input.val()]);
-
+				}
+	
 				return me;
 			},
 
@@ -527,7 +564,7 @@ $(function () {
 				var me = this;
 				me.$el.attr('id', id);
 				me.$options.id = id;
-				me.$el.attr('data-db-id', me.$options.id);
+				me.$el.attr('data-db-id', me.$options.id); //스타일 임시 아이디 말고! 진짜 아이디
 				return me;
 			},
 
@@ -580,6 +617,7 @@ $(function () {
 			},
 
 			_createHeader: function () {
+				//console.log('_createHeader');
 				var me = this;
 				var $header = $('<div>', {
 					'class': 'lobilist-header'
@@ -588,7 +626,9 @@ $(function () {
 					'class': 'lobilist-actions'
 				}).appendTo($header);
 				if (me.$options.controls && me.$options.controls.length > 0) {
+			
 					if (me.$options.controls.indexOf('styleChange') > -1) {
+
 						$actions.append(me._createDropdownForStyleChange());
 					}
 
@@ -616,6 +656,8 @@ $(function () {
 				}).appendTo(me.$header);
 				if (me.$options.controls && me.$options.controls.indexOf('edit') > -1) {
 					$title.on('dblclick', function () {
+						
+						console.log('_createTitle >');
 						me.startTitleEditing();
 					});
 				}
@@ -660,7 +702,7 @@ $(function () {
 							'type': 'text',
 							name: 'dueDate',
 							'class': 'form-control',
-							placeholder: 'Due Date'
+							placeholder: 'Due Date : YYYY-MM-DD'
 						})
 				).appendTo($form);
 				var $ft = $('<div class="lobilist-form-footer">');
@@ -701,26 +743,40 @@ $(function () {
 				var dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
 				var due = me.$form[0].dueDate.value
 				var testdue = dayRegExp.test(due);
-				console.log(testdue)	
+					
+	               console.log(testdue);
 
 
 
 				if (!me.$form[0].title.value) {
-					me._showFormError('title', 'Title can not be empty');
-
+					me._showFormError('title', '제목을 입력해주세요.');
+					return
 				}
-				if(due != ""){
-					if (!testdue){
-						me._showFormError('dueDate', '형식에 맞게 넣어주세요'); // 정규식 에러 알림
-						return
-					}
+				
+				// 카드 입력값 사이즈 제한
+				if(me.$form[0].title.value.length > 33){
+					me._showFormError('title', '30 글자 이하로 입력해주세요');
+					return
 				}
 
+				if(me.$form[0].description.value.length > 166){
+					me._showFormError('description', '150 글자 이하로 입력해주세요');
+					return
+				}
+					
+			//구버전 IE에서는 엔터시 무한카드 입력
+					//if문 안에 if문이 들어가는 형식은 에러 발생
+				if (due && !testdue){
+	                  me._showFormError('dueDate', '형식에 맞게 넣어주세요 : YYYY-MM-DD');
+	                  return
+	               }
+			
 				var formData = {},
 				$inputs = me.$form.find('[name]');
 				$inputs.each(function (ind, el) {
 					formData[el.name] = el.value;
 				});
+			
 				me.saveOrUpdateItem(formData);
 
 				me.$form.addClass('hide');
@@ -786,7 +842,7 @@ $(function () {
 				});
 
 				$item.change(function () {
-					console.log("_createCheckbox");
+					//console.log("_createCheckbox");
 					
 					me._onCheckboxChange(this);
 				});
@@ -803,8 +859,8 @@ $(function () {
 				item.done = $this.prop('checked');
 				
 
-				console.log("item.id: "+item.id); // 대상 아이템 아이디
-				console.log("item.done: "+item.done); // 체크유무
+				console.log("카드 체크 : "+item.id+" : "+item.done); // 대상 아이템 아이디
+		
 				
 				//ajax 코드 추가 checkboxChangeAjax
 				$.ajax({
@@ -817,9 +873,23 @@ $(function () {
 				})
 				
 				
+				//ajax 코드 추가 작업진행바
+				$.ajax({
+				type : 'get',
+				url : '/Task/selectCount',
+				datatype : 'json',
+				success : function(data) {
+					console.log('_onCheckboxChange 작업진행 : '+data.to);
+					$('#selector').css('width', data.to + '%');
+				},
+				error : function(error) {
+					alert('data error');
+				}
+			});
+				
+				
 				if (item.done) {
 					me._triggerEvent('afterMarkAsDone', [me, item])
-
 				} else {
 					me._triggerEvent('afterMarkAsUndone', [me, item])
 				}
@@ -883,8 +953,9 @@ $(function () {
 						console.log(obj2);
 						var obj3 = obj2[Object.keys(obj2)[0]];
 						console.log(obj3);
-						console.log(obj3.id);
-						
+						console.log(obj3.getAttribute('id')); //로드한 리스트면 진짜 id , 생성한 리스트면 임시id
+
+						console.log(obj3.getAttribute('data-db-id')); // 갓 만든 리스트는 data-db-id가 없음
 						
 						
 						me._triggerEvent('styleChange', [me, oldClass, this.className]);
@@ -894,7 +965,7 @@ $(function () {
 							url:"/Task/styleChangeAjax",
 							type:"get",
 							data:{
-								id : obj3.id,
+								id : obj3.getAttribute('data-db-id'),
 								defaultStyle : this.className
 							}
 						})
@@ -915,6 +986,7 @@ $(function () {
 					html: '<i class="glyphicon glyphicon-edit"></i>'
 				});
 				$btn.click(function () {
+					console.log('_createEditTitleButton >');
 					me.startTitleEditing();
 				});
 
@@ -922,15 +994,34 @@ $(function () {
 			},
 
 			_createAddNewButton: function () {
+				//console.log('_createAddNewButton');
 				var me = this;
 				var $btn = $('<button>', {
 					'class': 'btn btn-default btn-xs',
 					html: '<i class="glyphicon glyphicon-plus"></i>'
 				});
+				
 				$btn.click(function () {
+					
+					console.log('리스트 추가 버튼 클릭 2');
 					var list = me.$lobiList.addList();
+					
 					list.startTitleEditing();
+					
 				});
+				
+				// 다른 버튼도 추가
+	
+//				$('#create_btn').click(function() {
+//					console.log('create_btn 버튼 클릭(js)');
+//				var list = me.$lobiList.addList();
+//				list.startTitleEditing();
+//		    	});
+				
+				
+				
+				//console.log('리스트 추가 리턴? ');
+
 				return $btn;
 			},
 
@@ -989,6 +1080,10 @@ $(function () {
 
 
 					me.remove();
+					
+
+console.log("지우고 나서");
+					
 					me._triggerEvent('afterListRemove', [me]);
 
 
@@ -1011,6 +1106,8 @@ $(function () {
 				});
 				$btn.click(function () {
 					me.finishTitleEditing();
+
+					console.log('me.finishTitleEditing 끝');
 				});
 				return $btn;
 			},
@@ -1029,11 +1126,24 @@ $(function () {
 
 			//리스트 이름 생성
 			_createInput: function () {
+				console.log("_createInput");
 				var me = this;
 				var input = $('<input type="text" class="form-control">');  
 				input.on('keyup', function (ev) {
 					if (ev.which === 13) {
+						
+						
+						if (input[0].value == '') { // 리스트 네임
+							alert('리스트 이름을 입력해 주세요!');
+							return
+						}
+						if (input[0].value.length > 33) { // 리스트 네임
+							alert('리스트 이름은 30글자 이하로 입력해주세요.');
+							return
+						}
+						
 						me.finishTitleEditing();
+				
 					}
 				});
 				return input;
@@ -1067,6 +1177,8 @@ $(function () {
 					opacity: 0.9,
 					revert: 70,
 					start: function (event, ui) {
+						console.log("_enableSorting start "); //
+
 						var $todo = ui.item,
 						$list = $todo.closest('.lobilist');
 						$todo.data('oldIndex', $todo.index());
@@ -1083,26 +1195,39 @@ $(function () {
 						$list = $todo.closest('.lobilist'); // 추가 코드
 
 						console.log("item.id: "+item.id); // 카드 고유 id
-						console.log("item.listId: "+item.listId); // 카드 이전 listId
-						console.log("변경후 listId ? "); // 
+						console.log("이전 listId: "+item.listId); // 카드 이전 listId
+				
 						var obj1 =$list.data('lobiList').$el;
 						var obj2 = obj1[Object.keys(obj1)[0]];
-						console.log(obj2.id); // 
-
+		
+						console.log("변경후 listId: "+obj2.id); // 
+						
+						console.log('모든 카드 : '+$todo.parent().find('.lobilist-item').length);
+						for(var i=0; i<$todo.parent().find('.lobilist-item').length; i++){
+							console.log($todo.parent().find('.lobilist-item')[i]);
+							console.log($todo.parent().find('.lobilist-item')[i].getAttribute( 'data-id' ));
+						
+							//	ajax 코드 추가 enableSortingAjax
+							$.ajax({
+								url:"/Task/cardIndexUpdateAjax",
+								type:"get",
+								data:{
+									id : $todo.parent().find('.lobilist-item')[i].getAttribute( 'data-id' ),
+									listId : obj2.id,
+									cardIndex : i
+								}
+							})
+							
+						}
+						
 						// 1. 리스트가 변경 될 경우 해당 카드의 listId 바꾸기
 						
-						//	ajax 코드 추가 enableSortingAjax
-						$.ajax({
-							url:"/Task/cardListIdUpdateAjax",
-							type:"get",
-							data:{
-								id : item.id,
-								listId : obj2.id
-							}
-						})
-						
+
 						
 						// 2. 리스트 내에서 순서 변경
+							
+						
+						
 						//    현재는 해당 리스트내의 id 순으로 정렬
 						console.log("oldIndex: "+oldIndex); // 이전 순서
 						console.log("currentIndex: "+currentIndex); //
@@ -1366,6 +1491,10 @@ $(function () {
 			 */
 			_handleSortable: function () {
 				var me = this;
+				
+				console.log('_handleSortable');
+
+				
 				if (me.$options.sortable) {
 					me.$el.sortable({
 						items: '.lobilist-wrapper',
@@ -1378,6 +1507,7 @@ $(function () {
 						start: function (event, ui) {
 							var $wrapper = ui.item;
 							$wrapper.attr('data-previndex', $wrapper.index());
+							
 						},
 						update: function (event, ui) {
 							var $wrapper = ui.item,
@@ -1385,6 +1515,44 @@ $(function () {
 							currentIndex = $wrapper.index(),
 							oldIndex = parseInt($wrapper.attr('data-previndex'));
 							me._triggerEvent('afterListReorder', [me, $list.data('lobiList'), currentIndex, oldIndex]);
+							
+							console.log('oldIndex : '+oldIndex);
+							console.log('currentIndex : '+currentIndex);
+							console.log('위치변경 리스트ID : '+$list.data()['dbId']);
+			
+
+							
+			
+							//console.log('왼쪽에 있는 siblings : '+($wrapper.prevAll().length-2)); // 왼쪽에 리스트생성버튼, 작업진행바 존재
+							//for(var i =0; i<$wrapper.prevAll().length -2 ;i++){
+							//	console.log($wrapper.prevAll()[i]);
+							//	console.log($wrapper.prevAll()[i].lastChild.id);
+							//}
+
+							//console.log('오른쪽에 있는 siblings : '+$wrapper.nextAll().length);
+							//for(var i =0; i<$wrapper.nextAll().length;i++){
+							//	console.log($wrapper.nextAll()[i]);
+							//	console.log($wrapper.nextAll()[i].lastChild.id);	
+							//}
+							
+							console.log('모든 siblings : '+$wrapper.parent().find('.lobilist-wrapper').length);
+							for(var i =0; i<$wrapper.parent().find('.lobilist-wrapper').length;i++){
+								console.log($wrapper.parent().find('.lobilist-wrapper')[i]);
+								console.log($wrapper.parent().find('.lobilist-wrapper')[i].lastChild.id);
+								
+								$.ajax({
+									url:"/Task/listIndexUpdateAjax",
+									type:"get",
+									data:{
+										listId : $wrapper.parent().find('.lobilist-wrapper')[i].lastChild.id,
+										listIndex : i
+									}
+								})
+								
+							}
+							
+					
+
 						}
 					});
 				} else {
@@ -1402,6 +1570,7 @@ $(function () {
 			 * @returns {List} Just added <code>List</code> instance
 			 */
 			addList: function (list) {
+				console.log('addList');
 				var me = this;
 				if (!(list instanceof List)) {
 					list = new List(me, me._processListOptions(list));
@@ -1411,7 +1580,9 @@ $(function () {
 					me.$el.append(list.$elWrapper);
 					list.$el.data('lobiList', list);
 					me._triggerEvent('afterListAdd', [me, list]);
+				
 				}
+
 				return list;
 			},
 
@@ -1472,27 +1643,34 @@ $(function () {
 
 			//lobilist-list- 가 아닌 숫자로 id 넣도록 변경
 			getNextListId: function () {
-//				console.log('getNextListId 동작')
+				console.log('getNextListId 동작')
 
 				var $lists = this.$el.find('.lobilist');
 				var maxId = 0;
+				var lobilistId = new Array();
 //				var maxId = $('.lobilist').index(this);
+				for(var i =0; i <$('.lobilist').length; i++){
+				lobilistId.push($('.lobilist')[i].id)
 
+				console.log($('.lobilist')[i].id)
+			}
+				
+				console.log('최대값 : '+Math.max.apply(null, lobilistId));
+				maxId = Math.max.apply(null, lobilistId);
+				
 				$lists.each(function(index, item){
 					var $list = $(item).data('lobiList');
 //					if ($list.getId().indexOf('lobilist-list-') === 0 &&
 //					parseInt($list.getId().replace('lobilist-list-')) > maxId){
 //					maxId = parseInt($list.getId().replace('lobilist-list-'));
-
 					if ($list.getId() === 0 &&
 							parseInt($list.getId()) > maxId){
 						maxId = parseInt($list.getId());
-
 					}
 					maxId = $list.getId();
 				});
 //				return 'lobilist-list-' + (maxId + 1);
-//				console.log('(maxId + 1) : '+ (parseInt(maxId) + parseInt(1)))
+				console.log('(maxId + 1) : '+ (parseInt(maxId) + parseInt(1)))
 				return parseInt(maxId) + parseInt(1);
 			},
 
@@ -1596,10 +1774,10 @@ $(function () {
 			lists: [],
 			// Urls to communicate to backend for todos
 			actions: {
-				load: 'TaskAjax',
-				insert: 'insert',
-				delete: 'delete',
-				update: 'update'
+				load: '/Task/TaskAjax',
+				insert: '/Task/insert',
+				delete: '/Task/delete',
+				update: '/Task/update'
 			},
 
 			storage: null,

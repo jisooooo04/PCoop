@@ -26,9 +26,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.MemberService;
+import pcoop.backend.service.ProjectService;
 
 @Controller  //컨트롤러 빈 선언
 @RequestMapping("/member/")
@@ -39,7 +43,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mservice; //서비스를 호출하기 위해 의존성을 주입
-
+	@Autowired 
+	private ProjectService pservice;
+	
 	@Autowired
 	private HttpSession session; // 입력한 이메일주소 저장용 
 
@@ -76,23 +82,14 @@ public class MemberController {
 		String setfrom = "okeydoke2@naver.com";
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
-
 				System.getProperty("line.separator")+ //한줄씩 줄간격을 두기위해 작성
-
 				System.getProperty("line.separator")+
-
 				"안녕하세요 회원님 저희 P-Coop 홈페이지를 찾아주셔서 감사합니다"
-
         +System.getProperty("line.separator")+
-
         System.getProperty("line.separator")+
-
         " 인증번호는 " +dice+ " 입니다. "
-
         +System.getProperty("line.separator")+
-
         System.getProperty("line.separator")+
-
         "받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
 
 
@@ -172,10 +169,8 @@ public class MemberController {
 			//만약 인증번호가 같다면 이메일을 회원가입 페이지로 같이 넘겨서 이메일을
 			//한번더 입력할 필요가 없게 한다.
 
-
 			mv.addObject("tomail",session.getAttribute("tomail"));//세션에서 인증용으로 입력한 메일주소 불러오기
 			System.out.println(session.getAttribute("tomail"));
-
 
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
@@ -183,7 +178,6 @@ public class MemberController {
 			out_equals.flush();
 
 			return mv;
-
 
 		}else if (email_injeung != dice) {
 
@@ -275,9 +269,31 @@ public class MemberController {
 	public String gomypage (Model model)throws Exception{
 		MemberDTO mdto = (MemberDTO)session.getAttribute("loginInfo");
 		int seq = mdto.getSeq();
-		List<ProjectDTO> projectlist = mservice.getProjectList(seq);
-		model.addAttribute("list", projectlist);
-		model.addAttribute("list_size", projectlist.size());
+		List<ProjectDTO> project_list = mservice.getProjectList(seq); //내가 속한 프로젝트들 
+		model.addAttribute("list", project_list);
+		model.addAttribute("list_size", project_list.size());
+		//----------내가 속한 모든 프로젝트 뽑기
+		
+		System.out.println(project_list.size());
+		int peopleNum = 0;
+		
+		//----------내가 리더인 프로젝트들의 다음 조원들 뽑기
+		for(ProjectDTO dto : project_list) {
+			int count = dto.getPeople_num();
+			if(count!=1) {//프로젝트 팀원이 나 혼자인 경우
+				List<Integer> SelectMyProjectSeq =mservice.SelectMyPojectSeq(seq);
+			}
+		}
+
+		//프로젝트에 속한 현재 인원 수 
+		JsonObject respObj = new JsonObject(); 
+		for(ProjectDTO dto : project_list) {
+			int project_seq = dto.getSeq();
+			String key = project_seq+"";
+			int countPeople = pservice.countNum(project_seq);
+			respObj.addProperty(key, countPeople);			
+		}
+		model.addAttribute("respObj",respObj);
 		return "member/mypage";
 	}
 	
@@ -295,5 +311,37 @@ public class MemberController {
 		return result+"";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value ="delmem",produces="application/gson;charset=utf8")
+	public String delmem(int seq,String pw)throws Exception{
+		Map<String , Object> map = new HashMap<>();
+		map.put("seq", seq); // seq 값 세션에서?
+		map.put("pw", mservice.getSHA512(pw));
+		int check = mservice.checkmem(map);//비밀번호가 일치하는지 확인
+		String result = null;
+		if(check==0) {//일치하는 정보가 없음.
+			result = "fail";
+		}else if(check==1) {//로그인 정보 일치
+			List<ProjectDTO> plist = mservice.getProjectList(seq);//내가 속한 프로젝트 불러오기
+			for(ProjectDTO dto :plist) {
+				Map<String,Integer>param =new HashMap<>();
+				param.put("mem_seq", seq);
+				param.put("project_seq",dto.getSeq());
+				if(dto.getLeader_seq()==seq) {//내가 리더라면
+					int res = pservice.updateLeader(dto.getSeq());//리더위임
+					if(res==0) {//넘겨줄 팀원 없음	
+						pservice.deleteProject(param);//프로젝트 삭제						
+					}
+					pservice.exitProject(param);//프로젝트 멤버 테이블에서 삭제
+				}else{//리더가 아니라면
+					pservice.exitProject(param);//프로젝트 멤버 테이블에서 삭제
+				}
+			}
+			int delresult = mservice.delmem(seq); //멤버 테이블에서 삭제
+			session.invalidate();//세션 무효화
+				result = "success";
+		}
+		return result;
+	}
 	
 }

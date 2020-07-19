@@ -14,24 +14,40 @@ public class ChatService {
 	@Autowired
 	private ChatDAO cdao;
 	
+	
 	public int insertChat(ChatDTO cdto) {
-		
 		return cdao.insertChat(cdto);
 	}
 	
-	public List<ChatDTO> selectChatList(String today){
+	
+	public List<ChatDTO> selectChatList(String today, int chatting_num){
 		
-		return cdao.selectChatList(today);
+		ChatDTO cdto = new ChatDTO(0, 0, chatting_num, "", "", today, "", "", 0);
+		
+		return cdao.selectChatList(cdto);
 	}
 	
-	public List<ChatDTO> selectLastChat(String date){
+	
+	public List<ChatDTO> selectLastChat(String date, int chatting_num){
 		
-		return cdao.selectLastChat(date);
+		ChatDTO cdto = new ChatDTO(0, 0, chatting_num, "", "", date, "", "", 0);
+		
+		return cdao.selectLastChat(cdto);
 	}
+	
 	
 	public int deleteChat(int seq){
-		
 		return cdao.deleteChat(seq);
 	}
+	
+	
+	public int selectChatSeq(){
+		return cdao.selectChatSeq();
+	}
+	
+	
+	
+	//-----------------채팅으로 파일 보낼때
+	
 	
 }

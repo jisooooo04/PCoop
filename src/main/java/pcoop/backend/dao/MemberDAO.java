@@ -1,7 +1,6 @@
 package pcoop.backend.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
+import pcoop.backend.dto.ProjectMemberDTO;
 
 @Repository
 public class MemberDAO {
@@ -118,23 +118,20 @@ public class MemberDAO {
 	        //조건식 ? true일때의 값 : false일때의 값
 	        return (user_name1==null) ? true : false;
 	    }
-	 
 	    
-	    //회원의 프로필 정보를 리턴한다.
-	    public List<MemberDTO> member_profile(String user_id) throws Exception {
-	        
-	        return sqlSession.selectList("member.member_profile", user_id);
-	    }
+	    
 	    
 	  //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
 	    public List<ProjectDTO> getProjectList(int seq)throws Exception{
-	    	List<Integer> project_seq = mybatis.selectList("get_project_seq",seq);
+	    	List<Integer> project_seq = mybatis.selectList("project.get_project_seq",seq);
+	    	System.out.println(project_seq.size());
+	    	
 	    	if(project_seq.size()==0) {//속한 프로젝트가 없을 때 
 	    		List<Integer> templist = new ArrayList<>();
 	    		templist.add(0);
-	    		return mybatis.selectList("Member.get_projectList",templist);
+	    		return mybatis.selectList("project.get_projectList",templist);
 	    	}else {
-	    		return mybatis.selectList("Member.get_projectList",project_seq);
+	    		return mybatis.selectList("project.get_projectList",project_seq);
 	    	}
 	    	
 	    }
@@ -142,4 +139,27 @@ public class MemberDAO {
 	    public int modify(Map<String,Object>param)throws Exception{
 	    	return mybatis.update("Member.modify",param);
 	    }
+	    
+	    public int checkmem(Map<String,Object> param)throws Exception{
+	    	return mybatis.selectOne("Member.checkmem",param);
+	    }
+	    
+	    public int delmem(int seq)throws Exception{
+	    	return mybatis.delete("Member.delmem", seq);
+	    }
+	    
+	    public List<Integer> SelectMyProjectSeq(int seq)throws Exception{
+	    	return mybatis.selectList("project.SelectMyProjectSeq", seq);
+	    }
+	    
+	    
+	    
+	    //-------------------------채팅방 기능-------------------------------
+	    
+	    //member_seq로 회원 이름 조회
+	    public String selectName(int member_seq) throws Exception {
+	        return mybatis.selectOne("Member.selectName", member_seq);
+	    }
+	    
+	    
 }

@@ -17,6 +17,7 @@ import pcoop.backend.dto.CalendarDTO;
 import pcoop.backend.service.CalendarService;
 
 @Controller
+@RequestMapping("calendar")
 public class CalendarController {
 	
 	@Autowired
@@ -24,6 +25,7 @@ public class CalendarController {
 	
 	@RequestMapping("calendar")
 	public String Calendar(Model model,int project_seq)throws Exception {//list출력
+	
 		List<CalendarDTO> list = new ArrayList<>();
 		list = Cservice.selectAll(project_seq);
 		
@@ -91,7 +93,7 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping(value="EditEvent",produces="application/gson;charset-utf8")
 	public String editEvent(CalendarDTO dto)throws Exception{//일정 수정
-		System.out.println(dto.getSeq()+":"+dto.getTitle()+":"+dto.getContents()+":"+dto.getWriter()+":"+dto.getStart_date()+":"+dto.getEnd_date()+":"+dto.getColor());
+		//System.out.println(dto.getSeq()+":"+dto.getTitle()+":"+dto.getContents()+":"+dto.getWriter()+":"+dto.getStart_date()+":"+dto.getEnd_date()+":"+dto.getColor());
 		int result = Cservice.editEvent(dto);
 		return "";
 	}
@@ -99,7 +101,7 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping(value="DeleteEvent",produces="application/gson;charset-utf8")
 	public String deleteEvent(int seq)throws Exception{//일정 삭제 
-		System.out.println(seq);
+		//System.out.println(seq);
 		int result = Cservice.deleteEvent(seq);
 		return "";
 	}

@@ -7,10 +7,6 @@
 <script src='/resources/js/calendar/calendar.js'></script>
 <jsp:include page="../header/cdn.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- <script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-	integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-	crossorigin="anonymous"></script> -->
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -18,7 +14,7 @@
     var calendarEl = document.getElementById('calendar');
 
 
-	var json;
+	/* var json;
 	
 	$.ajax({
 		url : "tempcalendar",
@@ -28,7 +24,7 @@
 			console.log(json);
 		}		
 	});
-	
+	 */
 	
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	displayEventTime:false,//제목에 시간 같이 display 안되게 설정하는

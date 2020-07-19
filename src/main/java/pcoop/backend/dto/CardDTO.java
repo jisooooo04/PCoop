@@ -2,16 +2,37 @@ package pcoop.backend.dto;
 
 public class CardDTO {
 
-	private String id;
+	private int id;
 	private String title;
 	private String description;
 	private String dueDate;
 	private String done;
-	private String listId;
+	private int listId;
+	private int project_seq;
 	
+	
+	public CardDTO(int id, String title, String description, String dueDate, String done, int listId, int project_seq) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.dueDate = dueDate;
+		this.done = done;
+		this.listId = listId;
+		this.project_seq = project_seq;
+	}
+
+	public int getProject_seq() {
+		return project_seq;
+	}
+
+	public void setProject_seq(int project_seq) {
+		this.project_seq = project_seq;
+	}
+
 	public CardDTO() {}
 	
-	public CardDTO(String id, String title, String description, String dueDate) {
+	public CardDTO(int id, String title, String description, String dueDate) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -19,7 +40,7 @@ public class CardDTO {
 		this.dueDate = dueDate;
 	}
 	
-	public CardDTO(String id, String title, String description, String dueDate, String done, String listId) {
+	public CardDTO(int id, String title, String description, String dueDate, String done, int listId) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -29,10 +50,10 @@ public class CardDTO {
 		this.listId = listId;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getTitle() {
@@ -61,13 +82,15 @@ public class CardDTO {
 		this.done = done;
 	}
 
-	public String getListId() {
+	public int getListId() {
 		return listId;
 	}
 
-	public void setListId(String listId) {
+	public void setListId(int listId) {
 		this.listId = listId;
 	}
+
+
 	
 	
 }

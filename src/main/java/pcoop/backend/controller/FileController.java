@@ -6,14 +6,9 @@ import java.io.FileInputStream;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +22,7 @@ import com.google.gson.JsonObject;
 
 import pcoop.backend.dto.DirectoryDTO;
 import pcoop.backend.dto.FileDTO;
+import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.FileService;
 
 @Controller
@@ -36,11 +32,9 @@ public class FileController {
 	HttpSession session;
 	@Autowired
 	FileService fservice;
-
+	
 	@RequestMapping("fileList")
 	public String fileList(Model model) {
-
-		String project_name = "temp";
 
 		// 드라이브에서 직접 목록 가져올 때
 		// String rootDir = session.getServletContext().getRealPath("upload/backup/" + project_name);
@@ -64,10 +58,9 @@ public class FileController {
 		//		}
 
 		// DB에서 목록 가져올 때
-		List<DirectoryDTO> dirList = fservice.getDirList();
-		List<FileDTO> fileList = fservice.getFileList();
+		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+		List<DirectoryDTO> dirList = fservice.getDirList(project.getSeq());
 		JsonArray dirArr = new JsonArray();
-		JsonArray fileArr = new JsonArray();
 
 		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
@@ -76,98 +69,141 @@ public class FileController {
 			dirArr.add(json);
 		}
 
-		for(FileDTO dto : fileList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			fileArr.add(json);
-		}
-
 		model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		model.addAttribute("filelist", new Gson().toJson(fileArr));
 		return "backup/fileList";
 	}
 
-	@RequestMapping("getFileList")
+	@RequestMapping(value = "getDirAndFileList", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String getFileList(int dir_seq) {
+	public String getDirAndFileList(int dir_seq) {
 
+		String path = fservice.getDirPathBySeq(dir_seq);
+		List<DirectoryDTO> dirList = fservice.getDirList(dir_seq);
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
+		JsonArray dirArr = new JsonArray();
 		JsonArray fileArr = new JsonArray();
+		
+		for(DirectoryDTO dto : dirList) {
+			JsonObject json = new JsonObject();
+			json.addProperty("seq", dto.getSeq());
+			// json.addProperty("project_seq", dto.getProject_seq());
+			json.addProperty("parent_seq", dto.getParent_seq());
+			json.addProperty("name", dto.getName());
+			json.addProperty("path", dto.getPath());
+			json.addProperty("root_yn", dto.getRoot_yn());
+			dirArr.add(json);
+		}
 
 		for(FileDTO dto : fileList) {
 			JsonObject json = new JsonObject();
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			json.addProperty("name", dto.getName());
-			System.out.println(dto.getText_yn());
 			json.addProperty("text_yn", dto.getText_yn());
 			fileArr.add(json);
 		}
 
-		return new Gson().toJson(fileArr);
+		JsonObject data = new JsonObject();
+		data.addProperty("path", path);
+		data.addProperty("dirArr", new Gson().toJson(dirArr));
+		data.addProperty("fileArr", new Gson().toJson(fileArr));
+		System.out.println(dirArr);
+		System.out.println(fileArr);
+
+		return new Gson().toJson(data);
 	}
 
-	@RequestMapping("addDirectory")
+	@RequestMapping(value = "addDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public int addDirectory(int parent_seq, String name) {
+	public String addDirectory(int parent_seq, String name) {
 
-		// 드라이브에 디렉토리 생성
-		String path = fservice.makeDirToDrive(parent_seq, name);
-		// DB에 디렉토리 insert
-		fservice.insertDirectory(path, name);
-		// 새로 생성된 디렉토리 seq 얻기
-		int seq = fservice.getDirSeqByName(name);
+		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+		JsonObject data = new JsonObject();
 
-		return seq;
+		// 프로젝트의 루트 디렉토리 seq 가져옴
+		int root_seq = fservice.getRootDirSeq(project.getSeq());
+		JsonArray dirArr = new JsonArray();
+		
+		// 디렉토리 이름 중복 확인
+		int checkDupl = fservice.checkDuplDirName(parent_seq, name);
+
+		// 중복이 아니라면
+		if(checkDupl == 0) {
+			
+			// 드라이브에 디렉토리 생성
+			String path = fservice.makeDirToDrive(parent_seq, name);
+			// DB에 디렉토리 insert
+			fservice.insertDirectory(path, name, project.getSeq(), parent_seq);
+			int newDirSeq = fservice.getDirSeqByName(name, parent_seq);
+			
+			// 업데이트된 리스트 보내기
+			List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
+
+			for(DirectoryDTO dto : dirList) {
+				JsonObject json = new JsonObject();
+				json.addProperty("seq", dto.getSeq());
+				json.addProperty("name", dto.getName());
+				json.addProperty("path", dto.getPath());
+				dirArr.add(json);
+			}
+			
+			data.addProperty("seq", newDirSeq);
+			data.addProperty("dirlist", new Gson().toJson(dirArr));
+
+		}
+		
+		data.addProperty("checkDupl", checkDupl);
+		return new Gson().toJson(data);
+		
 	}
 
-	@RequestMapping("deleteDirectory")
+	@RequestMapping(value = "deleteDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String deleteDirectory(int seq) {
+	public String deleteDirectory(int seq, int root_seq) {
 
 		String path = fservice.getDirPathBySeq(seq);
 		fservice.deleteDirectory(seq, path);
 
 		// 업데이트된 리스트 보내기
-		List<DirectoryDTO> dirList = fservice.getDirList();
-		List<FileDTO> fileList = fservice.getFileList();
-
+		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
 		JsonArray dirArr = new JsonArray();
-		JsonArray fileArr = new JsonArray();
 
 		for(DirectoryDTO dto : dirList) {
 			JsonObject json = new JsonObject();
 			json.addProperty("seq", dto.getSeq());
+			json.addProperty("name", dto.getName());
+
 			json.addProperty("path", dto.getPath());
 			dirArr.add(json);
 		}
 
-		for(FileDTO dto : fileList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			fileArr.add(json);
-		}
-
 		JsonObject json = new JsonObject();
 		json.addProperty("dirlist", new Gson().toJson(dirArr));
-		json.addProperty("filelist", new Gson().toJson(fileArr));
 		return new Gson().toJson(json);
 	}
 
-	@RequestMapping("temp")
-	public String temp() {
+	@RequestMapping("renameDirectory")
+	@ResponseBody
+	public int renameDir(int seq, String rename) {
 
-
-		return "backup/temp";
+		int result = -1;
+		
+		int parent_seq = fservice.getParentSeqBySeq(seq);
+		int duplCheck = fservice.checkDuplDirName(parent_seq, rename);
+		
+		if(duplCheck == 0) {
+			result = fservice.renameDirectory(seq, rename);
+			
+		}
+		
+		return result;
 	}
 
-	@RequestMapping("uploadFile")
+	@RequestMapping(value = "uploadFile", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String upload(MultipartFile file, HttpServletRequest request) throws Exception {
+	public String upload(int dir_seq, MultipartFile file) throws Exception {
 
-		int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
+		// int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
 
 		// 드라이브에 파일 생성
 		String name = fservice.uploadFileToDrive(dir_seq, file);
@@ -190,6 +226,29 @@ public class FileController {
 
 		return new Gson().toJson(fileArr);
 
+	}
+	
+	@RequestMapping("uploadZip")
+	@ResponseBody
+	public String uploadZip(int dir_seq, String zip_dir, MultipartFile zip) throws Exception {
+		
+		String result = "";
+		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
+
+		System.out.println(dir_seq + " : " + zip_dir + " : " + zip);
+		// 압축 해제할 디렉토리 이름 중복 체크
+		int checkDupl = fservice.checkDuplDirName(dir_seq, zip_dir);
+		
+		// 이름 중복일 경우
+		if(checkDupl != 0) {
+			result = "dupl";
+		}
+
+		else {
+			fservice.unzip(project.getSeq(), dir_seq, zip, zip_dir);
+		}
+		
+		return result;
 	}
 
 	@RequestMapping("downloadFile")
@@ -220,7 +279,7 @@ public class FileController {
 
 	}
 
-	@RequestMapping("deleteFile")
+	@RequestMapping(value = "deleteFile", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String delete(int dir_seq, int seq) {
 
@@ -234,7 +293,6 @@ public class FileController {
 			json.addProperty("seq", dto.getSeq());
 			json.addProperty("path", dto.getPath());
 			json.addProperty("name", dto.getName());
-			System.out.println("name : " + dto.getName());
 			fileArr.add(json);
 		}
 
@@ -260,6 +318,17 @@ public class FileController {
 		System.out.println(json);
 		return new Gson().toJson(json);
 	}
+	
+	@RequestMapping("renameFile")
+	@ResponseBody
+	public int renameFile(int seq, String rename) throws Exception {
+		
+		int result = -1;
+		
+		result = fservice.renameFile(seq, rename);
+		
+		return result;
+	}
 
 	// DB 'extension' 테이블의 데이터들 저장용 - 임시 함수
 	//	@RequestMapping("insertExtensions")
@@ -276,31 +345,27 @@ public class FileController {
 	//		}
 	//	}
 
-	@RequestMapping("project-main")
-	public String projectMain(Model model) {
-		// DB에서 목록 가져올 때
-		List<DirectoryDTO> dirList = fservice.getDirList();
-		List<FileDTO> fileList = fservice.getFileList();
-		JsonArray dirArr = new JsonArray();
-		JsonArray fileArr = new JsonArray();
-
-		for(DirectoryDTO dto : dirList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			dirArr.add(json);
-		}
-
-		for(FileDTO dto : fileList) {
-			JsonObject json = new JsonObject();
-			json.addProperty("seq", dto.getSeq());
-			json.addProperty("path", dto.getPath());
-			fileArr.add(json);
-		}
-
-		model.addAttribute("dirlist", new Gson().toJson(dirArr));
-		model.addAttribute("filelist", new Gson().toJson(fileArr));
-		return "project-main";
-	}
+//	@RequestMapping("project-main")
+//	public String projectMain(Model model) {
+//		
+//		// 프로젝트의 루트 디렉토리 seq 가져옴
+//		int root_seq = fservice.getRootDirSeq(project_seq);
+//		
+//		// DB에서 목록 가져올 때
+//		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
+//		JsonArray dirArr = new JsonArray();
+//		JsonArray fileArr = new JsonArray();
+//
+//		for(DirectoryDTO dto : dirList) {
+//			JsonObject json = new JsonObject();
+//			json.addProperty("seq", dto.getSeq());
+//			json.addProperty("name", dto.getName());
+//			json.addProperty("path", dto.getPath());
+//			dirArr.add(json);
+//		}
+//		
+//		model.addAttribute("dirlist", new Gson().toJson(dirArr));
+//		return "project-main";
+//	}
 
 }

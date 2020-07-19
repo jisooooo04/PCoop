@@ -14,7 +14,7 @@
 	height: 100%;
 	border-right: 1px solid lightgray;
 	background-color: #fafafa;
-	z-index: 1;
+	z-index: 10;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -41,6 +41,8 @@
 
 .navcontents {
 	padding-left: 50px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	border-top: 1px solid lightgray;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -52,6 +54,13 @@
 	padding-right: 5px;
 }
 
+.side_chatting_list{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 .logon {
 	color: limegreen;
 } /* 채팅 온라인 초록불 */
+
+.c_list:hover{cursor:porinter}

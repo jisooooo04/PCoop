@@ -12,32 +12,30 @@
 	</select>
 	
 	<delete id="delete">
-		delete from member where id= #{value}
+		delete from member where seq= #{seq}
 	</delete>
-	
-	
-	<update id="update">
-update member set pw= #{pw}, name=#{name}, phone=#{phone}, email=#{email}, zipcode=#{zipcode}, address1=#{address1}, address2=#{address2} where id =#{id}
-	</update>
-	
 	
 	<select id="duplCheck" resultType="int">
 		select count(*) from member where email= #{value}
 	</select>
 	
-	<select id="get_project_seq" resultType="int">
-		select project_seq from project_member where member_seq=${value}
-	</select>
-	
-	<select id="get_projectList" resultType="pcoop.backend.dto.ProjectDTO">
-		select * from project where seq in
-		<foreach collection="list" item="i" open="(" close=")" separator=",">
-			${i}
-		</foreach>
-		order by seq
-	</select>
-	
 	<update id="modify">
 		update member set name=#{name},pw=#{pw} where seq=${seq}
 	</update>
+	
+	<select id="checkmem" resultType="int">
+		select count(*) from member where seq=${seq} and pw=#{pw}
+	</select>
+	
+	<delete id="delmem">
+		delete from member where seq=${value}
+	</delete>
+	
+	
+	<!--  채팅방 기능 영역   -->
+	<select id="selectName" resultType="String">
+		select name from member where seq=#{value}
+	</select>
+	
+	
 </mapper>

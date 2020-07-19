@@ -102,13 +102,9 @@ public class MemberService {
         
         return result;
     }
- 
- 
-    //�ڽ��� �������� �� �� �ְ� �ϴ� �޼ҵ�
-    public List<MemberDTO> member_profile(String user_id) throws Exception{
-        
-        return mdao.member_profile(user_id);
-    }
+    
+    
+    
     
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
     public List<ProjectDTO> getProjectList (int seq)throws Exception{
@@ -118,5 +114,17 @@ public class MemberService {
     public int modify (Map<String,Object> param)throws Exception{
     	return mdao.modify(param);
     }
+    
+    public int checkmem (Map<String,Object> param)throws Exception{
+    	return mdao.checkmem(param); 
+    }
+    
+    public int delmem (int seq)throws Exception{
+    	return mdao.delmem(seq); 
+    }
 	
+    public List<Integer> SelectMyPojectSeq (int seq)throws Exception{
+    	return mdao.SelectMyProjectSeq(seq);
+    }
+   
 }

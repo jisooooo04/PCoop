@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="project">
+
+  <mapper namespace="project">
 	
 	<select id='getproject_seq' resultType="int">
 		select project_seq.nextval from dual
@@ -15,7 +16,88 @@
 	</insert>
 	
 	<insert id="insertProjectMember">
-		insert into project_member values(project_member_seq.nextval,${project_seq},${member_seq},#{member_email},#{member_name},#{leader_yn})
+		insert into project_member values(project_member_seq.nextval,${project_seq},#{project_name},${member_seq},#{member_email},#{member_name},#{leader_yn},#{join_ynd})
 	</insert>
 	
+	<select id="get_project_seq" resultType="int">
+		select project_seq from project_member where member_seq=${value} and join_yn='y'
+	</select>
+	
+	<select id="get_projectList" resultType="pcoop.backend.dto.ProjectDTO">
+		select * from project where seq in
+		<foreach collection="list" item="i" open="(" close=")" separator=",">
+			${i}
+		</foreach>
+		order by seq
+	</select>
+	
+	<select id="SelectMyProjectSeq" resultType="int">
+		select seq from project_member where member_seq =${value} and leader_yn ='y'
+	</select>
+	
+	<select id="SelectProjectMember" resultType="pcoop.backend.dto.ProjectMemberDTO">
+		select * from project_member where seq=${value}
+	</select>
+	
+	<select id="searchByCode" resultType="pcoop.backend.dto.ProjectDTO">
+		select * from project where code=#{value}
+	</select>
+	
+	<select id="joinYNCheck" resultType="String">
+		select join_yn from project_member where project_seq=${project_seq} and member_seq=${member_seq}
+	</select>
+	
+	<select id="selectBySeq" resultType="pcoop.backend.dto.ProjectDTO">
+		select * from project where seq=${value}
+	</select>
+	
+	<select id="joincheck" resultType="pcoop.backend.dto.ProjectMemberDTO">
+		select * from project_member where project_seq=${value} and join_yn='n'
+	</select>
+	
+	<update id="accept">
+		update project_member set join_yn='y', leader_yn='n' where project_seq=${project_seq} and member_seq=${mem_seq}
+	</update>
+	
+	<select id="countPeople" resultType="int">
+		select count(*) from project_member where project_seq=${value}
+	</select>
+	
+	<select id="getPeopleNum" resultType="int">
+		select people_num from project where seq=${value}
+	</select>
+	
+	<delete id="refuse">
+		delete from project_member where project_seq=${project_seq} and member_seq=${mem_seq} and join_yn='n'
+	</delete>
+	
+	<delete id="exitProject">
+		delete from project_member where project_seq=${project_seq} and member_seq=${mem_seq}
+	</delete>
+	
+	<select id="countProject" resultType="int">
+		select count (*) from project_member where member_seq=${value}
+	</select>
+	
+	<delete id="deleteProject">
+		delete from project where seq=${project_seq} and leader_seq=${mem_seq}
+	</delete>
+	
+	<select id="checkLeaderYN" resultType="String">
+		select leader_yn from project_member where project_seq=${project_seq} and member_seq=${mem_seq}
+	</select>
+	
+	<select id="nextLeaderSeq" resultType="HashMap">
+		select seq ,member_seq from(select seq ,member_seq ,row_number() over(order by seq) as rank from project_member where project_seq=${value} and join_yn='y' and leader_yn='n') a where a.rank=1
+	</select>
+	
+	<update id="updateLeader">
+		update project_member set leader_yn='y' where seq=${value}
+	</update>
+	
+	<update id="updateProjectLeader">
+		update project set leader_seq=${nextProjectLeader} where seq=${project_seq}
+	</update>
 </mapper>
+
+

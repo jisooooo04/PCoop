@@ -3,25 +3,29 @@ package pcoop.backend.dto;
 public class ProjectMemberDTO {
 	private int seq;
 	private int project_seq;
+	private String project_name;
 	private int member_seq;
 	private String member_email;
 	private String member_name;
 	private String leader_yn;
+	private String join_ynd;
 	
 	
 	
 	public ProjectMemberDTO() {
 		super();
 	}
-	public ProjectMemberDTO(int seq, int project_seq, int member_seq, String member_email, String member_name,
-			String leader_yn) {
+	public ProjectMemberDTO(int seq, int project_seq, String project_name, int member_seq, String member_email,
+			String member_name, String leader_yn, String join_ynd) {
 		super();
 		this.seq = seq;
 		this.project_seq = project_seq;
+		this.project_name = project_name;
 		this.member_seq = member_seq;
 		this.member_email = member_email;
 		this.member_name = member_name;
 		this.leader_yn = leader_yn;
+		this.join_ynd = join_ynd;
 	}
 	public int getSeq() {
 		return seq;
@@ -34,6 +38,12 @@ public class ProjectMemberDTO {
 	}
 	public void setProject_seq(int project_seq) {
 		this.project_seq = project_seq;
+	}
+	public String getProject_name() {
+		return project_name;
+	}
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
 	}
 	public int getMember_seq() {
 		return member_seq;
@@ -59,6 +69,15 @@ public class ProjectMemberDTO {
 	public void setLeader_yn(String leader_yn) {
 		this.leader_yn = leader_yn;
 	}
+	public String getJoin_ynd() {
+		return join_ynd;
+	}
+	public void setJoin_ynd(String join_ynd) {
+		this.join_ynd = join_ynd;
+	}
+	
+	
+	
 	
 	
 }

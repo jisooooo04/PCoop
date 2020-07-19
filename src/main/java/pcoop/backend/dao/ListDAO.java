@@ -24,12 +24,12 @@ public class ListDAO {
 	
 	
 	public List<ListDTO> selectAll() throws Exception{
-		System.out.println("ListDAO의  selectAll");
+		//System.out.println("ListDAO의  selectAll");
 		return mybatis.selectList("List.selectAll");
 	}
 	
 	public List<CardDTO> selectCard(String listId) throws Exception{
-		System.out.println("ListDAO의  selectCard");
+		//System.out.println("ListDAO의  selectCard");
 		return mybatis.selectList("List.selectCard",listId);
 	}
 	
@@ -39,8 +39,8 @@ public class ListDAO {
 		return mybatis.selectList("List.selectList",param);
 	}
 	
-	   public int insert(Map<String, Object> param) {
-		      return mybatis.insert("List.insert", param);
+	   public int insert(CardDTO cdto) {
+		      return mybatis.insert("List.insert", cdto);
 	}
 	   
 	   public int delete(Map<String, Object> param) {
@@ -54,8 +54,8 @@ public class ListDAO {
 	   public int selectListId(Map<String, Object> param) {
 		      return mybatis.selectOne("List.selectListId", param);
 	}
-	   public int insertlist(Map<String, Object> param) {
-		      return mybatis.insert("List.insertlist", param);
+	   public int insertlist(ListDTO ldto) {
+		      return mybatis.insert("List.insertlist", ldto);
 	}
 	   public int updatelist(Map<String, Object> param) {
 		      return mybatis.update("List.updatelist", param);
@@ -75,9 +75,22 @@ public class ListDAO {
 	   public int checkboxChange(Map<String, Object> param) {
 		      return mybatis.update("List.checkboxChange", param);
 	}
-	   public int cardListIdUpdate(Map<String, Object> param) {
-		      return mybatis.update("List.cardListIdUpdate", param);
+	   public int cardIndexUpdate(Map<String, Object> param) {
+		      return mybatis.update("List.cardIndexUpdate", param);
 	}
+	   public int listIndexUpdate(Map<String, Object> param) {
+		      return mybatis.update("List.listIndexUpdate", param);
+	}  
 	   
+	   public int selectCount(Map<String, Object> param) {
+			return mybatis.selectOne("List.selectCount", param);
+			
+		}
+	   public int trueCount(Map<String, Object> param) {
+			return mybatis.selectOne("List.trueCount", param);
+			
+		}
+
 	   
 }
+
