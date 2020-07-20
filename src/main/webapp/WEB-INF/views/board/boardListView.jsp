@@ -91,7 +91,7 @@ width: 350px;
 <body>
 
 
-	<jsp:include page="../header/header.jsp"></jsp:include>
+	<jsp:include page="../header/board-header.jsp"></jsp:include>
 
 	<div class="container" style="height: 100%;">
 		
