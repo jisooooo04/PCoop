@@ -271,11 +271,8 @@ public class MemberController {
 		model.addAttribute("list_size", project_list.size());
 		//----------내가 속한 모든 프로젝트 뽑기
 		
-//		MemberDTO updateMdto = mservice.getmemInfo(seq);
-//
-//		session.removeAttribute("loginInfo");
-//		session.setAttribute("loginInfo", updateMdto);
-
+		System.out.println(project_list.size());
+		
 		
 		int peopleNum = 0;
 		

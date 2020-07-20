@@ -550,11 +550,36 @@ public class FileService {
 
 		String name = file.getOriginalFilename();
 
-		if(!name.contains(".")) {
-			return name;
-		}
+//		if(!name.contains(".")) {
+//			return name;
+//		}
 
 		int checkDupl = fdao.checkDuplFileName(dir_seq, name);
+		
+		int j = 2; 
+		
+		if(!name.contains(".")) {
+			
+			if(checkDupl == 0) {
+				return name;
+			}
+			
+			String rename = name;
+			
+			while(checkDupl > 0 && !rename.contains(".")) {
+				rename = name + " (" + j + ")";
+				j = j + 1;
+				checkDupl = fdao.checkDuplFileName(dir_seq, rename);
+				System.out.println(rename);
+			}
+			
+			return rename;
+			
+		}
+		
+		
+		
+		
 		String extension = name.substring(name.indexOf('.'));
 		String checkName = name;
 		name = name.substring(0, name.indexOf('.'));
@@ -582,7 +607,6 @@ public class FileService {
 		String path = session.getServletContext().getRealPath("upload/backup/") + dirPath;
 		File targetLoc = new File(path + "/" + rename);
 
-		System.out.println(rename);
 		if(!file.isEmpty()) {
 			file.transferTo(targetLoc);
 		}

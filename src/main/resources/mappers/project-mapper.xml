@@ -60,7 +60,7 @@
 	</update>
 	
 	<select id="countPeople" resultType="int">
-		select count(*) from project_member where project_seq=${value}
+		select count(*) from project_member where project_seq=${value} and join_yn='y'
 	</select>
 	
 	<select id="getPeopleNum" resultType="int">

@@ -79,6 +79,7 @@ public class FileController {
 	@RequestMapping("getParentDirSeq")
 	@ResponseBody
 	public String getParentDirSeq(int dir_seq) {
+		
 		int back_dir_seq = fservice.getParentSeqBySeq(dir_seq);
 		return Integer.toString(back_dir_seq);
 	}

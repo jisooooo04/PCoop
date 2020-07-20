@@ -124,6 +124,8 @@ public class MemberDAO {
 	  //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ my page
 	    public List<ProjectDTO> getProjectList(int seq)throws Exception{
 	    	List<Integer> project_seq = mybatis.selectList("project.get_project_seq",seq);
+	    	System.out.println(project_seq.size());
+	    	
 	    	if(project_seq.size()==0) {//속한 프로젝트가 없을 때 
 	    		List<Integer> templist = new ArrayList<>();
 	    		templist.add(0);
@@ -159,8 +161,6 @@ public class MemberDAO {
 	        return mybatis.selectOne("Member.selectName", member_seq);
 	    }
 	    
-	    public MemberDTO getmemInfo (int seq)  throws Exception{
-	    	return mybatis.selectOne("Member.getMemInfo",seq);
-	    }
+	  
 	    
 }

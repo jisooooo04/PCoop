@@ -1,4 +1,4 @@
-import org.junit.Before;
+import org.aspectj.lang.annotation.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class TestBackup {
 	ProjectDTO projectInfo = new ProjectDTO();
 
 	// 테스트 코드가 실행되기 전에 먼저 실행되는 코드
-	@Before
+	@Before(value = "")
 	public void setup() {
 		
 		loginInfo.setSeq(6);

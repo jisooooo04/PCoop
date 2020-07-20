@@ -162,6 +162,7 @@ public class FileDAO {
 		HashMap<String, Object> values = new HashMap<>();
 		values.put("directory_seq", directory_seq);
 		values.put("name", name);
+		System.out.println(directory_seq + " : " + name);
 		return mybatis.selectOne("Backup.getFileSeqByName", values);
 	}
 
