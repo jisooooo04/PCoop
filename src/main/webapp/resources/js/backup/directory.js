@@ -74,11 +74,11 @@ function getDirAndFileList(dir_seq){
 				var id = "f" + files[i].seq;
 
 				if(files[i].text_yn == "Y"){
-					$(".files").append("<div class='file text_y' id=" + id + "><a href=downloadFile?seq=" + files[i].seq + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
+					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
 				}
 
 				else 
-					$(".files").append("<div class='file text_n' id=" + id + "><a href=downloadFile?seq=" + files[i].seq + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
+					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
 
 
 			}

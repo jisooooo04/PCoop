@@ -30,6 +30,33 @@ function checkFileExists(seq){
 	
 }
 
+$(document).on("click", ".file", function(){
+	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
+	var check = checkExists(dir_seq);
+	
+	if(check == 0){
+		
+		var seq = this.id.substring(1);
+		location.href = "downloadFile?seq=" + seq;
+		
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+})
+
 $(document).on("contextmenu", "#container", function(e){
 
 	var x = e.pageX;
