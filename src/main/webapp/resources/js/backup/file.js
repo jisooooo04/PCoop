@@ -37,8 +37,18 @@ $(document).on("click", ".file", function(){
 	if(check == 0){
 		
 		var seq = this.id.substring(1);
-		location.href = "downloadFile?seq=" + seq;
 		
+		var checkFile = checkFileExists(seq);
+		
+		if(checkFile == 0){
+			location.href = "downloadFile?seq=" + seq;
+
+		}
+		else{
+			alert("이미 삭제된 파일입니다.");
+			getDirAndFileList(checkFile);
+
+		}
 	}
 	
 	else{

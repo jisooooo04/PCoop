@@ -59,7 +59,7 @@ public class ChattingController {
 		//내가 속한 현재 채팅방 정보
 		ChattingDTO cdto = ctservice.selectMyChatting(chatting_num);
 		model.addAttribute("myChatting", cdto);
-
+		System.out.println(cdto.getTitle());
 		
 		// div에 id로 부여할 수 있도록 추가로 보내줌
 		String p_seq = "p_seq" + chattingInfo.get(0).getProject_seq();
