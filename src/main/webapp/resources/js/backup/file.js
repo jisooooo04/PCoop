@@ -37,8 +37,18 @@ $(document).on("click", ".file", function(){
 	if(check == 0){
 		
 		var seq = this.id.substring(1);
-		location.href = "downloadFile?seq=" + seq;
 		
+		var checkFile = checkFileExists(seq);
+		
+		if(checkFile == 0){
+			location.href = "downloadFile?seq=" + seq;
+
+		}
+		else{
+			alert("이미 삭제된 파일입니다.");
+			getDirAndFileList(checkFile);
+
+		}
 	}
 	
 	else{
@@ -326,7 +336,8 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 
 					},
 					error: function (e) {
-						alert("용량이 너무 큽니다.");
+						alert("디렉토리명을 입력하지 않았거나 용량이 너무 큽니다.");
+						$(".uploading").toast('hide');
 						console.log("ERROR : ", e);
 					}
 				});

@@ -50,8 +50,8 @@ $(function(){
 		<!-- 메뉴 -->
 		<div class="row">
 			<div class="d-md-block d-none header_menu_list">
-				<div class="header_menu">커뮤니티</div>
-				<div class="header_menu">로그아웃</div>
+				<div class="header_menu" OnClick="location.href ='/board/list'">공지사항</div>
+				<div class="header_menu" OnClick="location.href ='/member/logout'">로그아웃</div>
 				<div class="header_menu" OnClick="location.href ='/member/gomypage'">마이 페이지</div>
 			</div>
 			<div class="d-md-none d-block header_menu_list">

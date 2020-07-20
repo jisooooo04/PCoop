@@ -3,11 +3,11 @@ $(function(){
       updateFileScroll();
       
       var ws = new WebSocket("ws://192.168.160.155/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
-      
+
       ws.onmessage = function(e){
          
          var msg = JSON.parse(e.data);
-         //alert(""+msg.c_num+$(".chat_title").attr("id"))
+         
          if(msg.c_num != $(".chat_title").attr("id")){
         	 return false;
          }
