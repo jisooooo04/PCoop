@@ -272,11 +272,7 @@ public class MemberController {
 		//----------내가 속한 모든 프로젝트 뽑기
 		
 		System.out.println(project_list.size());
-//		MemberDTO updateMdto = mservice.getmemInfo(seq);
-//
-//		session.removeAttribute("loginInfo");
-//		session.setAttribute("loginInfo", updateMdto);
-
+		
 		
 		int peopleNum = 0;
 		

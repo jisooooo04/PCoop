@@ -68,7 +68,7 @@ label {
 					<div class="form-group">
 						<label>Project name</label><input type="text" class="form-control"
 							id="exampleFormControlInput1" name='name'
-							placeholder='프로젝트의 이름을 입력해주세요.' required>
+							placeholder='프로젝트의 이름을 입력해주세요.' required pattern='.{1,20}' title="제목은 최대 20 글자 입니다.">
 					</div>
 					<div class="form-group">
 						<label>프로젝트 참여 인원수를 설정해주세요.</label> <select class="form-control"
