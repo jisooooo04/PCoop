@@ -31,9 +31,6 @@
 		delete from member where seq=${value}
 	</delete>
 	
-	<select id="getMemInfo" resultType="pcoop.backend.dto.MemberDTO">
-		select * from member where seq=${value}
-	</select>
 	<!--  채팅방 기능 영역   -->
 	<select id="selectName" resultType="String">
 		select name from member where seq=#{value}

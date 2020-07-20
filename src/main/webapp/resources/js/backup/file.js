@@ -150,47 +150,71 @@ $(document).on("click", "#uploadSubmit", function(event){
 	event.preventDefault();
 	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
 	
-	var form = document.uploadForm;
-	form.dir_seq.value = dir_seq;
+	var check = checkExists(dir_seq);
 
-	var data = new FormData(form);
+	if(check == 0){
+		
+		var form = document.uploadForm;
+		form.dir_seq.value = dir_seq;
 
-	$.ajax({
-		url: "uploadFile",
-		type: "POST",
-		enctype: 'multipart/form-data',
-		data: data,
-		processData: false,
-		contentType: false,
-		cache: false,
-		timeout: 600000,
-		success: function (data) {
-			$(".modal_upload").modal('hide');
-			$(".file").remove();
-			var files = JSON.parse(data);
+		var data = new FormData(form);
 
-			for(var i = 0 ; i < files.length ; i++){
+		$.ajax({
+			url: "uploadFile",
+			type: "POST",
+			enctype: 'multipart/form-data',
+			data: data,
+			processData: false,
+			contentType: false,
+			cache: false,
+			timeout: 600000,
+			success: function (data) {
+				$(".modal_upload").modal('hide');
+				$(".file").remove();
+				var files = JSON.parse(data);
 
-				var id = "f" + files[i].seq;
+				for(var i = 0 ; i < files.length ; i++){
 
-				if(files[i].text_yn == "Y"){
-					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+					var id = "f" + files[i].seq;
+
+					if(files[i].text_yn == "Y"){
+						$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
+					}
+
+					else 
+						$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
+
+
 				}
 
-				else 
-					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
 
 
+			},
+			error: function (e) {
+				console.log("ERROR : ", e);
+				alert("용량이 너무 큽니다.");
 			}
+		});
+		
+	}
+	
+	else{
+		$(".modal_upload").modal('hide');
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
 
-
-
-		},
-		error: function (e) {
-			console.log("ERROR : ", e);
-			alert("용량이 너무 큽니다.");
-		}
-	});
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+		
+	}
+	
 
 })
 
@@ -230,56 +254,35 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 	// submit을 막음
 	event.preventDefault();
 	var dir_seq = $(".menu_upload_zip").attr("id").substring(3);
-	var form = document.uploadZipForm;
-	form.dir_seq.value = dir_seq;
+	
+	var check = checkExists(dir_seq);
 
-	var dir_name = form.zip_dir.value;
+	if(check == 0){
+		var form = document.uploadZipForm;
+		form.dir_seq.value = dir_seq;
 
-	// 확장자 체크(.zip 파일만)
-	var name = form.zip.value;
-	extension = name.substring(name.lastIndexOf('.'));
+		var dir_name = form.zip_dir.value;
 
-	var checkDupl;
+		// 확장자 체크(.zip 파일만)
+		var name = form.zip.value;
+		extension = name.substring(name.lastIndexOf('.'));
 
-	if(extension != '.zip'){
-		alert(".zip 파일만 가능합니다.");
-		form.zip.value = "";
-	}
+		var checkDupl;
 
-	else{
+		if(extension != '.zip'){
+			alert(".zip 파일만 가능합니다.");
+			form.zip.value = "";
+		}
 
-		var data = new FormData(form);
-		$(".modal_upload_zip").modal('hide');
+		else{
 
-		$.ajax({
-			url: "checkDirNameDupl",
-			type: "POST",
-			async: false,
-			enctype: 'multipart/form-data',
-			data: data,
-			processData: false,
-			contentType: false,
-			cache: false,
-			timeout: 600000,
-			success: function (data) {
-				checkDupl = data;
-
-				if(checkDupl == "dupl"){
-					alert("디렉토리 이름 중복");
-					form.zip_dir.value = "";
-				}
-
-			}
-		});
-
-		if(checkDupl != "dupl"){
-
-			$(".uploading").toast({ autohide: false });
-			$(".uploading").toast('show');
+			var data = new FormData(form);
+			$(".modal_upload_zip").modal('hide');
 
 			$.ajax({
-				url: "uploadZip",
+				url: "checkDirNameDupl",
 				type: "POST",
+				async: false,
 				enctype: 'multipart/form-data',
 				data: data,
 				processData: false,
@@ -287,26 +290,68 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 				cache: false,
 				timeout: 600000,
 				success: function (data) {
+					checkDupl = data;
 
-					var data = JSON.parse(data);
-					var zip_dir_seq = data.zip_dir_seq;
-					$(".uploaded").toast({ autohide: false });
-					$(".uploaded").toast('show');
-					
-					$(".dirs").append("<div class=dir id=dir" + zip_dir_seq + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + dir_name + "</div>")
+					if(checkDupl == "dupl"){
+						alert("디렉토리 이름 중복");
+						form.zip_dir.value = "";
+					}
 
-
-				},
-				error: function (e) {
-					alert("용량이 너무 큽니다.");
-					console.log("ERROR : ", e);
-					alert("fail");
 				}
 			});
 
-		}
+			if(checkDupl != "dupl"){
 
+				$(".uploading").toast({ autohide: false });
+				$(".uploading").toast('show');
+
+				$.ajax({
+					url: "uploadZip",
+					type: "POST",
+					enctype: 'multipart/form-data',
+					data: data,
+					processData: false,
+					contentType: false,
+					cache: false,
+					timeout: 600000,
+					success: function (data) {
+
+						var data = JSON.parse(data);
+						var zip_dir_seq = data.zip_dir_seq;
+						$(".uploaded").toast({ autohide: false });
+						$(".uploaded").toast('show');
+						
+						$(".dirs").append("<div class=dir id=dir" + zip_dir_seq + "><div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + dir_name + "</div>")
+
+
+					},
+					error: function (e) {
+						alert("용량이 너무 큽니다.");
+						console.log("ERROR : ", e);
+					}
+				});
+
+			}
+
+		}
 	}
+	
+	else {
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		$(".modal_upload_zip").modal('hide');
+		getDirAndFileList(check);
+	}
+	
 
 })
 

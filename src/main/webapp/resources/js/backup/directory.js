@@ -520,6 +520,7 @@ $(document).on("click", "#ok_rename_dir", function(){
 				if(data != -1){
 					
 					$("#" + id + ".dir").html("<div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + rename);
+					$(".root>li#" + id).text(rename);
 				}
 				else alert("디렉토리 이름 중복");
 			},
