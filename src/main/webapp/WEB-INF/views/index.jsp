@@ -218,7 +218,7 @@ article{
 							언어별로 자동으로 <span id="logo">하이라이팅된 소스 코드</span>를 볼 수 있습니다.
 					</p>
 				</article>
-				<article>
+				<article data-aos="fade-left" data-aos-delay="700">
 					<div class="image">
 						<img src="resources/images/index/backup.png" alt="Pic 02" />
 					</div>
@@ -233,10 +233,7 @@ article{
 	<!-- Footer -->
 	<footer id="footer">
 		<div class="inner">FOOTER</div>
-		<div class="copyright">
-			&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>.
-			Images: <a href="https://unsplash.com">Unsplash</a>.
-		</div>
+
 	</footer>
 
 	<!-- Scripts -->

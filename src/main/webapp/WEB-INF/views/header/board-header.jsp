@@ -97,7 +97,7 @@ b{
 					<div class="header_menu" id='logout'>로그아웃</div>
 				</c:otherwise>
 			</c:choose>
-				<div class="header_menu">Q&A</div>
+				<div class="header_menu" id="board">공지 사항</div>
 			</div>
 		</div>
 		<div class="col-2 d-none d-md-block"></div>
@@ -117,6 +117,9 @@ b{
 			})
 			$("#login").on("click",function(){
 				location.href='../member/toLoginView';
+			})
+			$("#board").on("click",function(){
+				location.href='../board/list';
 			})
 		</script>
 </body>
