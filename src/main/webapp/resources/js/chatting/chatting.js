@@ -424,8 +424,9 @@ $(function(){
 			var contents = $(this).html();
 			var fileStr = "fileDownload?presentFileSeq=";
 			var codeStr = "<pre class=\"pre\"><code class=\"code_editor hljs"
-			
-			if(contents.indexOf(fileStr) >= 0 || contents.indexOf(codeStr) >= 0 ){
+			var emotiStr = ".gif\" class=\"emoticon\" id=\"";
+				
+			if(contents.indexOf(fileStr) >= 0 || contents.indexOf(codeStr) >= 0  || contents.indexOf(emotiStr)>=0){
 				$(".copy_chat").css("display", "none");
 			}
 
