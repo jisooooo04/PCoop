@@ -79,6 +79,9 @@ ul{
 	font-size: 25px;
 	line-height: 70px;
 	padding-left: 25px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .list{
@@ -93,6 +96,9 @@ ul{
 	margin: 10px;
 	border: 1px solid lightgray;
 	border-radius: 20px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .dirs>.dir:hover, .file:hover{
