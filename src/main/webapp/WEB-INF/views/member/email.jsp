@@ -24,12 +24,9 @@
 
 <script>
 
-
    window.onload = function() {
       /**
-       * 중복서브밋 방지
-       * 
-       * @returns {Boolean}
+       * 중복서브밋 방지  @returns {Boolean}
        */
       var doubleSubmitFlag = false;
       function doubleSubmitCheck(){
@@ -47,11 +44,8 @@
       })
 
       document.getElementById("auth_form").onsubmit = function() {
-         
          if(doubleSubmitCheck()) return false;
-
          var e_mail = document.getElementById("e_mail").value;
-
          if (e_mail == "") {
             alert("가입을 위해서는 이메일 주소를 입력해야 합니다.")
             return false
