@@ -792,7 +792,7 @@ $(function () {
 				$('<button>', {
 					type: 'button',
 					'class': 'btn-link btn-show-form',
-					'html': 'Add card'
+					'html': '<i class="glyphicon glyphicon-plus"></i> 카드'
 				}).click(function () {
 					me._resetForm();
 					me.$form.removeClass('hide');

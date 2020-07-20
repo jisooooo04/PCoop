@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject;
 
 import pcoop.backend.dto.DirectoryDTO;
 import pcoop.backend.dto.FileDTO;
+import pcoop.backend.dto.MemberDTO;
 import pcoop.backend.dto.ProjectDTO;
 import pcoop.backend.service.FileService;
 
@@ -77,6 +79,7 @@ public class FileController {
 	@RequestMapping("getParentDirSeq")
 	@ResponseBody
 	public String getParentDirSeq(int dir_seq) {
+		
 		int back_dir_seq = fservice.getParentSeqBySeq(dir_seq);
 		return Integer.toString(back_dir_seq);
 	}
@@ -122,11 +125,42 @@ public class FileController {
 		return new Gson().toJson(data);
 	}
 
+	@RequestMapping(value = "checkExists")
+	@ResponseBody
+	@Transactional("txManager")
+	public int checkExists(String type, int seq) {
+
+		// 삭제됐는지 확인, 안 됐으면 리턴 0
+		// 됐으면 상위 디렉토리 seq 리턴
+		int isDeleted = fservice.checkDeleteLog(type, seq);
+		int dir_seq = 0;
+		
+		// 삭제 안 됐으면 리턴 0
+		if(isDeleted == 0)
+			return 0;
+		
+		// 삭제됐으면 상위 디렉토리 찾아서 seq 리턴
+		else {
+			
+			while(isDeleted > 0) {
+				System.out.println(seq);
+				dir_seq = fservice.getParentSeqByDeleteLog(type, seq);
+				isDeleted = fservice.checkDeleteLog(type, dir_seq);
+				seq = dir_seq;
+			}
+			
+			return seq;
+
+		}
+		
+	}
 
 	@RequestMapping(value = "addDirectory", produces = "application/text; charset=utf8")
 	@ResponseBody
+	@Transactional("txManager")
 	public String addDirectory(int parent_seq, String name) {
 
+		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
 		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
 		JsonObject data = new JsonObject();
 
@@ -143,7 +177,7 @@ public class FileController {
 			// 드라이브에 디렉토리 생성
 			String path = fservice.makeDirToDrive(parent_seq, name);
 			// DB에 디렉토리 insert
-			fservice.insertDirectory(path, name, project.getSeq(), parent_seq);
+			fservice.insertDirectory(path, name, project.getSeq(), parent_seq, member.getName());
 			int newDirSeq = fservice.getDirSeqByName(name, parent_seq);
 
 			// 업데이트된 리스트 보내기
@@ -171,9 +205,11 @@ public class FileController {
 	@ResponseBody
 	public String deleteDirectory(int seq, int root_seq) {
 
+		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+
 		int parent_seq = fservice.getParentSeqBySeq(seq);
 		String path = fservice.getDirPathBySeq(seq);
-		fservice.deleteDirectory(seq, path);
+		fservice.deleteDirectory(seq, parent_seq, path, member.getName());
 		
 		// 업데이트된 리스트 보내기
 		List<DirectoryDTO> dirList = fservice.getDirList(root_seq);
@@ -216,12 +252,14 @@ public class FileController {
 	@ResponseBody
 	public String upload(int dir_seq, MultipartFile file) throws Exception {
 
+		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+
 		// int dir_seq = Integer.parseInt(request.getParameter("dir_seq"));
 
 		// 드라이브에 파일 생성
 		String name = fservice.uploadFileToDrive(dir_seq, file);
 		// DB에 파일 업데이트
-		fservice.uploadFile(dir_seq, file, name);
+		fservice.uploadFile(dir_seq, file, name, member);
 
 		// 디렉토리의 파일 목록 다시 가져오기
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
@@ -260,6 +298,8 @@ public class FileController {
 	@ResponseBody
 	public String uploadZip(int dir_seq, String zip_dir, MultipartFile zip) throws Exception {
 
+		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+
 		String result = "";
 		ProjectDTO project = (ProjectDTO) session.getAttribute("projectInfo");
 		JsonObject json = new JsonObject();
@@ -272,7 +312,7 @@ public class FileController {
 		}
 
 		else {
-			fservice.unzip(project.getSeq(), dir_seq, zip, zip_dir);
+			fservice.unzip(project.getSeq(), dir_seq, zip, zip_dir, member.getName());
 			int zip_dir_seq = fservice.getDirSeqByName(zip_dir, dir_seq);
 			json.addProperty("zip_dir_seq", zip_dir_seq);
 		}
@@ -314,7 +354,8 @@ public class FileController {
 	@ResponseBody
 	public String delete(int dir_seq, int seq) {
 
-		fservice.deleteFile(seq);
+		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+		fservice.deleteFile(seq, dir_seq, member.getName());
 
 		List<FileDTO> fileList = fservice.getFileListByDirSeq(dir_seq);
 		JsonArray fileArr = new JsonArray();

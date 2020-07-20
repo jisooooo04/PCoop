@@ -88,6 +88,30 @@ function getDirAndFileList(dir_seq){
 	});
 }
 
+function checkExists(seq){
+	
+	var result;
+	
+	var data = {
+			type : 'directory',
+			seq: seq
+	};
+	
+	$.ajax({
+		url: "checkExists",
+		type: "POST",
+		async:false,
+		data: data,
+		success: function(data){
+			//getCheck(data);
+			result =  data;
+		}
+	});
+		
+	return result;
+	
+}
+
 
 //디렉토리 - 클릭 - 디렉토리 내 파일 리스트
 $(document).on("click", ".dir", function(event){
@@ -97,20 +121,40 @@ $(document).on("click", ".dir", function(event){
 
 	var id = this.id;
 	var dir_seq = id.substring(3);
+	
+	var check = checkExists(dir_seq);
+	
+	if(check == 0){
 
-	$(".menu_upload_file").attr("id", id);
-	$(".menu_upload_zip").attr("id", id);
-	$(".menu_add_dir").attr("id", id);
-	$(".menu_delete_dir").attr("id", id);
-	$(".menu_back_dir").attr("id", id);
-	$(".menu_rename_dir").attr("id", id);
+		$(".menu_upload_file").attr("id", id);
+		$(".menu_upload_zip").attr("id", id);
+		$(".menu_add_dir").attr("id", id);
+		$(".menu_delete_dir").attr("id", id);
+		$(".menu_back_dir").attr("id", id);
+		$(".menu_rename_dir").attr("id", id);
+	
+		$(".btn_add_dir").attr("id", id);
+		$(".btn_back_dir").attr("id", id);
+		$(".btn_upload").attr("id", id);
+		getDirAndFileList(dir_seq);
+		
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
 
-	$(".btn_add_dir").attr("id", id);
-	$(".btn_back_dir").attr("id", id);
-	$(".btn_upload").attr("id", id);
-
-
-	getDirAndFileList(dir_seq);
 
 
 })
@@ -122,37 +166,61 @@ $(document).on("click", ".menu_back_dir", function(event){
 
 	var id = this.id;
 	var dir_seq = id.substring(3);
-
-	var back_dir_seq;
 	
-	var data = {
-			dir_seq : dir_seq
-	};
+	var check = checkExists(dir_seq);
+	
+	if(check == 0){
+		var back_dir_seq;
+		
+		var data = {
+				dir_seq : dir_seq
+		};
 
-	$.ajax({
-		url: "getParentDirSeq",
-		type: "POST",
-		data: data,
-		success: function(data){
-			
-			back_dir_seq = data;
-			var back_dir_id = "dir" + back_dir_seq;
-			
-			$(".menu_upload_file").attr("id", back_dir_id);
-			$(".menu_upload_zip").attr("id", back_dir_id);
-			$(".menu_add_dir").attr("id", back_dir_id);
-			$(".menu_back_dir").attr("id", back_dir_id);
-			$(".menu_delete_dir").attr("id", back_dir_id);
-			$(".menu_rename_dir").attr("id", back_dir_id);
+		$.ajax({
+			url: "getParentDirSeq",
+			type: "POST",
+			async: false,
+			data: data,
+			success: function(data){
 
-			$(".btn_back_dir").attr("id", back_dir_id);
-			$(".btn_add_dir").attr("id", back_dir_id);
-			$(".btn_upload").attr("id", back_dir_id);
-			
-			getDirAndFileList(back_dir_seq);
-			
-		}
-	})
+				back_dir_seq = data;
+
+				var back_dir_id = "dir" + back_dir_seq;
+
+				$(".menu_upload_file").attr("id", back_dir_id);
+				$(".menu_upload_zip").attr("id", back_dir_id);
+				$(".menu_add_dir").attr("id", back_dir_id);
+				$(".menu_back_dir").attr("id", back_dir_id);
+				$(".menu_delete_dir").attr("id", back_dir_id);
+				$(".menu_rename_dir").attr("id", back_dir_id);
+
+				$(".btn_back_dir").attr("id", back_dir_id);
+				$(".btn_add_dir").attr("id", back_dir_id);
+				$(".btn_upload").attr("id", back_dir_id);
+
+				getDirAndFileList(back_dir_seq);
+
+			}
+		})
+	}
+
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+
+	
+
 
 })
 
@@ -213,6 +281,7 @@ $(document).click(function(event){
 //업로드 버튼
 $(document).on("click", ".menu_upload", function(event){
 	event.stopPropagation();
+	
 	var position = $(".btn_upload").offset();
 	var left = position.left;
 	var top = position.top + 40;
@@ -250,41 +319,64 @@ $(document).on("click", ".menu_add_dir", function(event){
 
 //새 디렉토리 추가
 $(document).on("click", "#ok", function(){
-
-	var root_id = $(".root").attr("id");
-	var root_name = $(".root>b").text();
-
+	
 	var parent_seq = $(".menu_add_dir").attr("id").substring(3);
-	var name = $("#dir_name").val();
-	var data = {
-			parent_seq: parent_seq,
-			name: name
-	};
 
-	$.ajax({
-		url: "addDirectory",
-		type: "POST",
-		data: data,
-		success: function(data){
+	var check = checkExists(parent_seq);
+	
+	if(check == 0){
 
-			var json = JSON.parse(data);
-			var checkDupl = json.checkDupl;
-			var seq = json.seq;
+		var root_id = $(".root").attr("id");
+		var root_name = $(".root>b").text();
 
-			if(checkDupl != 1){
-				var dirlist= JSON.parse(json.dirlist);
-				$(".root").remove();
-				// 리스트 새로 만들기
-				$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
-				// 디렉토리 가지고 오기
-				printDirList(dirlist);
-				getDirAndFileList(parent_seq);
+		var name = $("#dir_name").val();
+		var data = {
+				parent_seq: parent_seq,
+				name: name
+		};
+
+		$.ajax({
+			url: "addDirectory",
+			type: "POST",
+			data: data,
+			success: function(data){
+
+				var json = JSON.parse(data);
+				var checkDupl = json.checkDupl;
+				var seq = json.seq;
+
+				if(checkDupl != 1){
+					var dirlist= JSON.parse(json.dirlist);
+					$(".root").remove();
+					// 리스트 새로 만들기
+					$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
+					// 디렉토리 가지고 오기
+					printDirList(dirlist);
+					getDirAndFileList(parent_seq);
+
+				}
+				else alert("디렉토리명 중복");
 
 			}
-			else alert("디렉토리명 중복");
-
-		}
-	});
+		});
+		
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+	
 	$(".add_dir").hide();
 	$("#dir_name").val("");
 
@@ -311,37 +403,59 @@ $(document).on("click", ".delete_dir", function(){
 
 	var seq = $(".menu_add_dir").attr("id").substring(3);
 	var root_seq = root_id.substring(3);
-
-	var data = {
-			seq: seq,
-			root_seq: root_seq
-	}
-
-	$.ajax({
-		url: "deleteDirectory",
-		type: "POST",
-		data: data,
-		success: function(data){
-
-			$(".root").remove();
-
-			var data = JSON.parse(data);
-
-			// 리스트 새로 만들기
-			$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
-			// 디렉토리 가지고 오기
-			var dirlist = JSON.parse(data.dirlist);
-			printDirList(dirlist);
-
-			var parent_seq = data.parent_seq;
-			getDirAndFileList(parent_seq);
-
-		},
-		error: function (e) {
-			alert("이미 삭제된 디렉토리입니다.");
-			console.log("ERROR : ", e);
+	
+	var check = checkExists(seq);
+	
+	if(check == 0){
+		var data = {
+				seq: seq,
+				root_seq: root_seq
 		}
-	});
+
+		$.ajax({
+			url: "deleteDirectory",
+			type: "POST",
+			data: data,
+			success: function(data){
+
+				$(".root").remove();
+
+				var data = JSON.parse(data);
+
+				// 리스트 새로 만들기
+				$(".backup").append("<ul id=" + root_id + " class='root dir'><b>" + root_name + "</b></ul>");
+				// 디렉토리 가지고 오기
+				var dirlist = JSON.parse(data.dirlist);
+				printDirList(dirlist);
+
+				var parent_seq = data.parent_seq;
+				getDirAndFileList(parent_seq);
+
+			},
+			error: function (e) {
+				alert("이미 삭제된 디렉토리입니다.");
+				console.log("ERROR : ", e);
+			}
+		});
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+	
+
+	
 
 })
 // 디렉토리 추가, 디렉토리 이름 변경에서 이름 입력 창 누르면 html 클릭(모든 창 끄는 기능) 이벤트도 같이 발생함
@@ -388,29 +502,52 @@ $(document).on("click", "#ok_rename_dir", function(){
 	var id = $(".menu_rename_dir").attr("id");
 	var rename = $("#dir_rename").val();
 	var seq = $(".menu_rename_dir").attr("id").substring(3);
+	
+	var check = checkExists(seq);
+	
+	if(check == 0){
+		var data = {
+				seq: seq,
+				rename: rename
+		};
 
-	var data = {
-			seq: seq,
-			rename: rename
-	};
+		$.ajax({
+			url: "renameDirectory",
+			type: "POST",
+			data: data,
+			success: function(data){
 
-	$.ajax({
-		url: "renameDirectory",
-		type: "POST",
-		data: data,
-		success: function(data){
-
-			if(data != -1){
-				$("#" + id + ".dir").html(rename);
+				if(data != -1){
+					
+					$("#" + id + ".dir").html("<div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + rename);
+				}
+				else alert("디렉토리 이름 중복");
+			},
+			error: function (e) {
+				alert("이미 삭제된 디렉토리입니다.");
+				console.log("ERROR : ", e);
+				alert("fail");
 			}
-			else alert("디렉토리 이름 중복");
-		},
-		error: function (e) {
-			alert("이미 삭제된 디렉토리입니다.");
-			console.log("ERROR : ", e);
-			alert("fail");
-		}
-	});
+		});
+		
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+
+	
 
 	$(".rename_dir").hide();
 

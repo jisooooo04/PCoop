@@ -151,4 +151,9 @@ public class ProjectService {
 		return dao.ProjectMemberDelete(project_member_seq);
 	}
 	
+	//project_member_seq로 member_seq 조회하기(프로젝트 강퇴시 채팅 삭제할때 member_seq 필요해서 사용)
+	public int selectMemberSeq (int project_member_seq) {
+		return dao.selectMemberSeq(project_member_seq);
+	}
+	
 }

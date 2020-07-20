@@ -31,6 +31,11 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap"
 	rel="stylesheet">
 
+
+<!-- Summer Note -->
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <!-- 스크롤 액션 AOS  -->
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 

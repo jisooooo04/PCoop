@@ -6,6 +6,30 @@
 
 //디렉토리 - 우 클릭 - 드롭다운 메뉴
 
+function checkFileExists(seq){
+	
+	var result;
+	
+	var data = {
+			type : 'file',
+			seq: seq
+	};
+	
+	$.ajax({
+		url: "checkExists",
+		type: "POST",
+		async:false,
+		data: data,
+		success: function(data){
+			//getCheck(data);
+			result =  data;
+		}
+	});
+		
+	return result;
+	
+}
+
 $(document).on("contextmenu", "#container", function(e){
 
 	var x = e.pageX;
@@ -26,6 +50,7 @@ $(document).on("contextmenu", "#container", function(e){
 })
 
 $(document).on("contextmenu", ".file", function(event){
+
 
 	event.stopPropagation();
 	var id = this.id;
@@ -64,8 +89,30 @@ $(document).on("click", ".menu_preview_file", function(){
 
 //파일 선택 Modal
 $(document).on("click", ".menu_upload_file", function(event){
-	$(".upload_context").hide();
-	$(".modal_upload").modal();
+	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
+	var check = checkExists(dir_seq);
+
+	if(check == 0){
+		$(".upload_context").hide();
+		$(".modal_upload").modal();
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+	
+	
 })
 
 //파일 upload - 폼 데이터 ajax 전송
@@ -75,6 +122,7 @@ $(document).on("click", "#uploadSubmit", function(event){
 	// submit을 막음
 	event.preventDefault();
 	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
+	
 	var form = document.uploadForm;
 	form.dir_seq.value = dir_seq;
 
@@ -121,8 +169,31 @@ $(document).on("click", "#uploadSubmit", function(event){
 
 //.zip 파일 선택 Modal
 $(document).on("click", ".menu_upload_zip", function(){
-	$(".upload_context").hide();
-	$(".modal_upload_zip").modal();
+	var dir_seq = $(".menu_upload_zip").attr("id").substring(3);
+
+	var check = checkExists(dir_seq);
+
+	if(check == 0){
+		$(".upload_context").hide();
+		$(".modal_upload_zip").modal();
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+	
+	
 })
 
 //upload .zip
@@ -214,35 +285,61 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 
 
 $(document).on("click", ".menu_preview_file", function(){
+	
+	var dir_seq = $(".menu_upload_zip").attr("id").substring(3);
 
-	var id = this.id;
-	var seq = this.id.substring(1);
+	var check = checkExists(dir_seq);
+	
+	if(check == 0){
+		var id = this.id;
+		var seq = this.id.substring(1);
+		
+		var checkFile = checkFileExists(seq);
+		console.log(checkFile);
 
-	$(".modal_preview").modal();
-	var pre_extension = $(".file-contents").attr("class").substring("file-contents hljs ".length);
+		$(".modal_preview").modal();
+		var pre_extension = $(".file-contents").attr("class").substring("file-contents hljs ".length);
 
-	var data = {
-			seq : seq
-	};
+		var data = {
+				seq : seq
+		};
 
-	$.ajax({
-		url: "readFile",
-		type: "POST",
-		data: data,
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		success: function(data){
+		$.ajax({
+			url: "readFile",
+			type: "POST",
+			data: data,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			success: function(data){
 
-			var data = JSON.parse(data);
-			var text = data.text;
-			var extension = data.extension;
+				var data = JSON.parse(data);
+				var text = data.text;
+				var extension = data.extension;
 
-			$(".file-contents").removeClass(pre_extension);
-			$(".file-contents").addClass(extension);
-			$(".file-contents").text(data.text);
-			hljs.initHighlighting.called = false;
-			hljs.initHighlighting();
-		}
-	})
+				$(".file-contents").removeClass(pre_extension);
+				$(".file-contents").addClass(extension);
+				$(".file-contents").text(data.text);
+				hljs.initHighlighting.called = false;
+				hljs.initHighlighting();
+			}
+		})
+	}
+	
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+
+	
 
 })
 
@@ -251,34 +348,53 @@ $(document).on("click", ".menu_delete_file", function(){
 
 	var seq = this.id.substring(1);
 	var dir_seq = $(".menu_upload_file").attr("id").substring(3);
+	var check = checkExists(dir_seq);
 
-	var data = { dir_seq: dir_seq,
-			seq : seq };
+	if(check == 0){
 
-	$.ajax({
-		url: "deleteFile",
-		type: "POST",
-		data: data,
-		success: function(data){
-			$(".modal_upload").modal('hide');
-			$(".file").remove();
-			var files = JSON.parse(data);
+		var data = { dir_seq: dir_seq,
+				seq : seq };
 
-			for(var i = 0 ; i < files.length ; i++){
+		$.ajax({
+			url: "deleteFile",
+			type: "POST",
+			data: data,
+			success: function(data){
+				$(".modal_upload").modal('hide');
+				$(".file").remove();
+				var files = JSON.parse(data);
 
-				var id = "f" + files[i].seq;
+				for(var i = 0 ; i < files.length ; i++){
 
-				if(files[i].text_yn == "Y"){
-					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+					var id = "f" + files[i].seq;
+
+					if(files[i].text_yn == "Y"){
+						$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+					}
+
+					else 
+						$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
+
 				}
 
-				else 
-					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div><a href=downloadFile?seq=" + files[i].seq + ">" + files[i].name + "</a></div>");
-
 			}
-
-		}
-	});
+		});
+	}
+	else{
+		alert("이미 삭제된 디렉토리입니다. 상위 디렉토리로 이동합니다.");
+		$(".menu_upload_file").attr("id", "dir" + check);
+		$(".menu_upload_zip").attr("id", "dir" + check);
+		$(".menu_add_dir").attr("id", "dir" + check);
+		$(".menu_delete_dir").attr("id", "dir" + check);
+		$(".menu_back_dir").attr("id", "dir" + check);
+		$(".menu_rename_dir").attr("id", "dir" + check);
+	
+		$(".btn_add_dir").attr("id", "dir" + check);
+		$(".btn_back_dir").attr("id", "dir" + check);
+		$(".btn_upload").attr("id", "dir" + check);
+		getDirAndFileList(check);
+	}
+	
 
 })
 

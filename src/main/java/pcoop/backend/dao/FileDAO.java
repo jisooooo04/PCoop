@@ -24,21 +24,21 @@ public class FileDAO {
 
 	// 프로젝트 생성 시, Root 디렉토리 생성함
 	public int insertRootDirectory(int seq, String name, String path) {
-		
+
 		HashMap<String, Object> values = new HashMap<>();
 		values.put("seq", seq);
 		values.put("name", name);
 		values.put("path", path);
 
 		return mybatis.insert("Backup.insertRootDir", values);
-		
+
 	}
-	
+
 	// 프로젝트의 루트 디렉토리 검색
 	public int getRootDirSeq(int project_seq) {
 		return mybatis.selectOne("Backup.getRootDirSeq", project_seq);
 	}
-	
+
 	// 이름으로 디렉토리 seq 검색
 	public int getDirSeqByName(String name, int parent_seq) {
 		HashMap<String, Object> values = new HashMap<>();
@@ -51,17 +51,17 @@ public class FileDAO {
 	public String getDirPathBySeq(int seq) {
 		return mybatis.selectOne("Backup.getDirPathBySeq", seq);
 	}
-	
+
 	// seq로 디렉토리의 parent_seq 검색
 	public int getParentSeqBySeq(int seq) {
 		return mybatis.selectOne("Backup.getParentSeqBySeq", seq);
 	}
-	
+
 	// path로 디렉토리의 seq 검색
 	public int getDirSeqByPath(String path) {
 		return mybatis.selectOne("Backup.getDirSeqByPath", path);
 	}
-	
+
 	// 디렉토리 중복 확인
 	public int checkDuplDirName(int parent_seq, String name) {
 		HashMap<String, Object> values = new HashMap<>();
@@ -69,8 +69,27 @@ public class FileDAO {
 		values.put("name", name);
 		return mybatis.selectOne("Backup.checkDuplDirName", values);
 	}
+
+	// 디렉토리나 파일이 삭제됐는지 로그 체크
+	public int checkDeleteLog(String type, int seq) {
+
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("type", type);
+		values.put("seq", seq);
+
+		// 삭제됐는지 확인
+		// 삭제됐으면 1, 안 됐으면 0 리턴
+		return mybatis.selectOne("Backup.isDeleted", values);
+
+	}
 	
-	
+	// 삭제된 디렉토리나 파일의 상위 디렉토리 리턴
+	public int seleteParentSeqByDeleteLog(String type, int seq) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("type", type);
+		values.put("seq", seq);
+		return mybatis.selectOne("Backup.selectParentSeqByDeleteLog", values);
+	}
 
 	// 디렉토리 insert
 	public int insertDirectory(String path, String name, int project_seq, int parent_seq) {
@@ -81,7 +100,16 @@ public class FileDAO {
 		values.put("path", path);
 		return mybatis.insert("Backup.insertDirectory", values);
 	}
-	
+
+	// 디렉토리 add log
+	public int insertAddDirLog(int seq, int parent_seq, String member_name) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("seq", seq);
+		values.put("parent_seq", parent_seq);
+		values.put("member_name", member_name);
+		return mybatis.insert("insertAddDirLog", values);
+	}
+
 	// 디렉토리가 존재하는지 확인
 	public int dirExists(String path) {
 		return mybatis.selectOne("Backup.dirExists", path);
@@ -91,7 +119,16 @@ public class FileDAO {
 	public int deleteDirectory(String path) {
 		return mybatis.delete("Backup.deleteDirectory", path);
 	}
-	
+
+	// 디렉토리 delete log
+	public int insertDelDirLog(int seq, int parent_seq, String member_name) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("seq", seq);
+		values.put("parent_seq", parent_seq);
+		values.put("member_name", member_name);
+		return mybatis.insert("insertDelDirLog", values);
+	}
+
 	// 디렉토리 이름 및 path 변경
 	public int renameDirectory(int seq, String rename, String repath) {
 		HashMap<String, Object> values = new HashMap<>();
@@ -100,7 +137,7 @@ public class FileDAO {
 		values.put("seq", seq);
 		return mybatis.update("Backup.renameDirectory", values);
 	}
-	
+
 	// 디렉토리 이름 변경 시, 하위 파일들 path 변경
 	public int repathFileByDirSeq(int seq, String repath, String frepath) {
 		HashMap<String, Object> values = new HashMap<>();
@@ -113,6 +150,24 @@ public class FileDAO {
 	// 디렉토리의 하위 디렉토리 리스트
 	public List<DirectoryDTO> getDirList(int root_seq){
 		return mybatis.selectList("Backup.getDirList", root_seq);
+	}
+
+	// 디렉토리의 모든 하위 디렉토리 리스트
+	public List<DirectoryDTO> getDirListByPath(String path){
+		return mybatis.selectList("Backup.getDirListByPath", path + "%");
+	}
+
+	// 파일 seq 가져오기
+	public int getFileSeq(int directory_seq, String name) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("directory_seq", directory_seq);
+		values.put("name", name);
+		return mybatis.selectOne("Backup.getFileSeqByName", values);
+	}
+
+	// 디렉토리 모든 하위 파일들 가져오기
+	public List<FileDTO> getFileListByPath(String path){
+		return mybatis.selectList("Backup.getFileListByPath", path + "%");	
 	}
 
 	// 파일 이름 가져오기
@@ -148,7 +203,7 @@ public class FileDAO {
 		return mybatis.selectList("Backup.getFileListByDirSeq", dir_seq);
 
 	}
-	
+
 	// 특정 디렉토리 내 모든 디렉토리 지우기
 	public int deleteDirsByDirPath(String dir_path) {
 		return mybatis.delete("Backup.deleteDirsByDirPath", dir_path + "%");
@@ -179,11 +234,28 @@ public class FileDAO {
 		return mybatis.insert("Backup.insertFile", values);
 	}
 
+	// 파일 add log
+	public int insertAddFileLog(int seq, int dir_seq, String member_name) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("seq", seq);
+		values.put("dir_seq", dir_seq);
+		values.put("member_name", member_name);
+		return mybatis.insert("insertAddFileLog", values);
+	}
+
 	// 파일 삭제
 	public int deleteFile(int seq) {
 		return mybatis.delete("Backup.deleteFile", seq);
 	}
-	
+
+	public int insertDelFileLog(int seq, int dir_seq, String member_name) {
+		HashMap<String, Object> values = new HashMap<>();
+		values.put("seq", seq);
+		values.put("dir_seq", dir_seq);
+		values.put("member_name", member_name);
+		return mybatis.insert("Backup.insertDelFileLog", values);
+	}
+
 	// 파일 이름 변경
 	public int renameFile(int seq, String rename, String repath) {
 		HashMap<String, Object> values = new HashMap<>();

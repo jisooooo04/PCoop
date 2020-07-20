@@ -208,7 +208,7 @@
 			<div class="row">
 				<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 정보-->
 
-				<div class="col-4-sm">
+				<div class="col-5">
 					<div class="memInfoTitle">
 						<i class="far fa-id-card"></i>회원 정보
 					</div>
@@ -248,8 +248,8 @@
 
 				</div>
 				<!-- ㅡㅡㅡ프로젝트 리스트  -->
-				<div class="col-sm-1"></div>
-				<div class="col-sm-6">
+				<div class="col-1"></div>
+				<div class="col-6">
 					<div class="row">
 						<c:choose>
 							<c:when test='${list_size ==0}'>
@@ -422,6 +422,7 @@
 			})
 			$("#modifycancel").on("click",function(){
 				$(".modifymodal").removeClass('modal-open');
+				
 			})
 		/* 	회원정보 수정 저장 버튼 클릭 */
 			$("#save").on("click",function(){
@@ -439,6 +440,10 @@
 						if(resp==1){
 							alert("저장되었습니다.")
 							$(".modifymodal").removeClass('modal-open');
+							 setTimeout(function() {
+								 location.href="gomypage"
+					            	}, 500);
+							
 						}
 					}) 
 				}else{

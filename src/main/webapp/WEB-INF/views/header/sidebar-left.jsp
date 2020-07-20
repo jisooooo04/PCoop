@@ -23,7 +23,7 @@
 			
 				//var root_seq = data.root_seq;
 				
-				$(".backup").append("<ul id=dir" + root_seq + " class='root dir'><b><a href=/backup?dir_seq=" +
+				$(".backup").append("<ul id=dir" + root_seq + " class='root'><b><a href=/backup?dir_seq=" +
 						root_seq + ">"+ root_name + "</a></b></ul>");
 				
 				// 디렉토리 가지고 오기
@@ -53,7 +53,7 @@
 
 					var div = $("<div class=side_chatting_list></div>");
 					var span = $("<span class=logon>● </span>");
-					var chatting = $("<a class=c_list id='c_num"+chatting_num+"'>"
+					var chatting = $("<a class=c_list id='c_num"+chatting_num+"' style='cursor: pointer'>"
 							+ title + "</a>");
 					div.append(span);
 					div.append(chatting);
@@ -122,34 +122,30 @@
 		<div class="navtitle menu-todo" OnClick="location.href ='/Task/task'" style="cursor:pointer;">
 			<img src="/resources/images/sidebar-left/todolist.png" class=navicon> To-do List</a>
 		</div>
-		<div class="navcontents">
-
-		</div>
-		
 		
 		
 		<div class="navtitle menu-calendar">
 			<img src="/resources/images/sidebar-left/calendar.png" class=navicon>
 			캘린더
 		</div>
-		<div class="navcontents">
-		
-		</div>
 		
 		
-		<div class="navtitle menu-chat">
+		<div class="navtitle lowmenu menu-chat">
 			<img src="/resources/images/sidebar-left/chat.png" class=navicon>
 			채팅
 		</div>
 		<div class="navcontents chattingList">
+		
 		</div>
 		
 		
-		<div class="navtitle menu-backup">
+		<div class="navtitle lowmenu menu-backup">
 			<img src="/resources/images/sidebar-left/folder.png" class=navicon>
 			백업
 		</div>
-		<div class="navcontents backup"></div>
+		<div class="navcontents backup">
+		
+		</div>
 		
 		<img src=/resources/images/sidebar-left/back.png class="back_btn">
 	</nav>
