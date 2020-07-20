@@ -2,12 +2,21 @@ $(function(){
       updateScroll();
       updateFileScroll();
       
+<<<<<<< HEAD
+      var ws = new WebSocket("ws://192.168.60.15/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
+      
+=======
       var ws = new WebSocket("ws://192.168.160.155/chat");  //이 url에 소켓 연결을 요청하고, WebChat 클래스가 요청을 받음
 
+>>>>>>> 2c5b4088b3d5d0b5fc80534f2b72c3fbaa0f8c44
       ws.onmessage = function(e){
          
          var msg = JSON.parse(e.data);
          
+<<<<<<< HEAD
+       
+=======
+>>>>>>> 2c5b4088b3d5d0b5fc80534f2b72c3fbaa0f8c44
          if(msg.c_num != $(".chat_title").attr("id")){
         	 return false;
          }

@@ -158,6 +158,7 @@
     //일정 생성하기 버튼 눌렀을 때 : 이벤트 안에 이벤트를 넣으면 버그가 일어난다!  
 	   $("#save").on("click",function(){
         var title = $("#recipient-name").val();
+        var contents = $("#message-text").val();
         var start = $('#modal_date_start').val();
         var end =$('#modal_date_end').val(); 
         var color = $('input[type=radio][name=color]:checked').val();
@@ -166,6 +167,10 @@
     	   end=start
        }
         
+       if(contents==''){
+    	 contents='내용없음';
+       }
+       
         if(title==''){
         	alert("제목은 필수 입력값 입니다!");
         	
@@ -177,7 +182,7 @@
             		title : title,
             		start_date : start,
             		end_date:end,
-            		contents : $("#message-text").val(),
+            		contents :contents,
             		writer : '${loginInfo.name}',
             		color : color,
             		project_seq:'${projectInfo.seq}'
