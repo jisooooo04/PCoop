@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,9 +89,15 @@ b{
 		</div>
 		<div class="col-md-6 col-7">
 			<div class="header_menu_list">
-				<div class="header_menu" id='logout'>로그아웃</div>
+			<c:choose>
+				<c:when test="${empty loginInfo}">
+					<div class="header_menu" id='login'>로그인</div>
+				</c:when>
+				<c:otherwise>
+					<div class="header_menu" id='logout'>로그아웃</div>
+				</c:otherwise>
+			</c:choose>
 				<div class="header_menu">Q&A</div>
-				<!-- <div class="header_menu">커뮤니티</div> -->
 			</div>
 		</div>
 		<div class="col-2 d-none d-md-block"></div>
@@ -107,6 +114,9 @@ b{
 			})
 			$("#logout").on("click",function(){
 				location.href='../member/logout';
+			})
+			$("#login").on("click",function(){
+				location.href='../member/toLoginView';
 			})
 		</script>
 </body>
