@@ -42,13 +42,13 @@ public class ChatFileService {
 		List<String> extensionList = fdao.selectExtension(chatting_num);
 		// 확장자 모음
 		String extensionArr[] = new String[] {"css","docx","gif","html","java","jpg","js","pdf","php","png","ppt","ps","sql","txt","xls","xml","zip"};
-		System.out.println(extensionList.size());
+		
 		if(!extensionList.isEmpty()) {
 		for(int i=0; i<extensionList.size(); i++) {
 			extensionImg.add(i, "resources/images/chatting/file.png");
 			
 			for(int j=0; j<extensionArr.length; j++) {
-				System.out.println(extensionList.get(i));
+				
 				if(extensionList.get(i).contentEquals(extensionArr[j])) {
 					extensionImg.add(i, "resources/images/chatting/"+extensionArr[j]+".png");
 				}
