@@ -90,7 +90,7 @@ b{
 			<div class="header_menu_list">
 				<div class="header_menu" id='logout'>로그아웃</div>
 				<div class="header_menu">Q&A</div>
-				<div class="header_menu">커뮤니티</div>
+				<!-- <div class="header_menu">커뮤니티</div> -->
 			</div>
 		</div>
 		<div class="col-2 d-none d-md-block"></div>
