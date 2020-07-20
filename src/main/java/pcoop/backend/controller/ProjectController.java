@@ -289,10 +289,15 @@ public class ProjectController {
 		 param.put("mem_seq", mem_seq);
 		 param.put("project_seq", project_seq);
 		 int result = service.accept(param);
-		 model.addAttribute("seq", project_seq);
+		 model.addAttribute("seq", project_seq);		 
+
+		 
+		 //멤버 추가시, 개인 채팅방 생성
+		 result = ctservice.insertPersonalMember(project_seq, mem_seq, member_name);
 		 
 		 //멤버 추가시, 단체 채팅방에도 멤버 추가(+기존 인원수 변경)
 		 result = ctservice.insertMainMember(project_seq, mem_seq, member_name);
+		 
 		 
 		 return "redirect:goProjectHome";
 	  }

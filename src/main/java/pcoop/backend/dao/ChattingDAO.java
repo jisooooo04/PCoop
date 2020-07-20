@@ -76,6 +76,32 @@ public class ChattingDAO {
 		return mybatis.delete("Chatting.deleteMemberout", member_seq);
 	}
 	
+	
+	public List<ChattingDTO> selectProjectMember(int project_seq) {
+		return mybatis.selectList("Chatting.selectProjectMember", project_seq);
+	}
+	
+	
+	public int createPersonalMember(ChattingDTO ctdto) {
+		return mybatis.insert("Chatting.createPersonalMember", ctdto);
+	}
+	
+	
+	public int selectPartnerChattingnum(ChattingDTO ctdto) {
+		return mybatis.selectOne("Chatting.selectPartnerChattingnum", ctdto);
+	}
+	
+	
+	public int insertPersonalMember(ChattingDTO ctdto) {
+		return mybatis.insert("Chatting.insertPersonalMember", ctdto);
+	}
+	
+	
+	public ChattingDTO selectMyChatting(ChattingDTO cdto) {
+		return mybatis.selectOne("Chatting.selectMyChatting", cdto);
+	}
+	
+	
 		
 	
 }
