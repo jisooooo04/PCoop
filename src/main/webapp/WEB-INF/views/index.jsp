@@ -67,7 +67,7 @@ article{
 			<a href="/" class="logo"><span id="logo">P</span>COOP!</a>
 			<nav id="nav">
 					<a href="member/gomypage">마이 페이지</a>
-					<a href="#">Q&A</a> 
+					<a href="board/list">공지사항</a> 
 					
 					<c:if test="${loginInfo != null}">
 					<a href="member/logout">로그아웃</a>
