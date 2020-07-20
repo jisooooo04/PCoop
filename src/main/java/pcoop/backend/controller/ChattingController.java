@@ -54,8 +54,11 @@ public class ChattingController {
 
 		// chatting_seq로 채팅방 정보 불러오기
 		List<ChattingDTO> chattingInfo = ctservice.selectChatting(chatting_num);
-
 		model.addAttribute("chattingInfo", chattingInfo);
+		
+		//내가 속한 현재 채팅방 정보
+		ChattingDTO cdto = ctservice.selectMyChatting(chatting_num);
+		model.addAttribute("myChatting", cdto);
 
 		
 		// div에 id로 부여할 수 있도록 추가로 보내줌

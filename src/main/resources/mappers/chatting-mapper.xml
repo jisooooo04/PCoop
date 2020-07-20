@@ -8,7 +8,7 @@
 	
 	
 	<select id="selectChattingList" resultType="pcoop.backend.dto.ChattingDTO">
-		select * from chatting where project_seq=#{project_seq} and member_seq=#{member_seq} order by seq
+		select * from chatting where project_seq=#{project_seq} and member_seq=#{member_seq} order by type
 	</select>
 	
 	
@@ -57,5 +57,28 @@
 	</delete>
 	
 	
+	<select id="selectProjectMember" resultType="pcoop.backend.dto.ChattingDTO">
+		select * from chatting where project_seq=#{value} and type='main'
+	</select>
+	
+	
+	<insert id="createPersonalMember">
+		insert into chatting values(chatting_seq.nextval, ${project_seq}, chatting_num_seq.nextval, #{title}, ${member_count}, ${member_seq}, #{member_name}, sysdate, 'personal')
+	</insert>
+	
+	
+	<select id="selectPartnerChattingnum" resultType="Integer">
+		select chatting_num from chatting where project_seq=${project_seq} and member_seq=${member_seq} and title=#{title} and type='personal'
+	</select>
+	
+	
+	<insert id="insertPersonalMember">
+		insert into chatting values(chatting_seq.nextval, #{project_seq}, #{chatting_num}, #{title}, #{member_count}, #{member_seq}, #{member_name}, sysdate, 'personal')
+	</insert>
+	
+	
+	<select id="selectMyChatting" resultType="pcoop.backend.dto.ChattingDTO">
+		select * from chatting where chatting_num=#{chatting_num} and member_seq=#{member_seq} and type='personal'
+	</select>
 	
 </mapper>

@@ -44,7 +44,7 @@
 			<!-- 채팅 타이틀 -->
 			<div class="chat_title_section">
 			
-				<div class=chat_title id="${c_num}">${chattingInfo[0].title}</div>
+				<div class=chat_title id="${c_num}">${myChatting.title}</div>
 				<div class=chat_person_num id="${p_seq}">
 					<img src="resources/images/chatting/user.png" class=chat_person_img>${chattingInfo[0].member_count}
 				</div>
