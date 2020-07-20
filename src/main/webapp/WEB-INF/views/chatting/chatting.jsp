@@ -98,11 +98,14 @@
 			<div class="chat_section" id=chat_section>
 
 				<!-- 채팅 날짜 (어제) -->
+				<!-- 
 				<div class=chat_date_box>
 					<button class=chat_date_btn>${yesterday}</button>
 				</div>
+				 -->
 
 				<!-- 대화 내용 (어제) -->
+				<!-- 
 				<c:forEach var="i" items="${yesterdayChat}">
 					<div class=chat_box>
 						<div class=profile>
@@ -115,6 +118,7 @@
 						</div>
 					</div>
 				</c:forEach>
+				 -->
 
 
 				<!-- 채팅 날짜 (오늘) -->

@@ -78,7 +78,7 @@
 	
 	
 	<select id="selectMyChatting" resultType="pcoop.backend.dto.ChattingDTO">
-		select * from chatting where chatting_num=#{chatting_num} and member_seq=#{member_seq} and type='personal'
+		select * from chatting where chatting_num=#{chatting_num} and member_seq=#{member_seq}
 	</select>
 	
 </mapper>

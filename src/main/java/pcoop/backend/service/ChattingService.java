@@ -162,6 +162,7 @@ public class ChattingService {
 	public ChattingDTO selectMyChatting(int chatting_num) {
 		MemberDTO mdto = (MemberDTO)this.session.getAttribute("loginInfo");
 		int member_seq = mdto.getSeq();
+		
 		ChattingDTO ctdto = new ChattingDTO(0, 0, chatting_num, "", 0, member_seq, "", "", "personal");
 		return cdao.selectMyChatting(ctdto);
 	}
