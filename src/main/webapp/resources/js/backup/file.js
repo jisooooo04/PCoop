@@ -249,7 +249,8 @@ $(document).on("click", ".menu_upload_zip", function(){
 
 //upload .zip
 $(document).on("click", "#uploadZipSubmit", function(event){
-
+	
+	
 	// 기본으로 정의된 이벤트를 작동하지 못하게 막음
 	// submit을 막음
 	event.preventDefault();
@@ -261,7 +262,7 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 		var form = document.uploadZipForm;
 		form.dir_seq.value = dir_seq;
 
-		var dir_name = form.zip_dir.value;
+		// var dir_name = form.zip_dir.value;
 
 		// 확장자 체크(.zip 파일만)
 		var name = form.zip.value;
@@ -326,7 +327,8 @@ $(document).on("click", "#uploadZipSubmit", function(event){
 
 					},
 					error: function (e) {
-						alert("용량이 너무 큽니다.");
+						alert("디렉토리명을 입력하지 않았거나 용량이 너무 큽니다.");
+						$(".uploading").toast('hide');
 						console.log("ERROR : ", e);
 					}
 				});
