@@ -71,7 +71,7 @@ public class NoticeBoardController {
 		model.addAttribute("pageNavi", pageNavi);
 		
 		List<BoardDTO> list = bservice.selectByPageNo(currentPage);
-		String id = "woqlskfk@naver.com";
+		String id = "master@naver.com";
 		
 		
 		model.addAttribute("list", list);
@@ -113,10 +113,10 @@ public class NoticeBoardController {
 	@RequestMapping("boardWrite")
 	public String boardWrite(HttpServletRequest request) throws Exception {
 		//관리자아이디
-		String id = "woqlskfk@naver.com";
+		String id = "master@naver.com";
 		System.out.println("게시판에 글 쓰는 id : "+id);
 		
-		String writer = "woqlskfk@naver.com";
+		String writer = "master@naver.com";
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
 		String category = request.getParameter("category");
