@@ -74,11 +74,11 @@ function getDirAndFileList(dir_seq){
 				var id = "f" + files[i].seq;
 
 				if(files[i].text_yn == "Y"){
-					$(".files").append("<div class='file text_y' id=" + id + "><a href=downloadFile?seq=" + files[i].seq + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
+					$(".files").append("<div class='file text_y' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
 				}
 
 				else 
-					$(".files").append("<div class='file text_n' id=" + id + "><a href=downloadFile?seq=" + files[i].seq + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
+					$(".files").append("<div class='file text_n' id=" + id + "><div class=icon><span class='fas fa-file-upload fa-3x'></span></div>" + files[i].name + "</a></div>");
 
 
 			}
@@ -520,6 +520,7 @@ $(document).on("click", "#ok_rename_dir", function(){
 				if(data != -1){
 					
 					$("#" + id + ".dir").html("<div class=icon><span class='fas fa-folder-open fa-3x'></span></div>" + rename);
+					$(".root>li#" + id).text(rename);
 				}
 				else alert("디렉토리 이름 중복");
 			},
